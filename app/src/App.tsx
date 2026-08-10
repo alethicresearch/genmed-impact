@@ -121,7 +121,7 @@ export default function App() {
     activeIdx >= 0 && activeIdx < ALL_VIEWS.length - 1 ? ALL_VIEWS[activeIdx + 1] : null;
 
   return (
-    <div className="mx-auto flex min-h-full max-w-3xl flex-col px-4 pb-16 pt-6">
+    <div className="mx-auto flex min-h-full max-w-5xl flex-col px-4 pb-16 pt-6">
       <header className="mb-5 border-b border-slate-200 pb-4">
         <button
           type="button"
