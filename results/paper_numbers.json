@@ -177,10 +177,10 @@
     "value": 97
   },
   "library_total_affected_births_per_year": {
-    "value": 6491880.0,
+    "value": 6497496.0,
     "note": "bottom-up sum over the curated catalogue; a lower bound pending Orphanet/GBD expansion"
   },
   "library_share_addressable_by_reproductive_tool": {
-    "value": 0.9376143736483115
+    "value": 0.9376682956018749
   }
 }

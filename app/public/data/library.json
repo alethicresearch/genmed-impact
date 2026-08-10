@@ -1366,69 +1366,71 @@
       }
     },
     {
-      "id": "congenital_diaphragmatic_hernia",
-      "name": "Congenital diaphragmatic hernia",
-      "category": "multifactorial",
-      "genes": [],
-      "inheritance": "multifactorial",
-      "omim": "142340",
-      "orphanet": "2140",
-      "severity": "severe",
+      "id": "digeorge_22q11",
+      "name": "22q11.2 deletion syndrome (DiGeorge)",
+      "category": "chromosomal",
+      "genes": [
+        "TBX1"
+      ],
+      "inheritance": "chromosomal",
+      "omim": "188400",
+      "orphanet": "567",
+      "severity": "serious",
       "onset": "prenatal",
-      "incidence_per_100k": 40.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/2,500 births",
-      "incidence_doi": null,
-      "affected_births_per_year": 54000.0,
+      "incidence_per_100k": 37.5,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 567)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 50625.0,
       "interventions": {
         "CS": {
           "applicable": false,
-          "note": "mostly multifactorial/de novo; no routine carrier screening"
+          "note": "usually de novo microdeletion; carrier screening not meaningful"
         },
         "PGT": {
-          "applicable": false,
-          "note": "not a single-gene disorder in most cases"
+          "applicable": true,
+          "note": "PGT-A/PGT-SR or targeted testing when a parent carries the deletion"
         },
         "PND": {
           "applicable": true,
-          "note": "detectable on prenatal ultrasound/MRI"
+          "note": "cfDNA microdeletion screening + diagnostic microarray"
         },
         "NBS": {
           "applicable": false,
-          "note": "surgical repair postnatally (± fetal therapy); not an NBS target"
+          "note": "not an NBS target; associated conditions managed clinically"
         }
       },
       "addressable_by_reproductive_tool": true,
       "nbs_mitigable": false,
       "editing_unique": false,
-      "editing_note": "Not selection/editing-addressable as a monogenic trait; surgically correctable.",
+      "editing_note": "Selection-addressable; contiguous-gene deletion not an editing target.",
       "notes": null,
       "status": {
-        "status": "detectable_only",
-        "label": "Detectable only",
-        "preventable": false,
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
       },
       "treatment": {
-        "modality": "surgical",
-        "label": "Surgical",
-        "disease_modifying": true,
-        "note": "surgical repair (+/- fetal therapy)"
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive; cardiac surgery; manage hypocalcaemia"
       },
       "embryos": {
-        "applicable": false,
-        "unaffected_embryo_fraction": 0.5,
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
         "selection": {
-          "affected_embryos_discarded_per_child": 1.0,
-          "blastocysts_created_per_child": 4.444444444444445
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
         },
         "editing": {
           "affected_embryos_discarded_per_child": 0.0,
           "blastocysts_created_per_child": 2.2222222222222223
         },
-        "excess_embryos_discarded_vs_editing": 1.0
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -1443,11 +1445,11 @@
       "orphanet": "636",
       "severity": "serious",
       "onset": "childhood",
-      "incidence_per_100k": 33.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/3,000; ~50% de novo",
-      "incidence_doi": null,
-      "affected_births_per_year": 44550.0,
+      "incidence_per_100k": 33.3,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 636)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 44955.0,
       "interventions": {
         "CS": {
           "applicable": false,
@@ -1566,6 +1568,72 @@
       }
     },
     {
+      "id": "congenital_diaphragmatic_hernia",
+      "name": "Congenital diaphragmatic hernia",
+      "category": "multifactorial",
+      "genes": [],
+      "inheritance": "multifactorial",
+      "omim": "142340",
+      "orphanet": "2140",
+      "severity": "severe",
+      "onset": "prenatal",
+      "incidence_per_100k": 30.0,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 2140)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 40500.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "mostly multifactorial/de novo; no routine carrier screening"
+        },
+        "PGT": {
+          "applicable": false,
+          "note": "not a single-gene disorder in most cases"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "detectable on prenatal ultrasound/MRI"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "surgical repair postnatally (± fetal therapy); not an NBS target"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Not selection/editing-addressable as a monogenic trait; surgically correctable.",
+      "notes": null,
+      "status": {
+        "status": "detectable_only",
+        "label": "Detectable only",
+        "preventable": false,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
+      },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "surgical repair (+/- fetal therapy)"
+      },
+      "embryos": {
+        "applicable": false,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
+      }
+    },
+    {
       "id": "cystic_fibrosis",
       "name": "Cystic fibrosis",
       "category": "monogenic_recessive",
@@ -1631,74 +1699,6 @@
           "blastocysts_created_per_child": 2.2222222222222223
         },
         "excess_embryos_discarded_vs_editing": 0.3333333333333333
-      }
-    },
-    {
-      "id": "digeorge_22q11",
-      "name": "22q11.2 deletion syndrome (DiGeorge)",
-      "category": "chromosomal",
-      "genes": [
-        "TBX1"
-      ],
-      "inheritance": "chromosomal",
-      "omim": "188400",
-      "orphanet": "567",
-      "severity": "serious",
-      "onset": "prenatal",
-      "incidence_per_100k": 25.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/4,000 births; mostly de novo",
-      "incidence_doi": null,
-      "affected_births_per_year": 33750.0,
-      "interventions": {
-        "CS": {
-          "applicable": false,
-          "note": "usually de novo microdeletion; carrier screening not meaningful"
-        },
-        "PGT": {
-          "applicable": true,
-          "note": "PGT-A/PGT-SR or targeted testing when a parent carries the deletion"
-        },
-        "PND": {
-          "applicable": true,
-          "note": "cfDNA microdeletion screening + diagnostic microarray"
-        },
-        "NBS": {
-          "applicable": false,
-          "note": "not an NBS target; associated conditions managed clinically"
-        }
-      },
-      "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": false,
-      "editing_unique": false,
-      "editing_note": "Selection-addressable; contiguous-gene deletion not an editing target.",
-      "notes": null,
-      "status": {
-        "status": "preventable",
-        "label": "Preventable",
-        "preventable": true,
-        "treatable": false,
-        "prenatal_detectable": true,
-        "addressable": true
-      },
-      "treatment": {
-        "modality": "supportive",
-        "label": "Supportive only",
-        "disease_modifying": false,
-        "note": "supportive; cardiac surgery; manage hypocalcaemia"
-      },
-      "embryos": {
-        "applicable": true,
-        "unaffected_embryo_fraction": 0.45,
-        "selection": {
-          "affected_embryos_discarded_per_child": 1.2222222222222223,
-          "blastocysts_created_per_child": 4.938271604938271
-        },
-        "editing": {
-          "affected_embryos_discarded_per_child": 0.0,
-          "blastocysts_created_per_child": 2.2222222222222223
-        },
-        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -1906,72 +1906,6 @@
       }
     },
     {
-      "id": "edwards_syndrome",
-      "name": "Edwards syndrome (trisomy 18)",
-      "category": "chromosomal",
-      "genes": [],
-      "inheritance": "chromosomal",
-      "omim": "",
-      "orphanet": "3380",
-      "severity": "catastrophic",
-      "onset": "prenatal",
-      "incidence_per_100k": 20.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/5,000 births",
-      "incidence_doi": null,
-      "affected_births_per_year": 27000.0,
-      "interventions": {
-        "CS": {
-          "applicable": false,
-          "note": "aneuploidy; screened via cfDNA, not carrier screening"
-        },
-        "PGT": {
-          "applicable": true,
-          "note": "PGT-A embryo selection"
-        },
-        "PND": {
-          "applicable": true,
-          "note": "cfDNA + diagnostic testing"
-        },
-        "NBS": {
-          "applicable": false,
-          "note": "usually lethal in infancy; no mitigation"
-        }
-      },
-      "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": false,
-      "editing_unique": false,
-      "editing_note": "PGT-A/selection-addressable; aneuploidy not an editing target.",
-      "notes": null,
-      "status": {
-        "status": "preventable",
-        "label": "Preventable",
-        "preventable": true,
-        "treatable": false,
-        "prenatal_detectable": true,
-        "addressable": true
-      },
-      "treatment": {
-        "modality": "supportive",
-        "label": "Supportive only",
-        "disease_modifying": false,
-        "note": "supportive; usually lethal in infancy"
-      },
-      "embryos": {
-        "applicable": true,
-        "unaffected_embryo_fraction": 0.45,
-        "selection": {
-          "affected_embryos_discarded_per_child": 1.2222222222222223,
-          "blastocysts_created_per_child": 4.938271604938271
-        },
-        "editing": {
-          "affected_embryos_discarded_per_child": 0.0,
-          "blastocysts_created_per_child": 2.2222222222222223
-        },
-        "excess_embryos_discarded_vs_editing": 1.2222222222222223
-      }
-    },
-    {
       "id": "turner_syndrome",
       "name": "Turner syndrome (45,X)",
       "category": "chromosomal",
@@ -2022,6 +1956,72 @@
         "label": "Pharmacologic (drug)",
         "disease_modifying": true,
         "note": "growth hormone; estrogen replacement"
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
+      }
+    },
+    {
+      "id": "edwards_syndrome",
+      "name": "Edwards syndrome (trisomy 18)",
+      "category": "chromosomal",
+      "genes": [],
+      "inheritance": "chromosomal",
+      "omim": "",
+      "orphanet": "3380",
+      "severity": "catastrophic",
+      "onset": "prenatal",
+      "incidence_per_100k": 16.7,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 3380)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 22545.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "aneuploidy; screened via cfDNA, not carrier screening"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-A embryo selection"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "cfDNA + diagnostic testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "usually lethal in infancy; no mitigation"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "PGT-A/selection-addressable; aneuploidy not an editing target.",
+      "notes": null,
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
+      },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive; usually lethal in infancy"
       },
       "embryos": {
         "applicable": true,
@@ -2241,6 +2241,74 @@
       }
     },
     {
+      "id": "haemophilia_a",
+      "name": "Haemophilia A",
+      "category": "x_linked",
+      "genes": [
+        "F8"
+      ],
+      "inheritance": "x_linked_recessive",
+      "omim": "306700",
+      "orphanet": "98878",
+      "severity": "serious",
+      "onset": "infancy",
+      "incidence_per_100k": 11.25,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 98878)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 15187.5,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier testing in female relatives"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known maternal variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "manageable with factor VIII/emicizumab; not standard NBS"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable when maternal variant known.",
+      "notes": null,
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
+      },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "factor VIII/emicizumab; gene therapy emerging"
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
+      }
+    },
+    {
       "id": "spinal_muscular_atrophy",
       "name": "Spinal muscular atrophy",
       "category": "monogenic_recessive",
@@ -2293,142 +2361,6 @@
         "label": "Somatic gene/cell therapy",
         "disease_modifying": true,
         "note": "gene therapy (Zolgensma); also nusinersen"
-      },
-      "embryos": {
-        "applicable": true,
-        "unaffected_embryo_fraction": 0.75,
-        "selection": {
-          "affected_embryos_discarded_per_child": 0.3333333333333333,
-          "blastocysts_created_per_child": 2.962962962962963
-        },
-        "editing": {
-          "affected_embryos_discarded_per_child": 0.0,
-          "blastocysts_created_per_child": 2.2222222222222223
-        },
-        "excess_embryos_discarded_vs_editing": 0.3333333333333333
-      }
-    },
-    {
-      "id": "duchenne_muscular_dystrophy",
-      "name": "Duchenne muscular dystrophy",
-      "category": "x_linked",
-      "genes": [
-        "DMD"
-      ],
-      "inheritance": "x_linked_recessive",
-      "omim": "310200",
-      "orphanet": "98896",
-      "severity": "severe",
-      "onset": "childhood",
-      "incidence_per_100k": 10.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/5,000 male births; per 100k TOTAL births (affects males)",
-      "incidence_doi": null,
-      "affected_births_per_year": 13500.0,
-      "interventions": {
-        "CS": {
-          "applicable": true,
-          "note": "DMD carrier testing in female relatives/panels"
-        },
-        "PGT": {
-          "applicable": true,
-          "note": "PGT-M / sexing for known maternal variant"
-        },
-        "PND": {
-          "applicable": true,
-          "note": "prenatal DNA testing"
-        },
-        "NBS": {
-          "applicable": true,
-          "note": "some NBS pilots; early steroids/exon-skipping partially mitigate"
-        }
-      },
-      "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": true,
-      "editing_unique": false,
-      "editing_note": "Selection-addressable when maternal variant known.",
-      "notes": null,
-      "status": {
-        "status": "preventable_treatable",
-        "label": "Preventable & treatable",
-        "preventable": true,
-        "treatable": true,
-        "prenatal_detectable": true,
-        "addressable": true
-      },
-      "treatment": {
-        "modality": "pharmacologic",
-        "label": "Pharmacologic (drug)",
-        "disease_modifying": true,
-        "note": "corticosteroids; exon-skipping; gene therapy emerging"
-      },
-      "embryos": {
-        "applicable": true,
-        "unaffected_embryo_fraction": 0.75,
-        "selection": {
-          "affected_embryos_discarded_per_child": 0.3333333333333333,
-          "blastocysts_created_per_child": 2.962962962962963
-        },
-        "editing": {
-          "affected_embryos_discarded_per_child": 0.0,
-          "blastocysts_created_per_child": 2.2222222222222223
-        },
-        "excess_embryos_discarded_vs_editing": 0.3333333333333333
-      }
-    },
-    {
-      "id": "haemophilia_a",
-      "name": "Haemophilia A",
-      "category": "x_linked",
-      "genes": [
-        "F8"
-      ],
-      "inheritance": "x_linked_recessive",
-      "omim": "306700",
-      "orphanet": "98878",
-      "severity": "serious",
-      "onset": "infancy",
-      "incidence_per_100k": 10.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/5,000 male births; per 100k TOTAL births (affects males)",
-      "incidence_doi": null,
-      "affected_births_per_year": 13500.0,
-      "interventions": {
-        "CS": {
-          "applicable": true,
-          "note": "carrier testing in female relatives"
-        },
-        "PGT": {
-          "applicable": true,
-          "note": "PGT-M for known maternal variant"
-        },
-        "PND": {
-          "applicable": true,
-          "note": "prenatal DNA testing"
-        },
-        "NBS": {
-          "applicable": false,
-          "note": "manageable with factor VIII/emicizumab; not standard NBS"
-        }
-      },
-      "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": false,
-      "editing_unique": false,
-      "editing_note": "Selection-addressable when maternal variant known.",
-      "notes": null,
-      "status": {
-        "status": "preventable",
-        "label": "Preventable",
-        "preventable": true,
-        "treatable": false,
-        "prenatal_detectable": true,
-        "addressable": true
-      },
-      "treatment": {
-        "modality": "pharmacologic",
-        "label": "Pharmacologic (drug)",
-        "disease_modifying": true,
-        "note": "factor VIII/emicizumab; gene therapy emerging"
       },
       "embryos": {
         "applicable": true,
@@ -2581,44 +2513,44 @@
       }
     },
     {
-      "id": "phenylketonuria",
-      "name": "Phenylketonuria (PKU)",
-      "category": "monogenic_recessive",
+      "id": "duchenne_muscular_dystrophy",
+      "name": "Duchenne muscular dystrophy",
+      "category": "x_linked",
       "genes": [
-        "PAH"
+        "DMD"
       ],
-      "inheritance": "autosomal_recessive",
-      "omim": "261600",
-      "orphanet": "716",
-      "severity": "serious",
-      "onset": "neonatal",
-      "incidence_per_100k": 8.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/12,000 births (varies)",
-      "incidence_doi": null,
-      "affected_births_per_year": 10800.0,
+      "inheritance": "x_linked_recessive",
+      "omim": "310200",
+      "orphanet": "98896",
+      "severity": "severe",
+      "onset": "childhood",
+      "incidence_per_100k": 9.9,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 98896)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 13365.0,
       "interventions": {
         "CS": {
           "applicable": true,
-          "note": "carrier panels"
+          "note": "DMD carrier testing in female relatives/panels"
         },
         "PGT": {
           "applicable": true,
-          "note": "PGT-M"
+          "note": "PGT-M / sexing for known maternal variant"
         },
         "PND": {
           "applicable": true,
-          "note": "prenatal testing"
+          "note": "prenatal DNA testing"
         },
         "NBS": {
           "applicable": true,
-          "note": "classic NBS success: dietary Phe restriction prevents disability"
+          "note": "some NBS pilots; early steroids/exon-skipping partially mitigate"
         }
       },
       "addressable_by_reproductive_tool": true,
       "nbs_mitigable": true,
       "editing_unique": false,
-      "editing_note": "NBS + diet essentially prevents the disease phenotype.",
+      "editing_note": "Selection-addressable when maternal variant known.",
       "notes": null,
       "status": {
         "status": "preventable_treatable",
@@ -2629,10 +2561,10 @@
         "addressable": true
       },
       "treatment": {
-        "modality": "dietary",
-        "label": "Dietary/metabolic",
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
         "disease_modifying": true,
-        "note": "phenylalanine-restricted diet"
+        "note": "corticosteroids; exon-skipping; gene therapy emerging"
       },
       "embryos": {
         "applicable": true,
@@ -2795,9 +2727,9 @@
       "severity": "serious",
       "onset": "neonatal",
       "incidence_per_100k": 7.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "classic form ~1/15,000 births",
-      "incidence_doi": null,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 90794)",
+      "incidence_doi": "https://www.orphadata.com",
       "affected_births_per_year": 9450.0,
       "interventions": {
         "CS": {
@@ -3258,6 +3190,142 @@
       }
     },
     {
+      "id": "fabry_disease",
+      "name": "Fabry disease",
+      "category": "x_linked",
+      "genes": [
+        "GLA"
+      ],
+      "inheritance": "x_linked_recessive",
+      "omim": "301500",
+      "orphanet": "324",
+      "severity": "serious",
+      "onset": "childhood",
+      "incidence_per_100k": 6.66,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 324)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 8991.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier/family testing"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal enzyme/DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "ERT/chaperone therapy; on some NBS panels"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
+      },
+      "treatment": {
+        "modality": "enzyme_replacement",
+        "label": "Enzyme replacement",
+        "disease_modifying": true,
+        "note": "ERT (agalsidase); chaperone migalastat"
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
+      }
+    },
+    {
+      "id": "phenylketonuria",
+      "name": "Phenylketonuria (PKU)",
+      "category": "monogenic_recessive",
+      "genes": [
+        "PAH"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "261600",
+      "orphanet": "716",
+      "severity": "serious",
+      "onset": "neonatal",
+      "incidence_per_100k": 6.4,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 716)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 8640.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "classic NBS success: dietary Phe restriction prevents disability"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "NBS + diet essentially prevents the disease phenotype.",
+      "notes": null,
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
+      },
+      "treatment": {
+        "modality": "dietary",
+        "label": "Dietary/metabolic",
+        "disease_modifying": true,
+        "note": "phenylalanine-restricted diet"
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
+      }
+    },
+    {
       "id": "retinoblastoma",
       "name": "Retinoblastoma (heritable)",
       "category": "monogenic_dominant",
@@ -3269,11 +3337,11 @@
       "orphanet": "790",
       "severity": "severe",
       "onset": "infancy",
-      "incidence_per_100k": 5.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "all RB ~1/18,000; ~40% heritable",
-      "incidence_doi": null,
-      "affected_births_per_year": 6750.0,
+      "incidence_per_100k": 6.0,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 790)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 8100.0,
       "interventions": {
         "CS": {
           "applicable": false,
@@ -3473,11 +3541,11 @@
       "orphanet": "15",
       "severity": "moderate",
       "onset": "prenatal",
-      "incidence_per_100k": 4.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/25,000; ~80% de novo",
-      "incidence_doi": null,
-      "affected_births_per_year": 5400.0,
+      "incidence_per_100k": 4.73,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 15)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 6385.5,
       "interventions": {
         "CS": {
           "applicable": false,
@@ -3583,74 +3651,6 @@
         "label": "Supportive only",
         "disease_modifying": false,
         "note": "cochlear implant; no retinal therapy"
-      },
-      "embryos": {
-        "applicable": true,
-        "unaffected_embryo_fraction": 0.75,
-        "selection": {
-          "affected_embryos_discarded_per_child": 0.3333333333333333,
-          "blastocysts_created_per_child": 2.962962962962963
-        },
-        "editing": {
-          "affected_embryos_discarded_per_child": 0.0,
-          "blastocysts_created_per_child": 2.2222222222222223
-        },
-        "excess_embryos_discarded_vs_editing": 0.3333333333333333
-      }
-    },
-    {
-      "id": "wilson_disease",
-      "name": "Wilson disease",
-      "category": "monogenic_recessive",
-      "genes": [
-        "ATP7B"
-      ],
-      "inheritance": "autosomal_recessive",
-      "omim": "277900",
-      "orphanet": "905",
-      "severity": "serious",
-      "onset": "childhood",
-      "incidence_per_100k": 3.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/30,000 births",
-      "incidence_doi": null,
-      "affected_births_per_year": 4050.0,
-      "interventions": {
-        "CS": {
-          "applicable": true,
-          "note": "carrier panels"
-        },
-        "PGT": {
-          "applicable": true,
-          "note": "PGT-M"
-        },
-        "PND": {
-          "applicable": true,
-          "note": "prenatal DNA testing"
-        },
-        "NBS": {
-          "applicable": true,
-          "note": "highly treatable early (chelation/zinc) prevents organ damage"
-        }
-      },
-      "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": true,
-      "editing_unique": false,
-      "editing_note": "Selection-addressable.",
-      "notes": null,
-      "status": {
-        "status": "preventable_treatable",
-        "label": "Preventable & treatable",
-        "preventable": true,
-        "treatable": true,
-        "prenatal_detectable": true,
-        "addressable": true
-      },
-      "treatment": {
-        "modality": "pharmacologic",
-        "label": "Pharmacologic (drug)",
-        "disease_modifying": true,
-        "note": "copper chelation (penicillamine)/zinc"
       },
       "embryos": {
         "applicable": true,
@@ -3937,26 +3937,26 @@
       }
     },
     {
-      "id": "gaucher_disease",
-      "name": "Gaucher disease",
+      "id": "wilson_disease",
+      "name": "Wilson disease",
       "category": "monogenic_recessive",
       "genes": [
-        "GBA"
+        "ATP7B"
       ],
       "inheritance": "autosomal_recessive",
-      "omim": "230800",
-      "orphanet": "355",
+      "omim": "277900",
+      "orphanet": "905",
       "severity": "serious",
-      "onset": "variable",
-      "incidence_per_100k": 2.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/40,000-60,000; elevated in Ashkenazi",
-      "incidence_doi": null,
-      "affected_births_per_year": 2700.0,
+      "onset": "childhood",
+      "incidence_per_100k": 2.25,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 905)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 3037.5,
       "interventions": {
         "CS": {
           "applicable": true,
-          "note": "GBA on Ashkenazi/expanded carrier panels"
+          "note": "carrier panels"
         },
         "PGT": {
           "applicable": true,
@@ -3964,11 +3964,11 @@
         },
         "PND": {
           "applicable": true,
-          "note": "enzyme/DNA testing"
+          "note": "prenatal DNA testing"
         },
         "NBS": {
           "applicable": true,
-          "note": "type 1 responds to enzyme replacement; early Rx mitigates"
+          "note": "highly treatable early (chelation/zinc) prevents organ damage"
         }
       },
       "addressable_by_reproductive_tool": true,
@@ -3985,10 +3985,10 @@
         "addressable": true
       },
       "treatment": {
-        "modality": "enzyme_replacement",
-        "label": "Enzyme replacement",
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
         "disease_modifying": true,
-        "note": "ERT (imiglucerase); substrate-reduction therapy"
+        "note": "copper chelation (penicillamine)/zinc"
       },
       "embryos": {
         "applicable": true,
@@ -4125,142 +4125,6 @@
         "label": "Dietary/metabolic",
         "disease_modifying": true,
         "note": "galactose-free diet"
-      },
-      "embryos": {
-        "applicable": true,
-        "unaffected_embryo_fraction": 0.75,
-        "selection": {
-          "affected_embryos_discarded_per_child": 0.3333333333333333,
-          "blastocysts_created_per_child": 2.962962962962963
-        },
-        "editing": {
-          "affected_embryos_discarded_per_child": 0.0,
-          "blastocysts_created_per_child": 2.2222222222222223
-        },
-        "excess_embryos_discarded_vs_editing": 0.3333333333333333
-      }
-    },
-    {
-      "id": "haemophilia_b",
-      "name": "Haemophilia B",
-      "category": "x_linked",
-      "genes": [
-        "F9"
-      ],
-      "inheritance": "x_linked_recessive",
-      "omim": "306900",
-      "orphanet": "98879",
-      "severity": "serious",
-      "onset": "infancy",
-      "incidence_per_100k": 2.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/30,000 male births; per 100k TOTAL births (affects males)",
-      "incidence_doi": null,
-      "affected_births_per_year": 2700.0,
-      "interventions": {
-        "CS": {
-          "applicable": true,
-          "note": "carrier testing in female relatives"
-        },
-        "PGT": {
-          "applicable": true,
-          "note": "PGT-M for known maternal variant"
-        },
-        "PND": {
-          "applicable": true,
-          "note": "prenatal DNA testing"
-        },
-        "NBS": {
-          "applicable": false,
-          "note": "manageable with factor IX; gene therapy emerging; not standard NBS"
-        }
-      },
-      "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": false,
-      "editing_unique": false,
-      "editing_note": "Selection-addressable when maternal variant known.",
-      "notes": null,
-      "status": {
-        "status": "preventable",
-        "label": "Preventable",
-        "preventable": true,
-        "treatable": false,
-        "prenatal_detectable": true,
-        "addressable": true
-      },
-      "treatment": {
-        "modality": "pharmacologic",
-        "label": "Pharmacologic (drug)",
-        "disease_modifying": true,
-        "note": "factor IX; gene therapy (Hemgenix)"
-      },
-      "embryos": {
-        "applicable": true,
-        "unaffected_embryo_fraction": 0.75,
-        "selection": {
-          "affected_embryos_discarded_per_child": 0.3333333333333333,
-          "blastocysts_created_per_child": 2.962962962962963
-        },
-        "editing": {
-          "affected_embryos_discarded_per_child": 0.0,
-          "blastocysts_created_per_child": 2.2222222222222223
-        },
-        "excess_embryos_discarded_vs_editing": 0.3333333333333333
-      }
-    },
-    {
-      "id": "fabry_disease",
-      "name": "Fabry disease",
-      "category": "x_linked",
-      "genes": [
-        "GLA"
-      ],
-      "inheritance": "x_linked_recessive",
-      "omim": "301500",
-      "orphanet": "324",
-      "severity": "serious",
-      "onset": "childhood",
-      "incidence_per_100k": 2.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/40,000-117,000; females often symptomatic",
-      "incidence_doi": null,
-      "affected_births_per_year": 2700.0,
-      "interventions": {
-        "CS": {
-          "applicable": true,
-          "note": "carrier/family testing"
-        },
-        "PGT": {
-          "applicable": true,
-          "note": "PGT-M for known variant"
-        },
-        "PND": {
-          "applicable": true,
-          "note": "prenatal enzyme/DNA testing"
-        },
-        "NBS": {
-          "applicable": true,
-          "note": "ERT/chaperone therapy; on some NBS panels"
-        }
-      },
-      "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": true,
-      "editing_unique": false,
-      "editing_note": "Selection-addressable.",
-      "notes": null,
-      "status": {
-        "status": "preventable_treatable",
-        "label": "Preventable & treatable",
-        "preventable": true,
-        "treatable": true,
-        "prenatal_detectable": true,
-        "addressable": true
-      },
-      "treatment": {
-        "modality": "enzyme_replacement",
-        "label": "Enzyme replacement",
-        "disease_modifying": true,
-        "note": "ERT (agalsidase); chaperone migalastat"
       },
       "embryos": {
         "applicable": true,
@@ -4547,6 +4411,142 @@
       }
     },
     {
+      "id": "otc_deficiency",
+      "name": "Ornithine transcarbamylase deficiency",
+      "category": "x_linked",
+      "genes": [
+        "OTC"
+      ],
+      "inheritance": "x_linked_recessive",
+      "omim": "311250",
+      "orphanet": "664",
+      "severity": "severe",
+      "onset": "neonatal",
+      "incidence_per_100k": 1.77,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 664)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 2389.5,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier testing in female relatives (heterozygous females can be symptomatic)"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known maternal variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "early detection + protein restriction/nitrogen scavengers prevents hyperammonaemic crises"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "Selection- and NBS-addressable; early management mitigates.",
+      "notes": null,
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
+      },
+      "treatment": {
+        "modality": "dietary",
+        "label": "Dietary/metabolic",
+        "disease_modifying": true,
+        "note": "protein restriction; nitrogen scavengers"
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
+      }
+    },
+    {
+      "id": "haemophilia_b",
+      "name": "Haemophilia B",
+      "category": "x_linked",
+      "genes": [
+        "F9"
+      ],
+      "inheritance": "x_linked_recessive",
+      "omim": "306900",
+      "orphanet": "98879",
+      "severity": "serious",
+      "onset": "infancy",
+      "incidence_per_100k": 1.67,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 98879)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 2254.5,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier testing in female relatives"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known maternal variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "manageable with factor IX; gene therapy emerging; not standard NBS"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable when maternal variant known.",
+      "notes": null,
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
+      },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "factor IX; gene therapy (Hemgenix)"
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
+      }
+    },
+    {
       "id": "biotinidase_deficiency",
       "name": "Biotinidase deficiency",
       "category": "monogenic_recessive",
@@ -4558,11 +4558,11 @@
       "orphanet": "79241",
       "severity": "serious",
       "onset": "infancy",
-      "incidence_per_100k": 1.7,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "profound form ~1/60,000 births",
-      "incidence_doi": null,
-      "affected_births_per_year": 2295.0,
+      "incidence_per_100k": 1.6,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 79241)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 2160.0,
       "interventions": {
         "CS": {
           "applicable": true,
@@ -4694,11 +4694,11 @@
       "orphanet": "79269",
       "severity": "severe",
       "onset": "childhood",
-      "incidence_per_100k": 1.5,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/70,000 births (all subtypes)",
-      "incidence_doi": null,
-      "affected_births_per_year": 2025.0,
+      "incidence_per_100k": 1.4,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 79269)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 1890.0,
       "interventions": {
         "CS": {
           "applicable": true,
@@ -4751,44 +4751,44 @@
       }
     },
     {
-      "id": "otc_deficiency",
-      "name": "Ornithine transcarbamylase deficiency",
-      "category": "x_linked",
+      "id": "gaucher_disease",
+      "name": "Gaucher disease",
+      "category": "monogenic_recessive",
       "genes": [
-        "OTC"
+        "GBA"
       ],
-      "inheritance": "x_linked_recessive",
-      "omim": "311250",
-      "orphanet": "664",
-      "severity": "severe",
-      "onset": "neonatal",
-      "incidence_per_100k": 1.5,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/60,000-70,000 births (most common urea-cycle disorder)",
-      "incidence_doi": null,
-      "affected_births_per_year": 2025.0,
+      "inheritance": "autosomal_recessive",
+      "omim": "230800",
+      "orphanet": "355",
+      "severity": "serious",
+      "onset": "variable",
+      "incidence_per_100k": 1.3,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 355)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 1755.0,
       "interventions": {
         "CS": {
           "applicable": true,
-          "note": "carrier testing in female relatives (heterozygous females can be symptomatic)"
+          "note": "GBA on Ashkenazi/expanded carrier panels"
         },
         "PGT": {
           "applicable": true,
-          "note": "PGT-M for known maternal variant"
+          "note": "PGT-M"
         },
         "PND": {
           "applicable": true,
-          "note": "prenatal DNA testing"
+          "note": "enzyme/DNA testing"
         },
         "NBS": {
           "applicable": true,
-          "note": "early detection + protein restriction/nitrogen scavengers prevents hyperammonaemic crises"
+          "note": "type 1 responds to enzyme replacement; early Rx mitigates"
         }
       },
       "addressable_by_reproductive_tool": true,
       "nbs_mitigable": true,
       "editing_unique": false,
-      "editing_note": "Selection- and NBS-addressable; early management mitigates.",
+      "editing_note": "Selection-addressable.",
       "notes": null,
       "status": {
         "status": "preventable_treatable",
@@ -4799,10 +4799,10 @@
         "addressable": true
       },
       "treatment": {
-        "modality": "dietary",
-        "label": "Dietary/metabolic",
+        "modality": "enzyme_replacement",
+        "label": "Enzyme replacement",
         "disease_modifying": true,
-        "note": "protein restriction; nitrogen scavengers"
+        "note": "ERT (imiglucerase); substrate-reduction therapy"
       },
       "embryos": {
         "applicable": true,
@@ -4887,26 +4887,26 @@
       }
     },
     {
-      "id": "krabbe_disease",
-      "name": "Krabbe disease",
+      "id": "canavan_disease",
+      "name": "Canavan disease",
       "category": "monogenic_recessive",
       "genes": [
-        "GALC"
+        "ASPA"
       ],
       "inheritance": "autosomal_recessive",
-      "omim": "245200",
-      "orphanet": "487",
+      "omim": "271900",
+      "orphanet": "141",
       "severity": "catastrophic",
       "onset": "infancy",
       "incidence_per_100k": 1.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/100,000 births",
-      "incidence_doi": null,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 141)",
+      "incidence_doi": "https://www.orphadata.com",
       "affected_births_per_year": 1350.0,
       "interventions": {
         "CS": {
           "applicable": true,
-          "note": "carrier panels"
+          "note": "ASPA on Ashkenazi carrier panels"
         },
         "PGT": {
           "applicable": true,
@@ -4914,31 +4914,31 @@
         },
         "PND": {
           "applicable": true,
-          "note": "prenatal enzyme/DNA testing"
+          "note": "prenatal DNA testing"
         },
         "NBS": {
-          "applicable": true,
-          "note": "presymptomatic HSCT improves outcome; on some NBS panels"
+          "applicable": false,
+          "note": "no effective therapy; progressive and fatal"
         }
       },
       "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": true,
+      "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
       "status": {
-        "status": "preventable_treatable",
-        "label": "Preventable & treatable",
+        "status": "preventable",
+        "label": "Preventable",
         "preventable": true,
-        "treatable": true,
+        "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
       },
       "treatment": {
-        "modality": "transplant",
-        "label": "Transplant",
-        "disease_modifying": true,
-        "note": "presymptomatic HSCT"
+        "modality": "none",
+        "label": "No disease-modifying treatment",
+        "disease_modifying": false,
+        "note": "no effective therapy; progressive"
       },
       "embryos": {
         "applicable": true,
@@ -5007,74 +5007,6 @@
         "label": "Supportive only",
         "disease_modifying": false,
         "note": "supportive; no therapy for CLN3"
-      },
-      "embryos": {
-        "applicable": true,
-        "unaffected_embryo_fraction": 0.75,
-        "selection": {
-          "affected_embryos_discarded_per_child": 0.3333333333333333,
-          "blastocysts_created_per_child": 2.962962962962963
-        },
-        "editing": {
-          "affected_embryos_discarded_per_child": 0.0,
-          "blastocysts_created_per_child": 2.2222222222222223
-        },
-        "excess_embryos_discarded_vs_editing": 0.3333333333333333
-      }
-    },
-    {
-      "id": "tyrosinemia_type_i",
-      "name": "Tyrosinemia type I",
-      "category": "monogenic_recessive",
-      "genes": [
-        "FAH"
-      ],
-      "inheritance": "autosomal_recessive",
-      "omim": "276700",
-      "orphanet": "882",
-      "severity": "severe",
-      "onset": "infancy",
-      "incidence_per_100k": 1.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/100,000 births (much higher in Quebec founders)",
-      "incidence_doi": null,
-      "affected_births_per_year": 1350.0,
-      "interventions": {
-        "CS": {
-          "applicable": true,
-          "note": "carrier panels"
-        },
-        "PGT": {
-          "applicable": true,
-          "note": "PGT-M"
-        },
-        "PND": {
-          "applicable": true,
-          "note": "prenatal succinylacetone/DNA testing"
-        },
-        "NBS": {
-          "applicable": true,
-          "note": "NBS + nitisinone (NTBC) + diet prevents liver failure/HCC"
-        }
-      },
-      "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": true,
-      "editing_unique": false,
-      "editing_note": "NBS + NTBC mitigates; selection-addressable.",
-      "notes": null,
-      "status": {
-        "status": "preventable_treatable",
-        "label": "Preventable & treatable",
-        "preventable": true,
-        "treatable": true,
-        "prenatal_detectable": true,
-        "addressable": true
-      },
-      "treatment": {
-        "modality": "pharmacologic",
-        "label": "Pharmacologic (drug)",
-        "disease_modifying": true,
-        "note": "nitisinone (NTBC) + diet"
       },
       "embryos": {
         "applicable": true,
@@ -5172,9 +5104,9 @@
       "severity": "severe",
       "onset": "infancy",
       "incidence_per_100k": 1.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/100,000 births",
-      "incidence_doi": null,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 25)",
+      "incidence_doi": "https://www.orphadata.com",
       "affected_births_per_year": 1350.0,
       "interventions": {
         "CS": {
@@ -5240,9 +5172,9 @@
       "severity": "serious",
       "onset": "infancy",
       "incidence_per_100k": 1.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/100,000 births",
-      "incidence_doi": null,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 364)",
+      "incidence_doi": "https://www.orphadata.com",
       "affected_births_per_year": 1350.0,
       "interventions": {
         "CS": {
@@ -5636,6 +5568,142 @@
       }
     },
     {
+      "id": "tyrosinemia_type_i",
+      "name": "Tyrosinemia type I",
+      "category": "monogenic_recessive",
+      "genes": [
+        "FAH"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "276700",
+      "orphanet": "882",
+      "severity": "severe",
+      "onset": "infancy",
+      "incidence_per_100k": 0.9,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 882)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 1215.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal succinylacetone/DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "NBS + nitisinone (NTBC) + diet prevents liver failure/HCC"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "NBS + NTBC mitigates; selection-addressable.",
+      "notes": null,
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
+      },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "nitisinone (NTBC) + diet"
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
+      }
+    },
+    {
+      "id": "krabbe_disease",
+      "name": "Krabbe disease",
+      "category": "monogenic_recessive",
+      "genes": [
+        "GALC"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "245200",
+      "orphanet": "487",
+      "severity": "catastrophic",
+      "onset": "infancy",
+      "incidence_per_100k": 0.7,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 487)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 945.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal enzyme/DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "presymptomatic HSCT improves outcome; on some NBS panels"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
+      },
+      "treatment": {
+        "modality": "transplant",
+        "label": "Transplant",
+        "disease_modifying": true,
+        "note": "presymptomatic HSCT"
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
+      }
+    },
+    {
       "id": "isovaleric_acidemia",
       "name": "Isovaleric acidemia",
       "category": "monogenic_recessive",
@@ -5772,76 +5840,6 @@
       }
     },
     {
-      "id": "maple_syrup_urine_disease",
-      "name": "Maple syrup urine disease",
-      "category": "monogenic_recessive",
-      "genes": [
-        "BCKDHA",
-        "BCKDHB",
-        "DBT"
-      ],
-      "inheritance": "autosomal_recessive",
-      "omim": "248600",
-      "orphanet": "511",
-      "severity": "severe",
-      "onset": "neonatal",
-      "incidence_per_100k": 0.5,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/185,000 (much higher in Mennonite founders)",
-      "incidence_doi": null,
-      "affected_births_per_year": 675.0,
-      "interventions": {
-        "CS": {
-          "applicable": true,
-          "note": "carrier panels"
-        },
-        "PGT": {
-          "applicable": true,
-          "note": "PGT-M"
-        },
-        "PND": {
-          "applicable": true,
-          "note": "prenatal DNA/enzyme testing"
-        },
-        "NBS": {
-          "applicable": true,
-          "note": "NBS + branched-chain-restricted diet prevents encephalopathy"
-        }
-      },
-      "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": true,
-      "editing_unique": false,
-      "editing_note": "NBS + diet mitigates; selection-addressable.",
-      "notes": null,
-      "status": {
-        "status": "preventable_treatable",
-        "label": "Preventable & treatable",
-        "preventable": true,
-        "treatable": true,
-        "prenatal_detectable": true,
-        "addressable": true
-      },
-      "treatment": {
-        "modality": "dietary",
-        "label": "Dietary/metabolic",
-        "disease_modifying": true,
-        "note": "branched-chain-restricted diet"
-      },
-      "embryos": {
-        "applicable": true,
-        "unaffected_embryo_fraction": 0.75,
-        "selection": {
-          "affected_embryos_discarded_per_child": 0.3333333333333333,
-          "blastocysts_created_per_child": 2.962962962962963
-        },
-        "editing": {
-          "affected_embryos_discarded_per_child": 0.0,
-          "blastocysts_created_per_child": 2.2222222222222223
-        },
-        "excess_embryos_discarded_vs_editing": 0.3333333333333333
-      }
-    },
-    {
       "id": "hunter_syndrome_mps_ii",
       "name": "Hunter syndrome (MPS II)",
       "category": "x_linked",
@@ -5853,11 +5851,11 @@
       "orphanet": "580",
       "severity": "severe",
       "onset": "infancy",
-      "incidence_per_100k": 0.5,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/100,000-170,000 male births; per 100k total births",
-      "incidence_doi": null,
-      "affected_births_per_year": 675.0,
+      "incidence_per_100k": 0.68,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 580)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 918.0,
       "interventions": {
         "CS": {
           "applicable": true,
@@ -5894,6 +5892,76 @@
         "label": "Enzyme replacement",
         "disease_modifying": true,
         "note": "ERT (idursulfase)"
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
+      }
+    },
+    {
+      "id": "maple_syrup_urine_disease",
+      "name": "Maple syrup urine disease",
+      "category": "monogenic_recessive",
+      "genes": [
+        "BCKDHA",
+        "BCKDHB",
+        "DBT"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "248600",
+      "orphanet": "511",
+      "severity": "severe",
+      "onset": "neonatal",
+      "incidence_per_100k": 0.67,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 511)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 904.5,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA/enzyme testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "NBS + branched-chain-restricted diet prevents encephalopathy"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "NBS + diet mitigates; selection-addressable.",
+      "notes": null,
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
+      },
+      "treatment": {
+        "modality": "dietary",
+        "label": "Dietary/metabolic",
+        "disease_modifying": true,
+        "note": "branched-chain-restricted diet"
       },
       "embryos": {
         "applicable": true,
@@ -5962,74 +6030,6 @@
         "label": "Enzyme replacement",
         "disease_modifying": true,
         "note": "ERT (elosulfase alfa)"
-      },
-      "embryos": {
-        "applicable": true,
-        "unaffected_embryo_fraction": 0.75,
-        "selection": {
-          "affected_embryos_discarded_per_child": 0.3333333333333333,
-          "blastocysts_created_per_child": 2.962962962962963
-        },
-        "editing": {
-          "affected_embryos_discarded_per_child": 0.0,
-          "blastocysts_created_per_child": 2.2222222222222223
-        },
-        "excess_embryos_discarded_vs_editing": 0.3333333333333333
-      }
-    },
-    {
-      "id": "homocystinuria_cbs",
-      "name": "Homocystinuria (CBS deficiency)",
-      "category": "monogenic_recessive",
-      "genes": [
-        "CBS"
-      ],
-      "inheritance": "autosomal_recessive",
-      "omim": "236200",
-      "orphanet": "394",
-      "severity": "serious",
-      "onset": "childhood",
-      "incidence_per_100k": 0.5,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/200,000 births (higher in some founders)",
-      "incidence_doi": null,
-      "affected_births_per_year": 675.0,
-      "interventions": {
-        "CS": {
-          "applicable": true,
-          "note": "carrier panels"
-        },
-        "PGT": {
-          "applicable": true,
-          "note": "PGT-M"
-        },
-        "PND": {
-          "applicable": true,
-          "note": "prenatal enzyme/DNA testing"
-        },
-        "NBS": {
-          "applicable": true,
-          "note": "NBS + B6/betaine/diet prevents thromboembolic and skeletal complications"
-        }
-      },
-      "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": true,
-      "editing_unique": false,
-      "editing_note": "NBS + treatment mitigates; selection-addressable.",
-      "notes": null,
-      "status": {
-        "status": "preventable_treatable",
-        "label": "Preventable & treatable",
-        "preventable": true,
-        "treatable": true,
-        "prenatal_detectable": true,
-        "addressable": true
-      },
-      "treatment": {
-        "modality": "cofactor",
-        "label": "Cofactor/vitamin",
-        "disease_modifying": true,
-        "note": "B6-responsive; betaine; Met-restricted diet"
       },
       "embryos": {
         "applicable": true,
@@ -6250,74 +6250,6 @@
       }
     },
     {
-      "id": "tay_sachs",
-      "name": "Tay-Sachs disease",
-      "category": "monogenic_recessive",
-      "genes": [
-        "HEXA"
-      ],
-      "inheritance": "autosomal_recessive",
-      "omim": "272800",
-      "orphanet": "845",
-      "severity": "catastrophic",
-      "onset": "infancy",
-      "incidence_per_100k": 0.4,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "elevated in founder populations; global rare",
-      "incidence_doi": null,
-      "affected_births_per_year": 540.0,
-      "interventions": {
-        "CS": {
-          "applicable": true,
-          "note": "Ashkenazi screening (Kaback) near-eliminated it"
-        },
-        "PGT": {
-          "applicable": true,
-          "note": "PGT-M"
-        },
-        "PND": {
-          "applicable": true,
-          "note": "enzyme/DNA testing"
-        },
-        "NBS": {
-          "applicable": false,
-          "note": "no effective therapy; uniformly fatal in infancy"
-        }
-      },
-      "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": false,
-      "editing_unique": false,
-      "editing_note": "Selection-addressable; affected individuals do not reproduce (S1 ~0).",
-      "notes": null,
-      "status": {
-        "status": "preventable",
-        "label": "Preventable",
-        "preventable": true,
-        "treatable": false,
-        "prenatal_detectable": true,
-        "addressable": true
-      },
-      "treatment": {
-        "modality": "none",
-        "label": "No disease-modifying treatment",
-        "disease_modifying": false,
-        "note": "no disease-modifying therapy; uniformly fatal"
-      },
-      "embryos": {
-        "applicable": true,
-        "unaffected_embryo_fraction": 0.75,
-        "selection": {
-          "affected_embryos_discarded_per_child": 0.3333333333333333,
-          "blastocysts_created_per_child": 2.962962962962963
-        },
-        "editing": {
-          "affected_embryos_discarded_per_child": 0.0,
-          "blastocysts_created_per_child": 2.2222222222222223
-        },
-        "excess_embryos_discarded_vs_editing": 0.3333333333333333
-      }
-    },
-    {
       "id": "sandhoff_disease",
       "name": "Sandhoff disease",
       "category": "monogenic_recessive",
@@ -6386,26 +6318,26 @@
       }
     },
     {
-      "id": "canavan_disease",
-      "name": "Canavan disease",
+      "id": "homocystinuria_cbs",
+      "name": "Homocystinuria (CBS deficiency)",
       "category": "monogenic_recessive",
       "genes": [
-        "ASPA"
+        "CBS"
       ],
       "inheritance": "autosomal_recessive",
-      "omim": "271900",
-      "orphanet": "141",
-      "severity": "catastrophic",
-      "onset": "infancy",
-      "incidence_per_100k": 0.2,
-      "incidence_basis": "order_of_magnitude",
-      "incidence_source": "rare globally; elevated in Ashkenazi founders",
-      "incidence_doi": null,
-      "affected_births_per_year": 270.0,
+      "omim": "236200",
+      "orphanet": "394",
+      "severity": "serious",
+      "onset": "childhood",
+      "incidence_per_100k": 0.3,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 394)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 405.0,
       "interventions": {
         "CS": {
           "applicable": true,
-          "note": "ASPA on Ashkenazi carrier panels"
+          "note": "carrier panels"
         },
         "PGT": {
           "applicable": true,
@@ -6413,17 +6345,85 @@
         },
         "PND": {
           "applicable": true,
-          "note": "prenatal DNA testing"
+          "note": "prenatal enzyme/DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "NBS + B6/betaine/diet prevents thromboembolic and skeletal complications"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "NBS + treatment mitigates; selection-addressable.",
+      "notes": null,
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
+      },
+      "treatment": {
+        "modality": "cofactor",
+        "label": "Cofactor/vitamin",
+        "disease_modifying": true,
+        "note": "B6-responsive; betaine; Met-restricted diet"
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
+      }
+    },
+    {
+      "id": "tay_sachs",
+      "name": "Tay-Sachs disease",
+      "category": "monogenic_recessive",
+      "genes": [
+        "HEXA"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "272800",
+      "orphanet": "845",
+      "severity": "catastrophic",
+      "onset": "infancy",
+      "incidence_per_100k": 0.28,
+      "incidence_basis": "cited",
+      "incidence_source": "Orphanet (Prevalence at birth, Worldwide; OrphaCode 845)",
+      "incidence_doi": "https://www.orphadata.com",
+      "affected_births_per_year": 378.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "Ashkenazi screening (Kaback) near-eliminated it"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "enzyme/DNA testing"
         },
         "NBS": {
           "applicable": false,
-          "note": "no effective therapy; progressive and fatal"
+          "note": "no effective therapy; uniformly fatal in infancy"
         }
       },
       "addressable_by_reproductive_tool": true,
       "nbs_mitigable": false,
       "editing_unique": false,
-      "editing_note": "Selection-addressable.",
+      "editing_note": "Selection-addressable; affected individuals do not reproduce (S1 ~0).",
       "notes": null,
       "status": {
         "status": "preventable",
@@ -6437,7 +6437,7 @@
         "modality": "none",
         "label": "No disease-modifying treatment",
         "disease_modifying": false,
-        "note": "no effective therapy; progressive"
+        "note": "no disease-modifying therapy; uniformly fatal"
       },
       "embryos": {
         "applicable": true,
@@ -6592,29 +6592,29 @@
   ],
   "rollup": {
     "n_diseases": 97,
-    "total_affected_births_per_year": 6491880.0,
+    "total_affected_births_per_year": 6497496.0,
     "by_category": {
-      "multifactorial": 2565000.0,
-      "monogenic_recessive": 1000080.0,
-      "x_linked": 619650.0,
-      "monogenic_dominant": 1987200.0,
-      "chromosomal": 319950.0
+      "multifactorial": 2551500.0,
+      "monogenic_recessive": 996030.0,
+      "x_linked": 627655.5,
+      "monogenic_dominant": 1989940.5,
+      "chromosomal": 332370.0
     },
     "by_severity": {
-      "severe": 2564460.0,
-      "moderate": 1756350.0,
-      "serious": 2110860.0,
-      "catastrophic": 60210.0
+      "severe": 2552742.0,
+      "moderate": 1757335.5,
+      "serious": 2131150.5,
+      "catastrophic": 56268.0
     },
-    "births_addressable_by_reproductive_tool": 6086880.0,
-    "share_addressable_by_reproductive_tool": 0.9376143736483115,
-    "births_nbs_mitigable": 2884140.0,
+    "births_addressable_by_reproductive_tool": 6092496.0,
+    "share_addressable_by_reproductive_tool": 0.9376682956018749,
+    "births_nbs_mitigable": 2886070.5,
     "births_editing_unique": 0,
     "per_tool_addressable_births": {
-      "CS": 1612980.0,
-      "PGT": 3386880.0,
-      "PND": 6086880.0,
-      "NBS": 2884140.0
+      "CS": 1616935.5,
+      "PGT": 3405996.0,
+      "PND": 6092496.0,
+      "NBS": 2886070.5
     },
     "genetic_medicine_status": {
       "order": [
@@ -6628,12 +6628,12 @@
         "preventable_treatable": {
           "label": "Preventable & treatable",
           "n_diseases": 29,
-          "births": 1280340.0
+          "births": 1282270.5
         },
         "preventable": {
           "label": "Preventable",
           "n_diseases": 59,
-          "births": 2646540.0
+          "births": 2663725.5
         },
         "treatable": {
           "label": "Treatable",
@@ -6643,7 +6643,7 @@
         "detectable_only": {
           "label": "Detectable only",
           "n_diseases": 5,
-          "births": 691200.0
+          "births": 677700.0
         },
         "none": {
           "label": "No genetic-medicine option",
@@ -6651,8 +6651,8 @@
           "births": 270000.0
         }
       },
-      "addressable_by_existing_tools_births": 6221880.0,
-      "addressable_by_existing_tools_share": 0.9584095824322076,
+      "addressable_by_existing_tools_births": 6227496.0,
+      "addressable_by_existing_tools_share": 0.9584455304012499,
       "definition": "Each disease is placed in one status from its intervention flags (no weights): Preventable & treatable, Preventable (an unaffected child achievable via screening/selection), Treatable (effective early therapy), Detectable only (prenatal detection without selection), or No current option. The distribution across statuses — by disease count and by affected births — is the headline picture of what existing genetic medicine can already do."
     },
     "treatment_modalities": {
@@ -6679,54 +6679,54 @@
           "label": "Enzyme replacement",
           "disease_modifying": true,
           "n_diseases": 6,
-          "births": 11475.0
+          "births": 17064.0
         },
         "pharmacologic": {
           "label": "Pharmacologic (drug)",
           "disease_modifying": true,
           "n_diseases": 23,
-          "births": 1308150.0
+          "births": 1309095.0
         },
         "transplant": {
           "label": "Transplant",
           "disease_modifying": true,
           "n_diseases": 6,
-          "births": 116100.0
+          "births": 115695.0
         },
         "dietary": {
           "label": "Dietary/metabolic",
           "disease_modifying": true,
           "n_diseases": 10,
-          "births": 33345.0
+          "births": 31779.0
         },
         "cofactor": {
           "label": "Cofactor/vitamin",
           "disease_modifying": true,
           "n_diseases": 3,
-          "births": 3645.0
+          "births": 3240.0
         },
         "surgical": {
           "label": "Surgical",
           "disease_modifying": true,
           "n_diseases": 16,
-          "births": 3431700.0
+          "births": 3419550.0
         },
         "supportive": {
           "label": "Supportive only",
           "disease_modifying": false,
           "n_diseases": 24,
-          "births": 983205.0
+          "births": 995895.0
         },
         "none": {
           "label": "No disease-modifying treatment",
           "disease_modifying": false,
           "n_diseases": 5,
-          "births": 4185.0
+          "births": 5103.0
         }
       },
       "note": "The TYPE of existing post-birth treatment for the born child. Germline editing is not a modality here — it is a categorically different kind of intervention, tracked as the editing-unique residual. This breakdown keeps that distinction explicit rather than collapsing everything into 'treatable'."
     },
-    "cited_incidence_share": 0.393029446015638,
+    "cited_incidence_share": 0.43132708354110566,
     "note": "Bottom-up point sums over the curated catalogue. Coverage is partial (a seed catalogue of the highest-burden serious conditions), so totals are a LOWER BOUND on the full genetic-disease denominator and will rise as the Orphanet/GBD ingest expands the library. The parametric Monte-Carlo model provides the calibrated top-down denominator with credible intervals."
   }
 }
