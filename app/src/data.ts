@@ -188,15 +188,37 @@ export interface Disease {
   editing_unique: boolean;
   editing_note: string;
   notes: string | null;
-  gmi: Gmi;
+  status: DiseaseStatus;
 }
 
-export interface Gmi {
-  index: number; // 0-100 Genetic Medicine Index
-  addressed_fraction: number;
-  contributions: Record<ToolKey, number>;
-  prevent_score: number;
-  treat_score: number;
+export type StatusKey =
+  | 'preventable_treatable'
+  | 'preventable'
+  | 'treatable'
+  | 'detectable_only'
+  | 'none';
+
+export interface DiseaseStatus {
+  status: StatusKey;
+  label: string;
+  preventable: boolean;
+  treatable: boolean;
+  prenatal_detectable: boolean;
+  addressable: boolean;
+}
+
+export interface StatusBucket {
+  label: string;
+  n_diseases: number;
+  births: number;
+}
+
+export interface GeneticMedicineStatus {
+  order: StatusKey[];
+  distribution: Record<StatusKey, StatusBucket>;
+  addressable_by_existing_tools_births: number;
+  addressable_by_existing_tools_share: number;
+  definition: string;
 }
 
 export interface LibraryRollup {
@@ -209,6 +231,7 @@ export interface LibraryRollup {
   births_nbs_mitigable: number;
   births_editing_unique: number;
   per_tool_addressable_births: Record<ToolKey, number>;
+  genetic_medicine_status: GeneticMedicineStatus;
   cited_incidence_share: number;
   note: string;
 }

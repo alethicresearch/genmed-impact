@@ -1,6 +1,6 @@
 # Methods — Global Genetic-Disease Burden × Genetic-Medicine Impact
 
-_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `12d9617` · model version 3.0._
+_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `406caa9` · model version 3.0._
 
 This document describes every input, assumption, formula, and parameter behind the analysis. All headline figures below are regenerated from the pipeline; the full parameter provenance and disease catalogue are in the appendices. Contestable judgment calls are implemented as explicit parameters and reported across their range.
 
@@ -56,17 +56,28 @@ Under the default set (severity=`def_b`, attribution=`inclusive`):
 
 The full severity × attribution grid (nine combinations) is emitted to `paper_numbers.json` and shown in the app's Denominator view.
 
-## 6. Genetic Medicine Index (GMI)
+## 6. Genetic-medicine status
 
-Every disease maps to a **0–100 index** of how fully existing genetic medicine can address it: a weighted sum over the four capabilities, each counted where it applies to the disease,
+Every disease is placed in one **status** derived directly from its intervention flags — no weights, no composite score:
 
-```
-GMI = 100 × ( w_CS·CS + w_PGT·PGT + w_PND·PND + w_NBS·NBS )
-```
+- **Preventable & treatable** — an unaffected child is achievable (screening/selection) *and* effective early therapy exists
+- **Preventable** — an unaffected child is achievable, but no cure
+- **Treatable** — effective early therapy exists, but hard to prevent
+- **Detectable only** — prenatal detection without selection
+- **No current option**
 
-with default weights **CS=0.2, PGT=0.25, PND=0.2, NBS=0.35** (an explicit judgment call: treatment is weighted highest because a healthy living child is a fuller outcome than avoidance of an affected birth; weights sum to 1 and are adjustable). GMI measures addressability, independent of severity.
+The distribution across statuses — by disease count and by affected births — is the headline picture of what existing genetic medicine can already do. "Addressable by existing tools" is everything but the empty status.
 
-Distribution over 97 diseases: mean **65**, births-weighted mean **50**. High (70–100): 29 diseases; moderate (40–69): 61; low (0–39): 7.
+| Status | Diseases | Affected births/yr |
+| --- | ---: | ---: |
+| Preventable & treatable | 29 | 994,140 |
+| Preventable | 59 | 2,770,740 |
+| Treatable | 3 | 1,350,000 |
+| Detectable only | 5 | 688,500 |
+| No current option | 1 | 270,000 |
+| **Addressable by existing tools** |  | **5,803,380 (96%)** |
+
+The editing-unique residual (§8) is deliberately *not* a status here: it is a sliver of couples *within* diseases (no selectable embryo), not a class of diseases.
 
 ## 7. Preventability engine (sequential)
 
@@ -189,111 +200,107 @@ Each is an explicit parameter with a documented default (see `ANALYSIS_LOG.md` f
 | `costs.gene_therapy_list_price` | 2500000 | 700000 | 4250000 | approved gene-therapy list prices (e.g. SMA, metabolic) | public list prices 2020-2024 |
 | `costs.editing_program_per_birth_prevented` | 500000 | 150000 | 2000000 | reasoned germline-editing program overhead (IVF+PGT base + editing + o | wide interval; see ANALYSIS_LOG §costs |
 | `costs.daly_per_severe_monogenic_case` | 30 | 15 | 55 | GBD-style DALYs per severe early-onset monogenic case (undiscounted) | reasoned pending GBD 2023 pull (DATA_NEE |
-| `genetic_medicine_index_weights.CS` | 0.2 | 0.1 | 0.3 |  |  |
-| `genetic_medicine_index_weights.PGT` | 0.25 | 0.15 | 0.35 |  |  |
-| `genetic_medicine_index_weights.PND` | 0.2 | 0.1 | 0.3 |  |  |
-| `genetic_medicine_index_weights.NBS` | 0.35 | 0.25 | 0.45 |  |  |
 | `program_anchors.thalassaemia_major_reduction` | 0.9 | 0.7 | 0.95 | Cyprus/Sardinia/Greece national thalassaemia programs | 10.2471/BLT.06.036673 |
 | `program_anchors.down_syndrome_reduction_nordic` | 0.7 | 0.55 | 0.85 | Denmark/Iceland/Netherlands prenatal screening outcomes | Wald 2018 |
 
 ## Appendix B — Disease catalogue
 
-| Disease | Gene(s) | Inheritance | Severity | Births/yr | GMI | Incidence basis |
-| --- | --- | --- | --- | ---: | ---: | --- |
-| Congenital heart disease (multifactorial) | — | multifactorial | severe | 1,080,000 | 55 | textbook_estimate |
-| G6PD deficiency | G6PD | x_linked_recessive | moderate | 540,000 | 75 | order_of_magnitude |
-| Familial hypercholesterolaemia | LDLR, APOB, PCSK9 | autosomal_dominant | serious | 540,000 | 45 | textbook_estimate |
-| Lynch syndrome | MLH1, MSH2 | autosomal_dominant | serious | 405,000 | 45 | textbook_estimate |
-| Hereditary breast and ovarian cancer (BRCA1/2) | BRCA1, BRCA2 | autosomal_dominant | serious | 337,500 | 45 | textbook_estimate |
-| Sickle cell disease | HBB | autosomal_recessive | severe | 297,000 | 100 | cited |
-| Hypertrophic cardiomyopathy | MYBPC3, MYH7 | autosomal_dominant | serious | 270,000 | 45 | textbook_estimate |
-| Hypospadias | — | multifactorial | moderate | 270,000 | 20 | textbook_estimate |
-| Infantile hypertrophic pyloric stenosis | — | multifactorial | moderate | 270,000 | 0 | textbook_estimate |
-| Down syndrome (trisomy 21) | — | chromosomal | severe | 189,000 | 45 | cited |
-| Orofacial clefts (cleft lip/palate) | — | multifactorial | moderate | 189,000 | 20 | textbook_estimate |
-| Alpha-thalassaemia | HBA1, HBA2 | autosomal_recessive | severe | 135,000 | 65 | cited |
-| Autosomal dominant polycystic kidney disease | PKD1, PKD2 | autosomal_dominant | serious | 135,000 | 45 | textbook_estimate |
-| Neural tube defects | MTHFR | multifactorial | severe | 135,000 | 20 | textbook_estimate |
-| Clubfoot (talipes equinovarus) | — | multifactorial | moderate | 135,000 | 55 | textbook_estimate |
-| Developmental dysplasia of the hip | — | multifactorial | moderate | 135,000 | 35 | textbook_estimate |
-| Beta-thalassaemia | HBB | autosomal_recessive | severe | 108,000 | 65 | cited |
-| Klinefelter syndrome (47,XXY) | — | chromosomal | moderate | 101,250 | 45 | textbook_estimate |
-| Long QT syndrome | KCNQ1, KCNH2, SCN5A | autosomal_dominant | serious | 67,500 | 45 | textbook_estimate |
-| Hereditary spherocytosis | ANK1 | autosomal_dominant | moderate | 67,500 | 45 | textbook_estimate |
-| Congenital diaphragmatic hernia | — | multifactorial | severe | 54,000 | 20 | textbook_estimate |
-| Neurofibromatosis type 1 | NF1 | autosomal_dominant | serious | 44,550 | 45 | textbook_estimate |
-| Gastroschisis | — | multifactorial | serious | 40,500 | 20 | textbook_estimate |
-| Cystic fibrosis | CFTR | autosomal_recessive | severe | 33,750 | 100 | textbook_estimate |
-| 22q11.2 deletion syndrome (DiGeorge) | TBX1 | chromosomal | serious | 33,750 | 45 | textbook_estimate |
-| Congenital sensorineural deafness (GJB2/DFNB1) | GJB2 | autosomal_recessive | moderate | 27,000 | 100 | textbook_estimate |
-| Fragile X syndrome | FMR1 | x_linked_dominant | serious | 27,000 | 65 | textbook_estimate |
-| Marfan syndrome | FBN1 | autosomal_dominant | serious | 27,000 | 45 | textbook_estimate |
-| Edwards syndrome (trisomy 18) | — | chromosomal | catastrophic | 27,000 | 45 | textbook_estimate |
-| Turner syndrome (45,X) | — | chromosomal | serious | 27,000 | 45 | textbook_estimate |
-| Tuberous sclerosis complex | TSC1, TSC2 | autosomal_dominant | serious | 20,250 | 45 | textbook_estimate |
-| Myotonic dystrophy type 1 | DMPK | autosomal_dominant | serious | 16,200 | 45 | textbook_estimate |
-| 1p36 deletion syndrome | — | chromosomal | severe | 16,200 | 45 | textbook_estimate |
-| Spinal muscular atrophy | SMN1 | autosomal_recessive | catastrophic | 13,500 | 100 | textbook_estimate |
-| Duchenne muscular dystrophy | DMD | x_linked_recessive | severe | 13,500 | 100 | textbook_estimate |
-| Haemophilia A | F8 | x_linked_recessive | serious | 13,500 | 65 | textbook_estimate |
-| Familial adenomatous polyposis | APC | autosomal_dominant | severe | 13,500 | 45 | textbook_estimate |
-| Williams syndrome | ELN | chromosomal | serious | 13,500 | 45 | textbook_estimate |
-| Phenylketonuria (PKU) | PAH | autosomal_recessive | serious | 10,800 | 100 | textbook_estimate |
-| Patau syndrome (trisomy 13) | — | chromosomal | catastrophic | 10,800 | 45 | textbook_estimate |
-| Medium-chain acyl-CoA dehydrogenase deficiency (MCAD) | ACADM | autosomal_recessive | serious | 9,450 | 100 | textbook_estimate |
-| Congenital adrenal hyperplasia (21-hydroxylase) | CYP21A2 | autosomal_recessive | serious | 9,450 | 100 | textbook_estimate |
-| Huntington disease | HTT | autosomal_dominant | severe | 9,450 | 45 | textbook_estimate |
-| Primary ciliary dyskinesia | DNAH5 | autosomal_recessive | serious | 9,450 | 65 | textbook_estimate |
-| Pendred syndrome | SLC26A4 | autosomal_recessive | moderate | 9,450 | 65 | textbook_estimate |
-| Osteogenesis imperfecta | COL1A1, COL1A2 | autosomal_dominant | serious | 9,450 | 45 | textbook_estimate |
-| Prader-Willi syndrome | — | chromosomal | serious | 9,450 | 45 | textbook_estimate |
-| Angelman syndrome | UBE3A | chromosomal | severe | 9,450 | 45 | textbook_estimate |
-| Retinoblastoma (heritable) | RB1 | autosomal_dominant | severe | 6,750 | 45 | textbook_estimate |
-| Li-Fraumeni syndrome | TP53 | autosomal_dominant | severe | 6,750 | 45 | order_of_magnitude |
-| Rett syndrome | MECP2 | x_linked_dominant | severe | 6,750 | 45 | textbook_estimate |
-| Achondroplasia | FGFR3 | autosomal_dominant | moderate | 5,400 | 45 | textbook_estimate |
-| Usher syndrome | MYO7A, USH2A | autosomal_recessive | serious | 5,400 | 65 | textbook_estimate |
-| Wilson disease | ATP7B | autosomal_recessive | serious | 4,050 | 100 | textbook_estimate |
-| X-linked adrenoleukodystrophy | ABCD1 | x_linked_recessive | severe | 4,050 | 100 | textbook_estimate |
-| Von Hippel-Lindau disease | VHL | autosomal_dominant | serious | 4,050 | 45 | textbook_estimate |
-| Cri-du-chat syndrome (5p deletion) | — | chromosomal | severe | 4,050 | 45 | textbook_estimate |
-| Pompe disease (GSD II) | GAA | autosomal_recessive | severe | 3,375 | 100 | textbook_estimate |
-| Gaucher disease | GBA | autosomal_recessive | serious | 2,700 | 100 | textbook_estimate |
-| Friedreich ataxia | FXN | autosomal_recessive | severe | 2,700 | 65 | textbook_estimate |
-| Classic galactosemia | GALT | autosomal_recessive | serious | 2,700 | 100 | textbook_estimate |
-| Haemophilia B | F9 | x_linked_recessive | serious | 2,700 | 65 | textbook_estimate |
-| Fabry disease | GLA | x_linked_recessive | serious | 2,700 | 100 | textbook_estimate |
-| Methylmalonic acidemia | MMUT | autosomal_recessive | severe | 2,700 | 100 | textbook_estimate |
-| Zellweger syndrome (peroxisome biogenesis disorder) | PEX1 | autosomal_recessive | catastrophic | 2,700 | 65 | textbook_estimate |
-| Alport syndrome (X-linked) | COL4A5 | x_linked_dominant | serious | 2,700 | 65 | textbook_estimate |
-| Wolf-Hirschhorn syndrome (4p deletion) | — | chromosomal | severe | 2,700 | 45 | textbook_estimate |
-| Biotinidase deficiency | BTD | autosomal_recessive | serious | 2,295 | 100 | textbook_estimate |
-| Metachromatic leukodystrophy | ARSA | autosomal_recessive | severe | 2,025 | 100 | textbook_estimate |
-| Mucopolysaccharidosis III (Sanfilippo) | SGSH | autosomal_recessive | severe | 2,025 | 65 | textbook_estimate |
-| Ornithine transcarbamylase deficiency | OTC | x_linked_recessive | severe | 2,025 | 100 | textbook_estimate |
-| Mucopolysaccharidosis I (Hurler) | IDUA | autosomal_recessive | severe | 1,350 | 100 | textbook_estimate |
-| Krabbe disease | GALC | autosomal_recessive | catastrophic | 1,350 | 100 | textbook_estimate |
-| Batten disease (juvenile neuronal ceroid lipofuscinosis, CLN3) | CLN3 | autosomal_recessive | catastrophic | 1,350 | 65 | order_of_magnitude |
-| Tyrosinemia type I | FAH | autosomal_recessive | severe | 1,350 | 100 | textbook_estimate |
-| Propionic acidemia | PCCA, PCCB | autosomal_recessive | severe | 1,350 | 100 | textbook_estimate |
-| Glutaric aciduria type I | GCDH | autosomal_recessive | severe | 1,350 | 100 | textbook_estimate |
-| Glycogen storage disease type I (von Gierke) | G6PC1 | autosomal_recessive | serious | 1,350 | 65 | textbook_estimate |
-| Ataxia-telangiectasia | ATM | autosomal_recessive | severe | 1,350 | 65 | textbook_estimate |
-| Congenital nephrotic syndrome (Finnish type) | NPHS1 | autosomal_recessive | severe | 1,350 | 65 | order_of_magnitude |
-| Vascular Ehlers-Danlos syndrome (type IV) | COL3A1 | autosomal_dominant | severe | 1,350 | 45 | order_of_magnitude |
-| X-linked severe combined immunodeficiency | IL2RG | x_linked_recessive | catastrophic | 1,350 | 100 | textbook_estimate |
-| Choroideremia | CHM | x_linked_recessive | serious | 1,350 | 65 | order_of_magnitude |
-| Isovaleric acidemia | IVD | autosomal_recessive | serious | 945 | 100 | textbook_estimate |
-| Bardet-Biedl syndrome | BBS1 | autosomal_recessive | serious | 945 | 65 | order_of_magnitude |
-| Maple syrup urine disease | BCKDHA, BCKDHB, DBT | autosomal_recessive | severe | 675 | 100 | textbook_estimate |
-| Hunter syndrome (MPS II) | IDS | x_linked_recessive | severe | 675 | 100 | textbook_estimate |
-| Mucopolysaccharidosis IV (Morquio) | GALNS | autosomal_recessive | severe | 675 | 65 | textbook_estimate |
-| Homocystinuria (CBS deficiency) | CBS | autosomal_recessive | serious | 675 | 100 | textbook_estimate |
-| Fanconi anaemia | FANCA | autosomal_recessive | severe | 675 | 65 | order_of_magnitude |
-| Wiskott-Aldrich syndrome | WAS | x_linked_recessive | severe | 675 | 65 | textbook_estimate |
-| Menkes disease | ATP7A | x_linked_recessive | catastrophic | 675 | 65 | order_of_magnitude |
-| Tay-Sachs disease | HEXA | autosomal_recessive | catastrophic | 540 | 65 | textbook_estimate |
-| Sandhoff disease | HEXB | autosomal_recessive | catastrophic | 405 | 65 | order_of_magnitude |
-| Canavan disease | ASPA | autosomal_recessive | catastrophic | 270 | 65 | order_of_magnitude |
-| Niemann-Pick disease type A | SMPD1 | autosomal_recessive | catastrophic | 270 | 65 | order_of_magnitude |
-| Bloom syndrome | BLM | autosomal_recessive | severe | 135 | 65 | order_of_magnitude |
+| Disease | Gene(s) | Inheritance | Severity | Births/yr | Status | Incidence basis |
+| --- | --- | --- | --- | ---: | --- | --- |
+| Congenital heart disease (multifactorial) | — | multifactorial | severe | 1,080,000 | Treatable | textbook_estimate |
+| G6PD deficiency | G6PD | x_linked_recessive | moderate | 540,000 | Preventable & treatable | order_of_magnitude |
+| Familial hypercholesterolaemia | LDLR, APOB, PCSK9 | autosomal_dominant | serious | 540,000 | Preventable | textbook_estimate |
+| Lynch syndrome | MLH1, MSH2 | autosomal_dominant | serious | 405,000 | Preventable | textbook_estimate |
+| Hereditary breast and ovarian cancer (BRCA1/2) | BRCA1, BRCA2 | autosomal_dominant | serious | 337,500 | Preventable | textbook_estimate |
+| Sickle cell disease | HBB | autosomal_recessive | severe | 297,000 | Preventable & treatable | cited |
+| Hypertrophic cardiomyopathy | MYBPC3, MYH7 | autosomal_dominant | serious | 270,000 | Preventable | textbook_estimate |
+| Hypospadias | — | multifactorial | moderate | 270,000 | Detectable only | textbook_estimate |
+| Infantile hypertrophic pyloric stenosis | — | multifactorial | moderate | 270,000 | No current option | textbook_estimate |
+| Down syndrome (trisomy 21) | — | chromosomal | severe | 189,000 | Preventable | cited |
+| Orofacial clefts (cleft lip/palate) | — | multifactorial | moderate | 189,000 | Detectable only | textbook_estimate |
+| Alpha-thalassaemia | HBA1, HBA2 | autosomal_recessive | severe | 135,000 | Preventable | cited |
+| Autosomal dominant polycystic kidney disease | PKD1, PKD2 | autosomal_dominant | serious | 135,000 | Preventable | textbook_estimate |
+| Neural tube defects | MTHFR | multifactorial | severe | 135,000 | Detectable only | textbook_estimate |
+| Clubfoot (talipes equinovarus) | — | multifactorial | moderate | 135,000 | Treatable | textbook_estimate |
+| Developmental dysplasia of the hip | — | multifactorial | moderate | 135,000 | Treatable | textbook_estimate |
+| Beta-thalassaemia | HBB | autosomal_recessive | severe | 108,000 | Preventable | cited |
+| Klinefelter syndrome (47,XXY) | — | chromosomal | moderate | 101,250 | Preventable | textbook_estimate |
+| Long QT syndrome | KCNQ1, KCNH2, SCN5A | autosomal_dominant | serious | 67,500 | Preventable | textbook_estimate |
+| Hereditary spherocytosis | ANK1 | autosomal_dominant | moderate | 67,500 | Preventable | textbook_estimate |
+| Congenital diaphragmatic hernia | — | multifactorial | severe | 54,000 | Detectable only | textbook_estimate |
+| Neurofibromatosis type 1 | NF1 | autosomal_dominant | serious | 44,550 | Preventable | textbook_estimate |
+| Gastroschisis | — | multifactorial | serious | 40,500 | Detectable only | textbook_estimate |
+| Cystic fibrosis | CFTR | autosomal_recessive | severe | 33,750 | Preventable & treatable | textbook_estimate |
+| 22q11.2 deletion syndrome (DiGeorge) | TBX1 | chromosomal | serious | 33,750 | Preventable | textbook_estimate |
+| Congenital sensorineural deafness (GJB2/DFNB1) | GJB2 | autosomal_recessive | moderate | 27,000 | Preventable & treatable | textbook_estimate |
+| Fragile X syndrome | FMR1 | x_linked_dominant | serious | 27,000 | Preventable | textbook_estimate |
+| Marfan syndrome | FBN1 | autosomal_dominant | serious | 27,000 | Preventable | textbook_estimate |
+| Edwards syndrome (trisomy 18) | — | chromosomal | catastrophic | 27,000 | Preventable | textbook_estimate |
+| Turner syndrome (45,X) | — | chromosomal | serious | 27,000 | Preventable | textbook_estimate |
+| Tuberous sclerosis complex | TSC1, TSC2 | autosomal_dominant | serious | 20,250 | Preventable | textbook_estimate |
+| Myotonic dystrophy type 1 | DMPK | autosomal_dominant | serious | 16,200 | Preventable | textbook_estimate |
+| 1p36 deletion syndrome | — | chromosomal | severe | 16,200 | Preventable | textbook_estimate |
+| Spinal muscular atrophy | SMN1 | autosomal_recessive | catastrophic | 13,500 | Preventable & treatable | textbook_estimate |
+| Duchenne muscular dystrophy | DMD | x_linked_recessive | severe | 13,500 | Preventable & treatable | textbook_estimate |
+| Haemophilia A | F8 | x_linked_recessive | serious | 13,500 | Preventable | textbook_estimate |
+| Familial adenomatous polyposis | APC | autosomal_dominant | severe | 13,500 | Preventable | textbook_estimate |
+| Williams syndrome | ELN | chromosomal | serious | 13,500 | Preventable | textbook_estimate |
+| Phenylketonuria (PKU) | PAH | autosomal_recessive | serious | 10,800 | Preventable & treatable | textbook_estimate |
+| Patau syndrome (trisomy 13) | — | chromosomal | catastrophic | 10,800 | Preventable | textbook_estimate |
+| Medium-chain acyl-CoA dehydrogenase deficiency (MCAD) | ACADM | autosomal_recessive | serious | 9,450 | Preventable & treatable | textbook_estimate |
+| Congenital adrenal hyperplasia (21-hydroxylase) | CYP21A2 | autosomal_recessive | serious | 9,450 | Preventable & treatable | textbook_estimate |
+| Huntington disease | HTT | autosomal_dominant | severe | 9,450 | Preventable | textbook_estimate |
+| Primary ciliary dyskinesia | DNAH5 | autosomal_recessive | serious | 9,450 | Preventable | textbook_estimate |
+| Pendred syndrome | SLC26A4 | autosomal_recessive | moderate | 9,450 | Preventable | textbook_estimate |
+| Osteogenesis imperfecta | COL1A1, COL1A2 | autosomal_dominant | serious | 9,450 | Preventable | textbook_estimate |
+| Prader-Willi syndrome | — | chromosomal | serious | 9,450 | Preventable | textbook_estimate |
+| Angelman syndrome | UBE3A | chromosomal | severe | 9,450 | Preventable | textbook_estimate |
+| Retinoblastoma (heritable) | RB1 | autosomal_dominant | severe | 6,750 | Preventable | textbook_estimate |
+| Li-Fraumeni syndrome | TP53 | autosomal_dominant | severe | 6,750 | Preventable | order_of_magnitude |
+| Rett syndrome | MECP2 | x_linked_dominant | severe | 6,750 | Preventable | textbook_estimate |
+| Achondroplasia | FGFR3 | autosomal_dominant | moderate | 5,400 | Preventable | textbook_estimate |
+| Usher syndrome | MYO7A, USH2A | autosomal_recessive | serious | 5,400 | Preventable | textbook_estimate |
+| Wilson disease | ATP7B | autosomal_recessive | serious | 4,050 | Preventable & treatable | textbook_estimate |
+| X-linked adrenoleukodystrophy | ABCD1 | x_linked_recessive | severe | 4,050 | Preventable & treatable | textbook_estimate |
+| Von Hippel-Lindau disease | VHL | autosomal_dominant | serious | 4,050 | Preventable | textbook_estimate |
+| Cri-du-chat syndrome (5p deletion) | — | chromosomal | severe | 4,050 | Preventable | textbook_estimate |
+| Pompe disease (GSD II) | GAA | autosomal_recessive | severe | 3,375 | Preventable & treatable | textbook_estimate |
+| Gaucher disease | GBA | autosomal_recessive | serious | 2,700 | Preventable & treatable | textbook_estimate |
+| Friedreich ataxia | FXN | autosomal_recessive | severe | 2,700 | Preventable | textbook_estimate |
+| Classic galactosemia | GALT | autosomal_recessive | serious | 2,700 | Preventable & treatable | textbook_estimate |
+| Haemophilia B | F9 | x_linked_recessive | serious | 2,700 | Preventable | textbook_estimate |
+| Fabry disease | GLA | x_linked_recessive | serious | 2,700 | Preventable & treatable | textbook_estimate |
+| Methylmalonic acidemia | MMUT | autosomal_recessive | severe | 2,700 | Preventable & treatable | textbook_estimate |
+| Zellweger syndrome (peroxisome biogenesis disorder) | PEX1 | autosomal_recessive | catastrophic | 2,700 | Preventable | textbook_estimate |
+| Alport syndrome (X-linked) | COL4A5 | x_linked_dominant | serious | 2,700 | Preventable | textbook_estimate |
+| Wolf-Hirschhorn syndrome (4p deletion) | — | chromosomal | severe | 2,700 | Preventable | textbook_estimate |
+| Biotinidase deficiency | BTD | autosomal_recessive | serious | 2,295 | Preventable & treatable | textbook_estimate |
+| Metachromatic leukodystrophy | ARSA | autosomal_recessive | severe | 2,025 | Preventable & treatable | textbook_estimate |
+| Mucopolysaccharidosis III (Sanfilippo) | SGSH | autosomal_recessive | severe | 2,025 | Preventable | textbook_estimate |
+| Ornithine transcarbamylase deficiency | OTC | x_linked_recessive | severe | 2,025 | Preventable & treatable | textbook_estimate |
+| Mucopolysaccharidosis I (Hurler) | IDUA | autosomal_recessive | severe | 1,350 | Preventable & treatable | textbook_estimate |
+| Krabbe disease | GALC | autosomal_recessive | catastrophic | 1,350 | Preventable & treatable | textbook_estimate |
+| Batten disease (juvenile neuronal ceroid lipofuscinosis, CLN3) | CLN3 | autosomal_recessive | catastrophic | 1,350 | Preventable | order_of_magnitude |
+| Tyrosinemia type I | FAH | autosomal_recessive | severe | 1,350 | Preventable & treatable | textbook_estimate |
+| Propionic acidemia | PCCA, PCCB | autosomal_recessive | severe | 1,350 | Preventable & treatable | textbook_estimate |
+| Glutaric aciduria type I | GCDH | autosomal_recessive | severe | 1,350 | Preventable & treatable | textbook_estimate |
+| Glycogen storage disease type I (von Gierke) | G6PC1 | autosomal_recessive | serious | 1,350 | Preventable | textbook_estimate |
+| Ataxia-telangiectasia | ATM | autosomal_recessive | severe | 1,350 | Preventable | textbook_estimate |
+| Congenital nephrotic syndrome (Finnish type) | NPHS1 | autosomal_recessive | severe | 1,350 | Preventable | order_of_magnitude |
+| Vascular Ehlers-Danlos syndrome (type IV) | COL3A1 | autosomal_dominant | severe | 1,350 | Preventable | order_of_magnitude |
+| X-linked severe combined immunodeficiency | IL2RG | x_linked_recessive | catastrophic | 1,350 | Preventable & treatable | textbook_estimate |
+| Choroideremia | CHM | x_linked_recessive | serious | 1,350 | Preventable | order_of_magnitude |
+| Isovaleric acidemia | IVD | autosomal_recessive | serious | 945 | Preventable & treatable | textbook_estimate |
+| Bardet-Biedl syndrome | BBS1 | autosomal_recessive | serious | 945 | Preventable | order_of_magnitude |
+| Maple syrup urine disease | BCKDHA, BCKDHB, DBT | autosomal_recessive | severe | 675 | Preventable & treatable | textbook_estimate |
+| Hunter syndrome (MPS II) | IDS | x_linked_recessive | severe | 675 | Preventable & treatable | textbook_estimate |
+| Mucopolysaccharidosis IV (Morquio) | GALNS | autosomal_recessive | severe | 675 | Preventable | textbook_estimate |
+| Homocystinuria (CBS deficiency) | CBS | autosomal_recessive | serious | 675 | Preventable & treatable | textbook_estimate |
+| Fanconi anaemia | FANCA | autosomal_recessive | severe | 675 | Preventable | order_of_magnitude |
+| Wiskott-Aldrich syndrome | WAS | x_linked_recessive | severe | 675 | Preventable | textbook_estimate |
+| Menkes disease | ATP7A | x_linked_recessive | catastrophic | 675 | Preventable | order_of_magnitude |
+| Tay-Sachs disease | HEXA | autosomal_recessive | catastrophic | 540 | Preventable | textbook_estimate |
+| Sandhoff disease | HEXB | autosomal_recessive | catastrophic | 405 | Preventable | order_of_magnitude |
+| Canavan disease | ASPA | autosomal_recessive | catastrophic | 270 | Preventable | order_of_magnitude |
+| Niemann-Pick disease type A | SMPD1 | autosomal_recessive | catastrophic | 270 | Preventable | order_of_magnitude |
+| Bloom syndrome | BLM | autosomal_recessive | severe | 135 | Preventable | order_of_magnitude |

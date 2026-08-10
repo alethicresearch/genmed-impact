@@ -57,14 +57,17 @@ export default function Overview({ data, state, update }: Props) {
         <Card>
           <p className="text-sm leading-relaxed text-slate-700">
             The core object is a <strong>library of genetic diseases</strong> mapped to their
-            causal genes and to the interventions that can address them (carrier screening,
-            embryo testing, prenatal diagnosis, newborn screening). The aggregate burden
-            numbers are <strong>derived by summing that library</strong> from the bottom up, and
-            cross-checked against a parametric <strong>Monte-Carlo model</strong> that estimates
-            the same denominator top-down, with 95% credible intervals. Nothing here is computed
-            live: every figure is precomputed and this page only recombines and displays it.
+            causal genes and to the interventions that can address them — carrier screening,
+            embryo testing, prenatal diagnosis, newborn screening, and germline editing. The
+            question this answers: across the whole landscape of serious genetic disease,{' '}
+            <strong>what can genetic medicine already do — and how much is left only for
+            editing?</strong> The split below is that answer; the rest of the page is the evidence
+            behind it, shown with its uncertainty.
           </p>
         </Card>
+
+        {/* THE SPLIT — the headline */}
+        <StatusSplit data={data} update={update} />
 
         {/* What you're looking at: measured / derived / assumptions */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -216,6 +219,102 @@ export default function Overview({ data, state, update }: Props) {
         </div>
       </div>
     </SourcesProvider>
+  );
+}
+
+const STATUS_COLORS: Record<string, string> = {
+  preventable_treatable: '#059669', // emerald
+  preventable: '#0284c7', // sky
+  treatable: '#0d9488', // teal
+  detectable_only: '#d97706', // amber
+  none: '#94a3b8', // slate
+};
+
+function StatusSplit({
+  data,
+  update,
+}: {
+  data: AllData;
+  update: (patch: UrlState) => void;
+}) {
+  const s = data.library.rollup.genetic_medicine_status;
+  const totalB = s.order.reduce((a, k) => a + s.distribution[k].births, 0) || 1;
+  let x = 0;
+  const segs = s.order.map((k) => {
+    const w = (s.distribution[k].births / totalB) * 100;
+    const seg = { k, x, w, ...s.distribution[k] };
+    x += w;
+    return seg;
+  });
+  const editable = data.summary.uniquely_editable_total.permissive.median;
+
+  return (
+    <Card>
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h3 className="text-base font-semibold text-slate-900">
+          What genetic medicine can already do
+        </h3>
+        <p className="text-sm text-slate-600">
+          <strong className="text-slate-900">{fmtPct(s.addressable_by_existing_tools_share, 0)}</strong>{' '}
+          of serious genetic disease (by affected births in the catalogue) sits in a status that
+          existing tools already address.
+        </p>
+      </div>
+
+      {/* stacked bar by births */}
+      <div
+        className="mt-3 flex h-9 w-full overflow-hidden rounded"
+        role="img"
+        aria-label="Genetic-medicine status distribution by affected births"
+      >
+        {segs.map((seg) =>
+          seg.w > 0 ? (
+            <button
+              key={seg.k}
+              type="button"
+              onClick={() => update({ tab: 'library', status: seg.k, libsort: 'status' })}
+              title={`${seg.label}: ${fmtInt(seg.births)} births/yr (${fmtPct(
+                seg.births / totalB,
+                0
+              )}) · ${seg.n_diseases} diseases — click to filter the library`}
+              style={{ width: `${seg.w}%`, backgroundColor: STATUS_COLORS[seg.k] }}
+              className="h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-slate-900"
+            />
+          ) : null
+        )}
+      </div>
+
+      {/* legend */}
+      <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1.5 sm:grid-cols-2 lg:grid-cols-3">
+        {segs.map((seg) => (
+          <button
+            key={seg.k}
+            type="button"
+            onClick={() => update({ tab: 'library', status: seg.k, libsort: 'status' })}
+            className="flex items-center gap-2 text-left text-sm hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            <span
+              aria-hidden="true"
+              className="inline-block h-3 w-3 shrink-0 rounded-sm"
+              style={{ backgroundColor: STATUS_COLORS[seg.k] }}
+            />
+            <span className="text-slate-700">{seg.label}</span>
+            <span className="tnum ml-auto text-slate-500">
+              {fmtCompact(seg.births)} · {seg.n_diseases}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <p className="mt-3 border-t border-slate-100 pt-3 text-sm text-slate-700">
+        Set against that, the residual for which germline editing is the{' '}
+        <strong>only</strong> option is a sliver of couples <em>within</em> diseases (no selectable
+        unaffected embryo), on the order of{' '}
+        <strong className="text-slate-900">{fmtCompact(editable)}</strong> births / yr — explored on
+        the Residual tab, not a disease category here.
+      </p>
+      <p className="mt-1 text-xs text-slate-500">{s.definition}</p>
+    </Card>
   );
 }
 

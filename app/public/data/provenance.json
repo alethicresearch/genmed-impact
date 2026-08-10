@@ -355,32 +355,6 @@
         "placeholder": true
       }
     },
-    "genetic_medicine_index_weights": {
-      "CS": {
-        "value": 0.2,
-        "low": 0.1,
-        "high": 0.3,
-        "note": "carrier screening — avoid at-risk conception"
-      },
-      "PGT": {
-        "value": 0.25,
-        "low": 0.15,
-        "high": 0.35,
-        "note": "embryo selection — transfer an unaffected embryo"
-      },
-      "PND": {
-        "value": 0.2,
-        "low": 0.1,
-        "high": 0.3,
-        "note": "prenatal diagnosis + reproductive decision"
-      },
-      "NBS": {
-        "value": 0.35,
-        "low": 0.25,
-        "high": 0.45,
-        "note": "newborn screening + early therapy — a healthy living child"
-      }
-    },
     "program_anchors": {
       "thalassaemia_major_reduction": {
         "value": 0.9,

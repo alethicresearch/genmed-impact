@@ -54,26 +54,29 @@ def test_ids_unique(built):
     assert len(ids) == len(set(ids))
 
 
-def test_gmi_in_range_and_discriminates(built):
-    idx = [d["gmi"]["index"] for d in built["diseases"]]
-    assert all(0 <= i <= 100 for i in idx)
-    # a useful index must actually spread diseases out, not collapse to one value
-    assert max(idx) - min(idx) >= 30
+def test_every_disease_has_a_valid_status(built):
+    valid = set(library.STATUS_ORDER)
     for d in built["diseases"]:
-        g = d["gmi"]
-        # prevent_score and treat_score are 0-1 weight sums that partition addressed_fraction
-        assert abs(g["prevent_score"] + g["treat_score"] - g["addressed_fraction"]) < 1e-6
+        assert d["status"]["status"] in valid
+        assert d["status"]["addressable"] == (d["status"]["status"] != "none")
 
 
-def test_gmi_treatment_beats_prevention_only():
-    from denominator import harmonize
-    C = harmonize.load_constants()
-    treatable = {"category": "monogenic_recessive",
-                 "interventions": {t: {"applicable": True} for t in ["CS", "PGT", "PND", "NBS"]}}
-    prevent_only = {"category": "monogenic_recessive",
-                    "interventions": {**{t: {"applicable": True} for t in ["CS", "PGT", "PND"]},
-                                      "NBS": {"applicable": False}}}
-    assert library.compute_gmi(treatable, C)["index"] > library.compute_gmi(prevent_only, C)["index"]
+def test_status_distribution_reconciles(built):
+    dist = built["rollup"]["genetic_medicine_status"]["distribution"]
+    assert sum(v["n_diseases"] for v in dist.values()) == built["rollup"]["n_diseases"]
+    total_b = built["rollup"]["total_affected_births_per_year"]
+    assert abs(sum(v["births"] for v in dist.values()) - total_b) < 1.0
+
+
+def test_status_logic():
+    def dz(cs, pgt, pnd, nbs):
+        return {"interventions": {"CS": {"applicable": cs}, "PGT": {"applicable": pgt},
+                                  "PND": {"applicable": pnd}, "NBS": {"applicable": nbs}}}
+    assert library.compute_status(dz(1, 1, 1, 1))["status"] == "preventable_treatable"
+    assert library.compute_status(dz(1, 1, 1, 0))["status"] == "preventable"
+    assert library.compute_status(dz(0, 0, 0, 1))["status"] == "treatable"
+    assert library.compute_status(dz(0, 0, 1, 0))["status"] == "detectable_only"
+    assert library.compute_status(dz(0, 0, 0, 0))["status"] == "none"
 
 
 def test_rollup_shares_in_unit_interval(built):

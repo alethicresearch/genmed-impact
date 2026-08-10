@@ -50,17 +50,13 @@
       "editing_unique": false,
       "editing_note": "Not selection/editing-addressable as a monogenic trait; detection + surgical repair mitigate.",
       "notes": null,
-      "gmi": {
-        "index": 55,
-        "addressed_fraction": 0.55,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 0.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.2,
-        "treat_score": 0.35
+      "status": {
+        "status": "treatable",
+        "label": "Treatable",
+        "preventable": false,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -103,17 +99,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable; usually mild so rarely pursued.",
       "notes": null,
-      "gmi": {
-        "index": 75,
-        "addressed_fraction": 0.75,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 0.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.4,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -158,17 +150,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable; treatability makes reproductive intervention uncommon.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -212,17 +200,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable; treatable/surveillable so reproductive intervention uncommon.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -266,17 +250,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable; high-penetrance but treatable/surveillable, so intervention is elective.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -319,17 +299,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable; affected×affected couples fall to the S1 residual.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -373,17 +349,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -424,17 +396,13 @@
       "editing_unique": false,
       "editing_note": "Not selection/editing-addressable as a monogenic trait; surgically correctable.",
       "notes": null,
-      "gmi": {
-        "index": 20,
-        "addressed_fraction": 0.2,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 0.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.2,
-        "treat_score": 0.0
+      "status": {
+        "status": "detectable_only",
+        "label": "Detectable only",
+        "preventable": false,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -475,17 +443,13 @@
       "editing_unique": false,
       "editing_note": "Not selection/editing-addressable as a monogenic trait; surgically curable.",
       "notes": null,
-      "gmi": {
-        "index": 0,
-        "addressed_fraction": 0.0,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 0.0,
-          "PND": 0.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.0,
-        "treat_score": 0.0
+      "status": {
+        "status": "none",
+        "label": "No current option",
+        "preventable": false,
+        "treatable": false,
+        "prenatal_detectable": false,
+        "addressable": false
       }
     },
     {
@@ -526,17 +490,13 @@
       "editing_unique": false,
       "editing_note": "PGT-A/selection-addressable; whole-chromosome aneuploidy not an editing target.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -577,17 +537,13 @@
       "editing_unique": false,
       "editing_note": "Not selection/editing-addressable as a monogenic trait; surgically correctable.",
       "notes": null,
-      "gmi": {
-        "index": 20,
-        "addressed_fraction": 0.2,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 0.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.2,
-        "treat_score": 0.0
+      "status": {
+        "status": "detectable_only",
+        "label": "Detectable only",
+        "preventable": false,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -631,17 +587,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable (both-carrier couples have unaffected embryos).",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -685,17 +637,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -738,17 +686,13 @@
       "editing_unique": false,
       "editing_note": "Not selection- or editing-addressable as a monogenic trait; folate fortification is the key lever.",
       "notes": null,
-      "gmi": {
-        "index": 20,
-        "addressed_fraction": 0.2,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 0.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.2,
-        "treat_score": 0.0
+      "status": {
+        "status": "detectable_only",
+        "label": "Detectable only",
+        "preventable": false,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -789,17 +733,13 @@
       "editing_unique": false,
       "editing_note": "Not selection/editing-addressable as a monogenic trait; early casting mitigates.",
       "notes": null,
-      "gmi": {
-        "index": 55,
-        "addressed_fraction": 0.55,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 0.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.2,
-        "treat_score": 0.35
+      "status": {
+        "status": "treatable",
+        "label": "Treatable",
+        "preventable": false,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -840,17 +780,13 @@
       "editing_unique": false,
       "editing_note": "Not selection/editing-addressable as a monogenic trait; early bracing mitigates.",
       "notes": null,
-      "gmi": {
-        "index": 35,
-        "addressed_fraction": 0.35,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 0.0,
-          "PND": 0.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.0,
-        "treat_score": 0.35
+      "status": {
+        "status": "treatable",
+        "label": "Treatable",
+        "preventable": false,
+        "treatable": true,
+        "prenatal_detectable": false,
+        "addressable": true
       }
     },
     {
@@ -893,17 +829,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -944,17 +876,13 @@
       "editing_unique": false,
       "editing_note": "PGT-A/selection-addressable; aneuploidy not an editing target.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -999,17 +927,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1052,17 +976,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable; treatability makes reproductive intervention uncommon.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1103,17 +1023,13 @@
       "editing_unique": false,
       "editing_note": "Not selection/editing-addressable as a monogenic trait; surgically correctable.",
       "notes": null,
-      "gmi": {
-        "index": 20,
-        "addressed_fraction": 0.2,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 0.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.2,
-        "treat_score": 0.0
+      "status": {
+        "status": "detectable_only",
+        "label": "Detectable only",
+        "preventable": false,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1156,17 +1072,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1207,17 +1119,13 @@
       "editing_unique": false,
       "editing_note": "Not selection/editing-addressable as a monogenic trait; surgically correctable.",
       "notes": null,
-      "gmi": {
-        "index": 20,
-        "addressed_fraction": 0.2,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 0.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.2,
-        "treat_score": 0.0
+      "status": {
+        "status": "detectable_only",
+        "label": "Detectable only",
+        "preventable": false,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1260,17 +1168,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable (both-carrier couples have unaffected embryos).",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1313,17 +1217,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable; contiguous-gene deletion not an editing target.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1366,17 +1266,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1419,17 +1315,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1472,17 +1364,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1523,17 +1411,13 @@
       "editing_unique": false,
       "editing_note": "PGT-A/selection-addressable; aneuploidy not an editing target.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1574,17 +1458,13 @@
       "editing_unique": false,
       "editing_note": "PGT-A/selection-addressable; monosomy not an editing target.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1628,17 +1508,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1681,17 +1557,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries the expansion.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1732,17 +1604,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable; structural deletion not an editing target.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1785,17 +1653,13 @@
       "editing_unique": false,
       "editing_note": "Selection- and NBS-addressable; a leading NBS success story.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1838,17 +1702,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when maternal variant known.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1891,17 +1751,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when maternal variant known.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1944,17 +1800,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -1997,17 +1849,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable; contiguous-gene deletion not an editing target.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2050,17 +1898,13 @@
       "editing_unique": false,
       "editing_note": "NBS + diet essentially prevents the disease phenotype.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2101,17 +1945,13 @@
       "editing_unique": false,
       "editing_note": "PGT-A/selection-addressable; aneuploidy not an editing target.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2154,17 +1994,13 @@
       "editing_unique": false,
       "editing_note": "NBS + fasting-avoidance largely prevents the phenotype; selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2207,17 +2043,13 @@
       "editing_unique": false,
       "editing_note": "NBS mitigates; selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2260,17 +2092,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable for a heterozygous parent; only a viable homozygous-affected parent (all embryos affected) would lack an unaffected embryo — couple-config dependent, handled in S1.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2313,17 +2141,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when parental variants known.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2366,17 +2190,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2420,17 +2240,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2471,17 +2287,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable in familial cases; imprinting defect not an editing target.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2524,17 +2336,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable in familial cases; imprinting defect not an editing target.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2577,17 +2385,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2630,17 +2434,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2683,17 +2483,13 @@
       "editing_unique": false,
       "editing_note": "Mostly de novo; selection-addressable only in rare familial cases.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2736,17 +2532,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable for affected parents; most cases de novo.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2790,17 +2582,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2843,17 +2631,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2896,17 +2680,13 @@
       "editing_unique": false,
       "editing_note": "Selection- and NBS-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -2949,17 +2729,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3000,17 +2776,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable; structural deletion not an editing target.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3053,17 +2825,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable; NBS + ERT mitigates.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3106,17 +2874,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3159,17 +2923,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3212,17 +2972,13 @@
       "editing_unique": false,
       "editing_note": "NBS + diet mitigates; selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3265,17 +3021,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when maternal variant known.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3318,17 +3070,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3371,17 +3119,13 @@
       "editing_unique": false,
       "editing_note": "NBS partially mitigates; selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3424,17 +3168,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3477,17 +3217,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when familial variant known.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3528,17 +3264,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable; structural deletion not an editing target.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3581,17 +3313,13 @@
       "editing_unique": false,
       "editing_note": "NBS + biotin prevents the phenotype; selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3634,17 +3362,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3687,17 +3411,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3740,17 +3460,13 @@
       "editing_unique": false,
       "editing_note": "Selection- and NBS-addressable; early management mitigates.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3793,17 +3509,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3846,17 +3558,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3899,17 +3607,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -3952,17 +3656,13 @@
       "editing_unique": false,
       "editing_note": "NBS + NTBC mitigates; selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4006,17 +3706,13 @@
       "editing_unique": false,
       "editing_note": "NBS partially mitigates; selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4059,17 +3755,13 @@
       "editing_unique": false,
       "editing_note": "NBS mitigates; selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4112,17 +3804,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4165,17 +3853,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4218,17 +3902,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4271,17 +3951,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
       "notes": null,
-      "gmi": {
-        "index": 45,
-        "addressed_fraction": 0.45,
-        "contributions": {
-          "CS": 0.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.45,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4324,17 +4000,13 @@
       "editing_unique": false,
       "editing_note": "Selection- and NBS-addressable; a leading SCID NBS success.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4377,17 +4049,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when maternal variant known.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4430,17 +4098,13 @@
       "editing_unique": false,
       "editing_note": "NBS mitigates; selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4483,17 +4147,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4538,17 +4198,13 @@
       "editing_unique": false,
       "editing_note": "NBS + diet mitigates; selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4591,17 +4247,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when maternal variant known.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4644,17 +4296,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4697,17 +4345,13 @@
       "editing_unique": false,
       "editing_note": "NBS + treatment mitigates; selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 100,
-        "addressed_fraction": 1.0,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 35.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.35
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4750,17 +4394,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4803,17 +4443,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when maternal variant known.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4856,17 +4492,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable when maternal variant known.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4909,17 +4541,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable; affected individuals do not reproduce (S1 ~0).",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -4962,17 +4590,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -5015,17 +4639,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -5068,17 +4688,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     },
     {
@@ -5121,17 +4737,13 @@
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
       "notes": null,
-      "gmi": {
-        "index": 65,
-        "addressed_fraction": 0.65,
-        "contributions": {
-          "CS": 20.0,
-          "PGT": 25.0,
-          "PND": 20.0,
-          "NBS": 0.0
-        },
-        "prevent_score": 0.65,
-        "treat_score": 0.0
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
       }
     }
   ],
@@ -5161,24 +4773,44 @@
       "PND": 5668380.0,
       "NBS": 2344140.0
     },
-    "genetic_medicine_index": {
-      "mean": 65.10309278350516,
-      "births_weighted_mean": 49.819062861207435,
-      "bands": {
-        "high (70-100)": {
+    "genetic_medicine_status": {
+      "order": [
+        "preventable_treatable",
+        "preventable",
+        "treatable",
+        "detectable_only",
+        "none"
+      ],
+      "distribution": {
+        "preventable_treatable": {
+          "label": "Preventable & treatable",
           "n_diseases": 29,
           "births": 994140.0
         },
-        "moderate (40-69)": {
-          "n_diseases": 61,
-          "births": 3985740.0
+        "preventable": {
+          "label": "Preventable",
+          "n_diseases": 59,
+          "births": 2770740.0
         },
-        "low (0-39)": {
-          "n_diseases": 7,
-          "births": 1093500.0
+        "treatable": {
+          "label": "Treatable",
+          "n_diseases": 3,
+          "births": 1350000.0
+        },
+        "detectable_only": {
+          "label": "Detectable only",
+          "n_diseases": 5,
+          "births": 688500.0
+        },
+        "none": {
+          "label": "No current option",
+          "n_diseases": 1,
+          "births": 270000.0
         }
       },
-      "definition": "Genetic Medicine Index (0-100): a weighted sum over four capabilities — carrier screening, embryo selection, prenatal diagnosis, and newborn screening + early therapy — each counted where it applies to the disease. Treatment is weighted highest (a healthy living child is a fuller outcome than avoidance of an affected birth). Higher = more fully addressable by existing genetic medicine."
+      "addressable_by_existing_tools_births": 5803380.0,
+      "addressable_by_existing_tools_share": 0.9555437005423668,
+      "definition": "Each disease is placed in one status from its intervention flags (no weights): Preventable & treatable, Preventable (an unaffected child achievable via screening/selection), Treatable (effective early therapy), Detectable only (prenatal detection without selection), or No current option. The distribution across statuses — by disease count and by affected births — is the headline picture of what existing genetic medicine can already do."
     },
     "cited_incidence_share": 0.1200320085356095,
     "note": "Bottom-up point sums over the curated catalogue. Coverage is partial (a seed catalogue of the highest-burden serious conditions), so totals are a LOWER BOUND on the full genetic-disease denominator and will rise as the Orphanet/GBD ingest expands the library. The parametric Monte-Carlo model provides the calibrated top-down denominator with credible intervals."

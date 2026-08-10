@@ -27,7 +27,7 @@ const ALL_TABS: TabDef[] = [
 
 // Which tab ids are visible in each mode.
 const MODE_TABS: Record<string, string[]> = {
-  simple: ['overview', 'library', 'multifactorial', 'prevention'],
+  simple: ['overview', 'library', 'prevention'],
   detailed: [
     'overview',
     'library',

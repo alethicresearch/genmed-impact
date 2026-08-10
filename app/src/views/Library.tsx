@@ -1,5 +1,5 @@
 import { Fragment, useMemo, useState } from 'react';
-import { AllData, Disease, ToolKey, fmtCompact, fmtInt, fmtPct } from '../data';
+import { AllData, Disease, StatusKey, ToolKey, fmtCompact, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
 import { Card, SectionHeading, Select } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
@@ -10,6 +10,22 @@ interface Props {
   state: UrlState;
   update: (patch: UrlState) => void;
 }
+
+// Best-available ordering + colour styling for the genetic-medicine status.
+const STATUS_RANK: Record<StatusKey, number> = {
+  preventable_treatable: 0,
+  preventable: 1,
+  treatable: 2,
+  detectable_only: 3,
+  none: 4,
+};
+const STATUS_STYLE: Record<StatusKey, { cls: string; short: string }> = {
+  preventable_treatable: { cls: 'bg-emerald-100 text-emerald-800', short: 'Prevent + treat' },
+  preventable: { cls: 'bg-sky-100 text-sky-800', short: 'Preventable' },
+  treatable: { cls: 'bg-teal-100 text-teal-800', short: 'Treatable' },
+  detectable_only: { cls: 'bg-amber-100 text-amber-800', short: 'Detectable only' },
+  none: { cls: 'bg-slate-200 text-slate-600', short: 'No option' },
+};
 
 const TOOLS: ToolKey[] = ['CS', 'PGT', 'PND', 'NBS'];
 
@@ -35,9 +51,8 @@ export default function Library({ data, state, update }: Props) {
   const sev = state.sev || 'all';
   const tool = state.tool || 'any';
   const sort =
-    state.libsort === 'name' || state.libsort === 'gmi' || state.libsort === 'gmi_asc'
-      ? state.libsort
-      : 'births';
+    state.libsort === 'name' || state.libsort === 'status' ? state.libsort : 'births';
+  const statusFilter = state.status || 'all';
 
   const inheritances = useMemo(
     () => Array.from(new Set(lib.diseases.map((d) => d.inheritance))).sort(),
@@ -54,6 +69,7 @@ export default function Library({ data, state, update }: Props) {
       if (cat !== 'all' && d.category !== cat) return false;
       if (inh !== 'all' && d.inheritance !== inh) return false;
       if (sev !== 'all' && d.severity !== sev) return false;
+      if (statusFilter !== 'all' && d.status.status !== statusFilter) return false;
       if (tool !== 'any') {
         if (tool === 'reproductive') {
           if (!d.addressable_by_reproductive_tool) return false;
@@ -75,12 +91,15 @@ export default function Library({ data, state, update }: Props) {
     });
     rows = rows.slice().sort((a, b) => {
       if (sort === 'name') return a.name.localeCompare(b.name);
-      if (sort === 'gmi') return b.gmi.index - a.gmi.index;
-      if (sort === 'gmi_asc') return a.gmi.index - b.gmi.index;
+      if (sort === 'status')
+        return (
+          STATUS_RANK[a.status.status] - STATUS_RANK[b.status.status] ||
+          b.affected_births_per_year - a.affected_births_per_year
+        );
       return b.affected_births_per_year - a.affected_births_per_year;
     });
     return rows;
-  }, [lib.diseases, q, cat, inh, sev, tool, sort]);
+  }, [lib.diseases, q, cat, inh, sev, tool, statusFilter, sort]);
 
   const catOptions = [
     { value: 'all', label: 'All categories' },
@@ -101,6 +120,13 @@ export default function Library({ data, state, update }: Props) {
     { value: 'PGT', label: 'Embryo testing (PGT)' },
     { value: 'PND', label: 'Prenatal diagnosis (PND)' },
     { value: 'NBS', label: 'Newborn screening (NBS)' },
+  ];
+  const statusOptions = [
+    { value: 'all', label: 'All statuses' },
+    ...lib.rollup.genetic_medicine_status.order.map((s) => ({
+      value: s,
+      label: lib.rollup.genetic_medicine_status.distribution[s].label,
+    })),
   ];
 
   return (
@@ -152,7 +178,7 @@ export default function Library({ data, state, update }: Props) {
 
         {/* Filters */}
         <Card>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
             <label htmlFor="libq" className="flex flex-col gap-1 text-sm lg:col-span-1">
               <span className="font-medium text-slate-700">Search</span>
               <input
@@ -192,6 +218,13 @@ export default function Library({ data, state, update }: Props) {
               options={toolOptions}
               onChange={(v) => update({ tool: v })}
             />
+            <Select
+              id="status"
+              label="Genetic-medicine status"
+              value={statusFilter}
+              options={statusOptions}
+              onChange={(v) => update({ status: v })}
+            />
           </div>
           <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
             <p className="text-sm text-slate-600">
@@ -204,8 +237,7 @@ export default function Library({ data, state, update }: Props) {
               value={sort}
               options={[
                 { value: 'births', label: 'Affected births (desc)' },
-                { value: 'gmi', label: 'Genetic Medicine Index (high→low)' },
-                { value: 'gmi_asc', label: 'Genetic Medicine Index (low→high)' },
+                { value: 'status', label: 'Genetic-medicine status' },
                 { value: 'name', label: 'Name (A–Z)' },
               ]}
               onChange={(v) => update({ libsort: v })}
@@ -240,9 +272,9 @@ export default function Library({ data, state, update }: Props) {
                 <th
                   scope="col"
                   className="px-3 py-2 text-center font-medium"
-                  title="Genetic Medicine Index (0–100): how fully existing genetic medicine can address this disease. Defined in Methods."
+                  title="Genetic-medicine status: the best thing existing genetic medicine can currently do for this disease."
                 >
-                  GMI
+                  Status
                 </th>
                 <th scope="col" className="px-3 py-2 text-center font-medium" title="Carrier screening / Embryo testing / Prenatal diagnosis / Newborn screening">
                   CS · PGT · PND · NBS
@@ -270,20 +302,15 @@ export default function Library({ data, state, update }: Props) {
   );
 }
 
-function GmiBadge({ value }: { value: number }) {
-  const band = value >= 70 ? 'high' : value >= 40 ? 'moderate' : 'low';
-  const cls =
-    band === 'high'
-      ? 'bg-emerald-100 text-emerald-800'
-      : band === 'moderate'
-      ? 'bg-amber-100 text-amber-800'
-      : 'bg-slate-100 text-slate-600';
+function StatusBadge({ d }: { d: Disease }) {
+  const st = d.status;
+  const style = STATUS_STYLE[st.status];
   return (
     <span
-      className={`tnum inline-block min-w-[2.2rem] rounded px-1.5 py-0.5 text-xs font-semibold ${cls}`}
-      title={`Genetic Medicine Index ${value}/100 (${band}) — how fully existing genetic medicine can address this disease. Defined in Methods.`}
+      className={`inline-block whitespace-nowrap rounded px-2 py-0.5 text-xs font-medium ${style.cls}`}
+      title={`${st.label} — the best thing existing genetic medicine can currently do for this disease.`}
     >
-      {value}
+      {style.short}
     </span>
   );
 }
@@ -348,7 +375,7 @@ function DiseaseRow({
           />
         </td>
         <td className="px-3 py-2 text-center">
-          <GmiBadge value={d.gmi.index} />
+          <StatusBadge d={d} />
         </td>
         <td className="px-3 py-2">
           <span className="flex items-center justify-center gap-2 font-mono text-sm">

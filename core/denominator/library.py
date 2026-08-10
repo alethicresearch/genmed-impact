@@ -19,42 +19,46 @@ LIBRARY_YAML = config.PKG_DIR / "library" / "diseases.yaml"
 # Reproductive tools that prevent an affected birth (NBS mitigates, it doesn't prevent).
 REPRO_TOOLS = ["CS", "PGT", "PND"]
 
-# Which full-coverage effectiveness profile applies to each library category.
-GMI_CLASS = {
-    "monogenic_recessive": "monogenic",
-    "monogenic_dominant": "monogenic",
-    "x_linked": "monogenic",
-    "chromosomal": "monogenic",
-    "multifactorial": "multifactorial",
+# Genetic-medicine status: one legible, weight-free category per disease, derived directly from
+# which interventions apply. Ordered best-available first for display.
+STATUS_ORDER = ["preventable_treatable", "preventable", "treatable", "detectable_only", "none"]
+STATUS_LABEL = {
+    "preventable_treatable": "Preventable & treatable",
+    "preventable": "Preventable",
+    "treatable": "Treatable",
+    "detectable_only": "Detectable only",
+    "none": "No current option",
 }
 
 
-GMI_TOOLS = ["CS", "PGT", "PND", "NBS"]
+def compute_status(disease: dict) -> dict:
+    """Categorical genetic-medicine status from the four intervention flags (no weights).
 
-
-def compute_gmi(disease: dict, constants: dict) -> dict:
-    """Genetic Medicine Index (0-100): how fully existing genetic medicine can address a disease.
-
-    A weighted sum over four distinct capabilities — carrier screening (CS), embryo selection
-    (PGT), prenatal diagnosis (PND), and newborn screening + early therapy (NBS) — each counted
-    when it applies to the disease, weighted by ``genetic_medicine_index_weights``. Treatment is
-    weighted highest because a healthy living child is a fuller outcome than avoidance of an
-    affected birth. Fully derived from catalogue applicability × the weights, so every disease —
-    curated or ingested — maps to one comparable, discriminating index. The per-capability
-    contributions are returned so the profile (not just the total) is visible.
+    * can_select = carrier screening or embryo selection applies → an unaffected child is achievable
+    * treatable  = newborn screening + effective early therapy applies → a healthy born child
+    * detectable = prenatal diagnosis applies (detect + reproductive decision), even without selection
     """
-    weights = constants["genetic_medicine_index_weights"]
-    contributions = {
-        t: (float(weights[t]["value"]) if _tool_applicable(disease, t) else 0.0)
-        for t in GMI_TOOLS
-    }
-    addressed = sum(contributions.values())
+    can_select = _tool_applicable(disease, "CS") or _tool_applicable(disease, "PGT")
+    treatable = _tool_applicable(disease, "NBS")
+    detectable = _tool_applicable(disease, "PND")
+
+    if can_select and treatable:
+        status = "preventable_treatable"
+    elif can_select:
+        status = "preventable"
+    elif treatable:
+        status = "treatable"
+    elif detectable:
+        status = "detectable_only"
+    else:
+        status = "none"
     return {
-        "index": round(100.0 * addressed),
-        "addressed_fraction": addressed,
-        "contributions": {t: 100.0 * c for t, c in contributions.items()},
-        "prevent_score": contributions["CS"] + contributions["PGT"] + contributions["PND"],
-        "treat_score": contributions["NBS"],
+        "status": status,
+        "label": STATUS_LABEL[status],
+        "preventable": can_select,
+        "treatable": treatable,
+        "prenatal_detectable": detectable,
+        "addressable": status != "none",  # addressable by some existing tool
     }
 
 
@@ -106,7 +110,7 @@ def build_library(constants: dict) -> dict[str, Any]:
             "editing_unique": bool(d.get("editing_unique", False)),
             "editing_note": d.get("editing_note"),
             "notes": d.get("notes"),
-            "gmi": compute_gmi(d, constants),
+            "status": compute_status(d),
         })
 
     diseases_out.sort(key=lambda x: -x["affected_births_per_year"])
@@ -134,33 +138,28 @@ def build_library(constants: dict) -> dict[str, Any]:
         for t in ["CS", "PGT", "PND", "NBS"]
     }
 
-    # Genetic Medicine Index summary
-    gmi_vals = [x["gmi"]["index"] for x in diseases_out]
-    gmi_mean = sum(gmi_vals) / len(gmi_vals) if gmi_vals else 0.0
-    gmi_births_weighted = (
-        sum(x["gmi"]["index"] * x["affected_births_per_year"] for x in diseases_out) / total
-        if total else 0.0
-    )
-
-    def _band(lo, hi):
-        n = sum(1 for x in diseases_out if lo <= x["gmi"]["index"] < hi)
-        b = _sum_where(lambda x, lo=lo, hi=hi: lo <= x["gmi"]["index"] < hi)
-        return {"n_diseases": n, "births": b}
-
-    gmi_summary = {
-        "mean": gmi_mean,
-        "births_weighted_mean": gmi_births_weighted,
-        "bands": {
-            "high (70-100)": _band(70, 101),
-            "moderate (40-69)": _band(40, 70),
-            "low (0-39)": _band(0, 40),
-        },
+    # Genetic-medicine status distribution (the headline split, weight-free)
+    status_distribution = {
+        s: {
+            "label": STATUS_LABEL[s],
+            "n_diseases": sum(1 for x in diseases_out if x["status"]["status"] == s),
+            "births": _sum_where(lambda x, s=s: x["status"]["status"] == s),
+        }
+        for s in STATUS_ORDER
+    }
+    addressable_births = _sum_where(lambda x: x["status"]["addressable"])
+    status_summary = {
+        "order": STATUS_ORDER,
+        "distribution": status_distribution,
+        "addressable_by_existing_tools_births": addressable_births,
+        "addressable_by_existing_tools_share": (addressable_births / total) if total else 0.0,
         "definition": (
-            "Genetic Medicine Index (0-100): a weighted sum over four capabilities — carrier "
-            "screening, embryo selection, prenatal diagnosis, and newborn screening + early therapy "
-            "— each counted where it applies to the disease. Treatment is weighted highest (a healthy "
-            "living child is a fuller outcome than avoidance of an affected birth). Higher = more "
-            "fully addressable by existing genetic medicine."
+            "Each disease is placed in one status from its intervention flags (no weights): "
+            "Preventable & treatable, Preventable (an unaffected child achievable via screening/"
+            "selection), Treatable (effective early therapy), Detectable only (prenatal detection "
+            "without selection), or No current option. The distribution across statuses — by disease "
+            "count and by affected births — is the headline picture of what existing genetic "
+            "medicine can already do."
         ),
     }
 
@@ -174,7 +173,7 @@ def build_library(constants: dict) -> dict[str, Any]:
         "births_nbs_mitigable": nbs_mitigable,
         "births_editing_unique": editing_unique,
         "per_tool_addressable_births": per_tool_births,
-        "genetic_medicine_index": gmi_summary,
+        "genetic_medicine_status": status_summary,
         "cited_incidence_share": (cited / total) if total else 0.0,
         "note": (
             "Bottom-up point sums over the curated catalogue. Coverage is partial (a seed catalogue "

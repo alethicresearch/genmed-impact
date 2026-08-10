@@ -147,29 +147,35 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
       "and shown in the app's Denominator view.")
     A("")
 
-    # 5. GMI
-    gmi = lib["genetic_medicine_index"]
-    w = constants["genetic_medicine_index_weights"]
-    A("## 6. Genetic Medicine Index (GMI)")
+    # 5. Genetic-medicine status
+    st = lib["genetic_medicine_status"]
+    A("## 6. Genetic-medicine status")
     A("")
-    A("Every disease maps to a **0–100 index** of how fully existing genetic medicine can address "
-      "it: a weighted sum over the four capabilities, each counted where it applies to the disease,")
+    A("Every disease is placed in one **status** derived directly from its intervention flags — no "
+      "weights, no composite score:")
     A("")
-    A("```")
-    A("GMI = 100 × ( w_CS·CS + w_PGT·PGT + w_PND·PND + w_NBS·NBS )")
-    A("```")
+    A("- **Preventable & treatable** — an unaffected child is achievable (screening/selection) *and* "
+      "effective early therapy exists")
+    A("- **Preventable** — an unaffected child is achievable, but no cure")
+    A("- **Treatable** — effective early therapy exists, but hard to prevent")
+    A("- **Detectable only** — prenatal detection without selection")
+    A("- **No current option**")
     A("")
-    A(f"with default weights **CS={w['CS']['value']}, PGT={w['PGT']['value']}, "
-      f"PND={w['PND']['value']}, NBS={w['NBS']['value']}** (an explicit judgment call: treatment is "
-      "weighted highest because a healthy living child is a fuller outcome than avoidance of an "
-      "affected birth; weights sum to 1 and are adjustable). GMI measures addressability, "
-      "independent of severity.")
+    A("The distribution across statuses — by disease count and by affected births — is the headline "
+      "picture of what existing genetic medicine can already do. \"Addressable by existing tools\" is "
+      "everything but the empty status.")
     A("")
-    A(f"Distribution over {lib['n_diseases']} diseases: mean **{gmi['mean']:.0f}**, "
-      f"births-weighted mean **{gmi['births_weighted_mean']:.0f}**. "
-      f"High (70–100): {gmi['bands']['high (70-100)']['n_diseases']} diseases; "
-      f"moderate (40–69): {gmi['bands']['moderate (40-69)']['n_diseases']}; "
-      f"low (0–39): {gmi['bands']['low (0-39)']['n_diseases']}.")
+    A(_row("Status", "Diseases", "Affected births/yr"))
+    A(_row("---", "---:", "---:"))
+    for s in st["order"]:
+        v = st["distribution"][s]
+        A(_row(v["label"], v["n_diseases"], f"{v['births']:,.0f}"))
+    A(_row("**Addressable by existing tools**", "",
+           f"**{st['addressable_by_existing_tools_births']:,.0f} "
+           f"({st['addressable_by_existing_tools_share']*100:.0f}%)**"))
+    A("")
+    A("The editing-unique residual (§8) is deliberately *not* a status here: it is a sliver of "
+      "couples *within* diseases (no selectable embryo), not a class of diseases.")
     A("")
 
     # 6. Preventability engine
@@ -353,11 +359,11 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     # Appendix B: catalogue
     A("## Appendix B — Disease catalogue")
     A("")
-    A(_row("Disease", "Gene(s)", "Inheritance", "Severity", "Births/yr", "GMI", "Incidence basis"))
-    A(_row("---", "---", "---", "---", "---:", "---:", "---"))
+    A(_row("Disease", "Gene(s)", "Inheritance", "Severity", "Births/yr", "Status", "Incidence basis"))
+    A(_row("---", "---", "---", "---", "---:", "---", "---"))
     for x in R["library"]["diseases"]:
         A(_row(x["name"], ", ".join(x["genes"]) or "—", x["inheritance"], x["severity"],
-               f"{x['affected_births_per_year']:,.0f}", x["gmi"]["index"], x["incidence_basis"]))
+               f"{x['affected_births_per_year']:,.0f}", x["status"]["label"], x["incidence_basis"]))
     A("")
 
     with open(config.RESULTS_DIR / "methods.md", "w", encoding="utf-8") as fh:

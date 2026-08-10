@@ -268,19 +268,6 @@ costs:
     placeholder: true
 
 # ---------------------------------------------------------------------------
-# 8b. Genetic Medicine Index (GMI) capability weights.
-#     GMI (0-100) = 100 × Σ weight_tool × applicable_tool, over the four capabilities.
-#     Weights are a documented judgment call (they encode that a *healthy living child*
-#     via treatment is a fuller genetic-medicine outcome than avoidance of an affected
-#     birth). They sum to 1.0 and are adjustable; see ANALYSIS_LOG §GMI.
-# ---------------------------------------------------------------------------
-genetic_medicine_index_weights:
-  CS:  {value: 0.20, low: 0.10, high: 0.30, note: "carrier screening — avoid at-risk conception"}
-  PGT: {value: 0.25, low: 0.15, high: 0.35, note: "embryo selection — transfer an unaffected embryo"}
-  PND: {value: 0.20, low: 0.10, high: 0.30, note: "prenatal diagnosis + reproductive decision"}
-  NBS: {value: 0.35, low: 0.25, high: 0.45, note: "newborn screening + early therapy — a healthy living child"}
-
-# ---------------------------------------------------------------------------
 # 9. Program-anchor reproduction targets (Phase-3 acceptance tests).
 # ---------------------------------------------------------------------------
 program_anchors:
