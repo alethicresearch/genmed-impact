@@ -113,20 +113,22 @@ across its defensible range (see the app's Denominator and Sensitivity views).
   Architecture values (h², K, PRS R², oligo-editable h²) are literature anchors with basis flags,
   to be refined by a systematic PGS-Catalog pull.
 
-### Genetic Medicine Index (GMI) — added
-- Every catalogue disease maps to a single 0–100 **Genetic Medicine Index**: a weighted sum over
-  four capabilities (carrier screening, embryo selection, prenatal diagnosis, newborn screening +
-  early therapy), each counted where it applies to that disease. Weights
-  (`genetic_medicine_index_weights` in constants.yaml, default CS .20 / PGT .25 / PND .20 / NBS .35)
-  are an explicit judgment call — **treatment is weighted highest** because a healthy living child is
-  a fuller genetic-medicine outcome than avoidance of an affected birth. Adjustable; sums to 1.
-- Chosen over a "1 − Π(1−effectiveness)" composition, which saturated (almost every monogenic
-  disease → 100) and so failed as an index. The weighted form discriminates: treatable disease 100,
-  preventable-only catastrophic (e.g. Tay-Sachs, DMD) 65, de-novo chromosomal (Down) 45,
-  multifactorial-congenital (PND only) 20. It is fully derived from catalogue applicability, so any
-  ingested disease is scored automatically — the index scales with the library.
-- GMI measures *addressability by existing genetic medicine*, deliberately independent of severity
-  (a catastrophic disease can be highly addressable). Severity stays a separate axis.
+### Genetic-medicine index → categorical status (revised)
+- First implemented a 0–100 weighted **Genetic Medicine Index** (weights over CS/PGT/PND/NBS).
+  **Retired** after review: a weighted composite is opaque (readers must accept the weights),
+  implies false precision, and does not map to the decision that matters. A "1 − Π(1−eff)"
+  composition was also tried and rejected (it saturated at 100 for nearly all monogenic disease).
+- **Final design:** each disease maps to one weight-free **status** derived directly from its
+  intervention flags — *Preventable & treatable* / *Preventable* (unaffected child achievable via
+  screening or selection) / *Treatable* (effective early therapy) / *Detectable only* (prenatal
+  detection without selection) / *No current option*. The **distribution across statuses** — by
+  disease count and by affected births — is the headline (≈96% of catalogue births sit in an
+  addressable status). Fully derived from applicability, so any ingested disease is classified
+  automatically; the classification scales with the library.
+- Deliberate correction: the **editing-unique residual is not a disease status** — it is a sliver of
+  couples *within* diseases (no selectable embryo), so it stays as the separate S1/S2 analysis, not
+  a category in the per-disease index. Collapsing the two was part of what made the score muddled.
+- Status measures *addressability*, independent of severity (kept as a separate axis).
 
 ### Known deviations from the draft paper (surfaced, not hidden)
 1. S1 median ≈25k vs paper's 14k (see above).
