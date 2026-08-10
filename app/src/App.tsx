@@ -7,6 +7,7 @@ import Overview from './views/Overview';
 import Library from './views/Library';
 import Denominator from './views/Denominator';
 import Prevention from './views/Prevention';
+import Multifactorial from './views/Multifactorial';
 import Residual from './views/Residual';
 import Resistance from './views/Resistance';
 import Allocation from './views/Allocation';
@@ -17,6 +18,7 @@ const ALL_TABS: TabDef[] = [
   { id: 'library', label: 'Disease Library' },
   { id: 'denominator', label: 'Denominator' },
   { id: 'prevention', label: 'Prevention' },
+  { id: 'multifactorial', label: 'Multifactorial' },
   { id: 'residual', label: 'Residual' },
   { id: 'resistance', label: 'Resistance' },
   { id: 'allocation', label: 'Allocation' },
@@ -25,12 +27,13 @@ const ALL_TABS: TabDef[] = [
 
 // Which tab ids are visible in each mode.
 const MODE_TABS: Record<string, string[]> = {
-  simple: ['overview', 'library', 'prevention'],
+  simple: ['overview', 'library', 'multifactorial', 'prevention'],
   detailed: [
     'overview',
     'library',
     'denominator',
     'prevention',
+    'multifactorial',
     'residual',
     'resistance',
     'allocation',
@@ -63,10 +66,10 @@ export default function App() {
               Serious Genetic Disease at Birth
             </h1>
             <p className="mt-1 max-w-3xl text-sm text-slate-600">
-              A library of genetic diseases mapped to their causal genes and the interventions
-              that can address them. Aggregate burden is derived by summing the library and
-              cross-checked against a precomputed Monte-Carlo model. Selections serialize to the
-              URL for sharing.
+              An interactive look at how much serious genetic disease exists, which genes cause it,
+              and how far today's genetic-medicine tools — and germline editing — can go toward
+              preventing it. Explore the diseases, the interventions, and where each one reaches
+              its limits.
             </p>
           </div>
           <Segmented
@@ -92,7 +95,7 @@ export default function App() {
       )}
 
       {!error && !data && (
-        <div className="py-16 text-center text-slate-500">Loading precomputed data…</div>
+        <div className="py-16 text-center text-slate-500">Loading…</div>
       )}
 
       {data && (
@@ -116,6 +119,9 @@ export default function App() {
               {activeTab === 'prevention' && (
                 <Prevention data={data} state={state} update={update} />
               )}
+              {activeTab === 'multifactorial' && (
+                <Multifactorial data={data} state={state} update={update} />
+              )}
               {activeTab === 'residual' && (
                 <Residual data={data} state={state} update={update} />
               )}
@@ -127,22 +133,22 @@ export default function App() {
             </div>
           </main>
 
-          <Footer commit={data.meta.commit} spec={data.meta.spec_version} />
+          <Footer commit={data.meta.commit} />
         </>
       )}
     </div>
   );
 }
 
-function Footer({ commit, spec }: { commit: string; spec: string }) {
+function Footer({ commit }: { commit: string }) {
   return (
     <footer className="mt-10 border-t border-slate-200 pt-3 text-xs text-slate-500">
-      <span className="tnum">
-        Pipeline commit <code className="font-mono text-slate-700">{commit}</code> · spec
-        v{spec}
+      <span>
+        Figures are model estimates shown with their uncertainty — see Methods &amp; Sources for
+        where each number comes from.
       </span>
-      <span className="ml-2">
-        · Model output is illustrative; see Methods &amp; Provenance for sources.
+      <span className="ml-2 text-slate-400">
+        Build <code className="font-mono">{commit}</code>
       </span>
     </footer>
   );

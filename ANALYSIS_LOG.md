@@ -90,6 +90,29 @@ across its defensible range (see the app's Denominator and Sensitivity views).
   lognormal for rates/costs. All ratios/shares computed per-draw so credible intervals are
   correct. Deterministic tornado over the judgment calls above (Sensitivity view).
 
+### Multifactorial spectrum & intervention viability (added, later pass)
+- Multifactorial disease is modelled as its own object along a **polygenicity spectrum**
+  (oligogenic → intermediate → highly_polygenic → massively_polygenic), because the paper's Step 3
+  turns on *where* a disease sits: intervention viability is not binary but a modeled quantity.
+- **Liability-threshold model** (`multifactorial.py`): liability ~ N(0,1), affected if
+  liability > T = Φ⁻¹(1−K). An intervention lowering expected liability by δ SDs changes risk from
+  K to 1−Φ(T+δ); relative risk reduction (RRR) is read off that.
+  - **Embryo selection (PGT-P):** δ = √(prs_r2 · sib_frac) · E|min of N|, where within-sibship PRS
+    variance ≈ 0.5× population (additive polygenic) and E|min of N| is the Blom order-statistic.
+    Selection power rises with the number of embryos N.
+  - **Oligo-locus editing:** δ = √(editable_h2), where editable_h2 saturates in the number of edits
+    (editable_h2 ≈ oligo_editable_h2 · (1 − e^(−n_edits/τ))). ~0 for massively polygenic traits.
+- **Technology scenarios** move the frontier: present (N≈5 embryos, 1 edit) vs near-future
+  (N≈200 via IVM/IVG, ~10 multiplex edits). Result: **editing viable for 0 diseases today, ~3
+  near-future** (CAD, breast cancer, IBD — architecture-concentrated); massively polygenic traits
+  (schizophrenia, MDD) never reach editing-viable; **pleiotropy_caution** overrides an otherwise-
+  concentrated verdict (APOE/Alzheimer's, HLA/T1D) → "not_recommended_pleiotropy".
+- **Honest caveats (surfaced in-app):** (a) selection RRR can look large for rare, highly-heritable
+  traits — a property of the liability threshold, not an achievable population program; (b) genetic
+  tractability ≠ clinical viability (safety, pleiotropy, effect realism are separate gates).
+  Architecture values (h², K, PRS R², oligo-editable h²) are literature anchors with basis flags,
+  to be refined by a systematic PGS-Catalog pull.
+
 ### Known deviations from the draft paper (surfaced, not hidden)
 1. S1 median ≈25k vs paper's 14k (see above).
 2. Births default 135M vs paper's 140M (interval covers both).

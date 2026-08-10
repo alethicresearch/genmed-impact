@@ -211,6 +211,77 @@ export interface Library {
   rollup: LibraryRollup;
 }
 
+// ---- Multifactorial viability (precomputed liability-threshold results) ----
+
+export type PolygenicityClass =
+  | 'oligogenic'
+  | 'intermediate'
+  | 'highly_polygenic'
+  | 'massively_polygenic';
+
+export type Verdict =
+  | 'viable'
+  | 'marginal'
+  | 'not_viable'
+  | 'not_recommended_pleiotropy';
+
+export interface InterventionResult {
+  delta: number;
+  rrr: number;
+  verdict: Verdict;
+}
+
+export interface MfScenario {
+  label: string;
+  n_embryos: number;
+  n_edits: number;
+  selection: InterventionResult;
+  editing: InterventionResult;
+}
+
+export interface MfDisease {
+  id: string;
+  name: string;
+  polygenicity_class: PolygenicityClass;
+  heritability: number;
+  lifetime_prevalence: number;
+  prs_r2: number;
+  oligo_editable_h2: number;
+  effective_loci: number | null;
+  pleiotropy_caution: boolean;
+  notes: string | null;
+  sources: {
+    heritability: string | null;
+    prs_r2: string | null;
+    oligo_editable_h2: string | null;
+  };
+  scenarios: {
+    present: MfScenario;
+    near_future: MfScenario;
+  };
+}
+
+export interface MfFrontierCell {
+  selection_viable: number;
+  selection_viable_or_marginal: number;
+  editing_viable: number;
+}
+
+export interface Multifactorial {
+  meta: { liability_note: string; retrieved: string };
+  n_diseases: number;
+  tech_scenarios: {
+    present: { label: string };
+    near_future: { label: string };
+  };
+  viability_thresholds: { viable: number; marginal: number };
+  diseases: MfDisease[];
+  frontier: { present: MfFrontierCell; near_future: MfFrontierCell };
+  note: string;
+}
+
+export type MfScenarioKey = 'present' | 'near_future';
+
 export interface AllData {
   meta: Meta;
   summary: Summary;
@@ -222,6 +293,7 @@ export interface AllData {
   sensitivity: Sensitivity;
   provenance: Provenance;
   library: Library;
+  multifactorial: Multifactorial;
 }
 
 // BASE_URL is set by Vite; with base:'./' it resolves relative to the page.
@@ -251,6 +323,7 @@ export async function loadAll(): Promise<AllData> {
     sensitivity,
     provenance,
     library,
+    multifactorial,
   ] = await Promise.all([
     getJson<Meta>('meta'),
     getJson<Summary>('summary'),
@@ -262,6 +335,7 @@ export async function loadAll(): Promise<AllData> {
     getJson<Sensitivity>('sensitivity'),
     getJson<Provenance>('provenance'),
     getJson<Library>('library'),
+    getJson<Multifactorial>('multifactorial'),
   ]);
   return {
     meta,
@@ -274,6 +348,7 @@ export async function loadAll(): Promise<AllData> {
     sensitivity,
     provenance,
     library,
+    multifactorial,
   };
 }
 
