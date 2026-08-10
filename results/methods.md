@@ -1,13 +1,13 @@
 # Methods — Global Genetic-Disease Burden × Genetic-Medicine Impact
 
-_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `9baa945` · model version 3.0._
+_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `4e98e2d` · model version 3.0._
 
 This document describes every input, assumption, formula, and parameter behind the analysis. All headline figures below are regenerated from the pipeline; the full parameter provenance and disease catalogue are in the appendices. Contestable judgment calls are implemented as explicit parameters and reported across their range.
 
 ---
 ## 1. Overview and objects
 
-The analysis is organized around a **library of serious genetic diseases**, each mapped to (a) the gene(s)/locus that cause it, (b) inheritance mode, (c) incidence at birth, and (d) which genetic-medicine interventions can address it. Aggregate burden and preventability are **derived bottom-up** by summing the library; a parametric **Monte-Carlo model** provides the calibrated top-down denominator with credible intervals and the editing-unique residual. Interventions considered:
+The analysis is organized around a **library of serious genetic diseases**, each mapped to (a) the gene(s)/locus that cause it, (b) inheritance mode, (c) incidence at birth, and (d) which genetic-medicine interventions can address it. Aggregate burden and preventability are **derived bottom-up** by summing the library; a parametric **Monte-Carlo model** provides the calibrated top-down denominator with 95% uncertainty intervals and the editing-relevant residual. The empirical workflow runs in six steps — define the burden; build the disease map; map intervention outcomes (affected-birth avoidance kept separate from postnatal burden mitigation); model access (technical applicability kept separate from actual access); identify the editing-relevant residual (editing-only prevention kept separate from potential complex-disease editing advantage); interpret the implications — with uncertainty propagated through every quantitative step rather than as a final stage. Interventions considered:
 
 - **CS** — preconception carrier screening (identifies at-risk couples)
 - **PGT** — IVF + preimplantation genetic testing (embryo selection)
@@ -21,7 +21,7 @@ Provenance tiers: **A** = open programmatic pull (UN WPP births, WHO GHO, gnomAD
 
 ## 3. Denominator: annual births
 
-Global annual live births are modelled as **135,016,418 (95% CrI 130,178,065–140,053,624)** (UN WPP 2024; the interval spans the WPP estimate and the ~140M figure used in the draft). Per-country births distribute to World Bank income groups and GBD super-regions via population-weighted birth shares.
+Global annual live births are modelled as **135,016,418 (95% UI 130,178,065–140,053,624)** (UN WPP 2024; the interval spans the WPP estimate and the ~140M figure used in the draft). Per-country births distribute to World Bank income groups and GBD super-regions via population-weighted birth shares.
 
 ## 4. Disease library
 
@@ -47,12 +47,12 @@ Serious genetic births/year are decomposed into severe **monogenic** disorders a
 
 Under the default set (severity=`def_b`, attribution=`inclusive`):
 
-| Quantity | Median (95% CrI) |
+| Quantity | Median (95% UI) |
 | --- | ---: |
-| Monogenic serious births/yr | 1,404,840 (95% CrI 1,097,734–1,793,182) |
-| Multifactorial serious births/yr | 6,620,881 (95% CrI 5,393,430–8,126,234) |
-| **All serious genetic births/yr** | **8,042,019 (95% CrI 6,747,369–9,591,263)** |
-| Share of all births | 5.96% (95% CrI 5.01–7.08%) |
+| Monogenic serious births/yr | 1,404,840 (95% UI 1,097,734–1,793,182) |
+| Multifactorial serious births/yr | 6,620,881 (95% UI 5,393,430–8,126,234) |
+| **All serious genetic births/yr** | **8,042,019 (95% UI 6,747,369–9,591,263)** |
+| Share of all births | 5.96% (95% UI 5.01–7.08%) |
 
 The full severity × attribution grid (nine combinations) is emitted to `paper_numbers.json` and shown in the app's Denominator view.
 
@@ -91,7 +91,7 @@ remaining_after_t = remaining_before_t × (1 − prevent[c,t] × coverage[t,regi
 
 Two outcome tracks are carried separately: **averted_birth** (CS, PGT, PND only) and **averted_burden** (adds NBS, which mitigates the burden of births that still occur, scaled by the treatable fraction). Full-coverage preventable fractions `prevent[c,t]` are anchored to national program outcomes (thalassaemia ~90%, Down syndrome ~70%); coverage scenarios are `current` / `achievable_2035` / `ideal`, refined per income group by an access multiplier (<1 for LMICs, reflecting that ~94% of birth-defect births occur in LMICs). PND counting is termination-dependent and reported with the toggle on and off.
 
-## 8. Editing-unique residual (S1 + S2)
+## 8. Editing-relevant residual (S1 + S2)
 
 **S1 — no selectable unaffected embryo.** The only monogenic configuration where embryo selection cannot help: recessive affected × affected (aa × aa) couples, or a viable homozygous-dominant (AA) parent. Per condition, from allele frequency q, penetrance, survival-to-reproduction s, assortative-mating α, locus-concordance ℓ, and consanguinity F:
 
@@ -103,11 +103,11 @@ P_couple  = P_aa_repro · (α_eff + (1−α_eff)·P_aa_repro)      # recessive
 births_S1 = births × Σ_conditions P_couple  + structural-variant term
 ```
 
-Standard both-heterozygous couples (¼ unaffected embryos) are selection-addressable and excluded. Result: **S1 ≈ 11,320 (95% CrI 4,852–26,109)** including congenital deafness; **11,320** excluding it (deafness is flagged contested — many in the Deaf community do not regard it as a disease to prevent — and toggled explicitly; the draft paper's 14,000 sits between the two).
+Standard both-heterozygous couples (¼ unaffected embryos) are selection-addressable and excluded. Result — editing-only prevention: **S1 ≈ 11,320 (95% UI 4,852–26,109)** excluding congenital deafness (the headline default); **24,877** including it. Deafness is a contested, normative classification decision — many Deaf people and scholars reject the characterization of deafness as a condition that should necessarily be prevented — and is toggled explicitly.
 
-**S2 — editing-superior complex disease.** The multifactorial share for which a single/oligo-locus edit would uniquely benefit after netting out somatic, pharmacological, and public-health alternatives, under strict vs permissive criteria: strict ≈ 1,320/yr, permissive ≈ 127,166/yr.
+**S2 — potential complex-disease editing advantage.** The multifactorial share for which a single/oligo-locus edit might provide a medically meaningful benefit beyond somatic, pharmacological, and public-health alternatives (an advantage term, not an only-option population), under current-evidence (strict) vs optimistic (permissive) criteria: strict ≈ 1,320/yr, permissive ≈ 127,166/yr.
 
-**Uniquely editable total (permissive): 139,586 (95% CrI 68,828–257,513)** — **1.74% (95% CrI 0.87–3.10%)** of serious genetic disease; the complement, **98.26% (95% CrI 96.90–99.13%)**, is not uniquely reliant on editing.
+**Editing-relevant residual, optimistic scenario (S1 + permissive S2): 139,586 (95% UI 68,828–257,513)** — **1.74% (95% UI 0.87–3.10%)** of serious genetic disease; the complement, **98.26% (95% UI 96.90–99.13%)**, is not uniquely dependent on germline editing.
 
 ## 9. Multifactorial intervention viability (liability-threshold)
 
@@ -130,18 +130,18 @@ _Caveats (stated in-app): selection RRR can look large for rare, highly-heritabl
 
 ## 11. Allocation
 
-Cost per affected birth prevented: **screening program $11,913** vs **editing program $504,530**. Cost per DALY averted is derived from DALYs-per-case (pending the GBD pull). Budget scenarios ($1B/$5B/$10B per year) translate these into births prevented under each strategy; screening dominates editing by ~1–2 orders of magnitude. Cost anchors: Cousens et al. 2010 (haemoglobinopathy programs), IVF+PGT cycle costs, gene-therapy list prices, PMTCT program costs; the editing-program overhead is a wide-interval free parameter.
+Cost per affected birth prevented: **screening program $11,913** vs **editing program $504,530**. Cost per DALY averted is derived from DALYs-per-case (pending the GBD pull). Budget scenarios ($1B/$5B/$10B per year) translate these into births prevented under each strategy; under these provisional anchors the screening program prevents on the order of 10-100x more births per dollar. This is an **exploratory cost scenario, not yet a paper result**: the editing-program cost basis is a wide-interval free parameter, and broad screening infrastructure and frontier editing R&D are not direct substitutes for the same cases. Cost anchors: Cousens et al. 2010 (haemoglobinopathy programs), IVF+PGT cycle costs, gene-therapy list prices, PMTCT program costs; the editing-program overhead is a wide-interval free parameter.
 
-## 12. Embryo accounting (created / destroyed)
+## 12. Embryo accounting (created / not selected for transfer)
 
-Embryo **selection** (PGT) achieves an unaffected child by creating several embryos and not transferring the affected ones — an intrinsic embryo-loss cost that **editing** (repair one embryo, discard none for disease reasons) does not carry. If a fraction *u* of a couple's embryos are unaffected, the disease-caused embryos discarded per unaffected child under selection is **(1−u)/u**, which diverges as *u*→0 — exactly the S1 "no selectable unaffected embryo" case, where selection is impossible and editing is the only option.
+Embryo **selection** (PGT) achieves an unaffected child by creating several embryos and not transferring those with the targeted genotype — an intrinsic embryo cost that idealized **correction** (the corrected embryo remains a transfer candidate; editing failure, mosaicism, and safety-related loss are not modeled) does not carry in this comparison. If a fraction *u* of a couple's embryos are unaffected, the embryos not selected for transfer per unaffected child under selection is **(1−u)/u**, which diverges as *u*→0 — exactly the S1 "no selectable unaffected embryo" case, where selection is impossible and editing would be the only preventive option.
 
 ```
-Selection: affected embryos discarded / child = (1 − u) / u ;  blastocysts / child ≈ 1/(u·LBR)
-Editing:   affected embryos discarded / child = 0            ;  blastocysts / child ≈ 1/LBR
+Selection: embryos not selected for transfer / child = (1 − u) / u ;  blastocysts / child ≈ 1/(u·LBR)
+Editing:   embryos not selected for transfer / child = 0 (idealized; failure/mosaicism not modeled) ;  blastocysts / child ≈ 1/LBR
 ```
 
-| Inheritance (typical at-risk couple) | Unaffected fraction u | Affected embryos discarded / child (selection) |
+| Inheritance (typical at-risk couple) | Unaffected fraction u | Not selected for transfer / child (selection) |
 | --- | ---: | ---: |
 | autosomal_recessive | 0.75 | 0.33 |
 | autosomal_dominant | 0.50 | 1.00 |
@@ -150,11 +150,11 @@ Editing:   affected embryos discarded / child = 0            ;  blastocysts / ch
 | chromosomal | 0.45 | 1.22 |
 | multifactorial | 0.50 | 1.00 |
 
-**Scale contrast (illustrative):** if every PGT-addressable affected birth in the catalogue (~5,866,536/yr) were averted by *selection*, on the order of **4,022,474 affected embryos would be discarded per year**, versus **~0 under an editing strategy**. This is the normative axis on which editing can be preferable to the selection stack for conditions with few unaffected embryos. (Prenatal diagnosis is a separate moral category — termination of an affected fetus, not embryo discard — and is tracked separately.)
+**Scale contrast (illustrative):** if every PGT-addressable affected birth in the catalogue (~5,866,536/yr) were averted by *selection*, on the order of **4,022,474 affected embryos would not be selected for transfer per year**, versus **~0 under an idealized editing strategy** (an illustrative counterfactual, not an estimate of actual embryo disposition). This is the normative axis on which editing can be preferable to selection for conditions with few unaffected embryos. (Prenatal diagnosis is a separate moral category — termination of an affected fetus, not embryo non-selection — and is tracked separately.)
 
 ## 13. Uncertainty and sensitivity
 
-All quantities are propagated through a Monte-Carlo of **n=20,000 draws** (Beta for proportions matched by moments; Lognormal for rates and costs with the stated value as median and low/high as ~95% bounds). Ratios and shares are computed per draw, so credible intervals are correct. A deterministic **tornado** swings each judgment call across its range; the parameters that move the uniquely-editable share most, in order:
+All quantities are propagated through a Monte-Carlo of **n=20,000 draws** (Beta for proportions matched by moments; Lognormal for rates and costs with the stated value as median and low/high as ~95% bounds). Ratios and shares are computed per draw, so uncertainty intervals are correct. A deterministic **tornado** swings each judgment call across its range; the parameters that move the editing-relevant share most, in order:
 
 | Parameter | Editable share range |
 | --- | ---: |
@@ -167,7 +167,7 @@ All quantities are propagated through a Monte-Carlo of **n=20,000 draws** (Beta 
 
 ## 14. Key assumptions and judgment calls
 
-Each is an explicit parameter with a documented default (see `ANALYSIS_LOG.md` for dated rationale): severity threshold (§5); attribution stance (§5); penetrance floor for S1; S2 strict vs permissive criteria; tool ordering and whether PND counts as prevention; inclusion of congenital deafness in S1; GMI capability weights (§6); multifactorial technology scenarios and pleiotropy blocks (§9); editing-program cost (§11).
+Each is an explicit parameter with a documented default (see `ANALYSIS_LOG.md` for dated rationale): severity threshold (§5); attribution stance (§5); penetrance floor for S1; S2 strict vs permissive criteria; tool ordering and whether PND counts as prevention; inclusion of congenital deafness in S1; multifactorial technology scenarios and pleiotropy blocks (§9); editing-program cost (§11).
 
 ## 15. Limitations
 

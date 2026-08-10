@@ -45,11 +45,27 @@ export const GLOSSARY: Record<string, string> = {
   'severity threshold':
     'The chosen cut-off for how serious a condition must be to be counted as "serious genetic disease" in the totals.',
   'uncertainty interval':
-    'The range (here 95%) produced by propagating the specified uncertainty ranges and distributions of every input through the Monte-Carlo model — not a confidence interval from repeated sampling or a Bayesian posterior credible interval.',
+    'The 2.5th–97.5th percentile range obtained by propagating specified uncertainty through the Monte-Carlo model — not automatically a frequentist confidence interval or a Bayesian posterior credible interval.',
+  'technical applicability':
+    'A pathway could alter the relevant outcome in principle for a defined disease or population. This does not imply real-world access, uptake, affordability, effectiveness in practice, or ethical acceptability.',
+  'actual access':
+    'The proportion of eligible people who can realistically obtain and use an intervention in a health system. Technical applicability and actual access are analyzed separately.',
+  'affected-birth avoidance':
+    'Prevention of an affected birth through a reproductive pathway — the outcome modeled for carrier screening plus reproductive planning, PGT-M, and (only when followed by a decision not to continue an affected pregnancy) prenatal diagnosis.',
+  'burden mitigation':
+    'Reduction in morbidity, mortality, disability, or other disease consequences after an affected birth occurs. Newborn screening plus early treatment belongs on this track.',
+  'editing-only prevention':
+    'A modeled reproductive situation in which no unaffected embryo can be selected, so germline editing would provide a preventive route unavailable through embryo selection. This does not imply that no postnatal treatment exists.',
+  'potential editing advantage':
+    'A modeled situation in which germline editing might provide a medically meaningful benefit beyond selection, treatment, or other alternatives. This is not the same as being the only option.',
+  'editing-relevant residual':
+    'The broader population in which editing is either the only modeled preventive route or is modeled as potentially providing an additional advantage. Its components are always reported separately because their evidentiary status differs.',
+  'not uniquely dependent on germline editing':
+    'The complement of the editing-relevant residual: cases for which the analysis does not identify a unique requirement for germline editing. This must not be read as a claim that the same share is preventable by existing medicine.',
   'S1 residual':
-    'Monogenic cases where no unaffected embryo is available to select, so germline editing would be the only preventive option.',
+    'Internal label for the editing-only prevention population: monogenic cases where no unaffected embryo is available to select.',
   'S2 residual':
-    'Complex-disease cases where editing is modeled as potentially adding benefit beyond selection, treatment, or prevention — an editing advantage, not an editing-only population.',
+    'Internal label for the potential complex-disease editing advantage term — an advantage, not an editing-only population.',
   consanguinity:
     'Reproduction between close biological relatives, which raises the chance both parents carry the same recessive allele.',
   'assortative mating':

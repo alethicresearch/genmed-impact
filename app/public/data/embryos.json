@@ -1,110 +1,110 @@
 {
- "params": {
-  "blastocysts_per_ivf_cycle": 5.0,
-  "live_birth_rate_per_transfer": 0.45
- },
- "per_inheritance": {
-  "autosomal_recessive": {
-   "unaffected_embryo_fraction": 0.75,
-   "affected_embryos_discarded_per_child": 0.3333333333333333,
-   "note": "both carriers → 1/4 affected"
+  "params": {
+    "blastocysts_per_ivf_cycle": 5.0,
+    "live_birth_rate_per_transfer": 0.45
   },
-  "autosomal_dominant": {
-   "unaffected_embryo_fraction": 0.5,
-   "affected_embryos_discarded_per_child": 1.0,
-   "note": "affected het × unaffected → 1/2 affected"
+  "per_inheritance": {
+    "autosomal_recessive": {
+      "unaffected_embryo_fraction": 0.75,
+      "affected_embryos_discarded_per_child": 0.3333333333333333,
+      "note": "both carriers → 1/4 affected"
+    },
+    "autosomal_dominant": {
+      "unaffected_embryo_fraction": 0.5,
+      "affected_embryos_discarded_per_child": 1.0,
+      "note": "affected het × unaffected → 1/2 affected"
+    },
+    "x_linked_recessive": {
+      "unaffected_embryo_fraction": 0.75,
+      "affected_embryos_discarded_per_child": 0.3333333333333333,
+      "note": "carrier mother; unaffected embryos selectable (may also select sex)"
+    },
+    "x_linked_dominant": {
+      "unaffected_embryo_fraction": 0.5,
+      "affected_embryos_discarded_per_child": 1.0,
+      "note": "affected parent → ~1/2 affected"
+    },
+    "chromosomal": {
+      "unaffected_embryo_fraction": 0.45,
+      "affected_embryos_discarded_per_child": 1.2222222222222223,
+      "note": "euploid fraction (aneuploidy risk / translocation-carrier segregation), age-dependent"
+    },
+    "multifactorial": {
+      "unaffected_embryo_fraction": 0.5,
+      "affected_embryos_discarded_per_child": 1.0,
+      "note": "no single-locus target; selection is polygenic (see viability model)"
+    }
   },
-  "x_linked_recessive": {
-   "unaffected_embryo_fraction": 0.75,
-   "affected_embryos_discarded_per_child": 0.3333333333333333,
-   "note": "carrier mother; unaffected embryos selectable (may also select sex)"
+  "curve": [
+    {
+      "u": 0.75,
+      "selection_affected_discarded": 0.3333333333333333,
+      "selection_blastocysts": 2.962962962962963,
+      "editing_affected_discarded": 0.0,
+      "editing_blastocysts": 2.2222222222222223
+    },
+    {
+      "u": 0.6,
+      "selection_affected_discarded": 0.6666666666666667,
+      "selection_blastocysts": 3.7037037037037033,
+      "editing_affected_discarded": 0.0,
+      "editing_blastocysts": 2.2222222222222223
+    },
+    {
+      "u": 0.5,
+      "selection_affected_discarded": 1.0,
+      "selection_blastocysts": 4.444444444444445,
+      "editing_affected_discarded": 0.0,
+      "editing_blastocysts": 2.2222222222222223
+    },
+    {
+      "u": 0.4,
+      "selection_affected_discarded": 1.4999999999999998,
+      "selection_blastocysts": 5.5555555555555545,
+      "editing_affected_discarded": 0.0,
+      "editing_blastocysts": 2.2222222222222223
+    },
+    {
+      "u": 0.3,
+      "selection_affected_discarded": 2.3333333333333335,
+      "selection_blastocysts": 7.4074074074074066,
+      "editing_affected_discarded": 0.0,
+      "editing_blastocysts": 2.2222222222222223
+    },
+    {
+      "u": 0.2,
+      "selection_affected_discarded": 4.0,
+      "selection_blastocysts": 11.111111111111109,
+      "editing_affected_discarded": 0.0,
+      "editing_blastocysts": 2.2222222222222223
+    },
+    {
+      "u": 0.1,
+      "selection_affected_discarded": 9.0,
+      "selection_blastocysts": 22.222222222222218,
+      "editing_affected_discarded": 0.0,
+      "editing_blastocysts": 2.2222222222222223
+    },
+    {
+      "u": 0.05,
+      "selection_affected_discarded": 18.999999999999996,
+      "selection_blastocysts": 44.444444444444436,
+      "editing_affected_discarded": 0.0,
+      "editing_blastocysts": 2.2222222222222223
+    },
+    {
+      "u": 0.02,
+      "selection_affected_discarded": 49.0,
+      "selection_blastocysts": 111.1111111111111,
+      "editing_affected_discarded": 0.0,
+      "editing_blastocysts": 2.2222222222222223
+    }
+  ],
+  "aggregate": {
+    "pgt_addressable_affected_births_per_year": 5866535.700000001,
+    "affected_embryos_discarded_selection_strategy": 4022474.099999999,
+    "affected_embryos_discarded_editing_strategy": 0.0,
+    "note": "Illustrative upper-bound contrast: if every PGT-addressable affected birth in the catalogue were averted by embryo SELECTION, roughly this many affected embryos would not be selected for transfer per year (each unaffected child implies (1−u)/u affected embryos set aside). Under an idealized EDITING strategy that figure is ~0 (the corrected embryo remains a transfer candidate). Real programs use a mix and coverage is far below 100%, so treat this as a scale contrast, not a forecast. PND (prenatal diagnosis) is a separate moral category — termination of an affected fetus, not embryo non-selection — and is tracked separately in the prevention model."
   },
-  "x_linked_dominant": {
-   "unaffected_embryo_fraction": 0.5,
-   "affected_embryos_discarded_per_child": 1.0,
-   "note": "affected parent → ~1/2 affected"
-  },
-  "chromosomal": {
-   "unaffected_embryo_fraction": 0.45,
-   "affected_embryos_discarded_per_child": 1.2222222222222223,
-   "note": "euploid fraction (aneuploidy risk / translocation-carrier segregation), age-dependent"
-  },
-  "multifactorial": {
-   "unaffected_embryo_fraction": 0.5,
-   "affected_embryos_discarded_per_child": 1.0,
-   "note": "no single-locus target; selection is polygenic (see viability model)"
-  }
- },
- "curve": [
-  {
-   "u": 0.75,
-   "selection_affected_discarded": 0.3333333333333333,
-   "selection_blastocysts": 2.962962962962963,
-   "editing_affected_discarded": 0.0,
-   "editing_blastocysts": 2.2222222222222223
-  },
-  {
-   "u": 0.6,
-   "selection_affected_discarded": 0.6666666666666667,
-   "selection_blastocysts": 3.7037037037037033,
-   "editing_affected_discarded": 0.0,
-   "editing_blastocysts": 2.2222222222222223
-  },
-  {
-   "u": 0.5,
-   "selection_affected_discarded": 1.0,
-   "selection_blastocysts": 4.444444444444445,
-   "editing_affected_discarded": 0.0,
-   "editing_blastocysts": 2.2222222222222223
-  },
-  {
-   "u": 0.4,
-   "selection_affected_discarded": 1.4999999999999998,
-   "selection_blastocysts": 5.5555555555555545,
-   "editing_affected_discarded": 0.0,
-   "editing_blastocysts": 2.2222222222222223
-  },
-  {
-   "u": 0.3,
-   "selection_affected_discarded": 2.3333333333333335,
-   "selection_blastocysts": 7.4074074074074066,
-   "editing_affected_discarded": 0.0,
-   "editing_blastocysts": 2.2222222222222223
-  },
-  {
-   "u": 0.2,
-   "selection_affected_discarded": 4.0,
-   "selection_blastocysts": 11.111111111111109,
-   "editing_affected_discarded": 0.0,
-   "editing_blastocysts": 2.2222222222222223
-  },
-  {
-   "u": 0.1,
-   "selection_affected_discarded": 9.0,
-   "selection_blastocysts": 22.222222222222218,
-   "editing_affected_discarded": 0.0,
-   "editing_blastocysts": 2.2222222222222223
-  },
-  {
-   "u": 0.05,
-   "selection_affected_discarded": 18.999999999999996,
-   "selection_blastocysts": 44.444444444444436,
-   "editing_affected_discarded": 0.0,
-   "editing_blastocysts": 2.2222222222222223
-  },
-  {
-   "u": 0.02,
-   "selection_affected_discarded": 49.0,
-   "selection_blastocysts": 111.1111111111111,
-   "editing_affected_discarded": 0.0,
-   "editing_blastocysts": 2.2222222222222223
-  }
- ],
- "aggregate": {
-  "pgt_addressable_affected_births_per_year": 5866535.700000001,
-  "affected_embryos_discarded_selection_strategy": 4022474.099999999,
-  "affected_embryos_discarded_editing_strategy": 0.0,
-  "note": "Illustrative upper-bound contrast: if every PGT-addressable affected birth in the catalogue were averted by embryo SELECTION, roughly this many affected embryos would not be selected for transfer per year (each unaffected child implies (1−u)/u affected embryos set aside). Under an idealized EDITING strategy that figure is ~0 (the corrected embryo remains a transfer candidate). Real programs use a mix and coverage is far below 100%, so treat this as a scale contrast, not a forecast. PND (prenatal diagnosis) is a separate moral category — termination of an affected fetus, not embryo non-selection — and is tracked separately in the prevention model."
- },
- "note": "Embryo cost is an explicit outcome tracked across the analysis. Selection sets aside (1−u)/u affected embryos per unaffected child (not selected for transfer) and diverges as u→0 — the case where no unaffected embryo exists; idealized correction sets aside none, though editing failure, mosaicism, and safety-related loss are not modeled. This is the basis on which editing can be preferable to selection for conditions with few unaffected embryos."
+  "note": "Embryo cost is an explicit outcome tracked across the analysis. Selection sets aside (1−u)/u affected embryos per unaffected child (not selected for transfer) and diverges as u→0 — the case where no unaffected embryo exists; idealized correction sets aside none, though editing failure, mosaicism, and safety-related loss are not modeled. This is the basis on which editing can be preferable to selection for conditions with few unaffected embryos."
 }

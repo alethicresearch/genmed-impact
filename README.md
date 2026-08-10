@@ -2,9 +2,7 @@
 
 **A library of genetic disease × genetic-medicine impact — with the reproducible pipeline and interactive research page behind it.**
 
-Sankalpa Ghose<sup>1</sup> · D. A. Wallach · Peter Singer · Julian Savulescu
-
-<sup>1</sup> Alethic Research &nbsp;·&nbsp; *(affiliations for remaining authors to be finalised)*
+Sankalpa Ghose · D. A. Wallach · Peter Singer · Julian Savulescu
 
 [Paper — in preparation] · [Research Page](https://alethicresearch.github.io/genmed-impact/) · [Code &amp; data](https://github.com/alethicresearch/genmed-impact) · [Cite](#citation)
 

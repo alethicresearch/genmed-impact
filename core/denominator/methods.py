@@ -68,7 +68,13 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
       "(d) which genetic-medicine interventions can address it. Aggregate burden and "
       "preventability are **derived bottom-up** by summing the library; a parametric "
       "**Monte-Carlo model** provides the calibrated top-down denominator with 95% uncertainty intervals "
-      "and the editing-unique residual. Interventions considered:")
+      "and the editing-relevant residual. The empirical workflow runs in six steps — define the "
+      "burden; build the disease map; map intervention outcomes (affected-birth avoidance kept "
+      "separate from postnatal burden mitigation); model access (technical applicability kept "
+      "separate from actual access); identify the editing-relevant residual (editing-only "
+      "prevention kept separate from potential complex-disease editing advantage); interpret the "
+      "implications — with uncertainty propagated through every quantitative step rather than as "
+      "a final stage. Interventions considered:")
     A("")
     A("- **CS** — preconception carrier screening (identifies at-risk couples)")
     A("- **PGT** — IVF + preimplantation genetic testing (embryo selection)")
@@ -205,7 +211,7 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     A("")
 
     # 7. Residual
-    A("## 8. Editing-unique residual (S1 + S2)")
+    A("## 8. Editing-relevant residual (S1 + S2)")
     A("")
     A("**S1 — no selectable unaffected embryo.** The only monogenic configuration where embryo "
       "selection cannot help: recessive affected × affected (aa × aa) couples, or a viable "
@@ -221,21 +227,23 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     A("```")
     A("")
     A(f"Standard both-heterozygous couples (¼ unaffected embryos) are selection-addressable and "
-      f"excluded. Result: **S1 ≈ {_mci(res['s1_total'])}** including congenital deafness; "
-      f"**{_m(res['s1_total_without_contested'])}** excluding it (deafness is flagged contested — "
-      "many in the Deaf community do not regard it as a disease to prevent — and toggled explicitly; "
-      "the draft paper's 14,000 sits between the two).")
+      f"excluded. Result — editing-only prevention: **S1 ≈ {_mci(res['s1_total'])}** excluding "
+      f"congenital deafness (the headline default); "
+      f"**{_m(res['by_contested']['with_contested']['s1_total'])}** including it. Deafness is a "
+      "contested, normative classification decision — many Deaf people and scholars reject the "
+      "characterization of deafness as a condition that should necessarily be prevented — and is "
+      "toggled explicitly.")
     A("")
-    A("**S2 — editing-superior complex disease.** The multifactorial share for which a single/"
-      "oligo-locus edit would uniquely benefit after netting out somatic, pharmacological, and "
-      "public-health alternatives, under strict vs permissive criteria: "
+    A("**S2 — potential complex-disease editing advantage.** The multifactorial share for which a "
+      "single/oligo-locus edit might provide a medically meaningful benefit beyond somatic, "
+      "pharmacological, and public-health alternatives (an advantage term, not an only-option "
+      "population), under current-evidence (strict) vs optimistic (permissive) criteria: "
       f"strict ≈ {_m(res['s2']['strict'])}/yr, permissive ≈ {_m(res['s2']['permissive'])}/yr.")
     A("")
     A(f"**Editing-relevant residual, optimistic scenario (S1 + permissive S2): {_mci(res['uniquely_editable_total']['permissive'])}"
       f"** — **{_mci(res['uniquely_editable_share_of_serious']['permissive'], pct=True)}** of serious "
       f"genetic disease; the complement, **"
-      f"{_mci(res['addressable_share_of_serious']['permissive'], pct=True)}**, is not uniquely "
-      "reliant on editing.")
+      f"{_mci(res['addressable_share_of_serious']['permissive'], pct=True)}**, is not uniquely dependent on germline editing.")
     A("")
 
     # 8. Multifactorial viability
@@ -292,19 +300,24 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     A(f"Cost per affected birth prevented: **screening program ${_m(al['cost_per_birth_prevented']['screening_program'])}** "
       f"vs **editing program ${_m(al['cost_per_birth_prevented']['editing_program'])}**. Cost per "
       "DALY averted is derived from DALYs-per-case (pending the GBD pull). Budget scenarios "
-      "($1B/$5B/$10B per year) translate these into births prevented under each strategy; screening "
-      "dominates editing by ~1–2 orders of magnitude. Cost anchors: Cousens et al. 2010 "
+      "($1B/$5B/$10B per year) translate these into births prevented under each strategy; under "
+      "these provisional anchors the screening program prevents on the order of 10-100x more "
+      "births per dollar. This is an **exploratory cost scenario, not yet a paper result**: the "
+      "editing-program cost basis is a wide-interval free parameter, and broad screening "
+      "infrastructure and frontier editing R&D are not direct substitutes for the same cases. "
+      "Cost anchors: Cousens et al. 2010 "
       "(haemoglobinopathy programs), IVF+PGT cycle costs, gene-therapy list prices, PMTCT program "
       "costs; the editing-program overhead is a wide-interval free parameter.")
     A("")
 
     # 11b. Embryo accounting
     em = R["embryos"]
-    A("## 12. Embryo accounting (created / destroyed)")
+    A("## 12. Embryo accounting (created / not selected for transfer)")
     A("")
     A("Embryo **selection** (PGT) achieves an unaffected child by creating several embryos and not "
-      "transferring the affected ones — an intrinsic embryo-loss cost that **editing** (repair one "
-      "embryo, discard none for disease reasons) does not carry. If a fraction *u* of a couple's "
+      "transferring those with the targeted genotype — an intrinsic embryo cost that idealized "
+      "**correction** (the corrected embryo remains a transfer candidate; editing failure, "
+      "mosaicism, and safety-related loss are not modeled) does not carry in this comparison. If a fraction *u* of a couple's "
       "embryos are unaffected, the embryos not selected for transfer per unaffected child under "
       "selection is **(1−u)/u**, which diverges as *u*→0 — exactly the S1 \"no selectable unaffected "
       "embryo\" case, where selection is impossible and editing would be the only preventive option.")
@@ -325,9 +338,9 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
       f"the order of **{agg['affected_embryos_discarded_selection_strategy']:,.0f} affected embryos "
       f"would not be selected for transfer per year**, versus **~0 under an idealized editing strategy** "
       "(an illustrative counterfactual, not an estimate of actual embryo disposition). This is the normative "
-      "axis on which editing can be preferable to the selection stack for conditions with few "
+      "axis on which editing can be preferable to selection for conditions with few "
       "unaffected embryos. (Prenatal diagnosis is a separate moral category — termination of an "
-      "affected fetus, not embryo discard — and is tracked separately.)")
+      "affected fetus, not embryo non-selection — and is tracked separately.)")
     A("")
 
     # 11. Uncertainty
@@ -351,7 +364,7 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     A("Each is an explicit parameter with a documented default (see `ANALYSIS_LOG.md` for dated "
       "rationale): severity threshold (§5); attribution stance (§5); penetrance floor for S1; "
       "S2 strict vs permissive criteria; tool ordering and whether PND counts as prevention; "
-      "inclusion of congenital deafness in S1; GMI capability weights (§6); multifactorial "
+      "inclusion of congenital deafness in S1; multifactorial "
       "technology scenarios and pleiotropy blocks (§9); editing-program cost (§11).")
     A("")
 

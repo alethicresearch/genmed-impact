@@ -4,6 +4,7 @@ import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 import { Figure, EpistemicTag, EpistemicKind } from '../components/prose';
+import { WORKFLOW_STEPS } from './Methods';
 
 interface Props {
   data: AllData;
@@ -312,21 +313,13 @@ function LayerCard({ title, body }: { title: string; body: string }) {
   );
 }
 
-// 3. The five-step research workflow — a lightweight explanatory figure, not navigation.
-// Step titles align with the Methods pipeline where the two overlap.
-const WORKFLOW_STEPS = [
-  { title: 'Define the burden', desc: 'Estimate serious monogenic and multifactorial disease across the global birth cohort.' },
-  { title: 'Build the disease map', desc: 'Link diseases to genes, inheritance, incidence, and interventions.' },
-  { title: 'Map what existing medicine can do', desc: 'Separate affected-birth avoidance from postnatal treatment and mitigation.' },
-  { title: 'Identify what remains', desc: 'Estimate editing-only prevention and potential complex-disease editing advantage.' },
-  { title: 'Interpret the implications', desc: 'Examine access, research priorities, and ethical/regulatory consequences.' },
-];
-
+// 3. The canonical six-step research workflow — a lightweight explanatory figure, not
+// navigation. Shared with the Methods page so the site describes one workflow, not two.
 function HowAnalysisWorks() {
   return (
     <section className="space-y-3">
       <H>How the analysis works</H>
-      <ol className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
+      <ol className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {WORKFLOW_STEPS.map((s, i) => (
           <li key={s.title} className="flex flex-col rounded-lg border border-slate-200 bg-slate-50/60 p-3">
             <span className="text-xs font-semibold text-slate-400">{i + 1}</span>
@@ -337,8 +330,9 @@ function HowAnalysisWorks() {
       </ol>
       <p className="text-xs leading-5 text-slate-500">
         The project moves from disease burden and intervention mapping to the residual medical
-        role of germline editing. Empirical results are kept separate from ethical and policy
-        interpretation.
+        role of germline editing. Uncertainty is propagated through all quantitative steps
+        rather than added at the end, and empirical results are kept separate from ethical and
+        policy interpretation.
       </p>
     </section>
   );
@@ -499,24 +493,26 @@ function Findings({
   );
 }
 
-// Item-level definitions a reader needs before the numbers — deliberately short.
+// Item-level definitions a reader needs before the numbers — the paper's canonical terms.
+// (Per the paper's reporting rule, "addressable" is never used without naming the pathway
+// and the outcome, so it is not offered here as a standalone term.)
 function KeyDefinitions() {
   const defs: { term: string; def: string }[] = [
     {
-      term: 'Addressable',
-      def: 'a modeled pathway can alter the relevant outcome in principle; does not imply access, uptake, cure, or equivalence between pathways.',
+      term: 'Technical applicability vs actual access',
+      def: 'a pathway could alter the relevant outcome in principle, versus the proportion of eligible people who can realistically obtain and use it — always analyzed separately.',
+    },
+    {
+      term: 'Affected-birth avoidance vs burden mitigation',
+      def: 'preventing an affected birth through a reproductive pathway, versus reducing disease consequences after an affected birth — two tracks that are never merged.',
     },
     {
       term: 'Editing-only prevention',
-      def: 'no unaffected embryo can be selected under the modeled reproductive configuration.',
+      def: 'a modeled reproductive situation in which no unaffected embryo can be selected, so editing would provide a preventive route unavailable through selection. This does not imply that no postnatal treatment exists.',
     },
     {
-      term: 'Editing advantage',
-      def: 'editing is modeled as potentially adding benefit beyond available alternatives; this is not the same as being the only option.',
-    },
-    {
-      term: 'In principle vs in practice',
-      def: 'technical applicability versus actual coverage and access.',
+      term: 'Potential editing advantage → editing-relevant residual',
+      def: 'a modeled situation in which editing might add benefit beyond alternatives — not the same as being the only option. Together with editing-only prevention it forms the editing-relevant residual, whose components are always reported separately.',
     },
   ];
   return (

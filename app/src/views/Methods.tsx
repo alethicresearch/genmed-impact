@@ -118,16 +118,19 @@ const INTERNAL_TERMS: Array<{ internal: string; meaning: string }> = [
   { internal: 'S2', meaning: 'Complex-disease cases where editing might outperform every alternative.' },
   { internal: 'strict / permissive', meaning: 'Current-evidence case / optimistic upper-bound case for how much complex-disease editing to credit.' },
   { internal: 'def_a / def_b / def_c', meaning: 'Narrow / Main / Broad definition of serious disease (severity threshold).' },
-  { internal: 'attribution (inclusive / heritability_weighted / exclusive)', meaning: 'How much multifactorial disease to count as genetically attributable: all of it / weighted by heritability / none of it.' },
+  { internal: 'attribution (inclusive / heritability_weighted / exclusive)', meaning: 'How much multifactorial disease to count as genetically attributable: all of it / weighted by heritability / only a small, strongly genetic-familial component (~10% — narrow attribution, not zero).' },
   { internal: 'pnd_on / pnd_off', meaning: 'Whether prenatal diagnosis followed by pregnancy termination is counted as reducing affected births.' },
 ];
 
-const pipelineSteps = (nDraws: number) => [
-  { title: 'Define the burden', desc: 'How much serious genetic disease is in each birth cohort, under explicit severity and attribution choices.' },
-  { title: 'Map conditions to interventions', desc: 'Which of the four existing pathways applies to each catalogued disease.' },
-  { title: 'Model access & effectiveness', desc: 'How much each pathway prevents or mitigates at current, achievable, and full coverage.' },
-  { title: 'Identify what remains', desc: 'The families for whom no unaffected embryo can be selected, and the separate complex-disease term where editing might add an advantage.' },
-  { title: 'Propagate uncertainty', desc: `Every input sampled in a ${nDraws.toLocaleString('en-US')}-draw Monte-Carlo, so each figure carries an uncertainty interval.` },
+// The one canonical research workflow — identical to the Overview's and the paper's Figure 2.
+// Uncertainty is not a step: it is propagated through every quantitative step.
+export const WORKFLOW_STEPS = [
+  { title: 'Define the burden', desc: 'Estimate serious monogenic and multifactorial disease across the global birth cohort, under explicit severity and attribution choices.' },
+  { title: 'Build the disease map', desc: 'Link diseases to genes, inheritance, incidence, and interventions.' },
+  { title: 'Map intervention outcomes', desc: 'Separate affected-birth avoidance from postnatal burden mitigation for each pathway.' },
+  { title: 'Model access', desc: 'Separate technical applicability from actual access under current, achievable-2035, and idealized coverage.' },
+  { title: 'Identify the editing-relevant residual', desc: 'Separate editing-only prevention from potential complex-disease editing advantage.' },
+  { title: 'Interpret the implications', desc: 'Examine access, research priorities, and ethical/regulatory consequences — kept apart from the model results.' },
 ];
 
 export default function Methods({ data, state, update }: Props) {
@@ -183,13 +186,13 @@ export default function Methods({ data, state, update }: Props) {
         whatItDetermines="Whether you can trust and reproduce the figures — and exactly where data ends and judgment begins."
       />
 
-      {/* The pipeline in five steps */}
+      {/* The canonical six-step workflow (same as the Overview and the paper's Figure 2) */}
       <Card>
         <h3 className="mb-3 text-base font-semibold text-slate-900">
-          The analysis in five steps
+          The analysis in six steps
         </h3>
-        <ol className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
-          {pipelineSteps(m.n_draws).map((s, i) => (
+        <ol className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {WORKFLOW_STEPS.map((s, i) => (
             <li key={s.title} className="flex flex-col rounded border border-slate-200 bg-slate-50/60 p-3">
               <span className="text-xs font-semibold text-slate-400">{i + 1}</span>
               <span className="mt-0.5 text-sm font-semibold text-slate-900">{s.title}</span>
@@ -197,6 +200,11 @@ export default function Methods({ data, state, update }: Props) {
             </li>
           ))}
         </ol>
+        <p className="mt-2 text-xs text-slate-500">
+          Uncertainty is not a separate stage: every input is sampled in a{' '}
+          {m.n_draws.toLocaleString('en-US')}-draw Monte-Carlo, so uncertainty propagates through
+          all quantitative steps and every figure carries a 95% uncertainty interval.
+        </p>
       </Card>
 
       {/* What this analysis does NOT show */}
