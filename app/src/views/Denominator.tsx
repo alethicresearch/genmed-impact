@@ -11,7 +11,29 @@ import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
 import { Card, SectionHeading, Segmented, ExportSvgButton } from '../components/ui';
 import { ShowDataToggle } from '../components/DataTable';
+import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 import { exportContainerSvg } from '../svgExport';
+
+// Read a {source, doi} leaf from provenance constants without letting an object reach a child.
+function provSource(
+  data: AllData,
+  path: string[]
+): { source: string; doi: string | null } {
+  let node: unknown = data.provenance.constants;
+  for (const k of path) {
+    if (node && typeof node === 'object' && k in (node as Record<string, unknown>)) {
+      node = (node as Record<string, unknown>)[k];
+    } else {
+      node = undefined;
+      break;
+    }
+  }
+  const rec = (node && typeof node === 'object' ? node : {}) as Record<string, unknown>;
+  return {
+    source: typeof rec.source === 'string' ? rec.source : '',
+    doi: typeof rec.doi === 'string' ? rec.doi : null,
+  };
+}
 
 interface Props {
   data: AllData;
@@ -56,7 +78,12 @@ export default function Denominator({ data, state, update }: Props) {
 
   const svgRef = useRef<HTMLDivElement>(null);
 
+  const birthsSrc = provSource(data, ['births', 'global_per_year']);
+  const monoSrc = provSource(data, ['burden', 'monogenic_serious_per_1000']);
+  const multiSrc = provSource(data, ['burden', 'multifactorial_serious_per_1000']);
+
   return (
+    <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
         title="The denominator, defined"
@@ -169,17 +196,21 @@ export default function Denominator({ data, state, update }: Props) {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <MetricCard label="Births / year">
           <StatValue stat={data.summary.births_per_year} kind="compact" showCi />
+          <SourceNote source={birthsSrc.source || 'UN World Population Prospects 2024'} doi={birthsSrc.doi} />
         </MetricCard>
         <MetricCard label="Serious genetic disease / year">
           <StatValue stat={cell.total_serious} kind="compact" showCi />
+          <SourceNote source={monoSrc.source || 'Modell & Darlison 2008'} doi={monoSrc.doi} detail="serious single-gene rate" />
         </MetricCard>
         <MetricCard label="Serious share of births">
           <StatValue stat={cell.serious_share_of_births} kind="pct" decimals={2} showCi />
+          <SourceNote source="Derived: serious total ÷ annual births" doi={null} />
         </MetricCard>
         <MetricCard label="Monogenic / multifactorial">
           <span className="tnum text-lg font-semibold">
             {fmtCompact(monogenic)} / {fmtCompact(multifactorial)}
           </span>
+          <SourceNote source={multiSrc.source || 'March of Dimes 2006; WHO congenital anomalies'} doi={multiSrc.doi} detail="multifactorial serious rate" />
         </MetricCard>
       </div>
 
@@ -189,7 +220,10 @@ export default function Denominator({ data, state, update }: Props) {
         Shares shown here are ratios of those precomputed medians. The uniquely-editable
         residual is reported at the model's default assumptions.
       </p>
+
+      <SourcesList />
     </div>
+    </SourcesProvider>
   );
 }
 

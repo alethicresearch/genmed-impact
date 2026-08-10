@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { AllData, loadAll } from './data';
 import { useUrlState } from './urlState';
 import Tabs, { TabDef } from './components/Tabs';
+import { Segmented } from './components/ui';
+import Overview from './views/Overview';
+import Library from './views/Library';
 import Denominator from './views/Denominator';
 import Prevention from './views/Prevention';
 import Residual from './views/Residual';
@@ -9,7 +12,9 @@ import Resistance from './views/Resistance';
 import Allocation from './views/Allocation';
 import Methods from './views/Methods';
 
-const TABS: TabDef[] = [
+const ALL_TABS: TabDef[] = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'library', label: 'Disease Library' },
   { id: 'denominator', label: 'Denominator' },
   { id: 'prevention', label: 'Prevention' },
   { id: 'residual', label: 'Residual' },
@@ -18,10 +23,25 @@ const TABS: TabDef[] = [
   { id: 'methods', label: 'Methods & Provenance' },
 ];
 
+// Which tab ids are visible in each mode.
+const MODE_TABS: Record<string, string[]> = {
+  simple: ['overview', 'library', 'prevention'],
+  detailed: [
+    'overview',
+    'library',
+    'denominator',
+    'prevention',
+    'residual',
+    'resistance',
+    'allocation',
+    'methods',
+  ],
+};
+
 export default function App() {
   const [data, setData] = useState<AllData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [state, update] = useUrlState({ tab: 'denominator' });
+  const [state, update] = useUrlState({ tab: 'overview', mode: 'simple' });
 
   useEffect(() => {
     loadAll()
@@ -29,24 +49,37 @@ export default function App() {
       .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)));
   }, []);
 
-  const activeTab = TABS.some((t) => t.id === state.tab) ? state.tab : 'denominator';
+  const mode = state.mode === 'detailed' ? 'detailed' : 'simple';
+  const visibleIds = MODE_TABS[mode];
+  const tabs = ALL_TABS.filter((t) => visibleIds.includes(t.id));
+  const activeTab = visibleIds.includes(state.tab) ? state.tab : 'overview';
 
   return (
     <div className="mx-auto flex min-h-full max-w-6xl flex-col px-4 pb-16 pt-6">
       <header className="mb-4">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">
-            Serious Genetic Disease at Birth
-          </h1>
-          <span className="text-sm text-slate-500">
-            Denominator app · precomputed epidemiology
-          </span>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+              Serious Genetic Disease at Birth
+            </h1>
+            <p className="mt-1 max-w-3xl text-sm text-slate-600">
+              A library of genetic diseases mapped to their causal genes and the interventions
+              that can address them. Aggregate burden is derived by summing the library and
+              cross-checked against a precomputed Monte-Carlo model. Selections serialize to the
+              URL for sharing.
+            </p>
+          </div>
+          <Segmented
+            label="Mode"
+            ariaLabel="Detail mode"
+            value={mode}
+            options={[
+              { value: 'simple', label: 'Simple' },
+              { value: 'detailed', label: 'Detailed' },
+            ]}
+            onChange={(v) => update({ mode: v })}
+          />
         </div>
-        <p className="mt-1 max-w-3xl text-sm text-slate-600">
-          A sober, GBD-style read-out of a fixed Monte-Carlo model. Every number below is
-          precomputed; this page only recombines and displays medians and 95% credible
-          intervals. Selections serialize to the URL for sharing.
-        </p>
       </header>
 
       {error && (
@@ -64,13 +97,19 @@ export default function App() {
 
       {data && (
         <>
-          <Tabs tabs={TABS} active={activeTab} onChange={(id) => update({ tab: id })} />
+          <Tabs tabs={tabs} active={activeTab} onChange={(id) => update({ tab: id })} />
           <main className="mt-5 flex-1">
             <div
               role="tabpanel"
               id={`panel-${activeTab}`}
               aria-labelledby={`tab-${activeTab}`}
             >
+              {activeTab === 'overview' && (
+                <Overview data={data} state={state} update={update} />
+              )}
+              {activeTab === 'library' && (
+                <Library data={data} state={state} update={update} />
+              )}
               {activeTab === 'denominator' && (
                 <Denominator data={data} state={state} update={update} />
               )}

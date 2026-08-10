@@ -158,6 +158,59 @@ export interface Provenance {
   regions: Record<string, unknown>;
 }
 
+// ---- Disease Library (precomputed seed catalogue) ----
+
+export type IncidenceBasis = 'cited' | 'textbook_estimate' | 'order_of_magnitude';
+
+export interface Intervention {
+  applicable: boolean;
+  note: string;
+}
+
+export interface Disease {
+  id: string;
+  name: string;
+  category: string;
+  genes: string[];
+  inheritance: string;
+  omim: string;
+  orphanet: string;
+  severity: string;
+  onset: string;
+  incidence_per_100k: number;
+  incidence_basis: IncidenceBasis;
+  incidence_source: string;
+  incidence_doi: string | null;
+  affected_births_per_year: number;
+  interventions: Record<ToolKey, Intervention>;
+  addressable_by_reproductive_tool: boolean;
+  nbs_mitigable: boolean;
+  editing_unique: boolean;
+  editing_note: string;
+  notes: string | null;
+}
+
+export interface LibraryRollup {
+  n_diseases: number;
+  total_affected_births_per_year: number;
+  by_category: Record<string, number>;
+  by_severity: Record<string, number>;
+  births_addressable_by_reproductive_tool: number;
+  share_addressable_by_reproductive_tool: number;
+  births_nbs_mitigable: number;
+  births_editing_unique: number;
+  per_tool_addressable_births: Record<ToolKey, number>;
+  cited_incidence_share: number;
+  note: string;
+}
+
+export interface Library {
+  meta: { incidence_unit: string; retrieved: string; note: string };
+  categories: Record<string, string>;
+  diseases: Disease[];
+  rollup: LibraryRollup;
+}
+
 export interface AllData {
   meta: Meta;
   summary: Summary;
@@ -168,6 +221,7 @@ export interface AllData {
   allocation: Allocation;
   sensitivity: Sensitivity;
   provenance: Provenance;
+  library: Library;
 }
 
 // BASE_URL is set by Vite; with base:'./' it resolves relative to the page.
@@ -196,6 +250,7 @@ export async function loadAll(): Promise<AllData> {
     allocation,
     sensitivity,
     provenance,
+    library,
   ] = await Promise.all([
     getJson<Meta>('meta'),
     getJson<Summary>('summary'),
@@ -206,6 +261,7 @@ export async function loadAll(): Promise<AllData> {
     getJson<Allocation>('allocation'),
     getJson<Sensitivity>('sensitivity'),
     getJson<Provenance>('provenance'),
+    getJson<Library>('library'),
   ]);
   return {
     meta,
@@ -217,6 +273,7 @@ export async function loadAll(): Promise<AllData> {
     allocation,
     sensitivity,
     provenance,
+    library,
   };
 }
 
