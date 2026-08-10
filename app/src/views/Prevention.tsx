@@ -23,13 +23,13 @@ interface Props {
 
 const REGIONS = ['Global', 'High income', 'Upper-middle income', 'Lower-middle income', 'Low income'];
 const SCENARIOS = [
-  { value: 'current', label: 'current' },
-  { value: 'achievable_2035', label: 'achievable 2035' },
-  { value: 'ideal', label: 'ideal' },
+  { value: 'current', label: 'Current coverage' },
+  { value: 'achievable_2035', label: 'Achievable by 2035' },
+  { value: 'ideal', label: 'Full coverage (ideal)' },
 ];
 const CLASSES = [
-  { value: 'monogenic', label: 'monogenic' },
-  { value: 'multifactorial', label: 'multifactorial' },
+  { value: 'monogenic', label: 'Single-gene (monogenic)' },
+  { value: 'multifactorial', label: 'Multifactorial' },
 ];
 
 // Birth track uses CS/PGT/PND (NBS is 0 by design). Burden track adds NBS.
@@ -40,6 +40,14 @@ const TOOL_COLOR: Record<ToolKey, string> = {
   PGT: '#0891b2',
   PND: '#7c3aed',
   NBS: '#059669',
+};
+// Public-facing pathway names. None of these "prevents disease" by itself: each is a test plus
+// the decision or therapy that follows it, and the copy keeps that visible.
+const TOOL_LABEL: Record<ToolKey, string> = {
+  CS: 'Carrier screening + reproductive planning',
+  PGT: 'IVF + PGT-M embryo selection',
+  PND: 'Prenatal diagnosis + reproductive decision',
+  NBS: 'Newborn screening + early treatment',
 };
 
 export default function Prevention({ data, state, update }: Props) {
@@ -88,15 +96,25 @@ export default function Prevention({ data, state, update }: Props) {
   return (
     <div className="space-y-6">
       <SectionHeading
-        title="What the existing tools prevent"
-        subtitle="Applied one after another — carrier screening, embryo testing, prenatal diagnosis, newborn screening — under a chosen real-world coverage scenario."
+        title="What current medicine can do"
+        subtitle="The four existing pathways applied one after another, under a chosen real-world coverage scenario."
       />
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
-        Each tool removes a share of a disease class's affected births; the bar shrinks toward what
-        is still not prevented. Most of that remainder is a <strong>coverage gap</strong> — cases
-        the tools would reach but don't, today — which closes as coverage improves. Only the thin
-        slice below the dashed <strong>full-coverage floor</strong> is beyond every existing tool,
-        and so is germline editing's domain.
+        None of these pathways is a treatment in itself — each is a test plus what follows it.{' '}
+        <strong>Carrier screening</strong> identifies risk and enables reproductive planning;{' '}
+        <strong>IVF with embryo selection (PGT-M)</strong> avoids transferring an affected embryo;{' '}
+        <strong>prenatal diagnosis</strong> reduces affected births only via a subsequent
+        reproductive decision; <strong>newborn screening</strong> prevents no births at all — it
+        enables earlier treatment. The model keeps two tracks separate throughout:{' '}
+        <em>affected births avoided</em> and <em>disease burden mitigated after birth</em>.
+      </p>
+      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
+        In the chart, each pathway removes a share of a disease class&apos;s affected births; the
+        bar shrinks toward what is still not prevented. Most of that remainder is cases the
+        pathways would reach but don&apos;t today, because access is incomplete — it closes as
+        coverage improves. Only the thin slice below the dashed line (<strong>what remains even
+        if everyone had access</strong>) is beyond every existing pathway, and so is germline
+        editing&apos;s domain.
       </p>
 
       <div className="flex flex-wrap items-end gap-5">
@@ -124,14 +142,23 @@ export default function Prevention({ data, state, update }: Props) {
           label="Track"
           value={track}
           options={[
-            { value: 'birth', label: 'Averted births' },
-            { value: 'burden', label: 'Averted burden (+NBS)' },
+            { value: 'birth', label: 'Affected births avoided' },
+            { value: 'burden', label: 'Burden mitigated after birth' },
           ]}
           onChange={(v) => update({ track: v })}
         />
-        <div className="pb-1">
-          <Toggle label="PND counts" checked={pndOn} onChange={(v) => update({ pnd: v ? 'on' : 'off' })} />
-        </div>
+      </div>
+      <div className="max-w-3xl rounded border border-slate-200 bg-slate-50 p-3">
+        <Toggle
+          label="Count prenatal diagnosis followed by pregnancy termination as reducing affected births?"
+          checked={pndOn}
+          onChange={(v) => update({ pnd: v ? 'on' : 'off' })}
+        />
+        <p className="mt-1 pl-6 text-xs leading-5 text-slate-600">
+          An ethically significant modeling choice, so it is exposed rather than fixed: prenatal
+          diagnosis identifies an affected pregnancy, and whether that reduces affected births
+          depends on the reproductive decision that follows. Both settings are computed throughout.
+        </p>
       </div>
 
       <Card>
@@ -152,13 +179,15 @@ export default function Prevention({ data, state, update }: Props) {
             colors={TOOL_COLOR}
           />
         </div>
+        <ToolLegend tools={tools} />
         {floorFrac !== undefined && scenario !== 'ideal' && (
           <p className="mt-1 text-xs text-slate-600">
-            The dashed line is the <strong>full-coverage floor</strong> — what the existing tools
-            cannot reach for this class even at 100% coverage ({fmtPct(floorFrac, 1)}). In the
-            “Not prevented” bar, everything <em>above</em> the line is{' '}
-            <strong>access headroom</strong> (closed by scaling the tools); only the sliver{' '}
-            <em>below</em> it is germline editing's domain.
+            The dashed line marks <strong>what remains even if everyone had access</strong> — the
+            share these pathways cannot reach for this class even at 100% coverage (
+            {fmtPct(floorFrac, 1)}). In the “Not prevented” bar, everything <em>above</em> the
+            line is <strong>cases missed because access is incomplete</strong> (closed by scaling
+            the same pathways); only the sliver <em>below</em> it is germline editing&apos;s
+            domain.
           </p>
         )}
 
@@ -200,12 +229,12 @@ export default function Prevention({ data, state, update }: Props) {
           rows={[
             { stage: 'Baseline', averted: '100%', ci: '—' },
             ...tools.map((t) => ({
-              stage: `− ${t}`,
+              stage: `− ${TOOL_LABEL[t]}`,
               averted: fmtPct(avertedMap[t].median * scale, 2),
               ci: `${fmtPct(avertedMap[t].ci95[0], 2)}–${fmtPct(avertedMap[t].ci95[1], 2)}`,
             })),
             {
-              stage: 'Not prevented (coverage gap)',
+              stage: 'Not prevented at this coverage',
               averted: fmtPct(isIllustrative ? residualScaled : residualStat.median, 2),
               ci: isIllustrative
                 ? '—'
@@ -229,9 +258,9 @@ export default function Prevention({ data, state, update }: Props) {
         </h3>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <CountCard label="Class births / yr" stat={leaf.class_births} />
-          <CountCard label="Not-prevented births / yr (coverage gap)" stat={leaf.residual_birth_count} />
+          <CountCard label="Not-prevented births / yr at this coverage" stat={leaf.residual_birth_count} />
           <CountCard
-            label="PND counts toward births"
+            label="PND + termination counted as reducing births"
             valueOverride={pndOn ? 'Yes' : 'No'}
           />
         </div>
@@ -240,7 +269,7 @@ export default function Prevention({ data, state, update }: Props) {
             <caption className="sr-only">Averted birth counts by tool</caption>
             <thead>
               <tr className="border-b border-slate-300 text-slate-600">
-                <th scope="col" className="px-3 py-2 text-left font-medium">Tool</th>
+                <th scope="col" className="px-3 py-2 text-left font-medium">Pathway</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">Averted births / yr (median)</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">95% CrI</th>
               </tr>
@@ -251,9 +280,9 @@ export default function Prevention({ data, state, update }: Props) {
                 return (
                   <tr key={t} className="border-b border-slate-100">
                     <td className="px-3 py-1.5">
-                      {t}
+                      {TOOL_LABEL[t]}
                       {t === 'NBS' && (
-                        <span className="ml-2 text-xs text-slate-500">(0 by design — mitigates burden, not births)</span>
+                        <span className="ml-2 text-xs text-slate-500">(0 by design — mitigates burden after birth, never births)</span>
                       )}
                     </td>
                     <td className="tnum px-3 py-1.5 text-right">{fmtInt(s.median)}</td>
@@ -269,10 +298,28 @@ export default function Prevention({ data, state, update }: Props) {
       </Card>
 
       <p className="text-xs text-slate-500">
-        Newborn screening treats disease rather than preventing a birth, so its averted-birth share
-        is zero and it appears only in the burden track. Each scenario's coverage and effectiveness
-        are already included in the figures shown.
+        Newborn screening enables earlier treatment rather than preventing a birth, so its
+        averted-birth share is zero and it appears only in the burden track. Each scenario's
+        coverage and effectiveness are already included in the figures shown.
       </p>
+    </div>
+  );
+}
+
+// Maps the chart's short pathway codes to their full public-facing names.
+function ToolLegend({ tools }: { tools: ToolKey[] }) {
+  return (
+    <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1">
+      {tools.map((t) => (
+        <span key={t} className="inline-flex items-center gap-1.5 text-xs text-slate-600">
+          <span
+            aria-hidden="true"
+            className="inline-block h-2.5 w-2.5 rounded-sm"
+            style={{ backgroundColor: TOOL_COLOR[t] }}
+          />
+          <span className="font-medium">{t}</span> = {TOOL_LABEL[t]}
+        </span>
+      ))}
     </div>
   );
 }

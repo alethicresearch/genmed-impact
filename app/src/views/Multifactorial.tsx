@@ -32,10 +32,12 @@ const CLASS_TERM: Record<string, string> = {
   massively_polygenic: 'polygenicity',
 };
 
+// "Meets model threshold" deliberately avoids "viable": these verdicts are thresholds inside
+// the liability model, not clinical conclusions about safety or effectiveness.
 const VERDICT_META: Record<Verdict, { label: string; fill: string; text: string; hatch?: boolean }> = {
-  viable: { label: 'Viable', fill: '#059669', text: 'text-emerald-800' },
+  viable: { label: 'Meets model threshold', fill: '#059669', text: 'text-emerald-800' },
   marginal: { label: 'Marginal', fill: '#f59e0b', text: 'text-amber-800' },
-  not_viable: { label: 'Not viable', fill: '#94a3b8', text: 'text-slate-600' },
+  not_viable: { label: 'Below threshold', fill: '#94a3b8', text: 'text-slate-600' },
   not_recommended_pleiotropy: {
     label: 'Blocked (pleiotropy)',
     fill: '#dc2626',
@@ -45,8 +47,8 @@ const VERDICT_META: Record<Verdict, { label: string; fill: string; text: string;
 };
 
 const SCEN_OPTS = [
-  { value: 'present', label: 'Present' },
-  { value: 'near_future', label: 'Near-future' },
+  { value: 'present', label: 'Present technology' },
+  { value: 'near_future', label: 'Near-future (assumption set)' },
   { value: 'both', label: 'Both' },
 ];
 
@@ -64,8 +66,8 @@ export default function Multifactorial({ data, state, update }: Props) {
     <SourcesProvider>
       <div className="space-y-6">
         <SectionHeading
-          title="Multifactorial viability"
-          subtitle="How far embryo selection and gene editing can move risk for common, many-gene diseases — arranged along the polygenicity spectrum."
+          title="Could editing help with common complex diseases?"
+          subtitle="How far embryo selection and gene editing could move risk for common, many-gene diseases — arranged along the polygenicity spectrum. Verdicts are model thresholds, not clinical conclusions."
         />
 
         <Explainer
@@ -84,11 +86,12 @@ export default function Multifactorial({ data, state, update }: Props) {
               Each disease has two bars for the paper's two mechanisms:{' '}
               <strong>selection</strong> (choose among embryos) and <strong>correction</strong>{' '}
               (edit a few large-effect loci), showing the{' '}
-              <Term k="RRR">relative risk reduction</Term> each achieves. Colour is the
-              verdict — <span className="font-medium text-emerald-700">green = viable</span>,{' '}
-              <span className="font-medium text-amber-700">amber = marginal</span>, grey = not
-              viable, <span className="font-medium text-red-700">red = blocked by pleiotropy</span>.
-              Hover a bar for the underlying liability shift and embryo/edit counts.
+              <Term k="RRR">relative risk reduction</Term> each achieves. Colour is the model
+              verdict — <span className="font-medium text-emerald-700">green = meets the model
+              threshold</span>, <span className="font-medium text-amber-700">amber = marginal</span>,
+              grey = below threshold,{' '}
+              <span className="font-medium text-red-700">red = blocked by pleiotropy</span>. Click
+              a bar for the underlying liability shift and embryo/edit counts.
             </>
           }
           whatItDetermines={
@@ -125,8 +128,13 @@ export default function Multifactorial({ data, state, update }: Props) {
           />
           <p className="max-w-md text-xs text-slate-500">
             <span className="font-medium text-slate-700">Present</span> ={' '}
-            {str(mf.tech_scenarios.present.label)}. <span className="font-medium text-slate-700">Near-future</span>{' '}
-            = {str(mf.tech_scenarios.near_future.label)}.
+            {str(mf.tech_scenarios.present.label)}.{' '}
+            <span className="font-medium text-slate-700">Near-future</span> ={' '}
+            {str(mf.tech_scenarios.near_future.label)}.{' '}
+            <span className="font-medium text-amber-700">
+              The near-future scenario is an assumption set, not a forecast
+            </span>{' '}
+            — it asks what would follow <em>if</em> those capabilities arrived.
           </p>
         </div>
 
@@ -191,35 +199,37 @@ function FrontierSummary({ mf }: { mf: AllData['multifactorial'] }) {
 
   return (
     <Card className="border-accent/40 bg-accent-soft/40">
-      <h3 className="text-base font-semibold text-slate-900">The moving frontier</h3>
+      <h3 className="text-base font-semibold text-slate-900">
+        How many diseases clear the model threshold, today vs under the near-future assumptions?
+      </h3>
       <p className="mt-1 text-sm text-slate-600">
         Counts are across the <strong>{n} diseases listed below</strong> (each named row in the
-        spectrum). As technology advances more fall inside reach — but architecture caps how far
-        correction can ever go. Near-future members are named under each count.
+        spectrum). Under the near-future assumption set more fall inside reach — but architecture
+        caps how far correction can ever go. Near-future members are named under each count.
       </p>
       <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <FrontierStat
-          label="Correction (editing) viable"
+          label="Correction (editing) meets threshold"
           from={p.editing_viable}
           to={f.editing_viable}
           n={n}
-          note="editing a few loci clears the viability bar"
+          note="editing a few loci clears the model threshold"
           members={editNF}
         />
         <FrontierStat
-          label="Selection viable"
+          label="Selection meets threshold"
           from={p.selection_viable}
           to={f.selection_viable}
           n={n}
-          note="PRS-based embryo selection clears the bar"
+          note="PRS-based embryo selection clears the model threshold"
           members={selNF}
         />
         <FrontierStat
-          label="Selection viable + marginal"
+          label="Selection meets threshold + marginal"
           from={p.selection_viable_or_marginal}
           to={f.selection_viable_or_marginal}
           n={n}
-          note="selection at least marginally useful"
+          note="selection at least marginally useful in the model"
           members={selMargNF}
         />
       </div>
@@ -247,7 +257,8 @@ function FrontierStat({
       <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
       <p className="tnum mt-1 text-xl font-bold text-slate-900">
         {from} <span className="text-sm font-normal text-slate-400">today</span> →{' '}
-        {to} <span className="text-sm font-normal text-slate-400">near-future</span>
+        {to}{' '}
+        <span className="text-sm font-normal text-slate-400">near-future (assumed)</span>
       </p>
       <p className="text-xs text-slate-500">
         of {n} diseases · {note}
@@ -287,7 +298,7 @@ function Legend({ vThresh, mThresh }: { vThresh: number; mThresh: number }) {
         );
       })}
       <span className="text-slate-400">
-        Viable ≥ {fmtPct(vThresh, 0)} RRR · marginal ≥ {fmtPct(mThresh, 0)} RRR
+        Meets model threshold ≥ {fmtPct(vThresh, 0)} RRR · marginal ≥ {fmtPct(mThresh, 0)} RRR
       </span>
     </div>
   );

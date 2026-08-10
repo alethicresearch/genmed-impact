@@ -42,15 +42,17 @@ interface Props {
   update: (patch: UrlState) => void;
 }
 
+// Public-facing labels for the model's internal definitions (def_a/b/c and the
+// attribution stances) — the internal ids stay in Methods for reproducibility.
 const SEVERITY_OPTS = [
-  { value: 'def_a', label: 'def_a (narrow)' },
-  { value: 'def_b', label: 'def_b (default)' },
-  { value: 'def_c', label: 'def_c (broad)' },
+  { value: 'def_a', label: 'Narrow' },
+  { value: 'def_b', label: 'Main (default)' },
+  { value: 'def_c', label: 'Broad' },
 ];
 const ATTR_OPTS = [
-  { value: 'inclusive', label: 'inclusive' },
-  { value: 'heritability_weighted', label: 'heritability-weighted' },
-  { value: 'exclusive', label: 'exclusive' },
+  { value: 'inclusive', label: 'Count all of it' },
+  { value: 'heritability_weighted', label: 'Weight by heritability' },
+  { value: 'exclusive', label: 'Count none of it' },
 ];
 
 export default function Denominator({ data, state, update }: Props) {
@@ -98,15 +100,15 @@ export default function Denominator({ data, state, update }: Props) {
 
       <div className="flex flex-wrap gap-6">
         <Segmented
-          label="Severity definition"
-          ariaLabel="Severity definition"
+          label="How serious must a condition be to count?"
+          ariaLabel="Definition of serious disease"
           value={severity}
           options={SEVERITY_OPTS}
           onChange={(v) => update({ severity: v })}
         />
         <Segmented
-          label="Attribution stance"
-          ariaLabel="Attribution stance"
+          label="How much multifactorial disease counts as genetic?"
+          ariaLabel="Genetic attribution of multifactorial disease"
           value={attribution}
           options={ATTR_OPTS}
           onChange={(v) => update({ attribution: v })}
@@ -115,27 +117,31 @@ export default function Denominator({ data, state, update }: Props) {
 
       {/* Headline */}
       <Card className="border-accent/40 bg-accent-soft/40">
-        <p className="text-sm text-slate-600">Headline (strict S2 criteria, default assumptions)</p>
+        <p className="text-sm text-slate-600">Headline (default assumptions)</p>
         <p className="mt-1 text-xl font-semibold text-slate-900">
-          ~<StatValue stat={addressableStrict} kind="pct" decimals={1} /> of serious genetic
-          disease is addressable by existing tools
+          Most serious genetic disease is not uniquely dependent on germline editing
         </p>
         <p className="mt-1 text-sm text-slate-600">
-          Only{' '}
+          On the <strong>current-evidence</strong> definition of the editing-only population,{' '}
           <StatValue stat={ueStrictShareOfSerious} kind="pct" decimals={2} showCi /> of serious
-          cases (strict) —{' '}
-          <StatValue stat={ueStrict} kind="int" showCi /> births/yr — are{' '}
-          <em>uniquely</em> editable. Under permissive S2 that rises to{' '}
+          cases — <StatValue stat={ueStrict} kind="int" showCi /> births/yr — are reachable{' '}
+          <em>only</em> by germline editing (leaving ~
+          <StatValue stat={addressableStrict} kind="pct" decimals={1} /> not editing-dependent).
+          Under the <strong>optimistic upper bound</strong>, which credits editing with a future
+          role in complex disease, the editing-only share rises to{' '}
           <StatValue stat={uePermShareOfSerious} kind="pct" decimals={2} /> (
           <StatValue stat={uePermissive} kind="compact" />
-          /yr).
+          /yr). The conclusion is unchanged across the two; the size of the minority depends on
+          how much future complex-disease editing is credited.
         </p>
       </Card>
 
       {/* Cascade */}
       <Card>
         <div className="flex items-center justify-between">
-          <h3 className="text-base font-semibold text-slate-900">Unit cascade</h3>
+          <h3 className="text-base font-semibold text-slate-900">
+            From all births to editing-only cases
+          </h3>
           <ExportSvgButton
             onClick={() => exportContainerSvg(svgRef.current, 'denominator-cascade.svg')}
           />
@@ -185,12 +191,12 @@ export default function Denominator({ data, state, update }: Props) {
               share: `${fmtPct(multiShare, 1)} of serious`,
             },
             {
-              stage: 'Uniquely editable (strict)',
+              stage: 'Editing-only (current evidence)',
               count: fmtInt(ueStrict.median),
               share: `${fmtPct(ueStrictShareOfSerious.median, 2)} of serious`,
             },
             {
-              stage: 'Uniquely editable (permissive)',
+              stage: 'Editing-only (optimistic upper bound)',
               count: fmtInt(uePermissive.median),
               share: `${fmtPct(uePermShareOfSerious.median, 2)} of serious`,
             },
@@ -352,8 +358,8 @@ function Cascade(p: CascadeProps) {
 
       {/* Editable residual rows */}
       {[
-        { label: 'Uniquely editable (permissive)', frac: permFracOfSerious, color: '#f59e0b', count: p.uePermissive },
-        { label: 'Uniquely editable (strict)', frac: strictFracOfSerious, color: '#b45309', count: p.ueStrict },
+        { label: 'Editing-only (optimistic upper bound)', frac: permFracOfSerious, color: '#f59e0b', count: p.uePermissive },
+        { label: 'Editing-only (current evidence)', frac: strictFracOfSerious, color: '#b45309', count: p.ueStrict },
       ].map((r, idx) => {
         const y = (3 + idx) * (rowH + gap);
         const w = Math.max(seriousW * r.frac, 2);
