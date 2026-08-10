@@ -1,11 +1,21 @@
 # denominator
 
-**Global genetic-disease burden × intervention impact — a reproducible analysis pipeline and interactive webapp.**
+**A library of genetic disease × genetic-medicine impact — plus the pipeline and webapp that make it explorable.**
 
-Derives, from cited primary data and first principles, a quantitative account of global genetic
-disease burden and the comparative impact of genetic-medicine interventions — preconception
-carrier screening (CS), IVF + preimplantation genetic testing (PGT), prenatal diagnosis (PND),
-newborn genomic screening with targeted therapy (NBS), and germline embryo editing.
+The core deliverable is a **structured catalogue** (`core/denominator/library/diseases.yaml`) mapping
+each serious genetic disease to the **gene(s)** that cause it, its **inheritance mode**, its
+**incidence at birth**, and which **interventions** can address it — preconception carrier screening
+(CS), IVF + preimplantation genetic testing (PGT), prenatal diagnosis (PND), newborn genomic
+screening with targeted therapy (NBS), and germline embryo editing. Everything else is a lens on
+that library:
+
+- a **bottom-up aggregation** (`library.py`) that derives burden and intervention-addressability by
+  summing the catalogue, and
+- a **parametric Monte-Carlo model** that provides the calibrated top-down denominator with credible
+  intervals and the editing-unique residual (S1/S2).
+
+The webapp just makes the library interactive: browse diseases by gene / inheritance / intervention,
+and see the aggregate picture recompute as definitions change.
 
 Every headline figure is derived from a parameterized, cited assumption set with Monte-Carlo
 uncertainty. Contestable judgment calls (severity threshold, attribution stance, penetrance

@@ -36,6 +36,7 @@ def export_all(R: dict[str, Any]) -> None:
     _write_json(app / "allocation.json", R["allocation"])
     _write_json(app / "sensitivity.json", R["sensitivity"])
     _write_json(app / "provenance.json", R["provenance"])
+    _write_json(app / "library.json", R["library"])
 
     # compact summary the landing view can load first
     summary = {
@@ -78,6 +79,13 @@ def export_all(R: dict[str, Any]) -> None:
     put("hiv_residual_after_pmtct", R["resistance"]["hiv"]["residual_after_pmtct"])
     put("cost_per_birth_prevented_screening", R["allocation"]["cost_per_birth_prevented"]["screening_program"])
     put("cost_per_birth_prevented_editing", R["allocation"]["cost_per_birth_prevented"]["editing_program"])
+    lib = R["library"]["rollup"]
+    flat["library_n_diseases"] = {"value": lib["n_diseases"]}
+    flat["library_total_affected_births_per_year"] = {
+        "value": lib["total_affected_births_per_year"],
+        "note": "bottom-up sum over the curated catalogue; a lower bound pending Orphanet/GBD expansion"}
+    flat["library_share_addressable_by_reproductive_tool"] = {
+        "value": lib["share_addressable_by_reproductive_tool"]}
     _write_json(config.RESULTS_DIR / "paper_numbers.json", flat)
 
     # ---- results/tables.md -----------------------------------------------------------

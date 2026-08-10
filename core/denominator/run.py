@@ -11,7 +11,7 @@ from typing import Any
 
 import numpy as np
 
-from . import attribution, config, harmonize, model, montecarlo as mc, residual, sensitivity
+from . import attribution, config, harmonize, library, model, montecarlo as mc, residual, sensitivity
 
 
 def _git_commit() -> str:
@@ -207,6 +207,7 @@ def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
             "budget_buys": buys,
         },
         "sensitivity": {"tornado": tornado_rows},
+        "library": library.build_library(constants),
         "provenance": {
             "constants": constants,
             "conditions": conditions,

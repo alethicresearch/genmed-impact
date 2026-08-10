@@ -19,7 +19,13 @@ requires code changes — the pipeline overwrites the matching cited anchors in 
       each: IVF+PGT cycle cost by region; approved gene-therapy list prices; a real
       editing-program cost basis; PMTCT program cost/infection-averted. Replaces the `reasoned`
       cost entries in `constants.yaml §8`.
-- [ ] **5. Decide two policy calls for the paper** (not data — your judgment):
+- [ ] **5. Scale the disease library (Orphanet).** The catalogue in
+      `core/denominator/library/diseases.yaml` is a hand-curated seed of the highest-burden serious
+      conditions. `make ingest` pulls Orphanet prevalence + gene + inheritance products into
+      `data/curated/orphanet_candidates.parquet` as *candidate* rows; a curator promotes vetted
+      entries into the YAML (so an automated pull never silently moves headline numbers). This is
+      how the library grows from ~50 seed diseases toward full coverage.
+- [ ] **6. Decide two policy calls for the paper** (not data — your judgment):
       (a) is congenital deafness *in or out* of the S1 "editing-only" residual? (b) which
       attribution stance is the paper's headline — inclusive (matches current 8.0M) vs
       heritability-weighted (~4.7M)? Both are toggles already; the paper just needs to state which.
