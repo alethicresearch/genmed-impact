@@ -3,7 +3,7 @@ import { UrlState } from '../urlState';
 import { Card, SectionHeading } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 import Term from '../components/Term';
-import { Claim, InlineLink } from '../components/prose';
+import { InlineLink } from '../components/prose';
 
 interface Props {
   data: AllData;
@@ -33,7 +33,7 @@ export default function Embryos({ data, update }: Props) {
         title="Selection vs correction: what happens when unaffected embryos are rare?"
         subtitle="Embryo selection and successful correction can reach the same disease-prevention goal in some cases, but they do so through different reproductive routes. As unaffected embryos become rarer, the burden of obtaining the desired outcome through selection increases."
       />
-      <p className="text-sm leading-relaxed text-slate-700">
+      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
         The comparison between selection and correction is not simply binary. Selection may be
         an excellent alternative when unaffected embryos are common, increasingly burdensome
         when they are rare, and impossible when none exists. When many unaffected embryos are
@@ -42,7 +42,7 @@ export default function Embryos({ data, update }: Props) {
         obtain one unaffected embryo. If no unaffected embryo exists, selection cannot achieve
         the desired outcome at all.
       </p>
-      <p className="text-sm leading-relaxed text-slate-700">
+      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
         This analysis quantifies one dimension of <strong>reproductive burden</strong> — the
         embryo-level burden of achieving a reproductive outcome. Two interventions can achieve
         the same disease outcome while imposing very different reproductive burdens, which is
@@ -50,19 +50,13 @@ export default function Embryos({ data, update }: Props) {
         issue. The comparison below isolates this one dimension only. It does not assume that
         editing is safe, successful, or ethically preferable overall.
       </p>
-      <div className="rounded-lg border border-amber-300 bg-amber-50/60 p-4 text-sm leading-6 text-slate-700">
+      <div className="max-w-3xl rounded-lg border border-amber-300 bg-amber-50/60 p-4 text-sm leading-6 text-slate-700">
         <strong>Idealized comparison.</strong> Successful editing is modeled as retaining the
         corrected embryo as a transfer candidate. Editing failure, mosaicism, developmental
         effects, safety-related embryo loss, additional IVF cycles, and other clinical attrition
         are not included. The editing value of zero therefore means zero genotype-based
         exclusions by construction, not zero embryo loss in practice.
       </div>
-      <Claim kind="interpretation">
-        The potential embryo-selection advantage of editing becomes greatest precisely when
-        unaffected embryos are rare or absent. Whether that advantage outweighs the additional
-        risks and uncertainties of germline editing is a separate ethical and clinical question.
-      </Claim>
-
       {/* Curve */}
       <Card>
         <h3 className="text-base font-semibold text-slate-900">
@@ -103,10 +97,10 @@ export default function Embryos({ data, update }: Props) {
                     )}
                   </td>
                   <td className="tnum px-3 py-1.5 text-right">{v.unaffected_embryo_fraction.toFixed(2)}</td>
-                  <td className="tnum px-3 py-1.5 text-right font-semibold text-rose-700">
+                  <td className="tnum px-3 py-1.5 text-right font-semibold text-blue-900">
                     {v.affected_embryos_discarded_per_child.toFixed(2)}
                   </td>
-                  <td className="tnum px-3 py-1.5 text-right text-emerald-700">0</td>
+                  <td className="tnum px-3 py-1.5 text-right text-slate-600">0</td>
                 </tr>
               ))}
             </tbody>
@@ -136,12 +130,12 @@ export default function Embryos({ data, update }: Props) {
         </p>
       </Card>
 
-      {/* Future technology moves both sides of the comparison */}
-      <Card>
+      {/* Future technology moves both sides of the comparison — plain subsection, not a card */}
+      <section className="max-w-3xl space-y-2">
         <h3 className="text-base font-semibold text-slate-900">
           Future reproductive technologies change both sides of the comparison
         </h3>
-        <p className="mt-1 text-sm leading-relaxed text-slate-700">
+        <p className="text-sm leading-relaxed text-slate-700">
           Larger embryo sets generated through technologies such as{' '}
           <Term k="IVM">in-vitro maturation (IVM)</Term> or{' '}
           <Term k="IVG">in-vitro gametogenesis (IVG)</Term> could make selection substantially
@@ -151,12 +145,12 @@ export default function Embryos({ data, update }: Props) {
           directly. The relative impact of selection and correction must therefore be
           reassessed as both technologies advance.
         </p>
-        <p className="mt-2 text-sm leading-relaxed text-slate-700">
+        <p className="text-sm leading-relaxed text-slate-700">
           The reproductive-burden accounting cuts both ways here: larger embryo sets may
           increase selection power while also increasing embryo creation, testing, and
           non-selection.
         </p>
-      </Card>
+      </section>
 
       {/* Illustrative population scaling — advanced, off the default reading path */}
       <details className="rounded-lg border border-slate-300 bg-slate-50 p-4">
@@ -193,11 +187,11 @@ export default function Embryos({ data, update }: Props) {
             doi={null}
           />
         </Card>
-        <Card className="border-rose-200 bg-rose-50/50">
+        <Card className="border-blue-200 bg-blue-50/40">
           <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
             Affected embryos not selected for transfer / yr — <strong>selection</strong> strategy
           </p>
-          <p className="tnum mt-1 text-2xl font-bold text-rose-700">
+          <p className="tnum mt-1 text-2xl font-bold text-blue-900">
             {fmtCompact(agg.affected_embryos_discarded_selection_strategy)}
           </p>
           <p className="text-xs text-slate-500">
@@ -208,11 +202,11 @@ export default function Embryos({ data, update }: Props) {
             doi={null}
           />
         </Card>
-        <Card className="border-emerald-200 bg-emerald-50/50">
+        <Card className="border-slate-200 bg-slate-50">
           <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
             Idealized successful correction — embryos not selected for transfer / yr
           </p>
-          <p className="tnum mt-1 text-xl font-bold text-emerald-700">
+          <p className="tnum mt-1 text-xl font-bold text-slate-700">
             {fmtInt(agg.affected_embryos_discarded_editing_strategy)} disease-genotype exclusions
             <span className="font-normal"> — by construction</span>
           </p>
@@ -259,21 +253,21 @@ function CurveChart({ e }: { e: AllData['embryos'] }) {
         <line x1={padL} y1={H - padB} x2={W - padR} y2={H - padB} stroke="#cbd5e1" />
         <line x1={padL} y1={padT} x2={padL} y2={H - padB} stroke="#cbd5e1" />
         {/* editing line (flat at 0) */}
-        <line x1={padL} y1={editY} x2={W - padR} y2={editY} stroke="#059669" strokeWidth={2} />
-        <text x={W - padR} y={editY - 6} fontSize={11} textAnchor="end" fill="#059669">
+        <line x1={padL} y1={editY} x2={W - padR} y2={editY} stroke="#64748b" strokeWidth={2} />
+        <text x={W - padR} y={editY - 6} fontSize={11} textAnchor="end" fill="#64748b">
           Idealized successful correction: 0 genotype-based exclusions
         </text>
         {/* selection curve */}
-        <path d={selPath} fill="none" stroke="#e11d48" strokeWidth={2.5} />
+        <path d={selPath} fill="none" stroke="#1e40af" strokeWidth={2.5} />
         {pts.map((p, i) => (
           <g key={p.u}>
-            <circle cx={x(i)} cy={y(p.selection_affected_discarded)} r={3} fill="#e11d48" />
+            <circle cx={x(i)} cy={y(p.selection_affected_discarded)} r={3} fill="#1e40af" />
             <text x={x(i)} y={H - padB + 14} fontSize={10} textAnchor="middle" fill="#64748b">
               {p.u.toFixed(2)}
             </text>
           </g>
         ))}
-        <text x={x(n - 1)} y={y(pts[n - 1].selection_affected_discarded) - 8} fontSize={11} textAnchor="end" fill="#e11d48">
+        <text x={x(n - 1)} y={y(pts[n - 1].selection_affected_discarded) - 8} fontSize={11} textAnchor="end" fill="#1e40af">
           Selection = (1−u)/u → ∞ when no unaffected embryo exists
         </text>
         {/* y ticks */}

@@ -51,32 +51,27 @@ export default function Residual({ data, state, update }: Props) {
         title="The translational frontier: when embryo selection is not enough"
         subtitle="For most monogenic conditions, IVF with PGT-M can select an unaffected embryo. A small number of reproductive situations are different: no unaffected embryo is expected to exist."
       />
-      <p className="text-sm leading-relaxed text-slate-700">
-        <Term k="PGT">PGT-M</Term> can choose among embryos, but it cannot change the genotype
-        of an embryo. If a
-        couple is expected to produce some affected and some unaffected embryos, selection can
-        usually identify an unaffected embryo for transfer.
+      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
+        <Term k="PGT">PGT-M</Term> can choose among embryos, but it cannot change an
+        embryo&apos;s genotype. If a couple is expected to produce some affected and some
+        unaffected embryos, selection can usually identify an unaffected embryo for transfer.
+        When the parental genetic combination means every embryo is expected to inherit the
+        disease-causing genotype, PGT-M can identify the genotype but cannot provide an
+        unaffected embryo.
       </p>
-      <p className="text-sm leading-relaxed text-slate-700">
-        The situation changes when the parental genetic combination means every embryo is
-        expected to inherit the targeted disease-causing genotype. In that case, PGT-M can
-        identify the genotype but cannot provide an unaffected embryo. A successful germline
-        edit could, in principle, create a preventive option that selection cannot.
+      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
+        We call this <strong>editing-only prevention</strong>: a successful germline edit
+        could, in principle, create a preventive option that selection cannot. The estimate
+        below asks how often these no-selectable-unaffected-embryo configurations are expected
+        to occur worldwide.
       </p>
-      <p className="text-sm leading-relaxed text-slate-700">
-        We call this <strong>editing-only prevention</strong>. The estimate below asks how often
-        these no-selectable-unaffected-embryo reproductive configurations are expected to occur
-        worldwide.
-      </p>
-      <div className="rounded-lg border border-slate-200 bg-slate-50/60 p-4 text-sm leading-6 text-slate-700">
+      <div className="max-w-3xl rounded-lg border border-slate-200 bg-slate-50/60 p-4 text-sm leading-6 text-slate-700">
         <p>
-          Selection can become burdensome before it becomes impossible. This analysis
-          distinguishes two situations. In the first, no unaffected embryo exists, so selection
-          is biologically impossible — the population estimated below. In the second,
-          unaffected embryos exist but are rare: PGT-M remains technically possible while
-          requiring many embryos or repeated IVF cycles. Poor selection prospects do not by
-          themselves justify editing, but they change the proportionality comparison, because
-          reproductive burden is one dimension of impact.
+          Selection can become burdensome before it becomes impossible. When no unaffected
+          embryo exists, selection is biologically impossible — the population estimated below.
+          When unaffected embryos are merely rare, PGT-M remains technically possible but may
+          require many embryos or repeated IVF cycles; that changes the proportionality
+          comparison without by itself justifying editing.
         </p>
         <button
           type="button"
@@ -86,12 +81,10 @@ export default function Residual({ data, state, update }: Props) {
           See the selection-versus-correction analysis →
         </button>
       </div>
-      <p className="text-sm leading-relaxed text-slate-700">
-        This is important even though the population is small.{' '}
-        <strong>Population impact and individual clinical justification are different
-        questions.</strong>{' '}
-        A rare reproductive configuration can provide a strong rationale for research if the
-        condition is severe and no existing pathway can achieve the same medically important
+      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
+        Population impact and individual clinical justification are different questions: a rare
+        reproductive configuration can still provide a strong rationale for research when the
+        condition is severe and no existing pathway achieves the same medically important
         outcome.
       </p>
 
@@ -191,12 +184,12 @@ export default function Residual({ data, state, update }: Props) {
         </div>
       </Card>
 
-      {/* S1 by income group */}
-      <Card>
-        <h3 className="text-base font-semibold text-slate-900">
-          Where are these reproductive situations expected to occur?
-        </h3>
-        <p className="mt-1 text-xs text-slate-600">
+      {/* S1 by income group — exploratory, collapsed by default */}
+      <details className="rounded-lg border border-slate-200 bg-white p-4">
+        <summary className="cursor-pointer text-base font-semibold text-slate-900">
+          Geographic distribution — exploratory
+        </summary>
+        <p className="mt-1 max-w-3xl text-xs text-slate-600">
           Regional estimates use regional birth totals and consanguinity assumptions, but
           currently apply global allele-frequency estimates. The geographic distribution should
           therefore be interpreted as approximate.
@@ -229,7 +222,7 @@ export default function Residual({ data, state, update }: Props) {
             </tbody>
           </table>
         </div>
-      </Card>
+      </details>
 
       {/* Beyond the near-term frontier: polygenic disease */}
       <div>
@@ -250,59 +243,45 @@ export default function Residual({ data, state, update }: Props) {
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Card>
-          <h3 className="text-base font-semibold text-slate-900">
+          <p className="text-sm font-semibold text-slate-900">
             Current-evidence population-scaling scenario
-          </h3>
-          <p className="mt-1 text-sm text-slate-600">
-            Under the current-evidence assumptions, the estimated contribution is small and
-            highly uncertain.
           </p>
           {strictEmpty ? (
-            <div className="mt-4">
-              <p className="text-2xl font-semibold text-slate-900">
-                Approximately zero at the median
-              </p>
-              <p className="mt-1 text-sm text-slate-600">
-                Median <StatValue stat={r.s2.strict} kind="int" /> births / yr.{' '}
-                <span className="tnum text-slate-500">
-                  95% uncertainty interval {r.s2.strict.ci95[0].toFixed(1)}–{fmtInt(r.s2.strict.ci95[1])}
-                </span>
-              </p>
-            </div>
+            <p className="mt-2 text-xl font-semibold text-slate-900">
+              ≈ 0 at the median{' '}
+              <span className="tnum text-sm font-normal text-slate-500">
+                (95% UI {r.s2.strict.ci95[0].toFixed(1)}–{fmtInt(r.s2.strict.ci95[1])} births/yr)
+              </span>
+            </p>
           ) : (
-            <p className="mt-4 text-2xl">
+            <p className="mt-2 text-xl">
               <StatValue stat={r.s2.strict} kind="int" showCi />
             </p>
           )}
+          <p className="mt-1 text-xs text-slate-500">
+            Small and highly uncertain under current-evidence assumptions.
+          </p>
         </Card>
 
         <Card>
-          <h3 className="text-base font-semibold text-slate-900">
+          <p className="text-sm font-semibold text-slate-900">
             Future-capacity exploratory population-scaling scenario
-          </h3>
-          <p className="mt-1 text-sm text-slate-600">
-            This scenario assumes that a small number of editable loci account for enough risk
-            in selected complex diseases for editing to outperform modeled alternatives. It is
-            an exploratory scenario, not a forecast of clinical feasibility.
+          </p>
+          <p className="mt-2 text-xl">
+            <StatValue stat={r.s2.permissive} kind="int" showCi />
+            <span className="tnum text-sm font-normal text-slate-500"> births / yr</span>
           </p>
           <p className="mt-1 text-xs text-slate-500">
-            <strong>Exploratory population scaling.</strong> This quantity is generated from
-            the model&apos;s{' '}
-            <InlineLink onClick={() => update({ tab: 'methods', q: 's2' })}>
-              assumed future complex-disease editing share
-            </InlineLink>
-            ; it is not the direct sum of the{' '}
-            <InlineLink onClick={() => update({ tab: 'multifactorial' })}>
-              disease-specific liability-threshold analysis
-            </InlineLink>
-            .
-          </p>
-          <p className="mt-4 text-2xl">
-            <StatValue stat={r.s2.permissive} kind="int" showCi />
-            <span className="tnum text-base font-normal text-slate-500"> births / yr</span>
+            An exploratory scaling of the multifactorial burden, not a forecast — and not the
+            direct sum of the disease-specific liability-threshold analysis.
           </p>
         </Card>
       </div>
+      <p className="text-sm">
+        <InlineLink onClick={() => update({ tab: 'multifactorial' })}>
+          Explore the full polygenic analysis →
+        </InlineLink>
+      </p>
 
       {/* Uniquely-editable summary (reacts to the contested toggle) */}
       <Card>

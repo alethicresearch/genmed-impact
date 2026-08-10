@@ -98,23 +98,18 @@ export default function Denominator({ data, state, update }: Props) {
         title="How much serious genetic disease are we trying to explain?"
         subtitle="Before comparing medical options, we first need an estimate of the disease burden. That estimate depends on what counts as 'serious' and on how much multifactorial disease is attributed to genetics."
       />
-      <p className="text-sm leading-relaxed text-slate-700">
+      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
         The model starts from the annual global birth cohort and estimates two broad sources of
         serious genetic disease. Monogenic disease is primarily caused by pathogenic variation
         in a single gene. Multifactorial disease reflects genetic susceptibility together with
         environmental, developmental, behavioral, and other influences.
       </p>
-      <p className="text-sm leading-relaxed text-slate-700">
+      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
         The monogenic estimate is relatively straightforward conceptually. The multifactorial
         estimate is not: there is no single theory-neutral answer to how many cases of
         diabetes, cardiovascular disease, cancer, or other common conditions should be called
         “genetic.” We therefore show several attribution assumptions rather than treating one
-        number as definitive. (The{' '}
-        <InlineLink onClick={() => update({ tab: 'residual' })}>
-          editing-residual comparison
-        </InlineLink>{' '}
-        at the end of the chart is computed under the paper&apos;s default assumptions and does
-        not respond to these choices.)
+        number as definitive.
       </p>
 
       <div className="flex flex-wrap gap-6">
@@ -136,7 +131,7 @@ export default function Denominator({ data, state, update }: Props) {
           <p className="mt-1 max-w-md text-xs text-slate-500">{ATTR_HELP[attribution]}</p>
         </div>
       </div>
-      <p className="text-xs text-slate-500">
+      <p className="max-w-3xl text-xs text-slate-500">
         There is no uniquely correct way to attribute multifactorial disease to genetics; this
         choice is deliberately exposed because it strongly affects the denominator.{' '}
         <InlineLink onClick={() => update({ tab: 'methods', kind: 'normative' })}>
@@ -144,6 +139,30 @@ export default function Denominator({ data, state, update }: Props) {
         </InlineLink>
         .
       </p>
+
+      {/* Exact values for the current assumption set */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <MetricCard label="Annual global births">
+          <StatValue stat={data.summary.births_per_year} kind="compact" showCi />
+          <SourceNote source={birthsSrc.source || 'UN World Population Prospects 2024'} doi={birthsSrc.doi} />
+        </MetricCard>
+        <MetricCard label="Serious genetic disease / year">
+          <StatValue stat={cell.total_serious} kind="compact" showCi />
+          <SourceNote
+            source="Derived: sum of the modeled monogenic (Modell & Darlison 2008) and multifactorial (GBD 2023; March of Dimes 2006) components at the selected severity and attribution assumptions"
+            doi={null}
+          />
+        </MetricCard>
+        <MetricCard label="Monogenic / multifactorial">
+          <span className="tnum text-lg font-semibold">
+            {fmtCompact(monogenic)} / {fmtCompact(multifactorial)}
+          </span>
+          <SourceNote
+            source={`${monoSrc.source || 'Modell & Darlison 2008'} (monogenic rate); ${multiSrc.source || 'March of Dimes 2006; WHO congenital anomalies'} (multifactorial rate)`}
+            doi={multiSrc.doi}
+          />
+        </MetricCard>
+      </div>
 
       {/* Cascade */}
       <Card>
@@ -179,8 +198,6 @@ export default function Denominator({ data, state, update }: Props) {
           multifactorial-attribution assumptions and therefore do not change with the controls
           above.
         </p>
-
-        <IconArray seriousShare={seriousShare} monoShare={monoShare} />
 
         <ShowDataToggle
           caption="Burden cascade values"
@@ -223,44 +240,6 @@ export default function Denominator({ data, state, update }: Props) {
           ]}
         />
       </Card>
-
-      {/* Metric cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <MetricCard label="Births / year">
-          <StatValue stat={data.summary.births_per_year} kind="compact" showCi />
-          <SourceNote source={birthsSrc.source || 'UN World Population Prospects 2024'} doi={birthsSrc.doi} />
-        </MetricCard>
-        <MetricCard label="Serious genetic disease / year">
-          <StatValue stat={cell.total_serious} kind="compact" showCi />
-          <SourceNote
-            source="Derived: sum of the modeled monogenic (Modell & Darlison 2008) and multifactorial (GBD 2023; March of Dimes 2006) components at the selected severity and attribution assumptions"
-            doi={null}
-          />
-        </MetricCard>
-        <MetricCard label="Serious share of births">
-          <StatValue stat={cell.serious_share_of_births} kind="pct" decimals={2} showCi />
-          <SourceNote source="Derived: serious total ÷ annual births" doi={null} />
-        </MetricCard>
-        <MetricCard label="Monogenic / multifactorial">
-          <span className="tnum text-lg font-semibold">
-            {fmtCompact(monogenic)} / {fmtCompact(multifactorial)}
-          </span>
-          <SourceNote
-            source={`${monoSrc.source || 'Modell & Darlison 2008'} (monogenic rate); ${multiSrc.source || 'March of Dimes 2006; WHO congenital anomalies'} (multifactorial rate)`}
-            doi={multiSrc.doi}
-          />
-        </MetricCard>
-      </div>
-
-      <div>
-        <button
-          type="button"
-          onClick={() => update({ tab: 'prevention' })}
-          className="rounded border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-        >
-          Next: what can existing medicine do about this burden? →
-        </button>
-      </div>
 
       <SourcesList />
     </div>
@@ -425,43 +404,3 @@ function Cascade(p: CascadeProps) {
   );
 }
 
-// A 10xN icon array making the serious-share and monogenic split tangible.
-function IconArray({ seriousShare, monoShare }: { seriousShare: number; monoShare: number }) {
-  const total = 1000; // dots, each = 0.1% of births
-  const seriousDots = Math.round(seriousShare * total);
-  const monoDots = Math.round(seriousDots * monoShare);
-  const cols = 50;
-  const rows = total / cols;
-  const size = 11;
-  const r = 3.2;
-  const W = cols * size;
-  const H = rows * size;
-  const dots = [];
-  for (let i = 0; i < total; i++) {
-    const col = i % cols;
-    const row = Math.floor(i / cols);
-    let fill = '#e2e8f0'; // unaffected
-    if (i < monoDots) fill = '#2563eb';
-    else if (i < seriousDots) fill = '#93c5fd';
-    dots.push(
-      <circle key={i} cx={col * size + size / 2} cy={row * size + size / 2} r={r} fill={fill} />
-    );
-  }
-  return (
-    <div className="mt-5">
-      <p className="mb-1 text-xs text-slate-500">
-        Each dot = 0.1% of births ({total} dots). Blue = monogenic serious, light blue =
-        multifactorial serious, grey = unaffected.
-      </p>
-      <svg
-        role="img"
-        aria-label={`Icon array: ${seriousDots} of 1000 births have serious genetic disease`}
-        viewBox={`0 0 ${W} ${H}`}
-        className="w-full"
-        style={{ maxWidth: 560 }}
-      >
-        {dots}
-      </svg>
-    </div>
-  );
-}

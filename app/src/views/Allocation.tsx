@@ -10,7 +10,6 @@ import {
   YAxis,
 } from 'recharts';
 import { AllData, Stat, fmtInt, fmtMoney, fmtCompact } from '../data';
-import StatValue from '../components/StatValue';
 import { Card, SectionHeading, ExportSvgButton } from '../components/ui';
 import { ShowDataToggle } from '../components/DataTable';
 import { exportContainerSvg } from '../svgExport';
@@ -82,32 +81,7 @@ export default function Allocation({ data }: Props) {
         />
       </Card>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <Card>
-          <h3 className="mb-2 text-base font-semibold text-slate-900">Cost per birth prevented</h3>
-          <dl className="space-y-2">
-            {costBirth.map((r) => (
-              <div key={r.label} className="flex items-baseline justify-between">
-                <dt className="text-sm text-slate-600">{r.label.replace(' — $/birth prevented', '')}</dt>
-                <dd className="text-lg"><StatValue stat={r.stat} kind="money" showCi /></dd>
-              </div>
-            ))}
-          </dl>
-        </Card>
-        <Card>
-          <h3 className="mb-2 text-base font-semibold text-slate-900">Cost per DALY averted</h3>
-          <dl className="space-y-2">
-            {costDaly.map((r) => (
-              <div key={r.label} className="flex items-baseline justify-between">
-                <dt className="text-sm text-slate-600">{r.label.replace(' — $/DALY averted', '')}</dt>
-                <dd className="text-lg"><StatValue stat={r.stat} kind="money" showCi /></dd>
-              </div>
-            ))}
-          </dl>
-        </Card>
-      </div>
-
-      <details className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+      <details className="rounded-lg border border-slate-200 bg-white p-4">
         <summary className="cursor-pointer text-base font-semibold text-slate-900">
           Illustrative outcomes under fixed annual budgets (advanced)
         </summary>

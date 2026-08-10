@@ -8,13 +8,13 @@ export function Reading({ children }: { children: ReactNode }) {
 }
 
 export function PH({ children }: { children: ReactNode }) {
-  return <h2 className="text-xl font-semibold tracking-tight text-slate-900">{children}</h2>;
+  return <h2 className="text-lg font-semibold text-slate-900">{children}</h2>;
 }
 
 // Prose paragraphs are capped at a readable measure; figures, cards, and tables keep the
 // full container width.
 export function Lead({ children }: { children: ReactNode }) {
-  return <p className="text-[15px] leading-7 text-slate-700">{children}</p>;
+  return <p className="max-w-3xl text-[15px] leading-7 text-slate-700">{children}</p>;
 }
 
 export function Caption({ children }: { children: ReactNode }) {
@@ -23,12 +23,14 @@ export function Caption({ children }: { children: ReactNode }) {
 
 // Inline link for count/derivation statements inside prose: clicking jumps to the
 // underlying, pre-filtered data view instead of leaving the reader to find it by hand.
+// Deliberately quiet — accent colour only, underline on hover — so link-dense passages
+// still read as prose rather than hyperlinked documentation.
 export function InlineLink({ onClick, children }: { onClick: () => void; children: ReactNode }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="font-medium text-accent underline decoration-accent/40 underline-offset-2 hover:decoration-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      className="cursor-pointer text-accent underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
     >
       {children}
     </button>

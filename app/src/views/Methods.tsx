@@ -192,21 +192,16 @@ export default function Methods({ data, state, update }: Props) {
         title="Methods & data"
         subtitle="How the disease catalogue, burden and access models, selection-versus-correction analysis, germline-editing frontier, polygenic analysis, uncertainty, and source provenance are constructed."
       />
-      <p className="text-sm leading-relaxed text-slate-700">
+      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
         The study combines a disease-level catalogue with population, intervention, access,
-        reproductive, and genetic-architecture models. The empirical analyses answer three
-        related impact questions: <strong>what can genetic medicine achieve with technologies
-        available now; where does germline editing provide a medically distinct translational
-        option; and how might that role change under future polygenic-editing
-        capabilities?</strong>
+        reproductive, and genetic-architecture models. Together these answer what genetic
+        medicine can achieve with technologies available now; where germline editing provides
+        a medically distinct translational option — when no unaffected embryo can be selected,
+        and how the embryo-level burden of selection changes when unaffected embryos are
+        possible but rare; and how that role could change under future polygenic-editing
+        capabilities.
       </p>
-      <p className="text-sm leading-relaxed text-slate-700">
-        Within that structure, the germline-editing analysis examines three related questions:
-        when no unaffected embryo can be selected; how the embryo-level burden of selection
-        changes when unaffected embryos are possible but rare; and how polygenic editing could
-        change complex-disease risk under future technological assumptions.
-      </p>
-      <p className="text-sm leading-relaxed text-slate-700">
+      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
         Quantitative uncertainty is propagated through {m.n_draws.toLocaleString('en-US')}{' '}
         Monte-Carlo draws. Definitional and ethical choices — such as what counts as serious
         disease, how multifactorial disease is attributed to genetics, and whether prenatal
@@ -386,11 +381,11 @@ export default function Methods({ data, state, update }: Props) {
             </span>
           </p>
         )}
-        <div className="mt-3 overflow-x-auto">
+        <div className="mt-3 max-h-[70vh] overflow-auto">
           <table className="w-full border-collapse text-sm">
             <caption className="sr-only">Model inputs with badges, values, intervals and sources</caption>
-            <thead>
-              <tr className="border-b border-slate-300 text-slate-600">
+            <thead className="sticky top-0 z-10 bg-white shadow-[0_1px_0_#cbd5e1]">
+              <tr className="text-slate-600">
                 <th scope="col" className="px-3 py-2 text-left font-medium">Parameter</th>
                 <th scope="col" className="px-3 py-2 text-left font-medium">Kind</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">Value</th>

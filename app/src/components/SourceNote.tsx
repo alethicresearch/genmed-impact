@@ -90,7 +90,7 @@ export function SourcesList({ title = 'Sources & notes' }: { title?: string }) {
   const entries = reg?.entries ?? [];
   if (entries.length === 0) return null;
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+    <div className="rounded-lg border border-slate-200 bg-white p-4">
       <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">{title}</h2>
       <ol className="mt-2 space-y-1.5 text-xs text-slate-600">
         {entries.map((e, i) => {

@@ -10,7 +10,7 @@ export function Card({
   className?: string;
 }) {
   return (
-    <div className={`rounded-lg border border-slate-200 bg-white p-4 shadow-sm ${className}`}>
+    <div className={`rounded-lg border border-slate-200 bg-white p-4 ${className}`}>
       {children}
     </div>
   );
@@ -25,8 +25,8 @@ export function SectionHeading({
 }) {
   return (
     <div className="mb-3">
-      <h2 className="text-lg font-semibold text-slate-900">{title}</h2>
-      {subtitle && <p className="mt-0.5 text-sm text-slate-500">{subtitle}</p>}
+      <h2 className="text-xl font-semibold tracking-tight text-slate-900">{title}</h2>
+      {subtitle && <p className="mt-1 max-w-3xl text-sm text-slate-500">{subtitle}</p>}
     </div>
   );
 }

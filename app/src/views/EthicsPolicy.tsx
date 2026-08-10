@@ -1,5 +1,6 @@
 import { AllData, fmtCompact, fmtPct } from '../data';
 import { UrlState } from '../urlState';
+import { SectionHeading } from '../components/ui';
 import { Reading, PH, Lead, Claim, ClaimChain, InlineLink } from '../components/prose';
 
 interface Props {
@@ -21,27 +22,16 @@ export default function EthicsPolicy({ data, update }: Props) {
 
   return (
     <Reading>
-      <p className="text-[15px] leading-7 text-slate-600">
-        The impact analysis points to <strong>three priorities operating on different time
-        horizons</strong>.
-      </p>
-      <p className="text-[15px] leading-7 text-slate-600">
-        First, established genetic medicine can produce substantial benefit now, and much of
-        that impact remains unrealized because access and implementation are incomplete.
-      </p>
-      <p className="text-[15px] leading-7 text-slate-600">
-        Second, a much smaller group of severe monogenic cases may provide a strong medical
-        rationale for developing germline editing because embryo selection cannot achieve the
-        desired outcome, or can do so only with unusually high reproductive burden. The
-        no-selectable-embryo cases provide the strongest present example; poor-selection cases
-        require a more conditional comparison of burden, benefit, and risk.
-      </p>
-      <p className="text-[15px] leading-7 text-slate-600">
-        Third, the future role of editing may expand substantially if polygenic causal
-        inference and multiplex editing mature. That possibility justifies serious research and
-        governance work now, even though present technology is not ready for those
-        applications.
-      </p>
+      <SectionHeading
+        title="Ethics & policy"
+        subtitle="How the empirical findings translate into proportionality, research priorities, and regulatory sequencing."
+      />
+      <Lead>
+        The empirical analysis creates different priorities at different time horizons: scaling
+        existing medicine now, developing strongly justified germline-editing indications at
+        the translational frontier, and preparing for a potentially larger future role for
+        polygenic intervention.
+      </Lead>
 
       <section className="space-y-3">
         <PH>A principle of proportionality</PH>
@@ -139,11 +129,8 @@ export default function EthicsPolicy({ data, update }: Props) {
               serious-disease burden
             </InlineLink>
             , or about {fmtCompact(editableTotal.strict.median)} cases per year. Its
-            best-defined component is the{' '}
-            <InlineLink onClick={() => update({ tab: 'residual' })}>
-              population in which no unaffected embryo can be selected
-            </InlineLink>{' '}
-            (approximately {fmtCompact(s1.median)} births/year). Under the future-capacity
+            best-defined component is the population in which no unaffected embryo can be
+            selected (approximately {fmtCompact(s1.median)} births/year). Under the future-capacity
             exploratory scenario, the editing-relevant share increases as a larger potential
             role for complex-disease editing is assumed.
           </Claim>
@@ -157,23 +144,18 @@ export default function EthicsPolicy({ data, update }: Props) {
           </Claim>
           <Claim kind="policy">
             We therefore propose three parallel priorities.{' '}
-            <strong>1. Scale present impact:</strong> expand access to{' '}
-            <InlineLink onClick={() => update({ tab: 'prevention' })}>
-              established screening, reproductive, diagnostic, and therapeutic pathways
-            </InlineLink>
-            . <strong>2. Develop the justified frontier:</strong> create a transparent, tightly
+            <strong>1. Scale present impact:</strong> expand access to established screening,
+            reproductive, diagnostic, and therapeutic pathways.{' '}
+            <strong>2. Develop the justified frontier:</strong> create a transparent, tightly
             governed research pathway for{' '}
             <InlineLink onClick={() => update({ tab: 'residual' })}>
               severe germline-editing indications with strong incremental medical value
             </InlineLink>
             , subject to independent safety and evidence requirements.{' '}
-            <strong>3. Prepare for future impact:</strong> support rigorous research into{' '}
-            <InlineLink onClick={() => update({ tab: 'multifactorial' })}>
-              causal genomics, polygenic intervention, multiplex editing, pleiotropy, embryo
-              technologies
-            </InlineLink>
-            , and long-term governance so that future applications can be evaluated before
-            technological capability outruns public institutions.
+            <strong>3. Prepare for future impact:</strong> support rigorous research into
+            causal genomics, polygenic intervention, multiplex editing, pleiotropy, embryo
+            technologies, and long-term governance so that future applications can be
+            evaluated before technological capability outruns public institutions.
           </Claim>
         </ClaimChain>
       </section>

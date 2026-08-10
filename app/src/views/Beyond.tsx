@@ -1,7 +1,7 @@
 import { AllData } from '../data';
 import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
-import { Card } from '../components/ui';
+import { Card, SectionHeading } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 import { Reading, PH, Lead, Caption, Claim, InlineLink } from '../components/prose';
 
@@ -20,24 +20,23 @@ export default function Beyond({ data, update }: Props) {
   return (
     <SourcesProvider>
       <Reading>
-        <p className="text-[15px] leading-7 text-slate-600">
-          The impact framework does not stop at disease prevention. The same technological
-          advances that could make polygenic disease editing more consequential may eventually
-          make resistance and enhancement more technically plausible. That makes it important
-          to distinguish <strong>technical continuity from ethical continuity</strong>: the
-          medical argument for correcting a severe inherited disorder does not automatically
-          apply to every possible use of germline editing.
-        </p>
-        <p className="text-[15px] leading-7 text-slate-600">
-          Resistance would alter an otherwise healthy embryo to reduce a future risk such as HIV
-          infection or cardiovascular disease. Enhancement would alter traits beyond the
-          prevention of disease. In both cases, the relevant alternatives, expected benefits,
-          and ethical questions differ from the{' '}
+        <SectionHeading
+          title="Resistance & enhancement"
+          subtitle="Why technical continuity with disease prevention does not carry its ethical justification."
+        />
+        <Lead>
+          The same technological advances that could make polygenic disease editing more
+          consequential may eventually make resistance — altering an otherwise healthy embryo
+          to reduce a future risk such as HIV infection or cardiovascular disease — and
+          enhancement — altering traits beyond the prevention of disease — more technically
+          plausible. But technical continuity is not ethical continuity: in both cases the
+          relevant alternatives, expected benefits, and ethical questions differ from the{' '}
           <InlineLink onClick={() => update({ tab: 'residual' })}>
             no-alternative monogenic cases identified in the main analysis
           </InlineLink>
-          .
-        </p>
+          , so neither inherits the medical argument for correcting a severe inherited
+          disorder.
+        </Lead>
 
         <section className="space-y-3">
           <PH>Resistance: what would editing add beyond existing prevention?</PH>

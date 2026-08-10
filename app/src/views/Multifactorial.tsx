@@ -35,13 +35,13 @@ const CLASS_TERM: Record<string, string> = {
 // Labels state the modeled risk-reduction band directly (thresholds 30% / 10% in the data),
 // so the reader knows what each colour means without looking elsewhere. Not clinical verdicts.
 const VERDICT_META: Record<Verdict, { label: string; fill: string; text: string; hatch?: boolean }> = {
-  viable: { label: '≥30% modeled risk reduction', fill: '#059669', text: 'text-emerald-800' },
-  marginal: { label: '10–30% modeled risk reduction', fill: '#f59e0b', text: 'text-amber-800' },
+  viable: { label: '≥30% modeled risk reduction', fill: '#1e40af', text: 'text-blue-900' },
+  marginal: { label: '10–30% modeled risk reduction', fill: '#60a5fa', text: 'text-blue-700' },
   not_viable: { label: '<10% modeled risk reduction', fill: '#94a3b8', text: 'text-slate-600' },
   not_recommended_pleiotropy: {
     label: 'Pleiotropy caution',
-    fill: '#dc2626',
-    text: 'text-red-700',
+    fill: '#d97706',
+    text: 'text-amber-800',
     hatch: true,
   },
 };
@@ -70,18 +70,15 @@ export default function Multifactorial({ data, state, update }: Props) {
           subtitle="Polygenic editing is not clinically viable today, but its potential could change substantially if causal variants can be identified more reliably and multiplex editing becomes sufficiently safe and precise. This model asks where that frontier currently lies and how it moves under higher-capacity assumptions."
         />
 
-        <p className="text-sm leading-relaxed text-slate-700">
+        <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
           Monogenic editing and polygenic editing solve different problems. In a monogenic
           disorder, changing one pathogenic variant may remove most of the relevant inherited
-          risk. In a common complex disease, risk is distributed across many variants and
-          interacts with environment and chance.
-        </p>
-        <p className="text-sm leading-relaxed text-slate-700">
-          That makes polygenic intervention more demanding — but it does not make it
-          unimportant. Recent quantitative work has argued that editing a limited number of
-          well-chosen causal variants could eventually produce large reductions in lifetime
-          disease risk if causal inference and multiplex editing improve sufficiently (Visscher
-          et al., <em>Nature</em>, 2025,{' '}
+          risk; in a common complex disease, risk is distributed across many variants and
+          interacts with environment and chance. That makes polygenic intervention more
+          demanding — but not unimportant: recent quantitative work argues that editing a
+          limited number of well-chosen causal variants could eventually produce large
+          reductions in lifetime disease risk if causal inference and multiplex editing improve
+          sufficiently (Visscher et al., <em>Nature</em>, 2025,{' '}
           <a
             href="https://doi.org/10.1038/s41586-024-08300-4"
             target="_blank"
@@ -90,85 +87,77 @@ export default function Multifactorial({ data, state, update }: Props) {
           >
             10.1038/s41586-024-08300-4
           </a>
-          ). We therefore model polygenic editing as a <strong>developing technological
-          frontier</strong>, not as an extension of the monogenic no-alternative population.
+          ).
         </p>
-        <p className="text-sm leading-relaxed text-slate-700">
-          We model each disease as a continuous underlying liability to disease. Embryo
-          selection can choose among embryos with different polygenic risk; germline editing
-          can change only the loci specified for editing. The potential benefit of either
-          strategy therefore depends on the disease&apos;s genetic architecture, the number of
-          embryos available for selection, and the number of loci that could be edited.
-        </p>
-        <p className="text-xs text-slate-500">
-          The chart reports the resulting modeled relative risk reduction, not clinical
-          efficacy.
+        <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
+          We therefore model polygenic editing as a developing technological frontier, not as
+          an extension of the monogenic no-alternative population, and we model embryo
+          selection alongside it so both strategies are judged on the same terms.
         </p>
 
+        {/* Model in brief */}
         <Card>
-          <p className="text-sm leading-relaxed text-slate-700">
-            Risk reductions are computed on the{' '}
-            <Term k="liability threshold">liability-threshold</Term> model: everyone carries a
-            continuous risk load, and the disease appears once that load crosses a fixed
-            threshold. Selection power grows with the number of embryos available; editing power
-            depends on how concentrated a disease&apos;s risk is in a few editable loci. A large
-            modeled genetic effect does not by itself make a locus a suitable editing target;{' '}
-            <Term k="pleiotropy">pleiotropic</Term> effects may substantially weaken the clinical
-            case.
+          <h3 className="text-base font-semibold text-slate-900">Model in brief</h3>
+          <p className="mt-1 max-w-3xl text-sm leading-relaxed text-slate-700">
+            Each disease is modeled as a continuous underlying{' '}
+            <Term k="liability threshold">liability</Term>: everyone carries a risk load, and
+            the disease appears once that load crosses a fixed threshold. Embryo selection can
+            choose among embryos with different polygenic risk, so its power grows with the
+            number of embryos available. Editing can change only the loci specified for
+            editing, so its power depends on how concentrated a disease&apos;s risk is in a few
+            editable loci. A large modeled genetic effect does not by itself make a locus a
+            suitable editing target; <Term k="pleiotropy">pleiotropic</Term> effects may
+            substantially weaken the clinical case. The chart reports the resulting modeled
+            relative risk reduction, not clinical efficacy.
           </p>
         </Card>
 
         {/* Scenario control */}
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <Segmented
-            label="Technology scenario"
-            ariaLabel="Technology scenario"
-            value={scen}
-            options={SCEN_OPTS}
-            onChange={(v) => update({ scen: v })}
-          />
-          <p className="max-w-md text-xs text-slate-500">
-            <span className="font-medium text-slate-700">Current capacity</span>: approximately
-            five embryos available for selection and one modeled edit.{' '}
-            <span className="font-medium text-slate-700">Future high capacity</span>:
-            approximately 200 embryos and up to ten modeled edits, representing a hypothetical
-            combination of much larger embryo sets and multiplex editing. This is a boundary
-            scenario, not a prediction that these capabilities will arrive on a specified date.
-          </p>
+        <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <Segmented
+              label="Technology scenario"
+              ariaLabel="Technology scenario"
+              value={scen}
+              options={SCEN_OPTS}
+              onChange={(v) => update({ scen: v })}
+            />
+            <p className="max-w-md text-xs text-slate-500">
+              <span className="font-medium text-slate-700">Current capacity</span>:
+              approximately five embryos available for selection and one modeled edit.{' '}
+              <span className="font-medium text-slate-700">Future high capacity</span>:
+              approximately 200 embryos and up to ten modeled edits — a boundary assumption
+              set, not a prediction that these capabilities will arrive on a specified date.
+            </p>
+          </div>
         </div>
 
-        <section className="space-y-2">
+        <section className="max-w-3xl space-y-2">
           <h3 className="text-base font-semibold text-slate-900">
-            Future technology changes both sides of the comparison
+            How the frontier changes with technology
           </h3>
           <p className="text-sm leading-relaxed text-slate-700">
             Future reproductive technologies do not only enable editing. Larger embryo sets
             generated through technologies such as <Term k="IVM">IVM</Term> or{' '}
-            <Term k="IVG">IVG</Term> could make selection
-            substantially more powerful by expanding the number of genomes available to choose
-            among, while multiplex editing changes a different constraint by expanding the
-            number of variants that can be altered directly. The relative impact of selection
-            and correction must therefore be reassessed as both technologies advance — which is
-            why the analysis below models them side by side. Larger embryo sets may also
-            increase embryo creation, testing, and non-selection, so greater selection power
-            carries its own{' '}
+            <Term k="IVG">IVG</Term> could make selection substantially more powerful by
+            expanding the number of genomes available to choose among, while multiplex editing
+            changes a different constraint by expanding the number of variants that can be
+            altered directly. The relative impact of selection and correction must therefore be
+            reassessed as both technologies advance — which is why the analysis below models
+            them side by side. Larger embryo sets may also increase embryo creation, testing,
+            and non-selection, so greater selection power carries its own{' '}
             <InlineLink onClick={() => update({ tab: 'embryos' })}>
               reproductive burden
             </InlineLink>
             .
           </p>
-        </section>
-
-        <section className="space-y-2">
-          <h3 className="text-base font-semibold text-slate-900">
-            Why model the future before it is clinically ready?
-          </h3>
           <p className="text-sm leading-relaxed text-slate-700">
-            Decisions about research, governance, and investment are made before a technology
-            reaches the clinic. Modeling the conditions under which polygenic editing begins to
-            provide meaningful benefit helps identify which scientific advances would matter,
-            which diseases might become relevant first, and where pleiotropy or distributed
-            genetic architecture may remain limiting.
+            Modeling the future before it is clinically ready is useful because decisions about
+            research, governance, and investment are made before a technology reaches the
+            clinic. Mapping where polygenic editing would begin to provide meaningful benefit
+            identifies which scientific advances would matter, which diseases might become
+            relevant first, and where pleiotropy or distributed genetic architecture may remain
+            limiting.
           </p>
         </section>
 
@@ -321,7 +310,7 @@ function Legend({ vThresh, mThresh }: { vThresh: number; mThresh: number }) {
               className="inline-block h-3 w-3 rounded-sm"
               style={{
                 background: m.hatch
-                  ? 'repeating-linear-gradient(45deg,#dc2626,#dc2626 2px,#fff 2px,#fff 4px)'
+                  ? 'repeating-linear-gradient(45deg,#d97706,#d97706 2px,#fff 2px,#fff 4px)'
                   : m.fill,
                 border: '1px solid rgba(0,0,0,0.1)',
               }}
@@ -413,7 +402,7 @@ function DiseaseRow({
             );
           })}
           {d.pleiotropy_caution && (
-            <p className="text-[11px] leading-snug text-red-700">
+            <p className="text-[11px] leading-snug text-amber-800">
               ⚠ <Term k="pleiotropy">Pleiotropy</Term> caution: a concentrated locus here (e.g.
               HLA/APOE) is a poor or unsafe edit target regardless of tractability.
             </p>
@@ -484,7 +473,7 @@ function TrackBar({
     2
   )} SD · ${counts} · ${meta.label}`;
   const fill = meta.hatch
-    ? 'repeating-linear-gradient(45deg,#dc2626,#dc2626 3px,#fecaca 3px,#fecaca 6px)'
+    ? 'repeating-linear-gradient(45deg,#d97706,#d97706 3px,#fde68a 3px,#fde68a 6px)'
     : meta.fill;
   return (
     <div className="flex items-center gap-2 py-0.5" title={hoverTitle}>

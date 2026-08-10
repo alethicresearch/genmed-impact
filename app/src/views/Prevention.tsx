@@ -11,7 +11,6 @@ import {
 } from '../data';
 import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
-import Term from '../components/Term';
 import { Card, SectionHeading, Select, Segmented, Toggle, ExportSvgButton } from '../components/ui';
 import { ShowDataToggle } from '../components/DataTable';
 import { exportContainerSvg } from '../svgExport';
@@ -26,7 +25,7 @@ const REGIONS = ['Global', 'High income', 'Upper-middle income', 'Lower-middle i
 const SCENARIOS = [
   { value: 'current', label: 'Current coverage' },
   { value: 'achievable_2035', label: 'Expanded-access 2035 scenario' },
-  { value: 'ideal', label: 'Full coverage (ideal)' },
+  { value: 'ideal', label: 'Idealized full coverage' },
 ];
 const CLASSES = [
   { value: 'monogenic', label: 'Single-gene (monogenic)' },
@@ -101,27 +100,17 @@ export default function Prevention({ data, state, update }: Props) {
         title="Impact now: what can existing genetic medicine achieve?"
         subtitle="Established genetic medicine already changes outcomes through reproductive planning, embryo selection, prenatal diagnosis, early detection, and treatment. The model asks both what these pathways can achieve in principle and how much of that potential reaches patients today."
       />
-      <p className="text-sm leading-relaxed text-slate-700">
-        <Term k="carrier screening">Carrier screening</Term> + reproductive planning can
-        identify couples at risk before pregnancy. IVF with <Term k="PGT">PGT-M</Term> can
-        allow selection of an embryo without the targeted disease genotype.{' '}
-        <Term k="prenatal diagnosis">Prenatal diagnosis</Term> can identify an affected
-        pregnancy, but it changes the number of affected births only if followed by a
-        reproductive decision not to continue that pregnancy.{' '}
-        <Term k="newborn screening">Newborn screening</Term> acts after birth by enabling
-        earlier treatment.
+      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
+        Carrier screening + reproductive planning can identify couples at risk before
+        pregnancy. IVF with PGT-M can allow selection of an embryo without the targeted disease
+        genotype. Prenatal diagnosis can identify an affected pregnancy, but it changes the
+        number of affected births only if followed by a reproductive decision not to continue
+        that pregnancy. Newborn screening acts after birth by enabling earlier treatment.
       </p>
-      <p className="text-sm leading-relaxed text-slate-700">
+      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
         Because these outcomes are not equivalent, the model reports them on two separate
-        tracks:{' '}
-        <strong>
-          <Term k="affected-birth avoidance">affected births avoided</Term>
-        </strong>{' '}
-        and{' '}
-        <strong>
-          <Term k="burden mitigation">disease burden mitigated after birth</Term>
-        </strong>
-        .
+        tracks: <strong>affected births avoided</strong> and{' '}
+        <strong>disease burden mitigated after birth</strong>.
       </p>
 
       <p className="text-xs leading-5 text-slate-500">
@@ -131,49 +120,51 @@ export default function Prevention({ data, state, update }: Props) {
         should not be interpreted as equivalent evidence.
       </p>
 
-      <div className="flex flex-wrap items-end gap-5">
-        <Select
-          id="region"
-          label="Region"
-          value={region!}
-          options={REGIONS.map((r) => ({ value: r, label: r }))}
-          onChange={(v) => update({ region: v })}
-        />
-        <Select
-          id="scenario"
-          label="Scenario"
-          value={scenario!}
-          options={SCENARIOS}
-          onChange={(v) => update({ scenario: v })}
-        />
-        <Segmented
-          label="Disease class"
-          value={cls}
-          options={CLASSES}
-          onChange={(v) => update({ cls: v })}
-        />
-        <Segmented
-          label="Track"
-          value={track}
-          options={[
-            { value: 'birth', label: 'Affected births avoided' },
-            { value: 'burden', label: 'Burden mitigated after birth' },
-          ]}
-          onChange={(v) => update({ track: v })}
-        />
-      </div>
-      <div className="rounded border border-slate-200 bg-slate-50 p-3">
-        <Toggle
-          label="Count prenatal diagnosis followed by pregnancy termination as reducing affected births?"
-          checked={pndOn}
-          onChange={(v) => update({ pnd: v ? 'on' : 'off' })}
-        />
-        <p className="mt-1 pl-6 text-xs leading-5 text-slate-600">
-          Prenatal diagnosis is a diagnostic test, not itself a preventive intervention. In the
-          affected-birth analysis it is counted only when an affected diagnosis is followed by
-          pregnancy termination. Because that assumption is ethically consequential, results can
-          be viewed with it included or excluded.
-        </p>
+      <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+        <div className="flex flex-wrap items-end gap-5">
+          <Select
+            id="region"
+            label="Region"
+            value={region!}
+            options={REGIONS.map((r) => ({ value: r, label: r }))}
+            onChange={(v) => update({ region: v })}
+          />
+          <Select
+            id="scenario"
+            label="Scenario"
+            value={scenario!}
+            options={SCENARIOS}
+            onChange={(v) => update({ scenario: v })}
+          />
+          <Segmented
+            label="Disease class"
+            value={cls}
+            options={CLASSES}
+            onChange={(v) => update({ cls: v })}
+          />
+          <Segmented
+            label="Track"
+            value={track}
+            options={[
+              { value: 'birth', label: 'Affected births avoided' },
+              { value: 'burden', label: 'Burden mitigated after birth' },
+            ]}
+            onChange={(v) => update({ track: v })}
+          />
+        </div>
+        <div className="mt-3 border-t border-slate-200 pt-3">
+          <Toggle
+            label="Count prenatal diagnosis followed by pregnancy termination as reducing affected births?"
+            checked={pndOn}
+            onChange={(v) => update({ pnd: v ? 'on' : 'off' })}
+          />
+          <p className="mt-1 max-w-3xl pl-6 text-xs leading-5 text-slate-600">
+            Prenatal diagnosis is a diagnostic test, not itself a preventive intervention. In
+            the affected-birth analysis it is counted only when an affected diagnosis is
+            followed by pregnancy termination. Because that assumption is ethically
+            consequential, results can be viewed with it included or excluded.
+          </p>
+        </div>
       </div>
 
       <Card>
@@ -204,16 +195,6 @@ export default function Prevention({ data, state, update }: Props) {
             pathways and is examined separately in the germline-editing analysis.
           </p>
         )}
-        <div className="mt-2">
-          <button
-            type="button"
-            onClick={() => update({ tab: 'residual' })}
-            className="rounded border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          >
-            Next: where can editing provide a distinct or substantially less burdensome route? →
-          </button>
-        </div>
-
         {/* Exploratory control, off the default reading path — it rescales the display and is
             explicitly not a model output. */}
         <details className="mt-3" open={isIllustrative}>
@@ -325,11 +306,6 @@ export default function Prevention({ data, state, update }: Props) {
         </div>
       </Card>
 
-      <p className="text-xs text-slate-500">
-        Newborn screening enables earlier treatment rather than preventing a birth, so its
-        averted-birth share is zero and it appears only in the burden track. Each scenario's
-        coverage and effectiveness are already included in the figures shown.
-      </p>
     </div>
   );
 }

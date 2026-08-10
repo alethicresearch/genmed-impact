@@ -2,8 +2,7 @@ import { ReactNode } from 'react';
 import { AllData, DiseaseClass, fmtCompact, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
 import { SourcesProvider, SourcesList } from '../components/SourceNote';
-import Term from '../components/Term';
-import { Figure, EpistemicTag, EpistemicKind, InlineLink } from '../components/prose';
+import { Figure, EpistemicTag, EpistemicKind, InlineLink, PH, Lead } from '../components/prose';
 
 interface Props {
   data: AllData;
@@ -20,19 +19,19 @@ export default function Overview({ data, update }: Props) {
   return (
     <SourcesProvider>
       <article className="space-y-10 pb-4">
-        {/* The organizing question: impact rather than novelty. */}
+        {/* A. Research question + compact opening */}
         <section className="space-y-3">
-          <p className="text-xl font-semibold leading-8 tracking-tight text-slate-900">
+          <p className="max-w-3xl text-xl font-semibold leading-8 tracking-tight text-slate-900">
             How should genetic medicine be prioritized when judged by impact rather than
             technological novelty?
           </p>
           <Lead>
             Genetic medicine is often discussed through its most spectacular technologies.
             Novel interventions attract attention because they expand the frontier of what is
-            possible. But novelty is not the same as impact. Some of the largest gains
-            available today come from established screening, reproductive, diagnostic, and
-            therapeutic pathways that remain unevenly deployed, while technologies with limited
-            present-day application may become much more consequential as science advances.
+            possible, but novelty is not the same as impact. This can distort priorities in two
+            directions: frontier technologies can overshadow established interventions that
+            remain underdeployed, while spectacular failures can provoke broad responses that
+            make responsible development of valuable future applications harder.
           </Lead>
           <Lead>
             This project therefore evaluates genetic medicine across{' '}
@@ -43,54 +42,14 @@ export default function Overview({ data, update }: Props) {
           </Lead>
           <Lead>
             Impact, in this framework, is multidimensional. It includes population impact,
-            individual clinical impact, technological maturity, and distributional access —
-            and also{' '}
-            <strong>
-              <Term k="reproductive burden">reproductive burden</Term>
-            </strong>
-            : the physical, procedural, and
-            embryo-level burdens of achieving a reproductive outcome. Two interventions can
-            achieve the same disease outcome while imposing very different reproductive
-            burdens, so the route matters, not only the endpoint. Ethical acceptability is
-            assessed alongside these dimensions rather than reduced to any of them.
-          </Lead>
-          <Lead>
-            We address these questions by combining a disease-by-intervention catalogue (
-            <InlineLink onClick={() => update({ tab: 'library', tier: 'all' })}>
-              {fmtInt(rollup.n_diseases_all)} conditions
-            </InlineLink>
-            ), global disease-burden evidence,
-            population modeling, an explicit analysis of reproductive configurations in which
-            embryo selection fails or becomes unusually burdensome, and a genetic-architecture
-            model of potential polygenic intervention.
-          </Lead>
-
-          {/* Source families, compact — each row links into Methods. */}
-          <div className="space-y-1 rounded-lg border border-slate-200 bg-slate-50/60 p-3 text-[13px] leading-6">
-            <SourceRow label="Population & burden" items="GBD 2023 · UN WPP 2024 · WHO" onGo={() => update({ tab: 'methods' })} />
-            <SourceRow label="Genetics & disease" items="Orphanet · gnomAD · published literature" onGo={() => update({ tab: 'methods' })} />
-            <SourceRow label="Access & geography" items="World Bank · UNAIDS · national program evidence" onGo={() => update({ tab: 'methods' })} />
-          </div>
-        </section>
-
-        <section className="space-y-3">
-          <H>Why frame genetic medicine in terms of impact?</H>
-          <Lead>
-            Highly visible technological firsts can dominate public discussion far beyond the
-            number of patients they can actually help. That creates two opposite risks:
-            frontier interventions can receive disproportionate attention while established
-            approaches remain underdeployed, and spectacular failures can provoke responses
-            that make responsible development of genuinely valuable future applications more
-            difficult.
-          </Lead>
-          <Lead>
-            An impact framework avoids both errors. It asks what can help people{' '}
-            <strong>now</strong>, where a new intervention provides a genuinely different
-            medical option, and how those answers may change as technology matures.
+            individual clinical impact, technological maturity, distributional access,
+            reproductive burden, and ethical considerations. Reproductive burden refers to the
+            physical, procedural, embryo-level, and pregnancy-related burdens of achieving a
+            reproductive outcome.
           </Lead>
         </section>
 
-        {/* The three time horizons of the impact framework */}
+        {/* B. The three time horizons of the impact framework */}
         <section className="space-y-2.5">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
             Three horizons, one framework
@@ -98,22 +57,22 @@ export default function Overview({ data, update }: Props) {
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
             <HorizonCard
               title="Impact now"
-              body="Existing carrier screening, reproductive genetics, prenatal diagnosis, newborn screening, and treatment can already alter outcomes for substantial genetic-disease burden. The important question is how much of that capability actually reaches patients."
+              body="What can established genetic medicine already achieve, and how much of that potential is lost through incomplete access?"
             />
             <HorizonCard
               title="Translational frontier"
-              body="Germline editing enters the translational frontier when it can achieve an important reproductive outcome that existing medicine cannot, or when it could provide a substantially less burdensome route to that outcome. The strongest present case is severe monogenic disease in which no unaffected embryo can be selected; a second, more conditional case arises when unaffected embryos are possible but unusually rare."
+              body="Where can editing provide an outcome existing reproductive medicine cannot achieve, or a substantially less burdensome route? The strongest present case is when no unaffected embryo can be selected."
             />
             <HorizonCard
               title="Future impact"
-              body="The medical role of editing could expand as causal variants are identified more reliably and multiplex editing, embryo technologies, and risk prediction improve. Polygenic editing therefore needs to be evaluated as a developing frontier, not dismissed because it is not clinically viable today."
+              body="How could improved causal genomics, larger embryo sets, and multiplex editing change the medical role of heritable intervention?"
             />
           </div>
         </section>
 
-        {/* Disease heterogeneity — part of the framework, not a finding */}
+        {/* C. Disease heterogeneity — part of the framework, not a finding */}
         <section className="space-y-3">
-          <H>Different diseases create different intervention problems</H>
+          <PH>Different diseases create different intervention problems</PH>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             <div className="rounded-lg border border-slate-200 bg-white p-4">
               <p className="text-sm font-semibold text-slate-900">Monogenic disease</p>
@@ -135,28 +94,28 @@ export default function Overview({ data, update }: Props) {
           </div>
           <Lead>
             Under the broad default attribution, the population model contains approximately{' '}
+            {fmtCompact(burden.monogenic.median)} monogenic and{' '}
+            {fmtCompact(burden.multifactorial.median)} multifactorial/partly genetic cases per
+            annual birth cohort. The multifactorial component is strongly sensitive to the
+            attribution definition.{' '}
             <InlineLink onClick={() => update({ tab: 'denominator' })}>
-              {fmtCompact(burden.monogenic.median)} monogenic
-            </InlineLink>{' '}
-            and{' '}
-            <InlineLink onClick={() => update({ tab: 'denominator' })}>
-              {fmtCompact(burden.multifactorial.median)} multifactorial/partly genetic
-            </InlineLink>{' '}
-            cases per annual birth cohort. The multifactorial component is strongly sensitive
-            to the attribution definition.
+              See the burden model →
+            </InlineLink>
           </Lead>
         </section>
 
+        {/* D. What we find */}
         <Findings data={data} update={update} />
 
+        {/* E. Present-impact figure */}
         <AccessGap data={data} update={update} />
 
-        {/* Combined scenario estimates — secondary, for scale only */}
+        {/* F. Combined scenario estimates — secondary, for scale only */}
         <details className="rounded-lg border border-slate-200 bg-slate-50 p-4">
           <summary className="cursor-pointer text-sm font-medium text-slate-700">
             For scale: combined scenario estimates
           </summary>
-          <div className="mt-2 space-y-2 text-[14px] leading-6 text-slate-700">
+          <div className="mt-2 max-w-3xl space-y-2 text-[14px] leading-6 text-slate-700">
             <p>
               The model also combines the no-selectable-embryo population with an exploratory
               population-scaled complex-disease term to show the relative scale of
@@ -164,16 +123,11 @@ export default function Overview({ data, update }: Props) {
             </p>
             <p>
               Under the current-evidence scaling scenario, the combined estimate is
-              approximately{' '}
-              <InlineLink onClick={() => update({ tab: 'residual' })}>
-                {fmtCompact(editableTotal.strict.median)} cases/year
-              </InlineLink>{' '}
-              ({fmtPct(editableShare.strict.median, 2)}). Under the future-capacity exploratory
+              approximately {fmtCompact(editableTotal.strict.median)} cases/year (
+              {fmtPct(editableShare.strict.median, 2)}). Under the future-capacity exploratory
               scaling scenario, it rises to approximately{' '}
-              <InlineLink onClick={() => update({ tab: 'residual' })}>
-                {fmtCompact(editableTotal.permissive.median)}/year
-              </InlineLink>{' '}
-              ({fmtPct(editableShare.permissive.median, 1)}).
+              {fmtCompact(editableTotal.permissive.median)}/year (
+              {fmtPct(editableShare.permissive.median, 1)}).
             </p>
             <p>
               These figures combine <strong>different kinds of medical value</strong>: an
@@ -186,39 +140,47 @@ export default function Overview({ data, update }: Props) {
               The corresponding “not uniquely dependent on editing” percentages describe these
               particular modeled scenarios. They do not mean that the same percentage of
               disease is preventable by present medicine, nor that germline editing will remain
-              confined to the same share as technology develops.
+              confined to the same share as technology develops.{' '}
+              <InlineLink onClick={() => update({ tab: 'residual' })}>
+                See the residual analysis →
+              </InlineLink>
             </p>
           </div>
         </details>
 
-        <KeyDefinitions />
+        {/* G. Supporting material */}
+        <details className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+          <summary className="cursor-pointer text-sm font-medium text-slate-700">
+            Key terms
+          </summary>
+          <KeyDefinitions />
+        </details>
 
         <details className="rounded-lg border border-slate-200 bg-slate-50 p-4">
           <summary className="cursor-pointer text-sm font-medium text-slate-700">
-            About the numbers &amp; uncertainty
+            About the numbers, sources &amp; uncertainty
           </summary>
-          <div className="mt-2 space-y-2 text-[13px] leading-6 text-slate-600">
+          <div className="mt-2 max-w-3xl space-y-2 text-[13px] leading-6 text-slate-600">
             <p>
               Two estimates run in parallel. A growing curated catalogue of{' '}
               <InlineLink onClick={() => update({ tab: 'library', tier: 'all' })}>
                 {fmtInt(rollup.n_diseases_all)} diseases
               </InlineLink>{' '}
-              (
-              <InlineLink onClick={() => update({ tab: 'library', tier: 'core' })}>
-                {fmtInt(rollup.n_diseases)} high-burden core
-              </InlineLink>{' '}
-              +{' '}
-              <InlineLink onClick={() => update({ tab: 'library', tier: 'rare' })}>
-                {fmtInt(rollup.tiers.rare.n_diseases)} rare
-              </InlineLink>
-              ) — not an exhaustive universe —
-              is summed disease-by-disease; a parametric model samples cited rates and
-              assumptions to give the totals with uncertainty intervals. The catalogue sum
-              ({fmtCompact(rollup.total_affected_births_per_year)}/yr over the core) is a floor
-              that rises toward the modelled total ({fmtCompact(burden.total_serious.median)}/yr).
-              What counts as “serious” and how much multifactorial disease is attributed to
-              genetics are adjustable in the Disease burden section; the burden totals respond.
+              ({fmtInt(rollup.n_diseases)} high-burden core +{' '}
+              {fmtInt(rollup.tiers.rare.n_diseases)} rare) — not an exhaustive universe — is
+              summed disease-by-disease; a parametric model samples cited rates and assumptions
+              to give the totals with uncertainty intervals. The catalogue sum (
+              {fmtCompact(rollup.total_affected_births_per_year)}/yr over the core) is a floor
+              that rises toward the modelled total ({fmtCompact(burden.total_serious.median)}
+              /yr). What counts as “serious” and how much multifactorial disease is attributed
+              to genetics are adjustable in the Disease burden section; the burden totals
+              respond.
             </p>
+            <div className="space-y-1 text-[13px] leading-6">
+              <SourceRow label="Population & burden" items="GBD 2023 · UN WPP 2024 · WHO" />
+              <SourceRow label="Genetics & disease" items="Orphanet · gnomAD · published literature" />
+              <SourceRow label="Access & geography" items="World Bank · UNAIDS · national program evidence" />
+            </div>
             <button
               type="button"
               onClick={() => update({ tab: 'methods' })}
@@ -236,7 +198,8 @@ export default function Overview({ data, update }: Props) {
   );
 }
 
-// The three findings, each teaching the situation before naming the estimate.
+// The four findings, each teaching the situation before naming the estimate. Bodies stay
+// short — the full argument and its caveats live on the linked pages.
 function Findings({
   data,
   update,
@@ -260,23 +223,20 @@ function Findings({
       kinds: ['model'],
       body: (
         <>
-          For many well-characterized monogenic disorders, carrier screening and reproductive
-          planning, IVF with PGT-M, prenatal diagnosis, newborn screening, and treatment can
-          substantially alter outcomes.
+          For many well-characterized monogenic disorders, existing screening, reproductive,
+          diagnostic, and treatment pathways can substantially alter outcomes.
           {cur && ideal ? (
             <>
               {' '}
               In the monogenic affected-birth model, current coverage avoids about{' '}
-              {fmtPct(cur.total_averted_birth_fraction.median, 0)} of affected births under the
-              specified assumptions, compared with approximately{' '}
+              {fmtPct(cur.total_averted_birth_fraction.median, 0)} of affected births,
+              compared with approximately{' '}
               {fmtPct(ideal.total_averted_birth_fraction.median, 1)} under idealized full
               coverage.
             </>
           ) : null}{' '}
-          This is a finding about monogenic affected-birth avoidance, not a claim that 99.7% of
-          all genetic disease is preventable. Its importance is that a large share of currently
-          achievable impact depends on implementation and access, not discovery of a new
-          germline technology.
+          This is a result about monogenic affected-birth avoidance, not all genetic disease —
+          and it means much of the achievable impact depends on access, not new technology.
         </>
       ),
       goLabel: 'See the present impact of existing medicine',
@@ -288,16 +248,11 @@ function Findings({
       kinds: ['model'],
       body: (
         <>
-          Most monogenic reproductive risk does not require changing an embryo&apos;s genome:
-          an unaffected embryo can often be selected. But some parental genetic configurations
-          produce no unaffected embryo to select. Under the primary analysis, approximately{' '}
-          {fmtCompact(s1Total.median)} births per year arise from these modeled configurations.
-          These cases provide the clearest example of editing offering something medically
-          different rather than simply another route to an outcome already available through
-          selection. Selection can also become unusually burdensome before it becomes
-          impossible — when unaffected embryos are rare, obtaining one may require many embryos
-          or repeated IVF cycles — which changes the proportionality comparison without by
-          itself justifying editing.
+          Most monogenic reproductive risk can be addressed by selecting an unaffected embryo,
+          but some parental configurations produce no unaffected embryo to select — about{' '}
+          {fmtCompact(s1Total.median)} births per year in the primary analysis. These cases are
+          the clearest example of editing offering something medically different, and selection
+          can become unusually burdensome before it becomes impossible.
         </>
       ),
       goLabel: 'See the translational frontier',
@@ -308,14 +263,12 @@ function Findings({
       kinds: ['model'],
       body: (
         <>
-          Multifactorial disease poses a different problem. Editing is rarely the only option,
-          but it could eventually produce substantial incremental risk reduction if disease
-          risk can be traced to sufficiently causal and editable variants and multiplex editing
-          becomes safe and precise. Under current-capacity assumptions, the model finds little
-          practical editing advantage. Under the hypothetical high-capacity assumptions, some
-          more genetically concentrated complex diseases cross the modeled risk-reduction
-          threshold. This is not a forecast of clinical use, but neither is it evidence that
-          polygenic editing will remain medically marginal.
+          Editing is rarely the only option for multifactorial disease, but it could eventually
+          produce substantial risk reduction if causal variants become reliably identifiable
+          and multiplex editing matures. Under current-capacity assumptions the model finds
+          little practical editing advantage; under hypothetical high-capacity assumptions,
+          some genetically concentrated diseases cross the modeled threshold. This is neither a
+          forecast nor evidence that polygenic editing will remain medically marginal.
         </>
       ),
       goLabel: 'Explore the polygenic frontier',
@@ -348,7 +301,7 @@ function Findings({
           <p className="text-sm font-semibold text-slate-900">
             {i + 1}. {f.title}
           </p>
-          <p className="mt-1 text-[14px] leading-6 text-slate-700">{f.body}</p>
+          <p className="mt-1 max-w-3xl text-[14px] leading-6 text-slate-700">{f.body}</p>
           <p className="mt-2 flex flex-wrap items-center gap-1">
             {f.kinds.map((k) => (
               <EpistemicTag key={k} kind={k} />
@@ -394,19 +347,14 @@ function KeyDefinitions() {
     },
   ];
   return (
-    <aside className="rounded-lg border border-slate-200 bg-white p-4">
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-        Key definitions
-      </h2>
-      <dl className="mt-2 space-y-1.5">
-        {defs.map((d) => (
-          <div key={d.term} className="text-[13px] leading-6 text-slate-700">
-            <dt className="inline font-semibold text-slate-900">{d.term}:</dt>{' '}
-            <dd className="inline">{d.def}</dd>
-          </div>
-        ))}
-      </dl>
-    </aside>
+    <dl className="mt-2 max-w-3xl space-y-1.5">
+      {defs.map((d) => (
+        <div key={d.term} className="text-[13px] leading-6 text-slate-700">
+          <dt className="inline font-semibold text-slate-900">{d.term}:</dt>{' '}
+          <dd className="inline">{d.def}</dd>
+        </div>
+      ))}
+    </dl>
   );
 }
 
@@ -419,35 +367,10 @@ function HorizonCard({ title, body }: { title: string; body: string }) {
   );
 }
 
-// ---- typographic primitives ----
-function H({ children }: { children: ReactNode }) {
-  return (
-    <h2 className="text-xl font-semibold tracking-tight text-slate-900">{children}</h2>
-  );
-}
-function Lead({ children }: { children: ReactNode }) {
-  return <p className="text-[15px] leading-7 text-slate-700">{children}</p>;
-}
-
-function SourceRow({
-  label,
-  items,
-  onGo,
-}: {
-  label: string;
-  items: string;
-  onGo: () => void;
-}) {
+function SourceRow({ label, items }: { label: string; items: string }) {
   return (
     <p className="text-slate-600">
-      <span className="font-semibold text-slate-800">{label}:</span> {items}{' '}
-      <button
-        type="button"
-        onClick={onGo}
-        className="ml-1 text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-      >
-        sources →
-      </button>
+      <span className="font-semibold text-slate-800">{label}:</span> {items}
     </p>
   );
 }
@@ -475,8 +398,16 @@ function AccessGap({
       onMore={() => update({ tab: 'prevention' })}
     >
       <div className="space-y-2">
-        <GapBar label="Preventable in principle (full coverage)" frac={inPrinciple} color="#059669" />
-        <GapBar label="Prevented in practice (today's coverage)" frac={inPractice} color="#0284c7" />
+        <GapBar
+          label="Affected births avoided — idealized full coverage"
+          frac={inPrinciple}
+          color="#059669"
+        />
+        <GapBar
+          label="Affected births avoided — current modeled coverage"
+          frac={inPractice}
+          color="#0284c7"
+        />
       </div>
     </Figure>
   );
