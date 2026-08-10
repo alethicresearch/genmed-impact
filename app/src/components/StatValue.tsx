@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Stat, fmtInt, fmtCompact, fmtPct, fmtMoney, crInt, crPct, crMoney } from '../data';
 
 type Kind = 'int' | 'compact' | 'pct' | 'money';
@@ -54,8 +55,9 @@ function ciInline(stat: Stat, kind: Kind, decimals: number): string {
 }
 
 /**
- * Displays a Stat's median with its 95% credible interval available on hover
- * (title attribute) and optionally inline.
+ * Displays a Stat's median with its 95% credible interval. When the interval is not shown
+ * inline, the value is a click/tap toggle that reveals it — hover (title) works too, but is
+ * never the only way in, so touch readers get the same information.
  */
 export default function StatValue({
   stat,
@@ -64,12 +66,31 @@ export default function StatValue({
   showCi = false,
   className = '',
 }: Props) {
+  const [open, setOpen] = useState(false);
   const median = formatMedian(stat, kind, decimals);
   const title = ciString(stat, kind, decimals);
+  if (showCi) {
+    return (
+      <span className={`tnum ${className}`} title={title}>
+        <span className="font-semibold">{median}</span>
+        <span className="ml-1 text-xs font-normal text-slate-500">
+          (95% CrI {ciInline(stat, kind, decimals)})
+        </span>
+      </span>
+    );
+  }
   return (
     <span className={`tnum ${className}`} title={title}>
-      <span className="font-semibold">{median}</span>
-      {showCi && (
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-label={`${median} — show 95% credible interval`}
+        className="cursor-help rounded font-semibold underline decoration-dotted decoration-slate-400 underline-offset-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      >
+        {median}
+      </button>
+      {open && (
         <span className="ml-1 text-xs font-normal text-slate-500">
           (95% CrI {ciInline(stat, kind, decimals)})
         </span>
