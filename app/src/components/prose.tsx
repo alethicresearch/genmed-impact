@@ -2,8 +2,9 @@ import { ReactNode } from 'react';
 
 // Shared typographic primitives for the prose-led "interactive paper" views.
 
+// The page container is already a single reading-width column, so prose views fill it.
 export function Reading({ children }: { children: ReactNode }) {
-  return <article className="mx-auto max-w-2xl space-y-10 pb-4">{children}</article>;
+  return <article className="space-y-10 pb-4">{children}</article>;
 }
 
 export function PH({ children }: { children: ReactNode }) {

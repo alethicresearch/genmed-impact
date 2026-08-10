@@ -82,14 +82,17 @@ function sectionOf(viewId: string): SectionDef {
 
 // ---- Research-artifact masthead metadata ----
 const REPO_URL = 'https://github.com/alethicresearch/genmed-impact';
-const CITATION_URL = `${REPO_URL}/blob/main/CITATION.cff`;
+const DATA_ARCHIVE_URL = `${REPO_URL}/tree/main/results`;
 
-const AUTHORS: { name: string; affiliation?: string }[] = [
-  { name: 'Sankalpa Ghose', affiliation: 'Alethic Research' },
-  { name: 'D. A. Wallach' },
-  { name: 'Peter Singer' },
-  { name: 'Julian Savulescu' },
-];
+const BIBTEX = `@software{genmed_impact,
+  title  = {Genetic Disease and What Medicine Can Do:
+            a genetic-disease {\\texttimes} genetic-medicine impact library
+            and reproducible burden pipeline},
+  author = {Ghose, Sankalpa and Wallach, D. A. and Singer, Peter and Savulescu, Julian},
+  year   = {2026},
+  url    = {https://github.com/alethicresearch/genmed-impact},
+  note   = {Version 0.1.0. Code Apache-2.0; curated data CC-BY-4.0.}
+}`;
 
 export default function App() {
   const [data, setData] = useState<AllData | null>(null);
@@ -118,57 +121,59 @@ export default function App() {
     activeIdx >= 0 && activeIdx < ALL_VIEWS.length - 1 ? ALL_VIEWS[activeIdx + 1] : null;
 
   return (
-    <div className="mx-auto flex min-h-full max-w-6xl flex-col px-4 pb-16 pt-6">
+    <div className="mx-auto flex min-h-full max-w-3xl flex-col px-4 pb-16 pt-6">
       <header className="mb-5 border-b border-slate-200 pb-4">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div className="max-w-3xl">
-            <button
-              type="button"
-              onClick={() => update({ tab: 'overview' })}
-              title="Back to overview"
-              className="rounded text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              <h1 className="text-2xl font-bold tracking-tight text-slate-900 hover:text-accent">
-                Genetic Disease and What Medicine Can Do
-              </h1>
-            </button>
-            <p className="mt-1 text-sm text-slate-600">
-              {AUTHORS.map((a, i) => (
-                <span key={a.name}>
-                  {i > 0 && <span className="text-slate-400"> · </span>}
-                  <span className="font-medium text-slate-700">{a.name}</span>
-                  {a.affiliation && (
-                    <span className="text-slate-500"> ({a.affiliation})</span>
-                  )}
-                </span>
-              ))}
-            </p>
-            {/* artifact link row */}
-            <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
-              <span
-                className="inline-flex items-center gap-1 rounded border border-amber-300 bg-amber-50 px-2 py-1 text-amber-800"
-                title="The analysis and the accompanying manuscript are still under development; figures may change."
-              >
-                ⚠ Work in progress — analysis &amp; manuscript under development
-              </span>
-              <a
-                href={REPO_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 rounded border border-slate-300 bg-white px-2 py-1 text-slate-700 hover:border-accent hover:text-accent"
-              >
-                ⌥ Code &amp; data (GitHub)
-              </a>
-              <a
-                href={CITATION_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 rounded border border-slate-300 bg-white px-2 py-1 text-slate-700 hover:border-accent hover:text-accent"
-              >
-                ❝ Cite
-              </a>
-            </div>
-          </div>
+        <button
+          type="button"
+          onClick={() => update({ tab: 'overview' })}
+          title="Back to overview"
+          className="rounded text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 hover:text-accent">
+            Genetic Disease and What Medicine Can Do
+          </h1>
+        </button>
+        <p className="mt-2">
+          <span
+            className="inline-flex items-center gap-1 rounded border border-amber-300 bg-amber-50 px-2 py-1 text-xs text-amber-800"
+            title="The analysis and the accompanying manuscript are still under development; figures may change."
+          >
+            ⚠ Work in progress — analysis &amp; manuscript under development
+          </span>
+        </p>
+        {/* hero action row (matches the alethic research-page house style) */}
+        <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
+          <span
+            className="inline-flex cursor-not-allowed items-center gap-1 rounded border border-slate-200 bg-slate-50 px-3 py-1.5 text-slate-400"
+            title="Preprint in preparation — link coming"
+          >
+            ↓ Read the paper
+          </span>
+          <a
+            href={DATA_ARCHIVE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 rounded border border-slate-300 bg-white px-3 py-1.5 text-slate-700 hover:border-accent hover:text-accent"
+          >
+            ↗ Data archive
+          </a>
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 rounded border border-slate-300 bg-white px-3 py-1.5 text-slate-700 hover:border-accent hover:text-accent"
+          >
+            ↗ Project repo
+          </a>
+          <button
+            type="button"
+            onClick={() =>
+              document.getElementById('citation')?.scrollIntoView({ behavior: 'smooth' })
+            }
+            className="inline-flex items-center gap-1 rounded border border-slate-300 bg-white px-3 py-1.5 text-slate-700 hover:border-accent hover:text-accent"
+          >
+            Cite ↓
+          </button>
         </div>
       </header>
 
@@ -236,10 +241,41 @@ export default function App() {
           </main>
 
           <PrevNext prev={prevView} next={nextView} onGo={(id) => update({ tab: id })} />
+          <CiteSection />
           <Footer commit={data.meta.commit} />
         </>
       )}
     </div>
+  );
+}
+
+// "Cite this work" — BibTeX block with a copy button, matching the alethic research-page style.
+function CiteSection() {
+  const [copied, setCopied] = useState(false);
+  return (
+    <section id="citation" aria-labelledby="citation-heading" className="mt-10">
+      <h2 id="citation-heading" className="text-lg font-semibold text-slate-900">
+        Cite this work
+      </h2>
+      <div className="relative mt-3">
+        <pre className="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-4 text-xs leading-5 text-slate-700">
+          {BIBTEX}
+        </pre>
+        <button
+          type="button"
+          onClick={() => {
+            navigator.clipboard?.writeText(BIBTEX).then(() => {
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            });
+          }}
+          aria-label="Copy BibTeX citation"
+          className="absolute right-2 top-2 rounded border border-slate-300 bg-white px-2 py-1 text-xs font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          {copied ? 'Copied ✓' : 'Copy'}
+        </button>
+      </div>
+    </section>
   );
 }
 
@@ -331,9 +367,15 @@ function Footer({ commit }: { commit: string }) {
       </p>
       <p className="text-slate-400">
         Code Apache-2.0; curated data CC-BY-4.0.{' '}
-        <a href={CITATION_URL} target="_blank" rel="noopener noreferrer" className="hover:text-accent">
+        <button
+          type="button"
+          onClick={() =>
+            document.getElementById('citation')?.scrollIntoView({ behavior: 'smooth' })
+          }
+          className="hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
           How to cite
-        </a>{' '}
+        </button>{' '}
         ·{' '}
         <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="hover:text-accent">
           Source &amp; data
