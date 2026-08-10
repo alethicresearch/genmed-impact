@@ -67,6 +67,8 @@ def export_all(R: dict[str, Any]) -> None:
     put("multifactorial_births_per_year", R["burden"]["default"]["multifactorial"], ctx)
     put("serious_share_of_all_births", R["burden"]["default"]["serious_share_of_births"], ctx)
     put("s1_no_selectable_embryo_births_per_year", R["residual"]["s1_total"], ctx)
+    put("s1_without_contested_deafness_births_per_year", R["residual"]["s1_total_without_contested"], ctx)
+    put("s1_contested_deafness_contribution", R["residual"]["s1_contested_delta"], ctx)
     for crit in config.S2_CRITERIA:
         put(f"s2_editing_superior_births_per_year__{crit}", R["residual"]["s2"][crit], {"criteria": crit})
         put(f"uniquely_editable_births_per_year__{crit}", R["residual"]["uniquely_editable_total"][crit], {**ctx, "criteria": crit})
@@ -146,8 +148,28 @@ def _write_tables_md(R: dict[str, Any]) -> None:
     for name, node in sorted(res["s1_by_condition"].items(), key=lambda kv: -kv[1]["median"]):
         lines.append(_row(name, _fmt(node["median"]),
                           f"{_fmt(node['ci95'][0])} – {_fmt(node['ci95'][1])}"))
-    lines.append(_row("**S1 total**", f"**{_fmt(s1)}**",
+    lines.append(_row("**S1 total (incl. contested)**", f"**{_fmt(s1)}**",
                       f"{_fmt(res['s1_total']['ci95'][0])} – {_fmt(res['s1_total']['ci95'][1])}"))
+    s1_excl = res["s1_total_without_contested"]
+    lines.append(_row("_S1 excl. congenital deafness (contested)_", f"_{_fmt(s1_excl['median'])}_",
+                      f"{_fmt(s1_excl['ci95'][0])} – {_fmt(s1_excl['ci95'][1])}"))
+    lines.append("")
+    delta = res["s1_contested_delta"]
+    lines.append(f"_Congenital deafness (contested) contributes a median **{_fmt(delta['median'])}** "
+                 f"(95% CrI {_fmt(delta['ci95'][0])}–{_fmt(delta['ci95'][1])}) of the S1 total. "
+                 f"The draft paper's 14,000 sits between the two variants._")
+    lines.append("")
+
+    # Table 3b — S1 by income group
+    lines.append("## Table 3b — S1 residual by World Bank income group")
+    lines.append("")
+    lines.append(_row("Income group", "S1 incl. contested (median)", "S1 excl. contested (median)"))
+    lines.append(_row("---", "---:", "---:"))
+    for region, node in res["s1_by_region"].items():
+        lines.append(_row(region, _fmt(node["with_contested"]["median"]),
+                          _fmt(node["without_contested"]["median"])))
+    lines.append("")
+    lines.append(f"_{res['s1_by_region_note']}_")
     lines.append("")
 
     # Table 4 — global prevention waterfall (current vs achievable_2035), monogenic, PND on

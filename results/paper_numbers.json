@@ -51,108 +51,126 @@
     "severity_def": "def_b",
     "attribution": "inclusive"
   },
-  "s2_editing_superior_births_per_year__strict": {
-    "median": 1293.2091253989618,
+  "s1_without_contested_deafness_births_per_year": {
+    "median": 11320.295924931146,
     "ci95": [
-      0.9518799826534897,
-      18471.1968652733
+      4851.880736553392,
+      26108.921874838317
+    ],
+    "severity_def": "def_b",
+    "attribution": "inclusive"
+  },
+  "s1_contested_deafness_contribution": {
+    "median": 12377.10266586017,
+    "ci95": [
+      4858.447587624893,
+      30059.7567014242
+    ],
+    "severity_def": "def_b",
+    "attribution": "inclusive"
+  },
+  "s2_editing_superior_births_per_year__strict": {
+    "median": 1320.3269387247879,
+    "ci95": [
+      1.2386957451389018,
+      18016.945883705608
     ],
     "criteria": "strict"
   },
   "uniquely_editable_births_per_year__strict": {
-    "median": 27899.33171318326,
+    "median": 27923.305346093926,
     "ci95": [
-      14507.015554521804,
-      53308.63476345445
+      14555.315148683347,
+      52914.44979660907
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "strict"
   },
   "uniquely_editable_share_of_serious__strict": {
-    "median": 0.003477954896954084,
+    "median": 0.0034788087213486587,
     "ci95": [
-      0.0017921300176591537,
-      0.006680654132795927
+      0.0017792588074177027,
+      0.006707902913747905
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "strict"
   },
   "addressable_share_of_serious__strict": {
-    "median": 0.9965220451030459,
+    "median": 0.9965211912786514,
     "ci95": [
-      0.993319345867204,
-      0.9982078699823409
+      0.9932920970862521,
+      0.9982207411925823
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "strict"
   },
   "s2_editing_superior_births_per_year__permissive": {
-    "median": 126561.93960005764,
+    "median": 127165.76944058761,
     "ci95": [
-      56852.9192788615,
-      242708.53410604678
+      57354.72549756156,
+      243590.61051346327
     ],
     "criteria": "permissive"
   },
   "uniquely_editable_births_per_year__permissive": {
-    "median": 152772.75598494464,
+    "median": 153248.69229190814,
     "ci95": [
-      80710.23002470723,
-      270284.1650048859
+      81510.53795570292,
+      270979.44241698814
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "permissive"
   },
   "uniquely_editable_share_of_serious__permissive": {
-    "median": 0.01906223050585149,
+    "median": 0.019121389588103204,
     "ci95": [
-      0.010167058135068865,
-      0.03285095335950689
+      0.010313162152907441,
+      0.03277580279296839
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "permissive"
   },
   "addressable_share_of_serious__permissive": {
-    "median": 0.9809377694941486,
+    "median": 0.9808786104118968,
     "ci95": [
-      0.9671490466404932,
-      0.9898329418649311
+      0.9672241972070316,
+      0.9896868378470925
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "permissive"
   },
   "hiv_vertical_infections_per_year": {
-    "median": 129922.93508830629,
+    "median": 129825.75547377739,
     "ci95": [
-      107931.5415971231,
-      156794.4361025496
+      107849.77020659759,
+      156450.23237154298
     ]
   },
   "hiv_residual_after_pmtct": {
-    "median": 25120.644982968075,
+    "median": 24842.409900174964,
     "ci95": [
-      13073.91548977879,
-      41787.38753575386
+      13151.356034035089,
+      41907.197733532914
     ]
   },
   "cost_per_birth_prevented_screening": {
-    "median": 12003.426774184101,
+    "median": 11913.27350386317,
     "ci95": [
-      4385.789703134756,
-      32861.39080819647
+      4321.999897562819,
+      32182.2090975399
     ]
   },
   "cost_per_birth_prevented_editing": {
-    "median": 499537.97303023835,
+    "median": 504529.93442119705,
     "ci95": [
-      135034.91726380048,
-      1841159.0251652398
+      138666.69762866892,
+      1828334.6354896456
     ]
   }
 }

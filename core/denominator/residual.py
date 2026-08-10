@@ -22,12 +22,29 @@ def _default(param_or_none, fallback):
     return param_or_none if param_or_none is not None else fallback
 
 
-def s1_by_condition(births: np.ndarray, conditions: dict, n: int, rng: np.random.Generator) -> dict:
-    """Return {condition_name: births_S1 array} plus a 'Balanced translocations' lump term."""
+def is_contested(cond: dict) -> bool:
+    return bool(cond.get("contested", False))
+
+
+def s1_by_condition(births: np.ndarray, conditions: dict, n: int, rng: np.random.Generator,
+                    F_param: dict | None = None, include_contested: bool = True) -> dict:
+    """Return {condition_name: births_S1 array} plus a 'Balanced translocations' lump term.
+
+    Parameters
+    ----------
+    births : per-draw births to which the S1 couple-probabilities apply (global or a region).
+    F_param : optional consanguinity-F constant dict {value,low,high} overriding the global
+              default (used for per-region S1 where inbreeding differs).
+    include_contested : if False, conditions flagged ``contested: true`` (e.g. congenital
+              deafness) are omitted from the returned map — the explicit in/out toggle.
+    """
     gd = conditions["global_defaults"]
+    F_src = F_param if F_param is not None else gd["consanguinity_F"]
     out: dict[str, np.ndarray] = {}
 
     for cond in conditions["conditions"]:
+        if not include_contested and is_contested(cond):
+            continue
         name = cond["name"]
         q = mc.sample_positive(cond["allele_freq"], n, rng)
         pen = mc.sample_proportion(cond["penetrance"], n, rng)
@@ -35,7 +52,7 @@ def s1_by_condition(births: np.ndarray, conditions: dict, n: int, rng: np.random
         alpha = mc.sample_proportion(cond["assortative"], n, rng)
 
         if cond.get("consanguinity_sensitive", False):
-            F = mc.sample_proportion(gd["consanguinity_F"], n, rng)
+            F = mc.sample_proportion(F_src, n, rng)
         else:
             F = np.zeros(n)
 
@@ -64,8 +81,10 @@ def s1_by_condition(births: np.ndarray, conditions: dict, n: int, rng: np.random
     return out
 
 
-def s1_total(births: np.ndarray, conditions: dict, n: int, rng: np.random.Generator) -> tuple[np.ndarray, dict]:
-    by_cond = s1_by_condition(births, conditions, n, rng)
+def s1_total(births: np.ndarray, conditions: dict, n: int, rng: np.random.Generator,
+             F_param: dict | None = None, include_contested: bool = True) -> tuple[np.ndarray, dict]:
+    by_cond = s1_by_condition(births, conditions, n, rng, F_param=F_param,
+                              include_contested=include_contested)
     total = np.sum(np.stack(list(by_cond.values()), axis=0), axis=0)
     return total, by_cond
 

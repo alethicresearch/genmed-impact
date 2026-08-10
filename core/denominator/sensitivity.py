@@ -13,13 +13,13 @@ from . import attribution, model, montecarlo as mc, residual
 
 
 def _point_editable_share(constants, conditions, *, severity, attribution_stance,
-                          s2_criteria, births_val=None):
+                          s2_criteria, include_contested=True, births_val=None):
     """Single deterministic evaluation of the uniquely-editable share of serious disease."""
+    n = 4000  # average out S1 MC noise so the tornado bars are stable
     rng = np.random.default_rng(0)
-    n = 1
     if births_val is None:
         births_val = constants["births"]["global_per_year"]["value"]
-    births = np.array([births_val], dtype=float)
+    births = np.full(n, births_val, dtype=float)
 
     # central-value burden (use .value directly, no sampling variance)
     mono = births * constants["burden"]["monogenic_serious_per_1000"][severity]["value"] / 1000.0
@@ -27,11 +27,10 @@ def _point_editable_share(constants, conditions, *, severity, attribution_stance
              * constants["attribution"][attribution_stance]["value"])
     total = mono + multi
 
-    # S1 central: reuse the stochastic routine with n=1 at central seed (approx central)
-    s1, _ = residual.s1_total(births, conditions, n, rng)
+    s1, _ = residual.s1_total(births, conditions, n, rng, include_contested=include_contested)
     s2 = multi * constants["s2"]["fraction_of_multifactorial"][s2_criteria]["value"]
     editable = s1 + s2
-    return float(editable[0] / total[0])
+    return float(np.median(editable / total))
 
 
 def tornado(constants: dict, conditions: dict) -> list[dict]:
@@ -59,6 +58,16 @@ def tornado(constants: dict, conditions: dict) -> list[dict]:
                for c in ("strict", "permissive")}
     rows.append({"parameter": "S2 criteria (complex-disease editing)", "low": min(s2_vals.values()),
                  "high": max(s2_vals.values()), "base": base, "detail": "strict / permissive"})
+
+    contested_in = _point_editable_share(constants, conditions, severity="def_b",
+                                         attribution_stance="inclusive", s2_criteria="permissive",
+                                         include_contested=True)
+    contested_out = _point_editable_share(constants, conditions, severity="def_b",
+                                          attribution_stance="inclusive", s2_criteria="permissive",
+                                          include_contested=False)
+    rows.append({"parameter": "Congenital deafness in/out of S1",
+                 "low": min(contested_in, contested_out), "high": max(contested_in, contested_out),
+                 "base": base, "detail": "contested condition included vs excluded"})
 
     # continuous swings: re-evaluate editable share with a single constant at low/high
     import copy

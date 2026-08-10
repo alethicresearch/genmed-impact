@@ -77,7 +77,9 @@ export default function App() {
               {activeTab === 'prevention' && (
                 <Prevention data={data} state={state} update={update} />
               )}
-              {activeTab === 'residual' && <Residual data={data} />}
+              {activeTab === 'residual' && (
+                <Residual data={data} state={state} update={update} />
+              )}
               {activeTab === 'resistance' && <Resistance data={data} />}
               {activeTab === 'allocation' && <Allocation data={data} />}
               {activeTab === 'methods' && (

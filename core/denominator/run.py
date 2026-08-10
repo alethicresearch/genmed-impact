@@ -42,15 +42,36 @@ def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
     multi_default = grid[dsev][datt]["multi"]
     total_default = grid[dsev][datt]["total"]
 
-    # ---- RQ3 residual: S1 (per condition) + S2 (per criteria) -------------------------
-    s1, s1_by_cond = residual.s1_total(births, conditions, n, rng)
+    # ---- RQ3 residual: S1 (contested toggle + per region) + S2 (per criteria) ---------
+    contested_names = [c["name"] for c in conditions["conditions"] if residual.is_contested(c)]
+
+    s1_incl, s1_by_cond = residual.s1_total(births, conditions, n, rng, include_contested=True)
+    # subtract the contested conditions' OWN per-draw contribution (same draws) so the delta and
+    # the without-contested total are internally consistent and non-negative.
+    contested_delta = sum((s1_by_cond[name] for name in contested_names), start=np.zeros(n))
+    s1_excl = s1_incl - contested_delta
+    s1_variants = {"with_contested": s1_incl, "without_contested": s1_excl}
+
+    # per income-group S1: region births × region-specific consanguinity F
+    s1_by_region: dict = {}
+    for region, meta in harmonize.INCOME_GROUPS.items():
+        share = mc.sample_proportion(meta["birth_share"], n, rng)
+        births_r = births * share
+        r_incl, _ = residual.s1_total(births_r, conditions, n, rng,
+                                      F_param=meta["consanguinity_F"], include_contested=True)
+        r_excl, _ = residual.s1_total(births_r, conditions, n, rng,
+                                      F_param=meta["consanguinity_F"], include_contested=False)
+        s1_by_region[region] = {"with_contested": r_incl, "without_contested": r_excl}
+
     s2 = {crit: residual.s2_total(multi_default, constants, crit, n, rng)
           for crit in config.S2_CRITERIA}
 
-    editable = {crit: s1 + s2[crit] for crit in config.S2_CRITERIA}
-    editable_share_serious = {crit: editable[crit] / total_default for crit in config.S2_CRITERIA}
-    editable_share_births = {crit: editable[crit] / births for crit in config.S2_CRITERIA}
-    addressable_share = {crit: 1.0 - editable_share_serious[crit] for crit in config.S2_CRITERIA}
+    # editable = S1 + S2 across contested-toggle × S2-criteria
+    editable = {ck: {crit: s1_variants[ck] + s2[crit] for crit in config.S2_CRITERIA} for ck in s1_variants}
+    ed_share_serious = {ck: {crit: editable[ck][crit] / total_default for crit in config.S2_CRITERIA} for ck in s1_variants}
+    ed_share_births = {ck: {crit: editable[ck][crit] / births for crit in config.S2_CRITERIA} for ck in s1_variants}
+    addressable = {ck: {crit: 1.0 - ed_share_serious[ck][crit] for crit in config.S2_CRITERIA} for ck in s1_variants}
+    HEAD = "with_contested"  # headline variant keeps congenital deafness in (documented)
 
     # ---- RQ2 prevention waterfalls: class x region(income) x scenario -----------------
     waterfalls: dict = {}
@@ -131,13 +152,35 @@ def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
             },
         },
         "residual": {
-            "s1_total": _s(s1),
-            "s1_by_condition": {name: _s(arr) for name, arr in s1_by_cond.items()},
+            # headline S1 keeps contested conditions IN (documented); toggle variants below.
+            "s1_total": _s(s1_variants[HEAD]),
+            "s1_total_without_contested": _s(s1_variants["without_contested"]),
+            "s1_contested_delta": _s(contested_delta),
+            "contested_conditions": contested_names,
+            "s1_by_condition": {name: {**_s(arr), "contested": name in contested_names}
+                                for name, arr in s1_by_cond.items()},
+            "s1_by_region": {
+                region: {ck: _s(v[ck]) for ck in v} for region, v in s1_by_region.items()
+            },
+            "s1_by_region_note": ("Per income group: region births × region-specific consanguinity F. "
+                                  "Sum across regions need not equal the global-F headline because F "
+                                  "and allele exposure differ by region; allele frequencies are still "
+                                  "global pending an ancestry-weighted gnomAD pull."),
             "s2": {crit: _s(s2[crit]) for crit in config.S2_CRITERIA},
-            "uniquely_editable_total": {crit: _s(editable[crit]) for crit in config.S2_CRITERIA},
-            "uniquely_editable_share_of_serious": {crit: _s(editable_share_serious[crit]) for crit in config.S2_CRITERIA},
-            "uniquely_editable_share_of_births": {crit: _s(editable_share_births[crit]) for crit in config.S2_CRITERIA},
-            "addressable_share_of_serious": {crit: _s(addressable_share[crit]) for crit in config.S2_CRITERIA},
+            # headline editable/shares = with-contested variant (unchanged keys for back-compat):
+            "uniquely_editable_total": {crit: _s(editable[HEAD][crit]) for crit in config.S2_CRITERIA},
+            "uniquely_editable_share_of_serious": {crit: _s(ed_share_serious[HEAD][crit]) for crit in config.S2_CRITERIA},
+            "uniquely_editable_share_of_births": {crit: _s(ed_share_births[HEAD][crit]) for crit in config.S2_CRITERIA},
+            "addressable_share_of_serious": {crit: _s(addressable[HEAD][crit]) for crit in config.S2_CRITERIA},
+            # full grid for the app's contested toggle:
+            "by_contested": {
+                ck: {
+                    "s1_total": _s(s1_variants[ck]),
+                    "uniquely_editable_total": {crit: _s(editable[ck][crit]) for crit in config.S2_CRITERIA},
+                    "uniquely_editable_share_of_serious": {crit: _s(ed_share_serious[ck][crit]) for crit in config.S2_CRITERIA},
+                    "addressable_share_of_serious": {crit: _s(addressable[ck][crit]) for crit in config.S2_CRITERIA},
+                } for ck in s1_variants
+            },
         },
         "prevention": _summarize_waterfalls(waterfalls, region_class_births),
         "resistance": {

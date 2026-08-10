@@ -2,37 +2,44 @@
   "tornado": [
     {
       "parameter": "S2 permissive fraction",
-      "low": 0.009371269173592755,
-      "high": 0.03164399644632003,
-      "base": 0.019270259072582653,
+      "low": 0.009682679135052025,
+      "high": 0.0319554064077793,
+      "base": 0.019581669034041925,
       "detail": "0.008 - 0.035"
     },
     {
       "parameter": "S2 criteria (complex-disease editing)",
-      "low": 0.003184400486724066,
-      "high": 0.019270259072582653,
-      "base": 0.019270259072582653,
+      "low": 0.003495810448183338,
+      "high": 0.019581669034041925,
+      "base": 0.019581669034041925,
       "detail": "strict / permissive"
     },
     {
-      "parameter": "Attribution stance",
-      "low": 0.01716688816414441,
-      "high": 0.019270259072582653,
-      "base": 0.019270259072582653,
-      "detail": "inclusive / heritability-weighted / exclusive"
+      "parameter": "Congenital deafness in/out of S1",
+      "low": 0.01791037012361513,
+      "high": 0.019581669034041925,
+      "base": 0.019581669034041925,
+      "detail": "contested condition included vs excluded"
     },
     {
       "parameter": "Severity definition",
-      "low": 0.018764809654285404,
-      "high": 0.020081638401954555,
-      "base": 0.019270259072582653,
+      "low": 0.01906805148560804,
+      "high": 0.02040616036179106,
+      "base": 0.019581669034041925,
       "detail": "def_a (narrow) / def_b / def_c (broad)"
     },
     {
+      "parameter": "Attribution stance",
+      "low": 0.01837589154392747,
+      "high": 0.019581669034041925,
+      "base": 0.019581669034041925,
+      "detail": "inclusive / heritability-weighted / exclusive"
+    },
+    {
       "parameter": "Multifactorial rate /1000",
-      "low": 0.019139948192686697,
-      "high": 0.019384281092491615,
-      "base": 0.019270259072582653,
+      "low": 0.019506967075835123,
+      "high": 0.019647033247472873,
+      "base": 0.019581669034041925,
       "detail": "40.0 - 60.0"
     }
   ]

@@ -62,14 +62,29 @@ export interface Burden {
   grid: Record<SeverityDef, Record<Attribution, BurdenGridCell>>;
 }
 
+export type ContestedKey = 'with_contested' | 'without_contested';
+
+export interface ContestedVariant {
+  s1_total: Stat;
+  uniquely_editable_total: StrictPermissive;
+  uniquely_editable_share_of_serious: StrictPermissive;
+  addressable_share_of_serious: StrictPermissive;
+}
+
 export interface Residual {
   s1_total: Stat;
-  s1_by_condition: Record<string, Stat>;
+  s1_total_without_contested: Stat;
+  s1_contested_delta: Stat;
+  contested_conditions: string[];
+  s1_by_condition: Record<string, Stat & { contested?: boolean }>;
+  s1_by_region: Record<string, Record<ContestedKey, Stat>>;
+  s1_by_region_note: string;
   s2: StrictPermissive;
   uniquely_editable_total: StrictPermissive;
   uniquely_editable_share_of_serious: StrictPermissive;
   uniquely_editable_share_of_births: StrictPermissive;
   addressable_share_of_serious: StrictPermissive;
+  by_contested: Record<ContestedKey, ContestedVariant>;
 }
 
 export type ToolKey = 'CS' | 'PGT' | 'PND' | 'NBS';

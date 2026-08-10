@@ -1,19 +1,19 @@
 {
   "hiv": {
     "vertical_infections_per_year": {
-      "median": 129922.93508830629,
-      "mean": 130620.94174253325,
+      "median": 129825.75547377739,
+      "mean": 130515.59995455308,
       "ci95": [
-        107931.5415971231,
-        156794.4361025496
+        107849.77020659759,
+        156450.23237154298
       ]
     },
     "residual_after_pmtct": {
-      "median": 25120.644982968075,
-      "mean": 25699.44837229067,
+      "median": 24842.409900174964,
+      "mean": 25573.30041451247,
       "ci95": [
-        13073.91548977879,
-        41787.38753575386
+        13151.356034035089,
+        41907.197733532914
       ]
     },
     "note": "Residual = infections × (1 − PMTCT effectiveness × coverage). CCR5 germline uniquely matters only within this residual."

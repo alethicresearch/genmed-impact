@@ -47,6 +47,17 @@ across its defensible range (see the app's Denominator and Sensitivity views).
   do not regard as a disease to prevent — is counted, and (b) survival-to-reproduction of
   affected individuals. Excluding deafness or taking lower survival brings S1 toward 14,000.
   We report the derived range rather than forcing the paper's number (spec §0).
+- **Contested-condition toggle (added 2026-08-10, second pass):** congenital deafness is flagged
+  `contested: true` and exposed as an explicit in/out toggle. **S1 incl. deafness ≈ 24,900
+  (CrI 13k–46k); excl. deafness ≈ 11,400 (CrI 4.8k–26k)** — the paper's 14,000 sits *between*
+  the two variants. The uniquely-editable share of serious disease barely moves (1.91% → 1.74%),
+  so the headline is robust; only the S1 magnitude is sensitive. Surfaced as a tornado row and an
+  app toggle.
+- **Per-region S1 (added, second pass):** computed by World Bank income group as region births ×
+  region-specific consanguinity F. Lower-middle-income settings dominate (~14,700 incl. deafness)
+  via higher F and birth share; high-income ~1,800. Allele frequencies are still global pending an
+  ancestry-weighted gnomAD pull, so the regional split reflects consanguinity + births, not yet
+  ancestry-varying allele exposure. Regional sum need not equal the global-F headline.
 
 ### Penetrance floor for "fully penetrant" in S1 (§3.4.3)
 - Encoded per condition (`penetrance` intervals), not a single global floor. Central values

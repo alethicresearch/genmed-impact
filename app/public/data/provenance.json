@@ -512,6 +512,8 @@
           "high": 0.6
         },
         "consanguinity_sensitive": true,
+        "contested": true,
+        "contested_reason": "Congenital deafness is the single largest S1 contributor but its inclusion is contested: many Deaf people do not regard it as a disease, and Deaf×Deaf couples may actively seek Deaf children. Reported as an explicit in/out toggle rather than silently counted.\n",
         "source": "gnomAD GJB2 35delG; assortative-mating studies in Deaf communities (Nance & Kearsey)",
         "doi": "n/a",
         "note": "Large per-couple S1 contributor via assortative mating + full survival, but tempered by locus_concordance: two Deaf partners produce all-affected embryos only when both are homozygous at the SAME locus (GJB2 explains ~half of congenital non-syndromic deafness).\n"

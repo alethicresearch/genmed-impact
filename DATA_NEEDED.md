@@ -1,5 +1,33 @@
 # DATA_NEEDED.md
 
+## ⭐ Priority manual checklist (what to do / provide, in order)
+
+Do these and drop files where indicated; then run `make ingest && make run && make test`. None
+requires code changes — the pipeline overwrites the matching cited anchors in place.
+
+- [ ] **1. GBD 2023 Results Tool** (highest leverage; registration, free). Run the exact query in
+      §1 below → save `core/data/raw/gbd/gbd_2023_results.csv`. Fills the two `placeholder: true`
+      values (DALYs/case, editing-program cost basis) and replaces the burden rates with
+      uncertainty. *This is the number set referees will check first.*
+- [ ] **2. Run `make ingest` on a networked machine** (this sandbox blocks egress). It auto-pulls
+      the Tier-A sources — UN WPP births, gnomAD v4.1 allele frequencies, WHO PMTCT, World Bank
+      income groups. gnomAD directly hardens the contested S1 number.
+- [ ] **3. Consanguinity by country** (consang.net / Bittles). Transcribe the country table →
+      tell me and I'll load it into `conditions.yaml` as per-region F. Enables ancestry-aware,
+      region-specific S1 instead of a single global F.
+- [ ] **4. Cost anchors** (a few hours of sourcing, no access needed). Provide, with a citation
+      each: IVF+PGT cycle cost by region; approved gene-therapy list prices; a real
+      editing-program cost basis; PMTCT program cost/infection-averted. Replaces the `reasoned`
+      cost entries in `constants.yaml §8`.
+- [ ] **5. Decide two policy calls for the paper** (not data — your judgment):
+      (a) is congenital deafness *in or out* of the S1 "editing-only" residual? (b) which
+      attribution stance is the paper's headline — inclusive (matches current 8.0M) vs
+      heritability-weighted (~4.7M)? Both are toggles already; the paper just needs to state which.
+
+Everything below is the detailed spec for each item.
+
+---
+
 Tier-B (registration/manual query) and any Tier-A sources whose auto-pull failed. Drop
 downloads into `core/data/raw/<source>/`; the matching ingest module transcribes them to
 `core/data/curated/` and overwrites the PLACEHOLDER entries in `constants.yaml` /

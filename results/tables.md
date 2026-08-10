@@ -1,6 +1,6 @@
 # denominator — regenerated tables
 
-_Assumption set: severity=`def_b`, attribution=`inclusive`, scenario=`current`, PND-counts=`True` · Monte-Carlo n=20000 · pipeline commit `uncommitted`._
+_Assumption set: severity=`def_b`, attribution=`inclusive`, scenario=`current`, PND-counts=`True` · Monte-Carlo n=20000 · pipeline commit `5e51569`._
 
 ## Table 1 — Serious genetic disease: burden and uniquely editable residual
 
@@ -10,8 +10,8 @@ _Assumption set: severity=`def_b`, attribution=`inclusive`, scenario=`current`, 
 | Serious multifactorial / partly-genetic | 6,620,881 | 82.3% | 4.90% |
 | All serious genetic disorders | 8,042,019 | 100% | 5.96% |
 | S1 — no selectable unaffected embryo | 24,877 | 0.31% | 0.02% |
-| S2 — editing-superior complex disease (permissive) | 126,562 | 1.57% | 0.09% |
-| **Total uniquely embryo-editable (permissive)** | **152,773** | **1.90%** | **0.11%** |
+| S2 — editing-superior complex disease (permissive) | 127,166 | 1.58% | 0.09% |
+| **Total uniquely embryo-editable (permissive)** | **153,249** | **1.91%** | **0.11%** |
 
 _Addressable by existing tools (1 − uniquely editable): **98.1%** (95% CrI 96.7%–99.0%)._
 
@@ -41,15 +41,29 @@ _Addressable by existing tools (1 − uniquely editable): **98.1%** (95% CrI 96.
 | Spinal muscular atrophy (type I) | 3 | 0 – 71 |
 | Huntington's disease | 1 | 0 – 3 |
 | Tay-Sachs disease | 0 | 0 – 0 |
-| **S1 total** | **24,877** | 13,111 – 46,319 |
+| **S1 total (incl. contested)** | **24,877** | 13,111 – 46,319 |
+| _S1 excl. congenital deafness (contested)_ | _11,320_ | 4,852 – 26,109 |
+
+_Congenital deafness (contested) contributes a median **12,377** (95% CrI 4,858–30,060) of the S1 total. The draft paper's 14,000 sits between the two variants._
+
+## Table 3b — S1 residual by World Bank income group
+
+| Income group | S1 incl. contested (median) | S1 excl. contested (median) |
+| --- | ---: | ---: |
+| High income | 1,784 | 893 |
+| Upper-middle income | 7,883 | 3,646 |
+| Lower-middle income | 14,690 | 6,361 |
+| Low income | 5,230 | 2,208 |
+
+_Per income group: region births × region-specific consanguinity F. Sum across regions need not equal the global-F headline because F and allele exposure differ by region; allele frequencies are still global pending an ancestry-weighted gnomAD pull._
 
 ## Table 4 — Global prevention waterfall, monogenic class (PND counted)
 
 | Scenario | CS | PGT | PND | Total averted births | Residual births | Averted burden (incl. NBS) |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| current | 9.6% | 4.6% | 20.2% | 35.9% | 64.1% | 38.6% |
-| achievable_2035 | 46.6% | 14.6% | 16.7% | 79.8% | 20.2% | 81.8% |
-| ideal | 84.7% | 14.2% | 0.6% | 99.7% | 0.3% | 99.8% |
+| current | 9.5% | 4.7% | 20.2% | 35.8% | 64.2% | 38.4% |
+| achievable_2035 | 46.7% | 14.5% | 16.8% | 79.8% | 20.2% | 81.7% |
+| ideal | 84.6% | 14.2% | 0.6% | 99.7% | 0.3% | 99.8% |
 
 ## Table 1 — LaTeX
 
@@ -61,7 +75,7 @@ Category & Births/yr & \% serious & \% births \\
 Severe monogenic & 1,404,840 & 17.5% & 1.04% \\
 Serious multifactorial & 6,620,881 & 82.3% & 4.90% \\
 All serious genetic & 8,042,019 & 100\% & 5.96% \\
-Uniquely editable (permissive) & 152,773 & 1.90% & 0.11% \\
+Uniquely editable (permissive) & 153,249 & 1.91% & 0.11% \\
 \bottomrule
 \end{tabular}
 ```

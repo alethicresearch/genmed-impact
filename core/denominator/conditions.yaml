@@ -83,6 +83,11 @@ conditions:
     locus_concordance: {value: 0.45, low: 0.30, high: 0.60}    # deafness is genetically heterogeneous;
                                                                # only a fraction of Deaf×Deaf pairs share GJB2
     consanguinity_sensitive: true
+    contested: true                                            # many in the Deaf community do not regard
+    contested_reason: >                                        # congenital deafness as a disease to prevent;
+      Congenital deafness is the single largest S1 contributor but its inclusion is contested: many
+      Deaf people do not regard it as a disease, and Deaf×Deaf couples may actively seek Deaf children.
+      Reported as an explicit in/out toggle rather than silently counted.
     source: "gnomAD GJB2 35delG; assortative-mating studies in Deaf communities (Nance & Kearsey)"
     doi: "n/a"
     note: >
