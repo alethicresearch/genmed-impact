@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: "If you use this software or the curated dataset, please cite both the paper and this repository."
+title: "genmed-impact / denominator: a genetic-disease × genetic-medicine impact library and reproducible burden pipeline"
+abstract: >-
+  A reproducible pipeline and interactive webapp that derive the global burden of serious
+  genetic disease and the comparative impact of existing interventions (carrier screening,
+  IVF + preimplantation genetic testing, prenatal diagnosis, newborn screening, and existing
+  somatic therapies) versus germline embryo editing. The core deliverable is a structured
+  library of serious genetic diseases mapped to their causal genes and to each intervention,
+  with Monte-Carlo uncertainty and an explicitly isolated germline-editing residual.
+type: software
+repository-code: "https://github.com/alethicresearch/genmed-impact"
+url: "https://github.com/alethicresearch/genmed-impact"
+version: "0.1.0"
+# TODO(authors): set the release date at tag time.
+date-released: "2026-01-01"
+license: Apache-2.0
+license-url: "https://www.apache.org/licenses/LICENSE-2.0"
+keywords:
+  - genetic medicine
+  - germline editing
+  - carrier screening
+  - preimplantation genetic testing
+  - global burden of disease
+  - reproducible research
+authors:
+  # Named in the manuscript. TODO(authors): confirm order, affiliations, and add ORCIDs.
+  - family-names: Savulescu
+    given-names: Julian
+    # orcid: "https://orcid.org/0000-0000-0000-0000"   # TODO
+  - family-names: Singer
+    given-names: Peter
+    # orcid: "https://orcid.org/0000-0000-0000-0000"   # TODO
+  # TODO(authors): add the remaining co-author(s) named on the paper (the manuscript
+  # refers to "the four of us"). Fill in given/family names and ORCIDs before deposit.
+  - name: "Alethic Research"
+# TODO(authors): once the paper has a DOI, add it here and mirror it in .zenodo.json.
+# preferred-citation:
+#   type: article
+#   title: "Genetic Medicine: <final paper title>"
+#   doi: "10.xxxx/xxxxx"
+#   year: 2026

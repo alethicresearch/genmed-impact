@@ -1,0 +1,14 @@
+# Pinned versions of the environment in which the committed results were generated
+# (Python 3.11). For a flexible install use `pip install -e ".[test,ingest]"` instead,
+# which reads the version floors in pyproject.toml. This file exists so a reviewer can
+# reproduce the exact numbers bit-for-bit.
+numpy==2.4.6
+scipy==1.17.1
+pandas==3.0.5
+PyYAML==6.0.1
+# ingest / orphanet-sync extras
+pyarrow==25.0.0
+ruamel.yaml==0.19.1
+requests==2.33.1
+# test
+pytest==9.1.1

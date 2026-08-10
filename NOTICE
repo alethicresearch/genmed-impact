@@ -1,0 +1,14 @@
+genmed-impact / denominator
+Copyright 2026 Alethic Research and the manuscript authors.
+
+This product includes software developed at Alethic Research.
+
+The software in this repository is licensed under the Apache License, Version 2.0
+(see LICENSE). The curated data products (the disease library under
+core/denominator/library/, and the derived results under results/ and
+app/public/data/) are licensed under CC-BY-4.0 (see LICENSE-DATA.md).
+
+Third-party data used as inputs (IHME GBD 2023, Orphanet/Orphadata, UN WPP, WHO,
+UNAIDS, World Bank) are NOT redistributed here and remain under their own licenses
+and terms of use. See core/data/README.md for provenance, access instructions, and
+licensing of each source.

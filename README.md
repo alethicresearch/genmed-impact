@@ -2,25 +2,29 @@
 
 **A library of genetic disease × genetic-medicine impact — plus the pipeline and webapp that make it explorable.**
 
-The core deliverable is a **structured catalogue** (`core/denominator/library/diseases.yaml`) mapping
-each serious genetic disease to the **gene(s)** that cause it, its **inheritance mode**, its
-**incidence at birth**, and which **interventions** can address it — preconception carrier screening
-(CS), IVF + preimplantation genetic testing (PGT), prenatal diagnosis (PND), newborn genomic
-screening with targeted therapy (NBS), and germline embryo editing. Everything else is a lens on
-that library:
+The core deliverable is a **structured catalogue** of serious genetic diseases mapping each one to
+the **gene(s)** that cause it, its **inheritance mode**, its **incidence at birth**, and which
+**interventions** can address it — preconception carrier screening (CS), IVF + preimplantation
+genetic testing (PGT), prenatal diagnosis (PND), and newborn genomic screening with targeted
+therapy (NBS). The catalogue has two tiers: a hand-curated **core** of the highest-burden
+conditions (`core/denominator/library/diseases.yaml`) and an Orphanet-derived **rare tier**
+(`core/denominator/library/rare_orphanet.yaml`) — **331 conditions in all**, ~81% resting on a
+cited incidence.
+
+**Germline embryo editing is kept categorically separate throughout.** It is never one of the four
+tools and never a post-birth treatment modality; it is computed as a *residual* — the cases
+reachable by no existing tool — so it can neither inherit the reach of screening nor hide inside
+"treatable." Everything else is a lens on the library:
 
 - a **bottom-up aggregation** (`library.py`) that derives burden and intervention-addressability by
-  summing the catalogue, and
+  summing the catalogue (headline over the curated core), and
 - a **parametric Monte-Carlo model** that provides the calibrated top-down denominator with credible
   intervals and the editing-unique residual (S1/S2).
 
-The webapp just makes the library interactive: browse diseases by gene / inheritance / intervention,
-and see the aggregate picture recompute as definitions change.
-
 Every headline figure is derived from a parameterized, cited assumption set with Monte-Carlo
-uncertainty. Contestable judgment calls (severity threshold, attribution stance, penetrance
-floor, S2 criteria, PND counting) are explicit parameters reported across their defensible range
-— see [`ANALYSIS_LOG.md`](ANALYSIS_LOG.md).
+uncertainty. Contestable judgment calls (severity threshold, attribution stance, penetrance floor,
+S2 criteria, PND counting) are explicit parameters reported across their defensible range — see
+[`ANALYSIS_LOG.md`](ANALYSIS_LOG.md).
 
 ## Headline results (default assumptions: severity `def_b`, inclusive attribution, current coverage)
 
@@ -29,66 +33,97 @@ floor, S2 criteria, PND counting) are explicit parameters reported across their 
 | Severe monogenic disorders | ~1.40M | 17.5% of serious genetic disease |
 | Serious multifactorial / partly-genetic | ~6.62M | 82.3% |
 | **All serious genetic disorders** | **~8.04M** | 5.96% of all births |
-| S1 — no selectable unaffected embryo | ~25k (CrI 13k–46k) | 0.31% |
-| S2 — editing-superior complex disease (permissive) | ~127k | 1.57% |
-| **Total uniquely embryo-editable (permissive)** | **~153k** | **~1.9%** |
-| **Addressable by existing tools** | | **~98.1%** (CrI 96.7–99.0%) |
+| S1 — no selectable unaffected embryo | ~11.3k (CrI 4.9k–26k) | 0.14% |
+| S2 — editing-superior complex disease (permissive) | ~127k | 1.58% |
+| **Total uniquely germline-editable (permissive)** | **~140k** | **~1.7%** |
+| **Addressable by existing tools** | | **~98.3%** (CrI 96.9–99.1%) |
 
-These reproduce the draft paper's figures, with one surfaced deviation: the first-principles S1
-residual (median ~25k) runs above the paper's 14k point estimate — see `ANALYSIS_LOG.md §S1`.
+Under a **strict** residual definition (no-selectable-embryo only) the uniquely-editable total falls
+to ~14k/yr (0.18% of serious disease). The direction of the result is robust to that choice.
 
-## Layout
+## Repository map
 
 ```
-denominator/
-├── core/                      # Python analysis pipeline (denominator-core)
+genmed-impact/
+├── core/                          # Python analysis pipeline (package: denominator)
 │   ├── denominator/
-│   │   ├── constants.yaml     # cited Tier-C anchors + parameterized judgment defaults
-│   │   ├── conditions.yaml    # S1 condition curation (allele freqs, survival, assortative mating)
-│   │   ├── ingest/            # one module per source → data/curated/*.parquet
-│   │   ├── harmonize.py       # region/income crosswalks + birth shares
-│   │   ├── attribution.py     # RQ1 burden grid (severity × attribution)
-│   │   ├── model.py           # RQ2 sequential CS→PGT→PND→NBS engine
-│   │   ├── residual.py        # RQ3 S1/S2
-│   │   ├── montecarlo.py      # sampling + summarization
-│   │   ├── sensitivity.py     # RQ6 tornado
-│   │   ├── run.py             # orchestration (one MC sample, correct ratio CrIs)
-│   │   └── export.py          # → app/public/data/*.json, results/paper_numbers.json, tables.md
-│   └── tests/                 # invariants + program-anchor reproduction
-├── app/                       # Vite + React + TS static webapp (never computes epidemiology)
-│   └── public/data/           # JSON emitted by the pipeline
-└── results/                   # paper_numbers.json, tables.md, figures/
+│   │   ├── constants.yaml         # cited anchors + parameterized judgment defaults
+│   │   ├── conditions.yaml        # S1 condition curation (allele freqs, survival, assortative mating)
+│   │   ├── library/
+│   │   │   ├── diseases.yaml       # curated CORE catalogue (hand-vetted, high-burden)
+│   │   │   ├── rare_orphanet.yaml  # RARE tier (auto-generated by `orphanet-sync`)
+│   │   │   └── multifactorial.yaml # complex-disease heritability / viability inputs
+│   │   ├── ingest/                # one module per source → data/curated/*.parquet
+│   │   ├── library.py             # bottom-up aggregation over the tiered catalogue
+│   │   ├── harmonize.py           # region/income crosswalks + birth shares
+│   │   ├── attribution.py         # burden grid (severity × attribution)
+│   │   ├── model.py               # sequential CS→PGT→PND→NBS prevention engine
+│   │   ├── residual.py            # S1/S2 germline-editing residual
+│   │   ├── multifactorial.py      # liability-threshold selection-vs-editing viability
+│   │   ├── embryos.py             # embryo created/discarded accounting (selection vs editing)
+│   │   ├── montecarlo.py          # sampling + summarization
+│   │   ├── sensitivity.py         # tornado
+│   │   ├── methods.py             # generates results/methods.md
+│   │   ├── run.py                 # orchestration (one MC sample, correct ratio CrIs)
+│   │   └── export.py              # → app/public/data/*.json, results/*
+│   ├── data/                      # inputs + curated parquet (git-ignored; see core/data/README.md)
+│   └── tests/                     # invariants + program-anchor reproduction
+├── app/                           # Vite + React + TS static webapp (never computes epidemiology)
+│   └── public/data/               # JSON emitted by the pipeline
+├── results/                       # paper_numbers.json, tables.md, methods.md, figures/, revision .docx
+├── LICENSE / NOTICE               # Apache-2.0 (code)
+├── LICENSE-DATA.md                # CC-BY-4.0 (curated data) + third-party input licensing
+├── CITATION.cff / .zenodo.json    # citation + Zenodo deposit metadata
+└── Makefile                       # `make help` for all targets
 ```
 
 ## Reproduce
 
 ```bash
-make install     # install core (numpy/scipy/pyyaml/pandas) + test deps
-make ingest      # optional: pull Tier-A sources; writes DATA_NEEDED.md for the rest
-make run         # Monte-Carlo pipeline → app/public/data/*.json + results/
-make test        # invariants + anchor-reproduction tests
+make install         # install core (numpy/scipy/pyyaml/pandas) + test + ingest deps
+make ingest          # optional: pull Tier-A sources; writes DATA_NEEDED.md for the rest
+make orphanet-sync   # optional: regenerate the rare tier + core promotions from Orphadata XML
+make run             # Monte-Carlo pipeline → app/public/data/*.json + results/
+make test            # invariants + anchor-reproduction tests
+make repro           # one command: install + run + test
 make app-install && make app-build   # build the static webapp
-make all         # run + app-build
 ```
 
-The pipeline runs on the cited `constants.yaml` out of the box; Tier-A/B pulls tighten
-provenance but are never required (see [`DATA_NEEDED.md`](DATA_NEEDED.md)).
+The pipeline runs on the cited defaults out of the box; the Tier-A/B pulls and `orphanet-sync`
+tighten provenance and expand the library but are **never required** for a run (see
+[`DATA_NEEDED.md`](DATA_NEEDED.md) and [`core/data/README.md`](core/data/README.md)). Exact pinned
+versions used to generate the committed results are in [`core/requirements.txt`](core/requirements.txt);
+`app/public/data/meta.json` stamps each run with its git commit, RNG seed, and draw count.
 
 ### Paper-ready outputs (regenerated by `make run`)
 - **`results/methods.md`** — a complete methods write-up: every input, formula, assumption, and
-  parameter, with headline results filled in from the run, a full parameter-provenance appendix,
-  and the complete disease catalogue. Drop-in for a manuscript methods/supplement.
-- **`results/paper_numbers.json`** — flat map of every citable figure with metadata.
-- **`results/tables.md`** — burden, residual, and waterfall tables (Markdown + LaTeX).
+  parameter, with headline results filled in from the run and the full disease catalogue.
+- **`results/paper_numbers.json`** — flat map of every citable figure with its credible interval.
+- **`results/tables.md`** — burden, residual, and waterfall tables.
+- **`results/Genetic_Medicine_Revision_and_Methods.docx`** — editorial revision pass for the
+  manuscript + a drop-in Methods/Data-Sources section (`make docx`).
 
 ## Webapp
 
-Six tabbed views (sober, GBD-Compare register): **Denominator** cascade, **Prevention waterfall**
-(coverage sliders, region/scenario, PND toggle, averted_birth vs averted_burden tracks),
-**Residual explorer** (S1 by condition, S2 strict vs permissive), **Resistance** (HIV / CVD /
-neurodegeneration, "not computable" rendered honestly), **Allocation** ($1B/$5B/$10B buys), and
-**Methods & provenance** (auto-generated from constants + pipeline commit). Every number carries
-its source, vintage, and credible interval; state is URL-serializable; charts export to SVG/PNG.
+A static, URL-serializable page with a simple/detailed toggle. **Overview** leads with the
+existing-tools-vs-germline-editing split; **Library** is the browsable catalogue with a
+core/rare/all tier switch, gene/inheritance/intervention filters, and treatment-modality
+breakdown; plus **Prevention** waterfall, **Denominator** cascade, **Multifactorial** viability,
+**Residual** explorer (S1/S2), **Embryos** accounting, **Resistance**, **Allocation**, and
+**Methods & provenance**. Every number carries its source, vintage, and credible interval.
+
+## License & citation
+
+- **Code** — Apache-2.0 ([`LICENSE`](LICENSE), [`NOTICE`](NOTICE)).
+- **Curated data** (the disease library, cited constants, and generated results) — CC-BY-4.0
+  ([`LICENSE-DATA.md`](LICENSE-DATA.md)).
+- **Third-party inputs** (IHME GBD 2023, Orphanet, UN WPP, WHO, UNAIDS, World Bank) remain under
+  their own licenses and are referenced, not redistributed where their terms require it (notably
+  GBD). See [`core/data/README.md`](core/data/README.md).
+
+If you use this software or dataset, please cite the accompanying paper and this repository — see
+[`CITATION.cff`](CITATION.cff). A Zenodo archive of a tagged release plus the redistributable
+curated data will accompany submission/acceptance ([`.zenodo.json`](.zenodo.json)).
 
 ## Provenance rules
 

@@ -11,8 +11,12 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-ingest = ["requests>=2.31", "pyarrow>=14.0"]
+# `ingest` also covers the Orphanet library sync (`python -m denominator orphanet-sync`),
+# which edits YAML in place with ruamel to preserve comments/formatting.
+ingest = ["requests>=2.31", "pyarrow>=14.0", "ruamel.yaml>=0.17"]
 test = ["pytest>=7.0"]
+# builds results/Genetic_Medicine_Revision_and_Methods.docx (python results/build_revision_docx.py)
+paper = ["python-docx>=1.1"]
 
 [build-system]
 requires = ["setuptools>=68"]

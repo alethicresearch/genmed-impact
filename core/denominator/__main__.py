@@ -17,6 +17,14 @@ def main(argv=None) -> int:
 
     sub.add_parser("ingest", help="attempt Tier-A pulls; write DATA_NEEDED.md for the rest")
 
+    p_orph = sub.add_parser(
+        "orphanet-sync",
+        help="regenerate the Orphanet-derived library artefacts from data/raw/orphanet/*.xml: "
+             "(1) promote Worldwide birth-prevalence onto textbook-estimate core entries, "
+             "(2) rebuild library/rare_orphanet.yaml (the rare tier)")
+    p_orph.add_argument("--no-apply", action="store_true",
+                        help="dry run: report what would change without writing YAML")
+
     args = parser.parse_args(argv)
     if args.cmd == "run" or args.cmd is None:
         from . import export, run as run_mod
@@ -39,6 +47,18 @@ def main(argv=None) -> int:
     if args.cmd == "ingest":
         from .ingest import run_all
         run_all()
+        return 0
+    if args.cmd == "orphanet-sync":
+        from .ingest import orphanet
+        apply = not args.no_apply
+        prom = orphanet.promote(apply=apply)
+        rare = orphanet.build_rare_tier(apply=apply)
+        print(f"[orphanet-sync] promote: {prom['n_promoted']} core incidences upgraded to cited "
+              f"(of {prom['n_disorders_with_birth_prev']} disorders with a Worldwide birth prevalence)")
+        print(f"[orphanet-sync] rare tier: {rare['n_records']} conditions -> {rare['path']} "
+              f"({rare['by_category']})")
+        if not apply:
+            print("[orphanet-sync] dry run (--no-apply): no files written")
         return 0
     parser.print_help()
     return 1

@@ -1,0 +1,31 @@
+{
+  "title": "genmed-impact / denominator: a genetic-disease × genetic-medicine impact library and reproducible burden pipeline",
+  "description": "<p>A reproducible pipeline and interactive webapp that derive the global burden of serious genetic disease and the comparative impact of existing interventions (preconception carrier screening, IVF + preimplantation genetic testing, prenatal diagnosis, newborn screening, and existing somatic therapies) versus germline embryo editing. The core deliverable is a structured library of serious genetic diseases mapped to their causal genes and to each intervention, with Monte-Carlo uncertainty and an explicitly isolated germline-editing residual. Accompanies the manuscript <em>Genetic Medicine</em>.</p><p>Code is licensed Apache-2.0; the curated data products are CC-BY-4.0. Third-party inputs (IHME GBD 2023, Orphanet, UN WPP, WHO, UNAIDS, World Bank) remain under their own licenses and are referenced rather than redistributed where their terms require it (notably GBD).</p>",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "Apache-2.0",
+  "keywords": [
+    "genetic medicine",
+    "germline editing",
+    "carrier screening",
+    "preimplantation genetic testing",
+    "prenatal diagnosis",
+    "newborn screening",
+    "global burden of disease",
+    "reproducible research",
+    "Monte Carlo"
+  ],
+  "creators": [
+    { "name": "Savulescu, Julian" },
+    { "name": "Singer, Peter" },
+    { "name": "Alethic Research" }
+  ],
+  "notes": "TODO(authors) before deposit: (1) confirm full author list, order, affiliations and ORCIDs; (2) add the paper DOI under related_identifiers once available; (3) the CC-BY-4.0 curated data are covered by this deposit, but IHME GBD 2023 raw inputs are non-redistributable and are referenced by access instructions in core/data/README.md rather than included.",
+  "related_identifiers": [
+    {
+      "relation": "isSupplementTo",
+      "identifier": "https://github.com/alethicresearch/genmed-impact",
+      "scheme": "url"
+    }
+  ]
+}
