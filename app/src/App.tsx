@@ -109,6 +109,12 @@ export default function App() {
   const activeView = ALL_VIEWS.some((v) => v.id === requested) ? requested : 'overview';
   const activeSection = sectionOf(activeView);
 
+  // Navigating to another view starts the reader at its top; other URL-state changes
+  // (filters, toggles) keep the scroll position.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activeView]);
+
   const sectionTabs: TabDef[] = SECTIONS.map((s) => ({ id: s.id, label: s.label }));
   const onPickSection = (secId: string) => {
     const sec = SECTIONS.find((s) => s.id === secId);
