@@ -30,14 +30,13 @@ const ALL_TABS: TabDef[] = [
 // ---- Research-artifact masthead metadata ----
 const REPO_URL = 'https://github.com/alethicresearch/genmed-impact';
 const CITATION_URL = `${REPO_URL}/blob/main/CITATION.cff`;
-// Author order: SG, DAW, PS, JS. `aff` is the affiliation-note superscript index (1-based).
-const AUTHORS: { name: string; aff?: number }[] = [
-  { name: 'Sankalpa Ghose', aff: 1 },
+// Author order: SG, DAW, PS, JS.
+const AUTHORS: { name: string }[] = [
+  { name: 'Sankalpa Ghose' },
   { name: 'D. A. Wallach' },
   { name: 'Peter Singer' },
   { name: 'Julian Savulescu' },
 ];
-const AFFILIATIONS = ['Alethic Research']; // TODO: affiliations for the remaining authors
 const AUTHOR_NAMES = AUTHORS.map((a) => a.name);
 
 // Which tab ids are visible in each mode.
@@ -94,21 +93,12 @@ export default function App() {
               genetic-medicine tools reach, and the narrow residual left only for germline editing —
               every figure shown with its uncertainty and its source.
             </p>
-            {/* author line + affiliations */}
+            {/* author line */}
             <p className="mt-2 text-sm text-slate-700">
               {AUTHORS.map((a, i) => (
                 <span key={a.name}>
                   {i > 0 && <span className="text-slate-400"> · </span>}
                   {a.name}
-                  {a.aff && <sup className="text-slate-400">{a.aff}</sup>}
-                </span>
-              ))}
-            </p>
-            <p className="mt-0.5 text-xs text-slate-400">
-              {AFFILIATIONS.map((aff, i) => (
-                <span key={aff}>
-                  {i > 0 && <span> · </span>}
-                  <sup>{i + 1}</sup> {aff}
                 </span>
               ))}
             </p>
@@ -217,7 +207,7 @@ function Footer({ commit }: { commit: string }) {
         where each number comes from.
       </p>
       <p className="text-slate-400">
-        {AUTHOR_NAMES.join(', ')} · Alethic Research. Code Apache-2.0; curated data CC-BY-4.0.{' '}
+        {AUTHOR_NAMES.join(', ')}. Code Apache-2.0; curated data CC-BY-4.0.{' '}
         <a href={CITATION_URL} target="_blank" rel="noopener noreferrer" className="hover:text-accent">
           How to cite
         </a>{' '}

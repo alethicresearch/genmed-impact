@@ -92,8 +92,8 @@ export default function Denominator({ data, state, update }: Props) {
       />
       <Explainer
         whatThisShows="The funnel from all births worldwide down to the small share of serious genetic disease for which germline editing would be the only option."
-        howToRead="Read top to bottom — each band is a subset of the one above. The two toggles change what counts as 'serious' (severity) and how much multifactorial disease to attribute to genetics (attribution). Watch every number move: that sensitivity is the point, not a flaw."
-        whatItDetermines="How large the genetic-disease denominator is, and how much that total depends on defensible judgment calls rather than on data."
+        howToRead="Read top to bottom — each band is a subset of the one above. The two toggles change what counts as 'serious' (severity) and how much multifactorial disease to attribute to genetics (attribution). These are judgment calls, so the page shows how much the total moves when you change them."
+        whatItDetermines="How large the genetic-disease total is, and how much of that total rests on judgment calls versus on data."
       />
 
       <div className="flex flex-wrap gap-6">

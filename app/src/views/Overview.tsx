@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
-import { AllData, fmtCompact, fmtInt, fmtPct } from '../data';
+import { AllData, DiseaseClass, fmtCompact, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
-import { Card, SectionHeading } from '../components/ui';
+import { Card } from '../components/ui';
 import StatValue from '../components/StatValue';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 
@@ -11,8 +11,7 @@ interface Props {
   update: (patch: UrlState) => void;
 }
 
-// Safely read a {source, doi} leaf from the provenance constants tree without
-// letting an unexpected object reach a React child.
+// Safely read a {source, doi} leaf from the provenance constants tree.
 function provSource(
   data: AllData,
   path: string[]
@@ -36,198 +35,144 @@ function provSource(
 export default function Overview({ data, state, update }: Props) {
   const mode = state.mode === 'detailed' ? 'detailed' : 'simple';
   const rollup = data.library.rollup;
-
-  const birthsSrc = provSource(data, ['births', 'global_per_year']);
   const monoSrc = provSource(data, ['burden', 'monogenic_serious_per_1000']);
   const multiSrc = provSource(data, ['burden', 'multifactorial_serious_per_1000']);
-  const s2Src = provSource(data, ['s2']);
+  const birthsSrc = provSource(data, ['births', 'global_per_year']);
 
-  const topDown = data.summary.burden_default.total_serious.median;
-  const bottomUp = rollup.total_affected_births_per_year;
-  const climbShare = bottomUp / topDown;
+  const addressable = data.summary.addressable_share_of_serious.permissive;
+  const editableTotal = data.summary.uniquely_editable_total.permissive;
+  const editableShare = data.summary.uniquely_editable_share_of_serious.permissive;
 
   return (
     <SourcesProvider>
-      <div className="space-y-6">
-        <SectionHeading
-          title="What this is measuring"
-          subtitle="A plain-language read of the model before the numbers."
-        />
-
+      <div className="space-y-5">
+        {/* Lede: the question and the one-line answer */}
         <Card>
           <p className="text-sm leading-relaxed text-slate-700">
-            The core object is a <strong>library of genetic diseases</strong> mapped to their
-            causal genes and to the interventions that can address them — carrier screening,
-            embryo testing, prenatal diagnosis, newborn screening, and germline editing. The
-            question this answers: across the whole landscape of serious genetic disease,{' '}
-            <strong>what can genetic medicine already do — and how much is left only for
-            editing?</strong> The split below is that answer; the rest of the page is the evidence
-            behind it, shown with its uncertainty.
+            This page follows one argument, in four steps. Across every serious genetic disease we
+            can catalogue, it asks: <strong>how much can medicine already do about it, and what is
+            genuinely left only for germline editing?</strong> The short answer — almost all of it
+            is addressable with tools we already have; editing is uniquely needed for a sliver; and
+            the real obstacle today is <strong>access</strong>, not biology.
           </p>
         </Card>
 
-        {/* THE SPLIT — the headline */}
-        <StatusSplit data={data} update={update} />
+        {/* STEP 1 — the burden */}
+        <ArgumentStep n={1} title="The burden is large">
+          <div className="grid grid-cols-1 items-center gap-4 sm:grid-cols-[auto,1fr]">
+            <div>
+              <div className="text-3xl font-bold text-slate-900">
+                <StatValue stat={data.summary.burden_default.total_serious} kind="compact" />
+              </div>
+              <p className="text-xs text-slate-500">children / year, 95% CrI shown on hover</p>
+            </div>
+            <p className="text-sm leading-relaxed text-slate-700">
+              About <strong>{fmtCompact(data.summary.burden_default.total_serious.median)}</strong>{' '}
+              children are born each year with a serious genetic disease —{' '}
+              {fmtPct(data.summary.burden_default.serious_share_of_births.median, 0)} of all births.
+              Roughly {fmtCompact(data.summary.burden_default.monogenic.median)} are single-gene
+              (monogenic) conditions and {fmtCompact(data.summary.burden_default.multifactorial.median)}{' '}
+              are multifactorial. Every figure on this page is shown with its uncertainty.
+              <SourceNote source={monoSrc.source || 'Modell & Darlison 2008'} doi={monoSrc.doi} detail="serious monogenic rate" />
+              <SourceNote source={multiSrc.source || 'March of Dimes; WHO congenital anomalies'} doi={multiSrc.doi} detail="serious multifactorial rate" />
+              <SourceNote source={birthsSrc.source || 'UN World Population Prospects 2024'} doi={birthsSrc.doi} detail="annual births" />
+            </p>
+          </div>
+        </ArgumentStep>
 
-        {/* What you're looking at: measured / derived / assumptions */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <ExplainerChip
-            tone="measured"
-            label="Measured"
-            body="The disease catalogue itself: genes, inheritance mode, incidence figures, and which interventions apply — curated from OMIM/Orphanet gene–disease relationships."
-          />
-          <ExplainerChip
-            tone="derived"
-            label="Derived"
-            body="Burden totals, the share addressable by existing tools, and the uniquely-editable residual — all obtained by summing or reweighting the measured values."
-          />
-          <ExplainerChip
-            tone="assumptions"
-            label="Assumptions"
-            body="A severity threshold and an attribution stance decide what counts as 'serious'. These are toggles, not facts."
-            action={
+        {/* STEP 2 — preventable in principle vs the editing-only residual */}
+        <ArgumentStep
+          n={2}
+          title="Almost all of it is addressable by tools we already have"
+        >
+          <StatusSplit data={data} update={update} />
+          <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <MiniStat
+              tone="emerald"
+              value={fmtPct(addressable.median, 1)}
+              label="addressable by existing tools"
+              sub={`95% CrI ${fmtPct(addressable.ci95[0], 0)}–${fmtPct(addressable.ci95[1], 0)} — carrier screening, embryo testing, prenatal diagnosis, newborn screening, and today's therapies`}
+            />
+            <MiniStat
+              tone="violet"
+              value={`~${fmtPct(editableShare.median, 1)}`}
+              label="uniquely needs germline editing"
+              sub={`about ${fmtCompact(editableTotal.median)} births / yr — the only cases no existing tool can reach even in principle`}
+            />
+          </div>
+        </ArgumentStep>
+
+        {/* STEP 3 — the real gap is access, not biology */}
+        <ArgumentStep
+          n={3}
+          title="“Addressable in principle” is not “prevented in practice” — the gap is access"
+        >
+          <AccessGap data={data} update={update} />
+        </ArgumentStep>
+
+        {/* STEP 4 — the takeaway */}
+        <ArgumentStep n={4} title="So where does the impact come from?">
+          <p className="text-sm leading-relaxed text-slate-700">
+            Put together: the tools that already exist can, in principle, prevent or treat the
+            overwhelming majority of serious genetic disease — but today they only reach a fraction
+            of the people who need them. The largest gains come from{' '}
+            <strong>closing that access gap by scaling the existing tools globally</strong>. Germline
+            editing remains genuinely useful, but only for the narrow residual in step 2 — a small,
+            specialised role, not the centre of gravity.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2 text-xs">
+            <NavChip onClick={() => update({ tab: 'library' })}>Browse the disease library →</NavChip>
+            <NavChip onClick={() => update({ tab: 'prevention' })}>See prevention by tool →</NavChip>
+            <NavChip onClick={() => update({ mode: 'detailed', tab: 'residual' })}>
+              Inspect the editing residual →
+            </NavChip>
+          </div>
+        </ArgumentStep>
+
+        {/* About the numbers — quiet, at the bottom */}
+        <Card className="bg-slate-50">
+          <details>
+            <summary className="cursor-pointer text-sm font-medium text-slate-700">
+              About the numbers &amp; uncertainty
+            </summary>
+            <div className="mt-2 space-y-2 text-xs leading-relaxed text-slate-600">
+              <p>
+                Two estimates run in parallel. A <strong>catalogue</strong> of{' '}
+                {fmtInt(rollup.n_diseases_all)} diseases ({fmtInt(rollup.n_diseases)} high-burden core
+                + {fmtInt(rollup.tiers.rare.n_diseases)} rare) is summed disease-by-disease; a{' '}
+                <strong>parametric model</strong> samples cited rates and assumptions to give the
+                totals with credible intervals. The catalogue sum ({fmtCompact(rollup.total_affected_births_per_year)}/yr
+                over the core) is a floor that rises as the catalogue grows toward the modelled total
+                ({fmtCompact(data.summary.burden_default.total_serious.median)}/yr). Two judgment
+                calls — what counts as “serious” and how disease is attributed to genetics —
+                are adjustable on the Denominator tab; every number responds.
+              </p>
               <button
                 type="button"
-                onClick={() => update({ mode: 'detailed', tab: 'denominator' })}
-                className="mt-2 text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                onClick={() => update({ mode: 'detailed', tab: 'methods' })}
+                className="font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
-                Open the Denominator toggles →
+                Full methods &amp; sources →
               </button>
-            }
-          />
-        </div>
-
-        {/* Headline stat tiles, each with a source footnote */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatTile label="Serious genetic births / yr">
-            <StatValue stat={data.summary.burden_default.total_serious} kind="compact" />
-            <SourceNote
-              source={monoSrc.source || 'Modell & Darlison 2008'}
-              doi={monoSrc.doi}
-              detail="top-down parametric total (serious)"
-            />
-          </StatTile>
-
-          <StatTile label="Not editing-dependent (top-down)">
-            <StatValue
-              stat={data.summary.addressable_share_of_serious.permissive}
-              kind="pct"
-              decimals={1}
-            />
-            <SourceNote
-              source="Derived (top-down model): share of serious disease NOT in the editing-only residual, i.e. 1 − (S1 + permissive S2). Distinct from the catalogue 'addressable status' share above, which is computed bottom-up over the disease library."
-              doi={null}
-            />
-          </StatTile>
-
-          <StatTile label="Uniquely editable / yr (permissive)">
-            <StatValue stat={data.summary.uniquely_editable_total.permissive} kind="compact" />
-            <SourceNote
-              source={s2Src.source || 'Derived residual (S2)'}
-              doi={s2Src.doi}
-              detail="cases reachable only by germline editing"
-            />
-          </StatTile>
-
-          <StatTile label="Library coverage">
-            <span className="tnum text-lg font-semibold text-slate-900">
-              {fmtInt(rollup.n_diseases_all)} diseases
-            </span>
-            <span className="ml-1 text-sm text-slate-500">
-              · {fmtInt(rollup.n_diseases)} core + {fmtInt(rollup.tiers.rare.n_diseases)} rare
-            </span>
-            <SourceNote
-              source={`Disease library (this project): a curated core of the highest-burden conditions plus an Orphanet-derived rare tail. ${fmtPct(rollup.tiers.all.cited_incidence_share_by_count, 0)} of the catalogue rests on a cited incidence.`}
-              doi={null}
-              detail={data.library.meta.incidence_unit}
-            />
-          </StatTile>
-        </div>
-
-        {/* Honesty callout: lower bound vs top-down */}
-        <Card className="border-amber-300 bg-amber-50/60">
-          <h3 className="text-base font-semibold text-slate-900">
-            The catalogue total is a lower bound
-          </h3>
-          <p className="mt-1 text-sm text-slate-700">
-            The library is a <strong>curated seed catalogue</strong> of the highest-burden
-            conditions, so its bottom-up sum is a{' '}
-            <strong>lower bound</strong> on the full genetic-disease denominator. It climbs
-            toward the parametric top-down total as the catalogue grows — today the seed covers
-            about <strong>{fmtPct(climbShare, 0)}</strong> of the modelled denominator. Both
-            numbers are shown so the gap is explicit, not hidden.
-          </p>
-          <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div className="rounded border border-amber-200 bg-white p-3">
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-                Bottom-up (library sum) · lower bound
-              </p>
-              <p className="tnum mt-1 text-2xl font-bold text-slate-900">
-                {fmtCompact(bottomUp)}
-              </p>
-              <p className="text-xs text-slate-500">
-                {fmtInt(bottomUp)} affected births / yr over {rollup.n_diseases} diseases
-              </p>
+              {mode === 'detailed' && (
+                <span className="sr-only">
+                  <SourcesList />
+                </span>
+              )}
             </div>
-            <div className="rounded border border-amber-200 bg-white p-3">
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-                Top-down (Monte-Carlo model)
-              </p>
-              <p className="tnum mt-1 text-2xl font-bold text-slate-900">
-                {fmtCompact(topDown)}
-              </p>
-              <p className="text-xs text-slate-500">
-                median serious genetic disease / yr, with 95% CrI
-              </p>
-            </div>
-          </div>
-          <p className="mt-3 text-xs leading-relaxed text-slate-600">{rollup.note}</p>
-          <p className="mt-2 text-xs leading-relaxed text-slate-600">{data.library.meta.note}</p>
+          </details>
         </Card>
-
-        {mode === 'detailed' && (
-          <Card>
-            <h3 className="text-base font-semibold text-slate-900">How the model works</h3>
-            <p className="mt-1 text-sm leading-relaxed text-slate-700">
-              The top-down denominator is a Monte-Carlo simulation over {fmtInt(data.meta.n_draws)}{' '}
-              draws: birth counts, per-1,000 serious-disease rates by severity definition, and an
-              attribution stance are each sampled from cited intervals, then combined to produce a
-              distribution for the serious total and every downstream share. The Denominator tab
-              lets you move the severity threshold and attribution stance and watch every number
-              respond; the Methods &amp; Provenance tab lists each parameter, its cited source, and
-              the sensitivity tornado. The bottom-up library is the ground-truth catalogue those
-              parameters are calibrated to reproduce.
-            </p>
-            <button
-              type="button"
-              onClick={() => update({ tab: 'methods' })}
-              className="mt-2 text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              Go to Methods &amp; Provenance →
-            </button>
-          </Card>
-        )}
-
-        {/* Sources & notes */}
-        <div className="space-y-2">
-          {/* Register the key datasets so they always appear in the list. */}
-          <span className="sr-only">
-            <SourceNote source={birthsSrc.source || 'UN World Population Prospects 2024'} doi={birthsSrc.doi} />
-            <SourceNote source={multiSrc.source || 'March of Dimes 2006; WHO congenital anomalies'} doi={multiSrc.doi} />
-          </span>
-          <SourcesList />
-        </div>
       </div>
     </SourcesProvider>
   );
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  preventable_treatable: '#059669', // emerald
-  preventable: '#0284c7', // sky
-  treatable: '#0d9488', // teal
-  detectable_only: '#d97706', // amber
-  none: '#94a3b8', // slate
+  preventable_treatable: '#059669',
+  preventable: '#0284c7',
+  treatable: '#0d9488',
+  detectable_only: '#d97706',
+  none: '#94a3b8',
 };
 
 function StatusSplit({
@@ -246,151 +191,166 @@ function StatusSplit({
     x += w;
     return seg;
   });
-  const editable = data.summary.uniquely_editable_total.permissive.median;
-
-  const existingShare = s.addressable_by_existing_tools_share;
-  const editingShare = editable / (data.summary.burden_default.total_serious.median || 1);
 
   return (
-    <Card>
-      <h3 className="text-base font-semibold text-slate-900">
-        Existing genetic medicine vs. germline editing
-      </h3>
-      <p className="mt-1 text-sm text-slate-600">
-        The whole argument turns on keeping two things apart: what the{' '}
-        <strong className="text-slate-900">existing four tools</strong> (carrier screening, embryo
-        testing, prenatal diagnosis, newborn screening — plus today's somatic therapies) already
-        address, and the narrow residual that{' '}
-        <strong className="text-slate-900">germline editing alone</strong> could reach. They are not
-        the same kind of thing, so they are shown as two separate blocks.
+    <div>
+      <p className="text-sm text-slate-700">
+        Each disease sits in one status, set only by which interventions apply to it. The bar is by
+        affected births in the core catalogue — click any band to filter the library.
       </p>
-
-      {/* BLOCK 1 — existing tools */}
-      <div className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50/40 p-3">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <p className="text-sm font-semibold text-emerald-900">
-            Addressable by existing tools today
-          </p>
-          <p className="text-sm text-emerald-900">
-            <strong>{fmtPct(existingShare, 0)}</strong> of serious genetic disease (by affected
-            births in the core catalogue)
-          </p>
-        </div>
-        {/* stacked bar by births */}
-        <div
-          className="mt-2 flex h-9 w-full overflow-hidden rounded"
-          role="img"
-          aria-label="Genetic-medicine status distribution by affected births (existing tools)"
-        >
-          {segs.map((seg) =>
-            seg.w > 0 ? (
-              <button
-                key={seg.k}
-                type="button"
-                onClick={() => update({ tab: 'library', status: seg.k, libsort: 'status' })}
-                title={`${seg.label}: ${fmtInt(seg.births)} births/yr (${fmtPct(
-                  seg.births / totalB,
-                  0
-                )}) · ${seg.n_diseases} diseases — click to filter the library`}
-                style={{ width: `${seg.w}%`, backgroundColor: STATUS_COLORS[seg.k] }}
-                className="h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-slate-900"
-              />
-            ) : null
-          )}
-        </div>
-        {/* legend */}
-        <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1.5 sm:grid-cols-2 lg:grid-cols-3">
-          {segs.map((seg) => (
+      <div
+        className="mt-2 flex h-8 w-full overflow-hidden rounded"
+        role="img"
+        aria-label="Genetic-medicine status distribution by affected births"
+      >
+        {segs.map((seg) =>
+          seg.w > 0 ? (
             <button
               key={seg.k}
               type="button"
               onClick={() => update({ tab: 'library', status: seg.k, libsort: 'status' })}
-              className="flex items-center gap-2 text-left text-sm hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              <span
-                aria-hidden="true"
-                className="inline-block h-3 w-3 shrink-0 rounded-sm"
-                style={{ backgroundColor: STATUS_COLORS[seg.k] }}
-              />
-              <span className="text-slate-700">{seg.label}</span>
-              <span className="tnum ml-auto text-slate-500">
-                {fmtCompact(seg.births)} · {seg.n_diseases}
-              </span>
-            </button>
-          ))}
-        </div>
-        <p className="mt-2 text-xs text-emerald-900/70">
-          These statuses are all reached with <strong>existing</strong> interventions. The treatment
-          breakdown (Prevention tab) further splits “treatable” by modality — surgery, drug, enzyme
-          replacement, somatic gene/cell therapy — none of which is germline editing.
-        </p>
+              title={`${seg.label}: ${fmtInt(seg.births)} births/yr (${fmtPct(
+                seg.births / totalB,
+                0
+              )}) · ${seg.n_diseases} diseases`}
+              style={{ width: `${seg.w}%`, backgroundColor: STATUS_COLORS[seg.k] }}
+              className="h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-slate-900"
+            />
+          ) : null
+        )}
       </div>
-
-      {/* BLOCK 2 — germline editing, isolated */}
-      <div className="mt-3 rounded-lg border border-violet-300 bg-violet-50/50 p-3">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <p className="text-sm font-semibold text-violet-900">
-            Uniquely needs germline editing
-          </p>
-          <p className="text-sm text-violet-900">
-            <strong>~{fmtPct(editingShare, 1)}</strong> of serious genetic disease ·{' '}
-            <strong>{fmtCompact(editable)}</strong> births / yr
-          </p>
-        </div>
-        {/* a lone sliver, drawn to scale against the block-1 bar */}
-        <div
-          className="mt-2 h-9 w-full overflow-hidden rounded bg-violet-100"
-          role="img"
-          aria-label="Germline-editing-only residual, to scale"
-        >
-          <div
-            className="h-full bg-violet-500"
-            style={{ width: `${Math.max(editingShare * 100, 0.4)}%` }}
-            title={`Germline-editing-only residual ≈ ${fmtPct(editingShare, 1)} of serious disease`}
-          />
-        </div>
-        <p className="mt-2 text-xs text-violet-900/80">
-          This is a sliver of <em>couples within</em> diseases — those for whom no unaffected embryo
-          can be selected — not a disease category. It is the only place germline editing does
-          something the existing tools cannot. Explored on the Residual and Embryos tabs.
-        </p>
+      <div className="mt-2 grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
+        {segs.map((seg) => (
+          <button
+            key={seg.k}
+            type="button"
+            onClick={() => update({ tab: 'library', status: seg.k, libsort: 'status' })}
+            className="flex items-center gap-2 text-left text-xs hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            <span
+              aria-hidden="true"
+              className="inline-block h-3 w-3 shrink-0 rounded-sm"
+              style={{ backgroundColor: STATUS_COLORS[seg.k] }}
+            />
+            <span className="text-slate-700">{seg.label}</span>
+            <span className="tnum ml-auto text-slate-500">
+              {fmtCompact(seg.births)} · {seg.n_diseases}
+            </span>
+          </button>
+        ))}
       </div>
-
-      <p className="mt-3 text-xs text-slate-500">{s.definition}</p>
-    </Card>
+    </div>
   );
 }
 
-function StatTile({ label, children }: { label: string; children: ReactNode }) {
+// Preventable-in-principle vs prevented-in-practice, for the clearest case (monogenic, global).
+function AccessGap({
+  data,
+  update,
+}: {
+  data: AllData;
+  update: (patch: UrlState) => void;
+}) {
+  const cls: DiseaseClass = 'monogenic';
+  const cur = data.prevention['Global']?.['current']?.[cls]?.['pnd_on'];
+  const ideal = data.prevention['Global']?.['ideal']?.[cls]?.['pnd_on'];
+  if (!cur || !ideal) return null;
+  const inPrinciple = ideal.total_averted_birth_fraction.median; // what full coverage reaches
+  const inPractice = cur.total_averted_birth_fraction.median; // what today's coverage reaches
+  const gap = Math.max(0, inPrinciple - inPractice);
+
+  return (
+    <div>
+      <p className="text-sm leading-relaxed text-slate-700">
+        Take single-gene disease, globally. At <strong>full coverage</strong> the existing tools
+        would prevent about <strong>{fmtPct(inPrinciple, 0)}</strong> of affected births. At{' '}
+        <strong>today's coverage</strong> they actually prevent about{' '}
+        <strong>{fmtPct(inPractice, 0)}</strong>. The difference —{' '}
+        <strong>{fmtPct(gap, 0)}</strong> — is not a limit of biology; it is unmet{' '}
+        <strong>access</strong>, closed by scaling the same tools, not by editing.
+      </p>
+
+      <div className="mt-3 space-y-2">
+        <GapBar label="Preventable in principle (full coverage)" frac={inPrinciple} color="#059669" />
+        <GapBar label="Prevented in practice (today's coverage)" frac={inPractice} color="#0284c7" />
+      </div>
+      <p className="mt-2 text-xs text-slate-500">
+        Multifactorial disease has a lower biological ceiling; both classes, all regions, and the
+        step-by-step tool breakdown are on the Prevention tab.{' '}
+        <button
+          type="button"
+          onClick={() => update({ tab: 'prevention' })}
+          className="font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          Open Prevention →
+        </button>
+      </p>
+    </div>
+  );
+}
+
+function GapBar({ label, frac, color }: { label: string; frac: number; color: string }) {
+  return (
+    <div>
+      <div className="flex justify-between text-xs text-slate-600">
+        <span>{label}</span>
+        <span className="tnum font-medium text-slate-900">{fmtPct(frac, 0)}</span>
+      </div>
+      <div className="mt-0.5 h-4 w-full overflow-hidden rounded bg-slate-100">
+        <div className="h-full" style={{ width: `${frac * 100}%`, backgroundColor: color }} />
+      </div>
+    </div>
+  );
+}
+
+function ArgumentStep({ n, title, children }: { n: number; title: string; children: ReactNode }) {
   return (
     <Card>
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
-      <p className="mt-1 text-2xl">{children}</p>
+      <div className="flex items-start gap-3">
+        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-white">
+          {n}
+        </span>
+        <div className="min-w-0 flex-1">
+          <h3 className="text-base font-semibold text-slate-900">{title}</h3>
+          <div className="mt-2">{children}</div>
+        </div>
+      </div>
     </Card>
   );
 }
 
-function ExplainerChip({
+function MiniStat({
   tone,
+  value,
   label,
-  body,
-  action,
+  sub,
 }: {
-  tone: 'measured' | 'derived' | 'assumptions';
+  tone: 'emerald' | 'violet';
+  value: string;
   label: string;
-  body: string;
-  action?: ReactNode;
+  sub: string;
 }) {
-  const toneClass: Record<string, string> = {
-    measured: 'border-emerald-300 bg-emerald-50/60',
-    derived: 'border-sky-300 bg-sky-50/60',
-    assumptions: 'border-slate-300 bg-slate-50',
-  };
+  const cls =
+    tone === 'emerald'
+      ? 'border-emerald-200 bg-emerald-50/50'
+      : 'border-violet-200 bg-violet-50/50';
   return (
-    <div className={`rounded-lg border p-4 ${toneClass[tone]}`}>
-      <p className="text-sm font-semibold text-slate-900">{label}</p>
-      <p className="mt-1 text-sm leading-relaxed text-slate-700">{body}</p>
-      {action}
+    <div className={`rounded border p-3 ${cls}`}>
+      <p className="tnum text-2xl font-bold text-slate-900">{value}</p>
+      <p className="text-sm font-medium text-slate-800">{label}</p>
+      <p className="mt-0.5 text-xs text-slate-600">{sub}</p>
     </div>
+  );
+}
+
+function NavChip({ onClick, children }: { onClick: () => void; children: ReactNode }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="rounded border border-slate-300 bg-white px-2.5 py-1 font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+    >
+      {children}
+    </button>
   );
 }
