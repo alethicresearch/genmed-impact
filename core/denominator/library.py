@@ -27,7 +27,7 @@ STATUS_LABEL = {
     "preventable": "Preventable",
     "treatable": "Treatable",
     "detectable_only": "Detectable only",
-    "none": "No current option",
+    "none": "No genetic-medicine option",
 }
 
 

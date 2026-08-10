@@ -242,11 +242,19 @@ costs:
     retrieved: "2026-08-10"
   gene_therapy_list_price:
     value: 2500000
-    low: 700000
+    low: 2100000
     high: 4250000
-    source: "approved gene-therapy list prices (e.g. SMA, metabolic)"
+    source: "Approved one-time gene-therapy US list prices: Zolgensma ~$2.1M (SMA), Casgevy $2.2M (SCD), Hemgenix $3.5M (haemophilia B), Lenmeldy $4.25M (MLD, most expensive drug, 2024)"
     doi: "n/a"
-    table_or_page: "public list prices 2020-2024"
+    table_or_page: "manufacturer list prices 2019-2024 (Novartis, Vertex/CRISPR, CSL, Orchard)"
+    retrieved: "2026-08-10"
+  pmtct_cost_per_infection_averted:
+    value: 2000
+    low: 200
+    high: 15000
+    source: "PMTCT cost-effectiveness: single-dose nevirapine ~$150-300/infection averted; Option B+ ~$4,000-23,000 (Tanzania PMTCT-Plus $4,062)"
+    doi: "10.2471/BLT.13.123646"
+    table_or_page: "Option B+ cost-benefit (Bull WHO 2014); PMTCT-Plus Tanzania cost-effectiveness"
     retrieved: "2026-08-10"
   editing_program_per_birth_prevented:
     value: 500000

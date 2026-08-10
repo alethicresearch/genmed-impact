@@ -1,6 +1,6 @@
 # denominator — regenerated tables
 
-_Assumption set: severity=`def_b`, attribution=`inclusive`, scenario=`current`, PND-counts=`True` · Monte-Carlo n=20000 · pipeline commit `406caa9`._
+_Assumption set: severity=`def_b`, attribution=`inclusive`, scenario=`current`, PND-counts=`True` · Monte-Carlo n=20000 · pipeline commit `7ec6ac5`._
 
 ## Table 1 — Serious genetic disease: burden and uniquely editable residual
 
@@ -9,11 +9,11 @@ _Assumption set: severity=`def_b`, attribution=`inclusive`, scenario=`current`, 
 | Severe monogenic disorders | 1,404,840 | 17.5% | 1.04% |
 | Serious multifactorial / partly-genetic | 6,620,881 | 82.3% | 4.90% |
 | All serious genetic disorders | 8,042,019 | 100% | 5.96% |
-| S1 — no selectable unaffected embryo | 24,877 | 0.31% | 0.02% |
+| S1 — no selectable unaffected embryo | 11,320 | 0.14% | 0.01% |
 | S2 — editing-superior complex disease (permissive) | 127,166 | 1.58% | 0.09% |
-| **Total uniquely embryo-editable (permissive)** | **153,249** | **1.91%** | **0.11%** |
+| **Total uniquely embryo-editable (permissive)** | **139,586** | **1.74%** | **0.10%** |
 
-_Addressable by existing tools (1 − uniquely editable): **98.1%** (95% CrI 96.7%–99.0%)._
+_Addressable by existing tools (1 − uniquely editable): **98.3%** (95% CrI 96.9%–99.1%)._
 
 ## Table 2 — Serious genetic births/year across severity × attribution
 
@@ -41,7 +41,7 @@ _Addressable by existing tools (1 − uniquely editable): **98.1%** (95% CrI 96.
 | Spinal muscular atrophy (type I) | 3 | 0 – 71 |
 | Huntington's disease | 1 | 0 – 3 |
 | Tay-Sachs disease | 0 | 0 – 0 |
-| **S1 total (incl. contested)** | **24,877** | 13,111 – 46,319 |
+| **S1 total (incl. contested)** | **11,320** | 4,852 – 26,109 |
 | _S1 excl. congenital deafness (contested)_ | _11,320_ | 4,852 – 26,109 |
 
 _Congenital deafness (contested) contributes a median **12,377** (95% CrI 4,858–30,060) of the S1 total. The draft paper's 14,000 sits between the two variants._
@@ -75,7 +75,7 @@ Category & Births/yr & \% serious & \% births \\
 Severe monogenic & 1,404,840 & 17.5% & 1.04% \\
 Serious multifactorial & 6,620,881 & 82.3% & 4.90% \\
 All serious genetic & 8,042,019 & 100\% & 5.96% \\
-Uniquely editable (permissive) & 153,249 & 1.91% & 0.11% \\
+Uniquely editable (permissive) & 139,586 & 1.74% & 0.10% \\
 \bottomrule
 \end{tabular}
 ```

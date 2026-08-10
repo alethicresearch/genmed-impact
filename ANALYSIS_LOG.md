@@ -130,6 +130,26 @@ across its defensible range (see the app's Denominator and Sensitivity views).
   a category in the per-disease index. Collapsing the two was part of what made the score muddled.
 - Status measures *addressability*, independent of severity (kept as a separate axis).
 
+### Resolved decisions & sourcing (2026-08-10, later pass)
+- **Headline denominator (RQ1):** attribution = **inclusive** (8.0M), severity = **def_b** — retained
+  as defaults. Rationale: being generous to the multifactorial count makes the "≈98% addressable by
+  existing tools" conclusion *more* robust, and matches the draft's 8–9M. Other stances reported.
+- **PND counts as prevention:** **yes** (default), with the with/without toggle retained.
+- **Congenital deafness in S1:** **excluded** by default (headline S1 ≈ 11.3k, CrI 4.9–26k). A
+  contested condition (not catastrophic; many do not regard it as a disease to prevent) and the
+  single largest S1 swing; excluding it is the conservative, defensible choice. Toggle retained;
+  including it ≈doubles S1 but moves the editable share only ~1.74% → ~1.91%.
+- **Labels (app):** the two "addressable" figures renamed to distinguish the bottom-up catalogue
+  **addressable-status** share (≈96%) from the top-down **not-editing-dependent** share (≈98%);
+  "No current option" → **"No genetic-medicine option"** (accurate for e.g. surgically-treated
+  pyloric stenosis).
+- **Cost/consanguinity sourcing:** gene-therapy prices cited to Zolgensma/Casgevy/Hemgenix/Lenmeldy
+  2024 list prices (range $2.1–4.25M); PMTCT cost/infection-averted added ($150–300 simple regimen
+  to $4–23k Option B+); consanguinity F cited to Bittles & Black 2010 / consang.net (≈10% global;
+  20–50% MENA/South Asia). Multifactorial architecture values kept as literature anchors
+  (Khera 2018 CAD PRS; PGC3 schizophrenia; Mavaddat 2019 breast-cancer PRS) pending a systematic
+  PGS-Catalog pull.
+
 ### Known deviations from the draft paper (surfaced, not hidden)
 1. S1 median ≈25k vs paper's 14k (see above).
 2. Births default 135M vs paper's 140M (interval covers both).

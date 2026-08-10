@@ -26,9 +26,9 @@ global_defaults:
     value: 0.010
     low: 0.004
     high: 0.020
-    source: "Bittles & Black / consang.net global population-weighted mean kinship"
-    doi: "n/a"
-    table_or_page: "consang.net country tables (population-weighted)"
+    source: "Bittles & Black 2010; consang.net. Consanguineous unions ~10.4% globally (2nd-cousin or closer); 20-50% across MENA/South Asia (Pakistan ~64%, Egypt 20-39%), <1% in most high-income settings. Population mean kinship F weighted accordingly."
+    doi: "10.1073/pnas.0906079106"
+    table_or_page: "Bittles & Black PNAS 2010; consang.net global map"
     retrieved: "2026-08-10"
   translocation_no_viable_euploid_per_1000:
     value: 0.02

@@ -445,7 +445,7 @@
       "notes": null,
       "status": {
         "status": "none",
-        "label": "No current option",
+        "label": "No genetic-medicine option",
         "preventable": false,
         "treatable": false,
         "prenatal_detectable": false,
@@ -4803,7 +4803,7 @@
           "births": 688500.0
         },
         "none": {
-          "label": "No current option",
+          "label": "No genetic-medicine option",
           "n_diseases": 1,
           "births": 270000.0
         }

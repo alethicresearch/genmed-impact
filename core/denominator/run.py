@@ -72,7 +72,10 @@ def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
     ed_share_serious = {ck: {crit: editable[ck][crit] / total_default for crit in config.S2_CRITERIA} for ck in s1_variants}
     ed_share_births = {ck: {crit: editable[ck][crit] / births for crit in config.S2_CRITERIA} for ck in s1_variants}
     addressable = {ck: {crit: 1.0 - ed_share_serious[ck][crit] for crit in config.S2_CRITERIA} for ck in s1_variants}
-    HEAD = "with_contested"  # headline variant keeps congenital deafness in (documented)
+    # Decision (see ANALYSIS_LOG §status/§S1): the headline S1 residual EXCLUDES congenital
+    # deafness — a contested condition many do not regard as a disease to prevent, and the single
+    # largest S1 swing. The in/out toggle remains available in the app.
+    HEAD = "without_contested"
 
     # ---- RQ2 prevention waterfalls: class x region(income) x scenario -----------------
     waterfalls: dict = {}

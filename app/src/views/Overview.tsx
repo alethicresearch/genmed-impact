@@ -108,14 +108,14 @@ export default function Overview({ data, state, update }: Props) {
             />
           </StatTile>
 
-          <StatTile label="Addressable by existing tools">
+          <StatTile label="Not editing-dependent (top-down)">
             <StatValue
               stat={data.summary.addressable_share_of_serious.permissive}
               kind="pct"
               decimals={1}
             />
             <SourceNote
-              source="Derived: share of serious cases reachable by ≥1 reproductive/newborn tool (permissive S2)"
+              source="Derived (top-down model): share of serious disease NOT in the editing-only residual, i.e. 1 − (S1 + permissive S2). Distinct from the catalogue 'addressable status' share above, which is computed bottom-up over the disease library."
               doi={null}
             />
           </StatTile>

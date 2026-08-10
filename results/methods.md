@@ -1,6 +1,6 @@
 # Methods — Global Genetic-Disease Burden × Genetic-Medicine Impact
 
-_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `406caa9` · model version 3.0._
+_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `7ec6ac5` · model version 3.0._
 
 This document describes every input, assumption, formula, and parameter behind the analysis. All headline figures below are regenerated from the pipeline; the full parameter provenance and disease catalogue are in the appendices. Contestable judgment calls are implemented as explicit parameters and reported across their range.
 
@@ -74,7 +74,7 @@ The distribution across statuses — by disease count and by affected births —
 | Preventable | 59 | 2,770,740 |
 | Treatable | 3 | 1,350,000 |
 | Detectable only | 5 | 688,500 |
-| No current option | 1 | 270,000 |
+| No genetic-medicine option | 1 | 270,000 |
 | **Addressable by existing tools** |  | **5,803,380 (96%)** |
 
 The editing-unique residual (§8) is deliberately *not* a status here: it is a sliver of couples *within* diseases (no selectable embryo), not a class of diseases.
@@ -101,11 +101,11 @@ P_couple  = P_aa_repro · (α_eff + (1−α_eff)·P_aa_repro)      # recessive
 births_S1 = births × Σ_conditions P_couple  + structural-variant term
 ```
 
-Standard both-heterozygous couples (¼ unaffected embryos) are selection-addressable and excluded. Result: **S1 ≈ 24,877 (95% CrI 13,111–46,319)** including congenital deafness; **11,320** excluding it (deafness is flagged contested — many in the Deaf community do not regard it as a disease to prevent — and toggled explicitly; the draft paper's 14,000 sits between the two).
+Standard both-heterozygous couples (¼ unaffected embryos) are selection-addressable and excluded. Result: **S1 ≈ 11,320 (95% CrI 4,852–26,109)** including congenital deafness; **11,320** excluding it (deafness is flagged contested — many in the Deaf community do not regard it as a disease to prevent — and toggled explicitly; the draft paper's 14,000 sits between the two).
 
 **S2 — editing-superior complex disease.** The multifactorial share for which a single/oligo-locus edit would uniquely benefit after netting out somatic, pharmacological, and public-health alternatives, under strict vs permissive criteria: strict ≈ 1,320/yr, permissive ≈ 127,166/yr.
 
-**Uniquely editable total (permissive): 153,249 (95% CrI 81,511–270,979)** — **1.91% (95% CrI 1.03–3.28%)** of serious genetic disease; the complement, **98.09% (95% CrI 96.72–98.97%)**, is not uniquely reliant on editing.
+**Uniquely editable total (permissive): 139,586 (95% CrI 68,828–257,513)** — **1.74% (95% CrI 0.87–3.10%)** of serious genetic disease; the complement, **98.26% (95% CrI 96.90–99.13%)**, is not uniquely reliant on editing.
 
 ## 9. Multifactorial intervention viability (liability-threshold)
 
@@ -197,7 +197,8 @@ Each is an explicit parameter with a documented default (see `ANALYSIS_LOG.md` f
 | `costs.prenatal_screen_per_pregnancy` | 120 | 40 | 300 | cfDNA/NIPT + confirmatory dx program cost | reasoned |
 | `costs.newborn_screen_per_infant` | 25 | 8 | 60 | NBS panel cost per infant (excl. treatment) | reasoned; Kirby & Browne 2021 |
 | `costs.haemoglobinopathy_program_per_birth_prevented` | 12000 | 4000 | 30000 | Cousens et al. 2010 β-thalassaemia carrier-screening cost-effectivenes | 10.1038/ejhg.2010.90 |
-| `costs.gene_therapy_list_price` | 2500000 | 700000 | 4250000 | approved gene-therapy list prices (e.g. SMA, metabolic) | public list prices 2020-2024 |
+| `costs.gene_therapy_list_price` | 2500000 | 2100000 | 4250000 | Approved one-time gene-therapy US list prices: Zolgensma ~$2.1M (SMA), | manufacturer list prices 2019-2024 (Nova |
+| `costs.pmtct_cost_per_infection_averted` | 2000 | 200 | 15000 | PMTCT cost-effectiveness: single-dose nevirapine ~$150-300/infection a | 10.2471/BLT.13.123646 |
 | `costs.editing_program_per_birth_prevented` | 500000 | 150000 | 2000000 | reasoned germline-editing program overhead (IVF+PGT base + editing + o | wide interval; see ANALYSIS_LOG §costs |
 | `costs.daly_per_severe_monogenic_case` | 30 | 15 | 55 | GBD-style DALYs per severe early-onset monogenic case (undiscounted) | reasoned pending GBD 2023 pull (DATA_NEE |
 | `program_anchors.thalassaemia_major_reduction` | 0.9 | 0.7 | 0.95 | Cyprus/Sardinia/Greece national thalassaemia programs | 10.2471/BLT.06.036673 |
@@ -215,7 +216,7 @@ Each is an explicit parameter with a documented default (see `ANALYSIS_LOG.md` f
 | Sickle cell disease | HBB | autosomal_recessive | severe | 297,000 | Preventable & treatable | cited |
 | Hypertrophic cardiomyopathy | MYBPC3, MYH7 | autosomal_dominant | serious | 270,000 | Preventable | textbook_estimate |
 | Hypospadias | — | multifactorial | moderate | 270,000 | Detectable only | textbook_estimate |
-| Infantile hypertrophic pyloric stenosis | — | multifactorial | moderate | 270,000 | No current option | textbook_estimate |
+| Infantile hypertrophic pyloric stenosis | — | multifactorial | moderate | 270,000 | No genetic-medicine option | textbook_estimate |
 | Down syndrome (trisomy 21) | — | chromosomal | severe | 189,000 | Preventable | cited |
 | Orofacial clefts (cleft lip/palate) | — | multifactorial | moderate | 189,000 | Detectable only | textbook_estimate |
 | Alpha-thalassaemia | HBA1, HBA2 | autosomal_recessive | severe | 135,000 | Preventable | cited |

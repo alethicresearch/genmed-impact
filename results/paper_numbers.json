@@ -43,10 +43,10 @@
     "attribution": "inclusive"
   },
   "s1_no_selectable_embryo_births_per_year": {
-    "median": 24876.559856884123,
+    "median": 11320.295924931146,
     "ci95": [
-      13111.319998067089,
-      46319.347425802356
+      4851.880736553392,
+      26108.921874838317
     ],
     "severity_def": "def_b",
     "attribution": "inclusive"
@@ -78,30 +78,30 @@
     "criteria": "strict"
   },
   "uniquely_editable_births_per_year__strict": {
-    "median": 27923.305346093926,
+    "median": 14208.00912599327,
     "ci95": [
-      14555.315148683347,
-      52914.44979660907
+      5839.185899962349,
+      34685.54304926661
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "strict"
   },
   "uniquely_editable_share_of_serious__strict": {
-    "median": 0.0034788087213486587,
+    "median": 0.0017672799496720182,
     "ci95": [
-      0.0017792588074177027,
-      0.006707902913747905
+      0.0007136699407206371,
+      0.004347592968267711
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "strict"
   },
   "addressable_share_of_serious__strict": {
-    "median": 0.9965211912786514,
+    "median": 0.998232720050328,
     "ci95": [
-      0.9932920970862521,
-      0.9982207411925823
+      0.9956524070317323,
+      0.9992863300592794
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
@@ -116,30 +116,30 @@
     "criteria": "permissive"
   },
   "uniquely_editable_births_per_year__permissive": {
-    "median": 153248.69229190814,
+    "median": 139586.09517964604,
     "ci95": [
-      81510.53795570292,
-      270979.44241698814
+      68827.5044899567,
+      257512.8900217289
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "permissive"
   },
   "uniquely_editable_share_of_serious__permissive": {
-    "median": 0.019121389588103204,
+    "median": 0.017399295729378733,
     "ci95": [
-      0.010313162152907441,
-      0.03277580279296839
+      0.008710872028486567,
+      0.030983169765268215
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "permissive"
   },
   "addressable_share_of_serious__permissive": {
-    "median": 0.9808786104118968,
+    "median": 0.9826007042706213,
     "ci95": [
-      0.9672241972070316,
-      0.9896868378470925
+      0.9690168302347318,
+      0.9912891279715134
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
