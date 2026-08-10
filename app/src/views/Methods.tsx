@@ -47,6 +47,72 @@ function leafStr(v: unknown): string {
   return String(v);
 }
 
+// ---- Parameter badges ----
+// Every input is classified so a reader can see at a glance what kind of number it is. The
+// classification is derived from each entry's provenance fields (placeholder flag, DOI,
+// source text), plus a short list of paths that encode the authors' normative choices.
+type Badge = 'cited' | 'derived' | 'assumption' | 'normative' | 'provisional';
+
+const BADGE_META: Record<Badge, { label: string; cls: string; desc: string }> = {
+  cited: {
+    label: 'Cited data',
+    cls: 'bg-emerald-100 text-emerald-800',
+    desc: 'Taken from a published source, with the citation attached.',
+  },
+  derived: {
+    label: 'Derived',
+    cls: 'bg-sky-100 text-sky-800',
+    desc: 'Computed from other inputs; carries no independent evidence of its own.',
+  },
+  assumption: {
+    label: 'Modeling assumption',
+    cls: 'bg-amber-100 text-amber-800',
+    desc: 'A reasoned central estimate where no direct measurement exists; varied in the Monte-Carlo.',
+  },
+  normative: {
+    label: 'Normative choice',
+    cls: 'bg-violet-100 text-violet-800',
+    desc: 'A judgment call (what counts as serious, how to attribute, whether PND counts) exposed as a toggle, not a fact.',
+  },
+  provisional: {
+    label: 'Provisional',
+    cls: 'bg-rose-100 text-rose-800',
+    desc: 'A placeholder awaiting stronger sourcing; flagged in DATA_NEEDED.md.',
+  },
+};
+
+// Paths that encode the authors' judgment calls rather than measurements.
+const NORMATIVE_PREFIXES = ['constants.attribution', 'constants.severity', 'constants.judgment'];
+
+function badgeOf(path: string, leaf: ProvenanceLeaf): Badge {
+  if ((leaf as Record<string, unknown>).placeholder) return 'provisional';
+  if (NORMATIVE_PREFIXES.some((p) => path.startsWith(p))) return 'normative';
+  const txt = `${leaf.source || ''} ${leaf.table_or_page || ''}`.toLowerCase();
+  if (txt.includes('derived')) return 'derived';
+  if (txt.includes('reasoned') || txt.includes('assumption')) return 'assumption';
+  if (leaf.doi && leaf.doi !== 'n/a') return 'cited';
+  if (leaf.source) return 'cited';
+  return 'assumption';
+}
+
+// Internal model vocabulary, kept here (and only here) for reproducibility.
+const INTERNAL_TERMS: Array<{ internal: string; meaning: string }> = [
+  { internal: 'S1', meaning: 'No unaffected embryo can be selected — the families for whom editing would be the only preventive option.' },
+  { internal: 'S2', meaning: 'Complex-disease cases where editing might outperform every alternative.' },
+  { internal: 'strict / permissive', meaning: 'Current-evidence case / optimistic upper-bound case for how much complex-disease editing to credit.' },
+  { internal: 'def_a / def_b / def_c', meaning: 'Narrow / Main / Broad definition of serious disease (severity threshold).' },
+  { internal: 'attribution (inclusive / heritability_weighted / exclusive)', meaning: 'How much multifactorial disease to count as genetically attributable: all of it / weighted by heritability / none of it.' },
+  { internal: 'pnd_on / pnd_off', meaning: 'Whether prenatal diagnosis followed by pregnancy termination is counted as reducing affected births.' },
+];
+
+const PIPELINE_STEPS = [
+  { title: 'Define the burden', desc: 'How much serious genetic disease is in each birth cohort, under explicit severity and attribution choices.' },
+  { title: 'Map conditions to interventions', desc: 'Which of the four existing pathways applies to each catalogued disease.' },
+  { title: 'Model access & effectiveness', desc: 'How much each pathway prevents or mitigates at current, achievable, and full coverage.' },
+  { title: 'Identify what remains', desc: 'The population no existing pathway reaches — where editing would be the only option.' },
+  { title: 'Propagate uncertainty', desc: 'Every input sampled in a 20,000-draw Monte-Carlo, so each figure carries a credible interval.' },
+];
+
 export default function Methods({ data, state, update }: Props) {
   const m = data.meta;
   const query = (state.q || '').toLowerCase();
@@ -57,6 +123,18 @@ export default function Methods({ data, state, update }: Props) {
     flatten(data.provenance, [], out);
     return out;
   }, [data.provenance]);
+
+  const badgeCounts = useMemo(() => {
+    const counts: Record<Badge, number> = {
+      cited: 0,
+      derived: 0,
+      assumption: 0,
+      normative: 0,
+      provisional: 0,
+    };
+    for (const f of leaves) counts[badgeOf(f.path, f.leaf)]++;
+    return counts;
+  }, [leaves]);
 
   const filtered = useMemo(() => {
     if (!query) return leaves;
@@ -79,41 +157,65 @@ export default function Methods({ data, state, update }: Props) {
   return (
     <div className="space-y-6">
       <SectionHeading
-        title="Methods & sources"
-        subtitle="How the figures were computed, how sensitive they are to assumptions, every source behind them, and a glossary of the terms used throughout."
+        title="Methods & data"
+        subtitle="How the figures were computed, what kind of number each input is, how sensitive the headline is to assumptions, and everything needed to reproduce the analysis."
       />
       <Explainer
-        whatThisShows="The machinery behind the numbers: how they were computed, which assumptions matter most, the full list of source values with their citations, and a plain-language glossary."
-        howToRead="The sensitivity chart shows which single assumption moves the headline result the most. The sources table lists every input value with its range and reference — filter it by name or source. The glossary defines each technical term used elsewhere in the page."
-        whatItDetermines="Whether you can trust and reproduce the figures — and what each term means when you meet it in another view."
+        whatThisShows="The machinery behind the numbers: the five-step pipeline, every input classified by what kind of number it is, the assumptions that move the result most, and the full reproducibility record."
+        howToRead="Start with the pipeline and the input classification. The sensitivity chart shows which single assumption moves the headline result the most. The sources table lists every input with its badge, range, and reference — filter it by name or source."
+        whatItDetermines="Whether you can trust and reproduce the figures — and exactly where data ends and judgment begins."
       />
 
-      {/* Meta */}
+      {/* The pipeline in five steps */}
       <Card>
-        <h3 className="mb-3 text-base font-semibold text-slate-900">Model run</h3>
-        <dl className="grid grid-cols-1 gap-x-8 gap-y-2 text-sm sm:grid-cols-2 lg:grid-cols-3">
-          <MetaItem label="Monte-Carlo draws" value={m.n_draws.toLocaleString('en-US')} />
-          <MetaItem label="Seed" value={String(m.seed)} />
-          <MetaItem label="Pipeline commit" value={m.commit} mono />
-          <MetaItem label="Model version" value={m.spec_version} />
-          <MetaItem label="Default severity" value={m.default_assumptions.severity} />
-          <MetaItem label="Default attribution" value={m.default_assumptions.attribution} />
-          <MetaItem label="Default scenario" value={m.default_assumptions.scenario} />
-          <MetaItem label="PND counts (default)" value={m.default_assumptions.pnd_counts ? 'yes' : 'no'} />
-        </dl>
+        <h3 className="mb-3 text-base font-semibold text-slate-900">
+          The analysis in five steps
+        </h3>
+        <ol className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
+          {PIPELINE_STEPS.map((s, i) => (
+            <li key={s.title} className="flex flex-col rounded border border-slate-200 bg-slate-50/60 p-3">
+              <span className="text-xs font-semibold text-slate-400">{i + 1}</span>
+              <span className="mt-0.5 text-sm font-semibold text-slate-900">{s.title}</span>
+              <span className="mt-1 text-xs leading-5 text-slate-600">{s.desc}</span>
+            </li>
+          ))}
+        </ol>
+      </Card>
+
+      {/* What kind of number is each input? */}
+      <Card>
+        <h3 className="text-base font-semibold text-slate-900">
+          What kind of number is each input?
+        </h3>
+        <p className="mt-1 text-sm text-slate-600">
+          Every parameter in the model carries one of five badges, so it is always visible where
+          data ends and judgment begins. The counts below cover the {leaves.length} inputs in the
+          sources table; badges are derived from each entry&apos;s provenance record.
+        </p>
+        <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
+          {(Object.keys(BADGE_META) as Badge[]).map((b) => (
+            <div key={b} className="rounded border border-slate-200 p-3">
+              <span className={`inline-block rounded px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${BADGE_META[b].cls}`}>
+                {BADGE_META[b].label}
+              </span>
+              <p className="tnum mt-1 text-xl font-bold text-slate-900">{badgeCounts[b]}</p>
+              <p className="mt-0.5 text-xs leading-5 text-slate-600">{BADGE_META[b].desc}</p>
+            </div>
+          ))}
+        </div>
       </Card>
 
       {/* Tornado */}
       <Card>
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold text-slate-900">
-            Sensitivity — editable share of serious
+            Which single assumption moves the headline most?
           </h3>
           <ExportSvgButton onClick={() => exportContainerSvg(tornadoRef.current, 'sensitivity-tornado.svg')} />
         </div>
         <p className="mt-1 text-sm text-slate-600">
-          Each bar spans the low/high value of the uniquely-editable share as one parameter is
-          varied; the vertical line is the base case.
+          Each bar spans the low/high value of the editing-only share of serious disease as one
+          parameter is varied; the vertical line is the base case.
         </p>
         <div ref={tornadoRef}>
           <Tornado rows={data.sensitivity.tornado} />
@@ -123,9 +225,9 @@ export default function Methods({ data, state, update }: Props) {
       {/* Provenance */}
       <Card>
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className="text-base font-semibold text-slate-900">Provenance constants</h3>
+          <h3 className="text-base font-semibold text-slate-900">Sources &amp; assumptions</h3>
           <label htmlFor="prov-q" className="flex items-center gap-2 text-sm">
-            <span className="sr-only">Filter provenance</span>
+            <span className="sr-only">Filter sources</span>
             <input
               id="prov-q"
               type="search"
@@ -137,14 +239,16 @@ export default function Methods({ data, state, update }: Props) {
           </label>
         </div>
         <p className="mt-1 text-xs text-slate-500">
-          {filtered.length} of {leaves.length} constants shown.
+          {filtered.length} of {leaves.length} inputs shown. No value enters the model without a
+          source; unknowns are explicit provisional parameters, never silent guesses.
         </p>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full border-collapse text-sm">
-            <caption className="sr-only">Provenance constants with values, intervals and sources</caption>
+            <caption className="sr-only">Model inputs with badges, values, intervals and sources</caption>
             <thead>
               <tr className="border-b border-slate-300 text-slate-600">
-                <th scope="col" className="px-3 py-2 text-left font-medium">Path</th>
+                <th scope="col" className="px-3 py-2 text-left font-medium">Parameter</th>
+                <th scope="col" className="px-3 py-2 text-left font-medium">Kind</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">Value</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">Low</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">High</th>
@@ -154,33 +258,82 @@ export default function Methods({ data, state, update }: Props) {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((f) => (
-                <tr key={f.path} className="border-b border-slate-100 align-top">
-                  <td className="px-3 py-1.5 font-mono text-xs text-slate-700">{f.path}</td>
-                  <td className="tnum px-3 py-1.5 text-right">{leafStr(f.leaf.value)}</td>
-                  <td className="tnum px-3 py-1.5 text-right text-slate-500">{leafStr(f.leaf.low)}</td>
-                  <td className="tnum px-3 py-1.5 text-right text-slate-500">{leafStr(f.leaf.high)}</td>
-                  <td className="px-3 py-1.5 text-slate-700">{leafStr(f.leaf.source) || '—'}</td>
-                  <td className="px-3 py-1.5 text-slate-500">
-                    {f.leaf.doi && f.leaf.doi !== 'n/a' ? (
-                      f.leaf.doi.startsWith('http') ? (
-                        <a href={f.leaf.doi} target="_blank" rel="noreferrer" className="text-accent underline">
-                          link
-                        </a>
+              {filtered.map((f) => {
+                const b = badgeOf(f.path, f.leaf);
+                return (
+                  <tr key={f.path} className="border-b border-slate-100 align-top">
+                    <td className="px-3 py-1.5 font-mono text-xs text-slate-700">{f.path}</td>
+                    <td className="px-3 py-1.5">
+                      <span className={`inline-block whitespace-nowrap rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${BADGE_META[b].cls}`}>
+                        {BADGE_META[b].label}
+                      </span>
+                    </td>
+                    <td className="tnum px-3 py-1.5 text-right">{leafStr(f.leaf.value)}</td>
+                    <td className="tnum px-3 py-1.5 text-right text-slate-500">{leafStr(f.leaf.low)}</td>
+                    <td className="tnum px-3 py-1.5 text-right text-slate-500">{leafStr(f.leaf.high)}</td>
+                    <td className="px-3 py-1.5 text-slate-700">{leafStr(f.leaf.source) || '—'}</td>
+                    <td className="px-3 py-1.5 text-slate-500">
+                      {f.leaf.doi && f.leaf.doi !== 'n/a' ? (
+                        f.leaf.doi.startsWith('http') ? (
+                          <a href={f.leaf.doi} target="_blank" rel="noreferrer" className="text-accent underline">
+                            link
+                          </a>
+                        ) : (
+                          <span className="font-mono text-xs">{f.leaf.doi}</span>
+                        )
                       ) : (
-                        <span className="font-mono text-xs">{f.leaf.doi}</span>
-                      )
-                    ) : (
-                      '—'
-                    )}
-                  </td>
-                  <td className="px-3 py-1.5 text-slate-500">{leafStr(f.leaf.table_or_page) || '—'}</td>
-                </tr>
-              ))}
+                        '—'
+                      )}
+                    </td>
+                    <td className="px-3 py-1.5 text-slate-500">{leafStr(f.leaf.table_or_page) || '—'}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
       </Card>
+
+      {/* Advanced / reproducibility */}
+      <details className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+        <summary className="cursor-pointer text-sm font-medium text-slate-700">
+          Advanced — reproducibility record &amp; internal model terms
+        </summary>
+        <div className="mt-3 space-y-4">
+          <div>
+            <h4 className="text-sm font-semibold text-slate-900">Model run</h4>
+            <dl className="mt-2 grid grid-cols-1 gap-x-8 gap-y-2 text-sm sm:grid-cols-2 lg:grid-cols-4">
+              <MetaItem label="Monte-Carlo draws" value={m.n_draws.toLocaleString('en-US')} />
+              <MetaItem label="Seed" value={String(m.seed)} />
+              <MetaItem label="Pipeline commit" value={m.commit} mono />
+              <MetaItem label="Model version" value={m.spec_version} />
+              <MetaItem label="Default severity" value={m.default_assumptions.severity} mono />
+              <MetaItem label="Default attribution" value={m.default_assumptions.attribution} mono />
+              <MetaItem label="Default scenario" value={m.default_assumptions.scenario} mono />
+              <MetaItem label="PND counts (default)" value={m.default_assumptions.pnd_counts ? 'yes' : 'no'} />
+            </dl>
+            <p className="mt-2 text-xs text-slate-500">
+              The full pipeline, tests, and data recipes are in the repository; <code>make repro</code>{' '}
+              regenerates every figure on this page from the cited inputs.
+            </p>
+          </div>
+          <div>
+            <h4 className="text-sm font-semibold text-slate-900">Internal model terms</h4>
+            <p className="mt-1 text-xs text-slate-500">
+              The site uses plain-language labels; these are the corresponding identifiers in the
+              code, configuration, and URL parameters.
+            </p>
+            <dl className="mt-2 space-y-2">
+              {INTERNAL_TERMS.map((t) => (
+                <div key={t.internal} className="text-sm">
+                  <dt className="inline font-mono text-xs font-semibold text-slate-800">{t.internal}</dt>
+                  <dd className="inline text-slate-600"> — {t.meaning}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </details>
 
       {/* Glossary */}
       <Card>
@@ -232,7 +385,7 @@ function Tornado({ rows }: { rows: TornadoRow[] }) {
   return (
     <svg
       role="img"
-      aria-label="Tornado sensitivity chart of the editable share of serious disease"
+      aria-label="Tornado sensitivity chart of the editing-only share of serious disease"
       viewBox={`0 0 ${W} ${H}`}
       className="mt-3 w-full"
       fontFamily="ui-sans-serif, system-ui, sans-serif"

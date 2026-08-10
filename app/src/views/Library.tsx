@@ -194,11 +194,11 @@ export default function Library({ data, state, update }: Props) {
     <SourcesProvider>
       <div className="space-y-6">
         <SectionHeading
-          title="Disease Library"
-          subtitle="The catalogue at the centre of the model: genetic diseases mapped to their causal genes and to the interventions that can address them. Sorted by affected births per year."
+          title="The disease catalogue"
+          subtitle="A growing curated catalogue — not an exhaustive universe — of serious genetic diseases mapped to their causal genes and to the interventions that can address them. Sorted by affected births per year."
         />
         <Explainer
-          whatThisShows="Every serious genetic disease in the catalogue — the gene(s) that cause it, how it is inherited, how common it is at birth, the type of existing treatment, and which reproductive tools apply. The catalogue has two tiers: a hand-curated CORE of the highest-burden conditions that drive the global numbers, and an Orphanet-derived RARE tail (individually rare, each with a cited birth prevalence) that completes the disease count."
+          whatThisShows="Each catalogued serious genetic disease — the gene(s) that cause it, how it is inherited, how common it is at birth, the type of existing treatment, and which reproductive tools apply. The catalogue has two tiers: a hand-curated CORE of the highest-burden conditions that drive the global numbers, and an Orphanet-derived RARE tail (individually rare, each with a cited birth prevalence) that completes the disease count. It grows as conditions are vetted and promoted; it does not claim to enumerate every serious genetic disease."
           howToRead="Use the tier switch first: Core is the default so the long tail doesn't overwhelm; Rare adds the Orphanet-derived conditions; All merges both. Each row is one disease, classified on two 'by what' axes. Prevention (before birth): preventable by carrier screening or embryo selection, prenatally detectable only, or neither — the applicable tools are named on the badge. Treatment (if born affected): the END of the best existing therapy — curative, disease-modifying, or palliative — with its type. Rare-tier rows carry an 'auto' badge and their intent is a default from the treatment type, pending review. Germline editing is deliberately on neither axis — it is a distinct intervention for the residual (see 'Where editing is unique' and 'The embryo trade-off')."
           whatItDetermines="How each disease is addressed today — and, by keeping editing distinct, where editing would add something existing modalities can't."
         />
