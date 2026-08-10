@@ -23,8 +23,8 @@ export default function Allocation({ data }: Props) {
   const svgRef = useRef<HTMLDivElement>(null);
 
   const costBirth = [
-    { label: 'Screening — $/birth prevented', stat: a.cost_per_birth_prevented.screening_program, color: '#2563eb' },
-    { label: 'Editing — $/birth prevented', stat: a.cost_per_birth_prevented.editing_program, color: '#b45309' },
+    { label: 'Screening — $/affected birth avoided', stat: a.cost_per_birth_prevented.screening_program, color: '#2563eb' },
+    { label: 'Editing — $/affected birth avoided', stat: a.cost_per_birth_prevented.editing_program, color: '#b45309' },
   ];
   const costDaly = [
     { label: 'Screening — $/DALY averted', stat: a.cost_per_daly_averted.screening_program, color: '#2563eb' },
@@ -37,8 +37,8 @@ export default function Allocation({ data }: Props) {
   return (
     <div className="space-y-6">
       <SectionHeading
-        title="Exploratory cost assumptions"
-        subtitle="This analysis is not part of the paper's core results. It illustrates the consequences of provisional assumptions about the costs of scaling established genetic medicine versus developing germline-editing programmes."
+        title="Exploratory cost scenarios"
+        subtitle="These estimates are illustrative rather than core results because several cost inputs, especially for future germline editing, remain provisional."
       />
       <div className="rounded-lg border border-amber-400 bg-amber-50 p-4 text-sm leading-6 text-amber-900">
         <p className="font-semibold">Exploratory only.</p>
@@ -59,7 +59,7 @@ export default function Allocation({ data }: Props) {
       <Card>
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold text-slate-900">
-            Illustrative cost ranges under provisional assumptions (log scale, USD)
+            Illustrative cost ranges (USD, log scale)
           </h3>
           <ExportSvgButton onClick={() => exportContainerSvg(svgRef.current, 'allocation-cost.svg')} />
         </div>
@@ -88,12 +88,12 @@ export default function Allocation({ data }: Props) {
         <BudgetBars budgets={budgets} />
         <div className="mt-4 overflow-x-auto">
           <table className="w-full border-collapse text-sm">
-            <caption className="sr-only">Births prevented per year by budget and program</caption>
+            <caption className="sr-only">Affected births avoided per year by budget and program</caption>
             <thead>
               <tr className="border-b border-slate-300 text-slate-600">
                 <th scope="col" className="px-3 py-2 text-left font-medium">Budget / yr</th>
-                <th scope="col" className="px-3 py-2 text-right font-medium">Screening births prevented</th>
-                <th scope="col" className="px-3 py-2 text-right font-medium">Editing births prevented</th>
+                <th scope="col" className="px-3 py-2 text-right font-medium">Affected births avoided — screening</th>
+                <th scope="col" className="px-3 py-2 text-right font-medium">Affected births avoided — editing</th>
               </tr>
             </thead>
             <tbody>

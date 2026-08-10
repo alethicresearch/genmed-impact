@@ -193,8 +193,8 @@ export default function Library({ data, state, update }: Props) {
     <SourcesProvider>
       <div className="space-y-6">
         <SectionHeading
-          title="Which diseases are included, and what can medicine do for each?"
-          subtitle="The disease catalogue is the condition-level evidence beneath the population estimates: genetic cause, inheritance, frequency, reproductive options, screening, and treatment."
+          title="Which diseases are included in the analysis?"
+          subtitle="The disease catalogue records each condition's genetic basis, frequency, severity, reproductive options, screening pathways, treatment, and source evidence."
         />
         <p className="text-sm leading-relaxed text-slate-700">
           The analysis includes a curated core used for the bottom-up burden estimates and an
@@ -210,7 +210,7 @@ export default function Library({ data, state, update }: Props) {
 
         {/* Rollup strip */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <RollupTile label="Affected births represented in curated core / yr">
+          <RollupTile label="Affected births represented in the curated core, per year">
             <span className="tnum text-2xl font-bold text-slate-900">
               {fmtCompact(rollup.total_affected_births_per_year)}
             </span>
@@ -219,7 +219,7 @@ export default function Library({ data, state, update }: Props) {
               catalogue incl. rare tier
             </span>
           </RollupTile>
-          <RollupTile label="≥1 reproductive pathway technically applicable">
+          <RollupTile label="At least one reproductive pathway technically applicable">
             <span className="tnum text-2xl font-bold text-slate-900">
               {fmtPct(rollup.share_addressable_by_reproductive_tool, 0)}
             </span>
@@ -227,7 +227,7 @@ export default function Library({ data, state, update }: Props) {
               {fmtCompact(rollup.births_addressable_by_reproductive_tool)}/yr
             </span>
           </RollupTile>
-          <RollupTile label="Eligible for newborn screening + early treatment / yr">
+          <RollupTile label="Affected births eligible for newborn screening and early treatment, per year">
             <span className="tnum text-2xl font-bold text-slate-900">
               {fmtCompact(rollup.births_nbs_mitigable)}
             </span>

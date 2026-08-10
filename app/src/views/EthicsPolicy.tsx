@@ -24,7 +24,7 @@ export default function EthicsPolicy({ data, update }: Props) {
     <Reading>
       <SectionHeading
         title="Ethics & policy"
-        subtitle="How the empirical findings translate into proportionality, research priorities, and regulatory sequencing."
+        subtitle="How the empirical findings inform proportionality, research priorities, and regulatory sequencing."
       />
       <Lead>
         The empirical analysis creates different priorities at different time horizons: scaling
@@ -119,7 +119,7 @@ export default function EthicsPolicy({ data, update }: Props) {
       </section>
 
       <section className="space-y-3">
-        <PH>From the evidence to a policy position</PH>
+        <PH>From evidence to policy</PH>
         <ClaimChain>
           <Claim kind="model">
             Under current-evidence assumptions, the combined editing-relevant scenario
@@ -161,7 +161,7 @@ export default function EthicsPolicy({ data, update }: Props) {
       </section>
 
       <section className="space-y-3">
-        <PH>A proportional hierarchy for regulatory consideration</PH>
+        <PH>A proportional pathway for research and regulation</PH>
         <Lead>
           The categories below are ordered by the strength of their ethical case, from strongest
           to weakest. This is a <strong>proposed order for regulatory consideration</strong> —
@@ -209,7 +209,7 @@ export default function EthicsPolicy({ data, update }: Props) {
       </section>
 
       <section className="space-y-3">
-        <PH>Three ways premature use damages the field</PH>
+        <PH>Three risks of premature use</PH>
         <Lead>
           Why does the sequencing above matter? Because misuse of germline editing tends to
           take three related but distinct forms, each of which can set back genuinely

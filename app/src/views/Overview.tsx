@@ -22,8 +22,7 @@ export default function Overview({ data, update }: Props) {
         {/* A. Research question + compact opening */}
         <section className="space-y-3">
           <p className="max-w-3xl text-xl font-semibold leading-8 tracking-tight text-slate-900">
-            How should genetic medicine be prioritized when judged by impact rather than
-            technological novelty?
+            Evaluating genetic medicine by impact rather than novelty
           </p>
           <Lead>
             Genetic medicine is often discussed through its most spectacular technologies.
@@ -219,7 +218,7 @@ function Findings({
     go: () => void;
   }[] = [
     {
-      title: 'Established genetic medicine has large unrealized impact today',
+      title: 'Much of the impact available today comes from established genetic medicine',
       kinds: ['model'],
       body: (
         <>
@@ -244,7 +243,7 @@ function Findings({
     },
     {
       title:
-        'The clearest near-term role for germline editing arises when embryo selection cannot achieve the desired outcome',
+        'Germline editing has its clearest near-term role when embryo selection cannot achieve the desired outcome',
       kinds: ['model'],
       body: (
         <>
@@ -259,7 +258,7 @@ function Findings({
       go: () => update({ tab: 'residual' }),
     },
     {
-      title: 'Polygenic editing could expand the future medical role of germline intervention',
+      title: 'Polygenic editing could substantially expand the future role of germline editing',
       kinds: ['model'],
       body: (
         <>
@@ -392,8 +391,8 @@ function AccessGap({
 
   return (
     <Figure
-      label="How much prevention is lost to incomplete access?"
-      caption="Single-gene disease, global. At full modeled coverage the existing pathways could prevent the upper share of affected births; today's coverage prevents the lower share. The difference is cases missed because access is incomplete, not because the biology is out of reach."
+      label="How much more could existing medicine achieve with broader access?"
+      caption="Single-gene disease, global. At full modeled coverage the existing pathways could avoid the upper share of affected births; today's coverage achieves the lower share. The difference is cases missed because access is incomplete, not because the biology is out of reach."
       moreLabel="See what existing medicine can do"
       onMore={() => update({ tab: 'prevention' })}
     >

@@ -30,21 +30,20 @@ export default function Embryos({ data, update }: Props) {
     <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
-        title="Selection vs correction: what happens when unaffected embryos are rare?"
+        title="Selection versus correction when unaffected embryos are rare"
         subtitle="Embryo selection and successful correction can reach the same disease-prevention goal in some cases, but they do so through different reproductive routes. As unaffected embryos become rarer, the burden of obtaining the desired outcome through selection increases."
       />
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
-        The comparison between selection and correction is not simply binary. Selection may be
-        an excellent alternative when unaffected embryos are common, increasingly burdensome
-        when they are rare, and impossible when none exists. When many unaffected embryos are
-        available, embryo selection requires relatively little genotype-based non-selection. As
-        unaffected embryos become rarer, more affected-genotype embryos must be set aside to
-        obtain one unaffected embryo. If no unaffected embryo exists, selection cannot achieve
-        the desired outcome at all.
+        Selection becomes progressively less efficient as unaffected embryos become rarer,
+        before eventually becoming impossible. When many unaffected embryos are available,
+        embryo selection requires relatively little genotype-based non-selection. As unaffected
+        embryos become rarer, more affected-genotype embryos are expected not to be selected
+        for transfer for each unaffected embryo obtained. If no unaffected embryo exists,
+        selection cannot achieve the desired outcome at all.
       </p>
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
-        This analysis quantifies one dimension of <strong>reproductive burden</strong> — the
-        embryo-level burden of achieving a reproductive outcome. Two interventions can achieve
+        This analysis quantifies one embryo-level dimension of{' '}
+        <strong>reproductive burden</strong>. Two interventions can achieve
         the same disease outcome while imposing very different reproductive burdens, which is
         why the comparison belongs in the impact framework rather than being a side ethical
         issue. The comparison below isolates this one dimension only. It does not assume that
@@ -73,18 +72,18 @@ export default function Embryos({ data, update }: Props) {
 
       {/* Per-inheritance table */}
       <Card>
-        <h3 className="text-base font-semibold text-slate-900">How inheritance changes the chance of finding an unaffected embryo</h3>
+        <h3 className="text-base font-semibold text-slate-900">Expected unaffected-embryo fraction by inheritance pattern</h3>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full border-collapse text-sm">
             <caption className="sr-only">Embryo selection cost by inheritance mode</caption>
             <thead>
               <tr className="border-b border-slate-300 text-left text-slate-600">
                 <th scope="col" className="px-3 py-2 font-medium">Inheritance (typical at-risk couple)</th>
-                <th scope="col" className="px-3 py-2 text-right font-medium">Unaffected fraction u</th>
+                <th scope="col" className="px-3 py-2 text-right font-medium">Expected unaffected-embryo fraction (u)</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">
-                  Not selected for transfer / child (selection)
+                  Affected-genotype embryos not selected per unaffected embryo
                 </th>
-                <th scope="col" className="px-3 py-2 text-right font-medium">Idealized successful editing</th>
+                <th scope="col" className="px-3 py-2 text-right font-medium">Idealized successful correction</th>
               </tr>
             </thead>
             <tbody>
@@ -108,8 +107,8 @@ export default function Embryos({ data, update }: Props) {
         </div>
         <p className="mt-2 text-xs leading-relaxed text-slate-500">
           The unaffected-embryo fraction <em>u</em> is the Mendelian expectation for a typical
-          at-risk couple of each inheritance mode (e.g. ¾ for a recessive carrier × carrier cross);
-          not-selected-per-child is (1−u)/u.
+          at-risk couple of each inheritance mode (e.g. ¾ for a recessive carrier × carrier
+          cross); affected-genotype embryos not selected per unaffected embryo is (1−u)/u.
         </p>
         <p className="mt-2 text-xs leading-relaxed text-slate-600">
           Zero means zero genotype-based exclusions by construction; editing failure, mosaicism,
@@ -180,7 +179,7 @@ export default function Embryos({ data, update }: Props) {
             <InlineLink onClick={() => update({ tab: 'library', tier: 'core', tool: 'PGT' })}>
               monogenic core-catalogue diseases where PGT applies
             </InlineLink>{' '}
-            — the population this whole comparison is about
+            — the population represented in this comparison
           </p>
           <SourceNote
             source="Derived: Σ (affected births × PGT-applicable) over the monogenic core catalogue"
@@ -189,7 +188,8 @@ export default function Embryos({ data, update }: Props) {
         </Card>
         <Card className="border-blue-200 bg-blue-50/40">
           <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            Affected embryos not selected for transfer / yr — <strong>selection</strong> strategy
+            Affected-genotype embryos not selected for transfer — illustrative annual scale
+            under <strong>selection</strong>
           </p>
           <p className="tnum mt-1 text-2xl font-bold text-blue-900">
             {fmtCompact(agg.affected_embryos_discarded_selection_strategy)}
@@ -204,7 +204,7 @@ export default function Embryos({ data, update }: Props) {
         </Card>
         <Card className="border-slate-200 bg-slate-50">
           <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            Idealized successful correction — embryos not selected for transfer / yr
+            Genotype-based non-selection under idealized successful correction
           </p>
           <p className="tnum mt-1 text-xl font-bold text-slate-700">
             {fmtInt(agg.affected_embryos_discarded_editing_strategy)} disease-genotype exclusions
@@ -280,7 +280,7 @@ function CurveChart({ e }: { e: AllData['embryos'] }) {
           Fraction of embryos unaffected (u) — rarer →
         </text>
         <text x={14} y={(padT + H - padB) / 2} fontSize={11} textAnchor="middle" fill="#334155" transform={`rotate(-90 14 ${(padT + H - padB) / 2})`}>
-          Not selected for transfer / child
+          Not selected per unaffected embryo
         </text>
       </svg>
     </div>

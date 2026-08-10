@@ -49,7 +49,7 @@ export default function Residual({ data, state, update }: Props) {
     <div className="space-y-6">
       <SectionHeading
         title="The translational frontier: when embryo selection is not enough"
-        subtitle="For most monogenic conditions, IVF with PGT-M can select an unaffected embryo. A small number of reproductive situations are different: no unaffected embryo is expected to exist."
+        subtitle="For most monogenic conditions, PGT-M can identify an unaffected embryo for transfer. In some reproductive configurations, however, every embryo is expected to inherit the targeted disease-causing genotype."
       />
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
         <Term k="PGT">PGT-M</Term> can choose among embryos, but it cannot change an
@@ -62,8 +62,8 @@ export default function Residual({ data, state, update }: Props) {
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
         We call this <strong>editing-only prevention</strong>: a successful germline edit
         could, in principle, create a preventive option that selection cannot. The estimate
-        below asks how often these no-selectable-unaffected-embryo configurations are expected
-        to occur worldwide.
+        below quantifies how often reproductive configurations in which no unaffected embryo
+        can be selected are expected to occur worldwide.
       </p>
       <div className="max-w-3xl rounded-lg border border-slate-200 bg-slate-50/60 p-4 text-sm leading-6 text-slate-700">
         <p>
@@ -93,7 +93,7 @@ export default function Residual({ data, state, update }: Props) {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <Toggle
-              label="Include congenital deafness in this prevention category"
+              label="Include congenital deafness in the editing-only prevention estimate"
               checked={includeContested}
               onChange={(v) => update({ deaf: v ? '1' : '0' })}
             />
@@ -113,8 +113,8 @@ export default function Residual({ data, state, update }: Props) {
           </div>
           <div className="text-right">
             <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-              Estimated births each year in reproductive configurations with no selectable
-              unaffected embryo ({includeContested ? 'incl.' : 'excl.'} deafness)
+              Estimated births per year from reproductive configurations in which no
+              unaffected embryo can be selected ({includeContested ? 'incl.' : 'excl.'} deafness)
             </p>
             <p className="text-2xl font-semibold text-slate-900">
               <StatValue stat={s1Total} kind="int" showCi />
@@ -132,7 +132,7 @@ export default function Residual({ data, state, update }: Props) {
       {/* S1 by condition */}
       <Card>
         <h3 className="text-base font-semibold text-slate-900">
-          Which conditions contribute to this estimate?
+          Conditions contributing to the estimate
         </h3>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full border-collapse text-sm">
@@ -187,7 +187,7 @@ export default function Residual({ data, state, update }: Props) {
       {/* S1 by income group — exploratory, collapsed by default */}
       <details className="rounded-lg border border-slate-200 bg-white p-4">
         <summary className="cursor-pointer text-base font-semibold text-slate-900">
-          Geographic distribution — exploratory
+          Exploratory geographic distribution
         </summary>
         <p className="mt-1 max-w-3xl text-xs text-slate-600">
           Regional estimates use regional birth totals and consanguinity assumptions, but
@@ -227,7 +227,7 @@ export default function Residual({ data, state, update }: Props) {
       {/* Beyond the near-term frontier: polygenic disease */}
       <div>
         <h3 className="text-base font-semibold text-slate-900">
-          Beyond the near-term frontier
+          Complex disease beyond the near-term frontier
         </h3>
         <p className="mt-1 text-sm text-slate-600">
           The no-selectable-embryo analysis identifies the clearest near-term indication
@@ -259,7 +259,8 @@ export default function Residual({ data, state, update }: Props) {
             </p>
           )}
           <p className="mt-1 text-xs text-slate-500">
-            Small and highly uncertain under current-evidence assumptions.
+            Under current-evidence assumptions, the modeled complex-disease contribution to the
+            editing-relevant residual is small and highly uncertain.
           </p>
         </Card>
 
@@ -286,7 +287,7 @@ export default function Residual({ data, state, update }: Props) {
       {/* Uniquely-editable summary (reacts to the contested toggle) */}
       <Card>
         <h3 className="mb-1 text-base font-semibold text-slate-900">
-          Putting the two pieces together{' '}
+          Combined editing-relevant scenarios{' '}
           <span className="text-sm font-normal text-slate-500">
             ({includeContested ? 'incl.' : 'excl.'} deafness)
           </span>

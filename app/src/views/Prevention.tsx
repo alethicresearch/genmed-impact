@@ -97,8 +97,8 @@ export default function Prevention({ data, state, update }: Props) {
   return (
     <div className="space-y-6">
       <SectionHeading
-        title="Impact now: what can existing genetic medicine achieve?"
-        subtitle="Established genetic medicine already changes outcomes through reproductive planning, embryo selection, prenatal diagnosis, early detection, and treatment. The model asks both what these pathways can achieve in principle and how much of that potential reaches patients today."
+        title="Impact now: what existing genetic medicine can achieve"
+        subtitle="Established screening, reproductive, diagnostic, and treatment pathways already change outcomes. The model compares their potential impact with what is achieved under current coverage."
       />
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
         Carrier screening + reproductive planning can identify couples at risk before
@@ -170,7 +170,7 @@ export default function Prevention({ data, state, update }: Props) {
       <Card>
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold text-slate-900">
-            {track === 'burden' ? 'Averted burden' : 'Averted births'} — {region}, {scenario},{' '}
+            {track === 'burden' ? 'Disease burden mitigated' : 'Affected births avoided'} — {region}, {scenario},{' '}
             {cls}
           </h3>
           <ExportSvgButton
@@ -232,7 +232,7 @@ export default function Prevention({ data, state, update }: Props) {
           caption="Prevention waterfall values"
           columns={[
             { key: 'stage', header: 'Stage' },
-            { key: 'averted', header: 'Averted fraction (median)', align: 'right' },
+            { key: 'averted', header: 'Fraction avoided (median)', align: 'right' },
             { key: 'ci', header: '95% uncertainty interval', align: 'right' },
           ]}
           rows={[
@@ -243,14 +243,14 @@ export default function Prevention({ data, state, update }: Props) {
               ci: `${fmtPct(avertedMap[t].ci95[0], 2)}–${fmtPct(avertedMap[t].ci95[1], 2)}`,
             })),
             {
-              stage: 'Not prevented at this coverage',
+              stage: 'Not avoided at this coverage',
               averted: fmtPct(isIllustrative ? residualScaled : residualStat.median, 2),
               ci: isIllustrative
                 ? '—'
                 : `${fmtPct(residualStat.ci95[0], 2)}–${fmtPct(residualStat.ci95[1], 2)}`,
             },
             {
-              stage: 'Total averted',
+              stage: 'Total avoided',
               averted: fmtPct(isIllustrative ? totalScaled : totalAverted.median, 2),
               ci: isIllustrative
                 ? '—'
@@ -263,13 +263,13 @@ export default function Prevention({ data, state, update }: Props) {
       {/* Absolute counts */}
       <Card>
         <h3 className="mb-2 text-base font-semibold text-slate-900">
-          Absolute births — {region}, {scenario}, {cls}
+          Annual affected-birth counts — {region}, {scenario}, {cls}
         </h3>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <CountCard label="Class births / yr" stat={leaf.class_births} />
-          <CountCard label="Not-prevented births / yr at this coverage" stat={leaf.residual_birth_count} />
+          <CountCard label="Affected births in this disease class" stat={leaf.class_births} />
+          <CountCard label="Affected births not avoided at this coverage" stat={leaf.residual_birth_count} />
           <CountCard
-            label="PND + termination counted as reducing births"
+            label="Prenatal diagnosis + pregnancy termination included in affected-birth avoidance"
             valueOverride={pndOn ? 'Yes' : 'No'}
           />
         </div>
@@ -279,7 +279,7 @@ export default function Prevention({ data, state, update }: Props) {
             <thead>
               <tr className="border-b border-slate-300 text-slate-600">
                 <th scope="col" className="px-3 py-2 text-left font-medium">Pathway</th>
-                <th scope="col" className="px-3 py-2 text-right font-medium">Averted births / yr (median)</th>
+                <th scope="col" className="px-3 py-2 text-right font-medium">Affected births avoided / yr (median)</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">95% uncertainty interval</th>
               </tr>
             </thead>
@@ -373,7 +373,7 @@ function Waterfall({ steps, residual, floor, colors }: WaterfallProps) {
   const padB = 50;
   const plotW = W - padL - padR;
   const plotH = H - padT - padB;
-  const cats = ['Baseline', ...steps.map((s) => s.tool), 'Not prevented'];
+  const cats = ['Baseline', ...steps.map((s) => s.tool), 'Not avoided'];
   const n = cats.length;
   const bandW = plotW / n;
   const barW = bandW * 0.6;
@@ -404,7 +404,7 @@ function Waterfall({ steps, residual, floor, colors }: WaterfallProps) {
     yTop: y(residual),
     h: plotH - (y(residual) - padT),
     color: '#334155',
-    label: 'Not prevented',
+    label: 'Not avoided',
     value: residual,
     isFloat: false,
   });
@@ -414,7 +414,7 @@ function Waterfall({ steps, residual, floor, colors }: WaterfallProps) {
   return (
     <svg
       role="img"
-      aria-label="Prevention waterfall from 100% baseline through each tool to what is not prevented at this coverage"
+      aria-label="Prevention waterfall from 100% baseline through each pathway to affected births not avoided at this coverage"
       viewBox={`0 0 ${W} ${H}`}
       className="mt-3 w-full"
       fontFamily="ui-sans-serif, system-ui, sans-serif"

@@ -34,20 +34,20 @@ const SECTIONS: SectionDef[] = [
     id: 'sec-map',
     label: 'Disease burden',
     views: [
-      { id: 'denominator', label: 'How much disease?' },
-      { id: 'library', label: 'Which diseases?' },
+      { id: 'denominator', label: 'Burden estimate' },
+      { id: 'library', label: 'Disease catalogue' },
     ],
   },
   {
     id: 'sec-existing',
     label: 'Existing medicine',
-    views: [{ id: 'prevention', label: 'What can medicine already do?' }],
+    views: [{ id: 'prevention', label: 'Impact now' }],
   },
   {
     id: 'sec-editing',
     label: 'Role of editing',
     views: [
-      { id: 'residual', label: 'When embryo selection is not enough' },
+      { id: 'residual', label: 'When selection is not enough' },
       { id: 'embryos', label: 'Selection vs correction' },
       { id: 'multifactorial', label: 'Polygenic frontier' },
     ],
@@ -145,8 +145,8 @@ export default function App() {
         </p>
         <p className="mt-1.5 text-sm leading-6 text-slate-600">
           A quantitative framework for comparing what genetic medicine can achieve now, where
-          germline editing has a distinct translational role, and how its impact could change as
-          polygenic editing matures.
+          germline editing has a distinct translational role, and how the role of editing could
+          change as polygenic technologies mature.
         </p>
         <p className="mt-2">
           <span

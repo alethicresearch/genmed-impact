@@ -68,7 +68,7 @@ The 35.8% → 99.7% comparison applies to **monogenic affected-birth avoidance u
 
 | Quantity | Estimate |
 | --- | ---: |
-| No-selectable-unaffected-embryo configurations | 11.3k/yr (4.9–26.1k) |
+| Reproductive configurations in which no unaffected embryo can be selected | 11.3k/yr (4.9–26.1k) |
 
 These cases define **editing-only prevention** in the model. They are a small population-level share but can carry a strong individual clinical justification because embryo selection cannot achieve the relevant preventive outcome. (Including congenital deafness — an ethically contested classification excluded by default — raises the estimate to ~24.9k/yr.)
 

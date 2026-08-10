@@ -95,21 +95,20 @@ export default function Denominator({ data, state, update }: Props) {
     <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
-        title="How much serious genetic disease are we trying to explain?"
-        subtitle="Before comparing medical options, we first need an estimate of the disease burden. That estimate depends on what counts as 'serious' and on how much multifactorial disease is attributed to genetics."
+        title="How large is the modeled burden of serious genetic disease?"
+        subtitle="The analysis begins with the annual global birth cohort. The estimate depends on what counts as serious disease and on how much multifactorial disease is attributed to genetics."
       />
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
-        The model starts from the annual global birth cohort and estimates two broad sources of
-        serious genetic disease. Monogenic disease is primarily caused by pathogenic variation
+        The model starts with the annual global birth cohort and estimates two broad categories
+        of serious genetic disease. Monogenic disease is primarily caused by pathogenic variation
         in a single gene. Multifactorial disease reflects genetic susceptibility together with
         environmental, developmental, behavioral, and other influences.
       </p>
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
-        The monogenic estimate is relatively straightforward conceptually. The multifactorial
-        estimate is not: there is no single theory-neutral answer to how many cases of
-        diabetes, cardiovascular disease, cancer, or other common conditions should be called
-        “genetic.” We therefore show several attribution assumptions rather than treating one
-        number as definitive.
+        The monogenic estimate is conceptually more direct. The multifactorial estimate is not:
+        there is no single uncontested way to determine how much multifactorial disease should
+        be attributed to genetics. We therefore show several attribution assumptions rather
+        than treating one number as definitive.
       </p>
 
       <div className="flex flex-wrap gap-6">
@@ -146,14 +145,14 @@ export default function Denominator({ data, state, update }: Props) {
           <StatValue stat={data.summary.births_per_year} kind="compact" showCi />
           <SourceNote source={birthsSrc.source || 'UN World Population Prospects 2024'} doi={birthsSrc.doi} />
         </MetricCard>
-        <MetricCard label="Serious genetic disease / year">
+        <MetricCard label="Serious genetic disease, per year">
           <StatValue stat={cell.total_serious} kind="compact" showCi />
           <SourceNote
             source="Derived: sum of the modeled monogenic (Modell & Darlison 2008) and multifactorial (GBD 2023; March of Dimes 2006) components at the selected severity and attribution assumptions"
             doi={null}
           />
         </MetricCard>
-        <MetricCard label="Monogenic / multifactorial">
+        <MetricCard label="Monogenic and multifactorial">
           <span className="tnum text-lg font-semibold">
             {fmtCompact(monogenic)} / {fmtCompact(multifactorial)}
           </span>
@@ -168,7 +167,7 @@ export default function Denominator({ data, state, update }: Props) {
       <Card>
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold text-slate-900">
-            From the global birth cohort to the modeled disease burden
+            From annual global births to serious genetic-disease burden
           </h3>
           <ExportSvgButton
             onClick={() => exportContainerSvg(svgRef.current, 'denominator-cascade.svg')}
@@ -228,12 +227,12 @@ export default function Denominator({ data, state, update }: Props) {
               share: `${fmtPct(multiShare, 1)} of serious`,
             },
             {
-              stage: 'Editing-relevant residual (current evidence; default assumptions)',
+              stage: 'Editing-relevant scenario — current evidence (default assumptions)',
               count: fmtInt(ueStrict.median),
               share: `${fmtPct(ueStrictShareOfSerious.median, 2)} of serious`,
             },
             {
-              stage: 'Editing-relevant residual (future-capacity scaling; default assumptions)',
+              stage: 'Editing-relevant scenario — future-capacity exploratory (default assumptions)',
               count: fmtInt(uePermissive.median),
               share: `${fmtPct(uePermShareOfSerious.median, 2)} of serious`,
             },
@@ -378,8 +377,8 @@ function Cascade(p: CascadeProps) {
         );
       })()}
       {[
-        { label: 'Editing-relevant — current evidence', frac: strictFracOfSerious, color: '#b45309', count: p.ueStrict },
-        { label: 'Editing-relevant — future-capacity exploratory', frac: permFracOfSerious, color: '#f59e0b', count: p.uePermissive },
+        { label: 'Editing-relevant scenario — current evidence', frac: strictFracOfSerious, color: '#b45309', count: p.ueStrict },
+        { label: 'Editing-relevant scenario — future-capacity exploratory', frac: permFracOfSerious, color: '#f59e0b', count: p.uePermissive },
       ].map((r, idx) => {
         const y = (3 + idx) * (rowH + gap) + dividerH;
         const w = Math.max(seriousW * r.frac, 2);

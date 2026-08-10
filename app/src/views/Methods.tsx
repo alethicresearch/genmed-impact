@@ -125,12 +125,12 @@ const INTERNAL_TERMS: Array<{ internal: string; meaning: string }> = [
 // Uncertainty is not a step: it is propagated through every quantitative step. Each step
 // links to the view where that part of the analysis lives.
 export const WORKFLOW_STEPS = [
-  { title: 'Estimate the disease burden', desc: 'What serious monogenic and multifactorial disease is represented under different severity and attribution assumptions?', tab: 'denominator', tabLabel: 'How much disease?' },
-  { title: 'Map intervention capability', desc: 'Which reproductive, diagnostic, screening, and therapeutic approaches apply to each disease?', tab: 'library', tabLabel: 'Which diseases?' },
-  { title: 'Separate outcomes', desc: 'Which pathways avoid an affected birth, and which detect or mitigate disease after birth?', tab: 'prevention', tabLabel: 'Existing medicine' },
-  { title: 'Estimate present impact and access', desc: 'How much benefit is technically possible, and how much is reached under current and expanded-coverage scenarios?', tab: 'prevention', tabLabel: 'Existing medicine' },
-  { title: 'Map the editing frontier', desc: 'Where does embryo selection fail or become unusually burdensome, and how could the role of editing change as polygenic intervention capacity grows?', tab: 'residual', tabLabel: 'Role of editing' },
-  { title: 'Interpret impact over time', desc: 'What follows for present implementation, translational research, future technology development, and regulation?', tab: 'ethics', tabLabel: 'Ethics & policy' },
+  { title: 'Estimate the disease burden', desc: 'Estimate the annual burden of serious monogenic and multifactorial disease under alternative severity and genetic-attribution assumptions.', tab: 'denominator', tabLabel: 'Burden estimate' },
+  { title: 'Map intervention capability', desc: 'Identify which reproductive, diagnostic, screening, and therapeutic pathways apply to each disease.', tab: 'library', tabLabel: 'Disease catalogue' },
+  { title: 'Separate outcomes', desc: 'Distinguish pathways that avoid an affected birth from those that detect or mitigate disease after birth.', tab: 'prevention', tabLabel: 'Existing medicine' },
+  { title: 'Estimate present impact and access', desc: 'Estimate how much impact is technically achievable and how much is realized under current and expanded-coverage scenarios.', tab: 'prevention', tabLabel: 'Existing medicine' },
+  { title: 'Map the editing frontier', desc: 'Identify where embryo selection fails or becomes unusually burdensome, and examine how the role of editing changes under higher-capacity polygenic scenarios.', tab: 'residual', tabLabel: 'Role of editing' },
+  { title: 'Interpret impact over time', desc: 'Assess the implications for current implementation, translational research, future technology development, and regulation.', tab: 'ethics', tabLabel: 'Ethics & policy' },
 ];
 
 export default function Methods({ data, state, update }: Props) {
@@ -190,7 +190,7 @@ export default function Methods({ data, state, update }: Props) {
     <div className="space-y-6">
       <SectionHeading
         title="Methods & data"
-        subtitle="How the disease catalogue, burden and access models, selection-versus-correction analysis, germline-editing frontier, polygenic analysis, uncertainty, and source provenance are constructed."
+        subtitle="How the analysis estimates disease burden, the impact of existing medicine, the germline-editing frontier, future polygenic scenarios, and uncertainty."
       />
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
         The study combines a disease-level catalogue with population, intervention, access,
@@ -276,8 +276,8 @@ export default function Methods({ data, state, update }: Props) {
         </p>
         <p className="text-sm leading-relaxed text-slate-700">
           The quantity rises rapidly as unaffected embryos become rare and diverges as{' '}
-          <em>u</em> → 0 — the point at which selection becomes impossible and the analysis
-          hands over to the no-selectable-embryo (editing-only prevention) population.
+          <em>u</em> → 0. At u = 0, selection is impossible; these cases are counted in the
+          editing-only prevention analysis.
         </p>
         <p className="mt-2 text-xs leading-5 text-slate-500">
           Terminology: the model counts <strong>affected-genotype embryos not selected for

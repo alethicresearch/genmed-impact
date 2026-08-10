@@ -47,8 +47,8 @@ const VERDICT_META: Record<Verdict, { label: string; fill: string; text: string;
 };
 
 const SCEN_OPTS = [
-  { value: 'present', label: 'Current-capacity assumption set' },
-  { value: 'near_future', label: 'Future high-capacity assumption set' },
+  { value: 'present', label: 'Current-capacity scenario' },
+  { value: 'near_future', label: 'Future high-capacity scenario' },
   { value: 'both', label: 'Both' },
 ];
 
@@ -66,19 +66,19 @@ export default function Multifactorial({ data, state, update }: Props) {
     <SourcesProvider>
       <div className="space-y-6">
         <SectionHeading
-          title="How far is polygenic editing from medical usefulness?"
-          subtitle="Polygenic editing is not clinically viable today, but its potential could change substantially if causal variants can be identified more reliably and multiplex editing becomes sufficiently safe and precise. This model asks where that frontier currently lies and how it moves under higher-capacity assumptions."
+          title="When could polygenic editing become medically useful?"
+          subtitle="Polygenic editing is not ready for clinical use today. This model asks how its potential changes as causal inference, embryo availability, and multiplex-editing capacity improve."
         />
 
         <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
-          Monogenic editing and polygenic editing solve different problems. In a monogenic
-          disorder, changing one pathogenic variant may remove most of the relevant inherited
-          risk; in a common complex disease, risk is distributed across many variants and
-          interacts with environment and chance. That makes polygenic intervention more
-          demanding — but not unimportant: recent quantitative work argues that editing a
+          Monogenic and polygenic editing address different genetic architectures. In a
+          monogenic disorder, changing one pathogenic variant may remove most of the relevant
+          inherited risk; in a common complex disease, risk is distributed across many variants
+          and interacts with environment and chance. Polygenic intervention is therefore more
+          demanding, but its potential impact could still be substantial if causal inference
+          and multiplex editing improve: recent quantitative work argues that editing a
           limited number of well-chosen causal variants could eventually produce large
-          reductions in lifetime disease risk if causal inference and multiplex editing improve
-          sufficiently (Visscher et al., <em>Nature</em>, 2025,{' '}
+          reductions in lifetime disease risk (Visscher et al., <em>Nature</em>, 2025,{' '}
           <a
             href="https://doi.org/10.1038/s41586-024-08300-4"
             target="_blank"
@@ -99,9 +99,9 @@ export default function Multifactorial({ data, state, update }: Props) {
         <Card>
           <h3 className="text-base font-semibold text-slate-900">Model in brief</h3>
           <p className="mt-1 max-w-3xl text-sm leading-relaxed text-slate-700">
-            Each disease is modeled as a continuous underlying{' '}
-            <Term k="liability threshold">liability</Term>: everyone carries a risk load, and
-            the disease appears once that load crosses a fixed threshold. Embryo selection can
+            Disease <Term k="liability threshold">liability</Term> is represented as a
+            continuous underlying distribution, with disease occurring when liability exceeds a
+            specified threshold. Embryo selection can
             choose among embryos with different polygenic risk, so its power grows with the
             number of embryos available. Editing can change only the loci specified for
             editing, so its power depends on how concentrated a disease&apos;s risk is in a few
@@ -231,7 +231,7 @@ function FrontierSummary({ mf }: { mf: AllData['multifactorial'] }) {
       </p>
       <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <FrontierStat
-          label="Germline editing ≥30% modeled reduction"
+          label="Editing: ≥30% modeled relative-risk reduction"
           from={p.editing_viable}
           to={f.editing_viable}
           n={n}
@@ -239,7 +239,7 @@ function FrontierSummary({ mf }: { mf: AllData['multifactorial'] }) {
           members={editNF}
         />
         <FrontierStat
-          label="Embryo selection ≥30% modeled reduction"
+          label="Embryo selection: ≥30% modeled relative-risk reduction"
           from={p.selection_viable}
           to={f.selection_viable}
           n={n}
@@ -247,7 +247,7 @@ function FrontierSummary({ mf }: { mf: AllData['multifactorial'] }) {
           members={selNF}
         />
         <FrontierStat
-          label="Embryo selection ≥10% modeled reduction"
+          label="Embryo selection: ≥10% modeled relative-risk reduction"
           from={p.selection_viable_or_marginal}
           to={f.selection_viable_or_marginal}
           n={n}

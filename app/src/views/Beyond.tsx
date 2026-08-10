@@ -22,7 +22,7 @@ export default function Beyond({ data, update }: Props) {
       <Reading>
         <SectionHeading
           title="Resistance & enhancement"
-          subtitle="Why technical continuity with disease prevention does not carry its ethical justification."
+          subtitle="Why disease resistance and enhancement require medical and ethical justification distinct from disease prevention."
         />
         <Lead>
           The same technological advances that could make polygenic disease editing more
@@ -131,7 +131,7 @@ export default function Beyond({ data, update }: Props) {
         </section>
 
         <section className="space-y-3">
-          <PH>Enhancement asks a different question</PH>
+          <PH>Enhancement requires a different justification</PH>
           <Claim kind="interpretation">
             Enhancement concerns traits such as cognition, height, athletic ability, or
             longevity rather than preventing a serious inherited disorder. Its potential
@@ -152,7 +152,7 @@ export default function Beyond({ data, update }: Props) {
         </section>
 
         <section className="space-y-3">
-          <PH>Complex-trait enhancement is also technically constrained</PH>
+          <PH>Complex-trait enhancement remains technically demanding</PH>
           <Lead>
             Most proposed enhancement traits are highly polygenic and strongly influenced by
             environment. Their genetic effects are spread across many variants, and polygenic
