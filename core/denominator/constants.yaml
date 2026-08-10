@@ -1,0 +1,289 @@
+# denominator — curated constants (Tier C transcriptions + parameterized judgment defaults)
+# Every quantitative constant carries: {value, low, high, source, doi, table_or_page, retrieved}.
+# `low`/`high` are ~95% plausibility bounds used as Monte-Carlo support (see montecarlo.py).
+# Values marked `PLACEHOLDER: true` are explicit free parameters pending a Tier-A/B pull
+# (see DATA_NEEDED.md); they are documented in ANALYSIS_LOG.md and flow through the MC as-is.
+#
+# Units: rates are per-1000 live births unless stated. Costs are 2024 USD.
+
+meta:
+  spec_version: "3.0"
+  currency_year: 2024
+  notes: >
+    This file is the single source of truth for the deterministic pipeline. Ingest modules
+    (core/denominator/ingest/*) overwrite the PLACEHOLDER entries in-place with primary data
+    when their sources are available; until then the pipeline runs on these cited anchors.
+
+# ---------------------------------------------------------------------------
+# 1. Denominator: global annual births
+# ---------------------------------------------------------------------------
+births:
+  global_per_year:
+    value: 135000000
+    low: 130000000
+    high: 140000000
+    source: "UN World Population Prospects 2024 (annual live births, world, 2023)"
+    doi: "https://population.un.org/wpp/"
+    table_or_page: "Demographic Indicators, Births (thousands), World, 2023"
+    retrieved: "2026-08-10"
+    note: >
+      WPP 2024 places annual world births near 134M and declining; the draft paper rounds to
+      ~140M. Modelled as an interval [130M, 140M]. Per-country births are pulled by
+      ingest/un_wpp.py into data/curated/births_by_country.parquet and aggregated to regions.
+
+# ---------------------------------------------------------------------------
+# 2. Burden baseline (RQ1). Rates per 1000 live births.
+#    Three severity operationalizations (see ANALYSIS_LOG §severity):
+#      def_a  = GBD congenital-birth-defects tree + curated severe-monogenic list (narrow)
+#      def_b  = "lethal or lifelong serious disability absent treatment" (default)
+#      def_c  = DALYs-per-case above threshold (broad)
+# ---------------------------------------------------------------------------
+burden:
+  monogenic_serious_per_1000:
+    def_a: {value: 8.0,  low: 6.0,  high: 10.0}
+    def_b: {value: 10.4, low: 8.0,  high: 13.0}
+    def_c: {value: 12.0, low: 9.0,  high: 15.0}
+    source: "Modell & Darlison 2008; March of Dimes Global Report on Birth Defects 2006"
+    doi: "10.2471/BLT.06.036673"
+    table_or_page: "Modell & Darlison 2008 Table 1; MoD 2006 Appendix tables"
+    retrieved: "2026-08-10"
+    note: >
+      Serious single-gene disorders. def_b default of 10.4/1000 reproduces ~1.4M/yr at 135M births,
+      matching the draft paper's monogenic figure.
+
+  # "Serious multifactorial / partly-genetic" congenital burden measured at birth
+  # (congenital heart disease, neural-tube defects, orofacial clefts, and other
+  # multifactorial anomalies with substantial genetic contribution).
+  multifactorial_serious_per_1000:
+    value: 49.0
+    low: 40.0
+    high: 60.0
+    source: "March of Dimes Global Report on Birth Defects 2006; WHO Congenital anomalies 2023"
+    doi: "https://www.who.int/news-room/fact-sheets/detail/congenital-anomalies"
+    table_or_page: "MoD 2006 global birth-defect prevalence ~6% of births"
+    retrieved: "2026-08-10"
+    note: >
+      49/1000 × 135M ≈ 6.6M/yr under the inclusive attribution stance, matching the draft paper.
+
+# ---------------------------------------------------------------------------
+# 3. Genetic attribution weight g[d] for the multifactorial bucket (RQ / §3.2).
+#    Applied multiplicatively to multifactorial_serious counts.
+# ---------------------------------------------------------------------------
+attribution:
+  inclusive:
+    value: 1.00
+    low: 1.00
+    high: 1.00
+    note: "Any disorder with substantial genetic/multifactorial contribution counted in full."
+  heritability_weighted:
+    value: 0.50
+    low: 0.35
+    high: 0.65
+    source: "Twin/heritability estimates for congenital anomalies (broad-sense h^2 ~0.3-0.6)"
+    doi: "n/a"
+    table_or_page: "reasoned central estimate; see ANALYSIS_LOG"
+    retrieved: "2026-08-10"
+  exclusive:
+    value: 0.10
+    low: 0.05
+    high: 0.18
+    note: "Only high-penetrance familial subsets (e.g. familial hypercholesterolaemia within CVD)."
+
+# ---------------------------------------------------------------------------
+# 4. Full-coverage preventable fractions prevent[c, t] by tool.
+#    t ∈ {CS carrier screening, PGT IVF+PGT, PND prenatal dx, NBS newborn genomics}.
+#    Fractions are the share of *otherwise-affected births* (or, for NBS, of disease
+#    burden) that each tool prevents/mitigates AT FULL COVERAGE, before the residual
+#    of the previous tool is netted out (composition handled in model.py).
+# ---------------------------------------------------------------------------
+prevention_full_coverage:
+  monogenic:
+    CS:  {value: 0.85, low: 0.60, high: 0.95, outcome: averted_birth,
+          source: "Cyprus/Sardinia/Greece thalassaemia premarital+carrier programs",
+          doi: "10.2471/BLT.06.036673", table_or_page: "Modell & Darlison 2008; Cao 1989; Kattamis 2020"}
+    PGT: {value: 0.95, low: 0.85, high: 0.99, outcome: averted_birth,
+          source: "ESHRE PGT Consortium data collections",
+          doi: "10.1093/humrep/deq231", table_or_page: "Harper et al. ESHRE PGT best-practice"}
+    PND: {value: 0.70, low: 0.40, high: 0.90, outcome: averted_birth, termination_dependent: true,
+          source: "Denmark/Iceland/Netherlands trisomy-21 screening outcomes",
+          doi: "n/a", table_or_page: "Wald 2018; national screening registries"}
+    NBS: {value: 0.55, low: 0.30, high: 0.80, outcome: averted_burden,
+          source: "SMA presymptomatic treatment (NURTURE); metabolic NBS ICERs",
+          doi: "n/a", table_or_page: "Kirby & Browne 2021; NURTURE cohort",
+          treatable_fraction: {value: 0.25, low: 0.15, high: 0.40,
+            note: "share of serious monogenic conditions with an effective early-life therapy"}}
+  multifactorial:
+    # Existing reproductive tools address a much smaller share of multifactorial congenital burden.
+    CS:  {value: 0.05, low: 0.01, high: 0.12, outcome: averted_birth,
+          source: "limited monogenic subsets within multifactorial bucket", doi: "n/a", table_or_page: "reasoned"}
+    PGT: {value: 0.05, low: 0.01, high: 0.12, outcome: averted_birth,
+          source: "PGT-A/-M applicable to small share", doi: "n/a", table_or_page: "reasoned"}
+    PND: {value: 0.45, low: 0.25, high: 0.65, outcome: averted_birth, termination_dependent: true,
+          source: "prenatal detection of major structural anomalies (CHD, NTD)", doi: "n/a", table_or_page: "reasoned"}
+    NBS: {value: 0.15, low: 0.05, high: 0.30, outcome: averted_burden,
+          source: "limited treatable multifactorial subset", doi: "n/a", table_or_page: "reasoned"}
+
+# ---------------------------------------------------------------------------
+# 5. Coverage scenarios coverage[t, region, scenario]. Global-default values here;
+#    ingest/who_gho.py refines per-region. scenario ∈ {current, achievable_2035, ideal}.
+# ---------------------------------------------------------------------------
+coverage:
+  current:
+    CS:  {value: 0.12, low: 0.05, high: 0.25}
+    PGT: {value: 0.06, low: 0.02, high: 0.15}
+    PND: {value: 0.35, low: 0.20, high: 0.55}
+    NBS: {value: 0.30, low: 0.15, high: 0.50}
+  achievable_2035:
+    CS:  {value: 0.55, low: 0.35, high: 0.75}
+    PGT: {value: 0.30, low: 0.15, high: 0.50}
+    PND: {value: 0.65, low: 0.45, high: 0.85}
+    NBS: {value: 0.70, low: 0.50, high: 0.90}
+  ideal:
+    CS:  {value: 0.98, low: 0.95, high: 1.00}
+    PGT: {value: 0.98, low: 0.95, high: 1.00}
+    PND: {value: 0.98, low: 0.95, high: 1.00}
+    NBS: {value: 0.98, low: 0.95, high: 1.00}
+  note: >
+    'current' coverage is population-weighted global; ~94% of birth-defect births occur in LMICs
+    with limited access (March of Dimes 2006), which pins current global coverage low.
+
+# ---------------------------------------------------------------------------
+# 6. S2 (editing-superior for complex disease) — fraction of multifactorial burden for
+#    which a single/oligo-locus germline edit would UNIQUELY benefit after netting out
+#    somatic, pharmacological and public-health alternatives. strict vs permissive.
+# ---------------------------------------------------------------------------
+s2:
+  fraction_of_multifactorial:
+    strict:     {value: 0.0005, low: 0.0,   high: 0.003}
+    permissive: {value: 0.020,  low: 0.008, high: 0.035,
+                 note: "0.02 × 6.6M ≈ 132k, matching the draft paper's permissive figure"}
+  source: "Ference et al. 2017 (PCSK9); Savulescu et al. 2025 (heritable polygenic editing); reasoned netting"
+  doi: "10.1038/s41586-024-08300-4"
+  table_or_page: "see ANALYSIS_LOG §S2"
+  retrieved: "2026-08-10"
+
+# ---------------------------------------------------------------------------
+# 7. Resistance-class anchors (RQ4).
+# ---------------------------------------------------------------------------
+resistance:
+  hiv_vertical_infections_per_year:
+    value: 130000
+    low: 110000
+    high: 160000
+    source: "UNAIDS AIDSinfo 2023 (new vertical HIV infections)"
+    doi: "https://www.unaids.org/en/resources/fact-sheet"
+    table_or_page: "UNAIDS 2023 fact sheet"
+    retrieved: "2026-08-10"
+  pmtct_effectiveness:
+    value: 0.98
+    low: 0.90
+    high: 0.99
+    source: "WHO PMTCT (mother-to-child transmission prevention) where implemented"
+    doi: "n/a"
+    table_or_page: "WHO 2022 PMTCT guidance"
+    retrieved: "2026-08-10"
+  pmtct_coverage_global:
+    value: 0.82
+    low: 0.70
+    high: 0.90
+    source: "UNAIDS PMTCT coverage estimate"
+    doi: "https://www.unaids.org/en/resources/fact-sheet"
+    table_or_page: "UNAIDS 2023"
+    retrieved: "2026-08-10"
+  cardiovascular_note: >
+    Statins + somatic PCSK9 inhibition deliver comparable LDL lowering cheaply for most at-risk
+    individuals; unique germline benefit is small relative to the birth cohort. Computed as a
+    residual over statin-eligible coverage in residual.py.
+  neurodegeneration_computable: false   # APOE developmental pleiotropy — reported as "not computable"
+
+# ---------------------------------------------------------------------------
+# 8. Cost anchors for allocation (RQ5). 2024 USD.
+# ---------------------------------------------------------------------------
+costs:
+  carrier_screening_per_couple:
+    value: 200
+    low: 60
+    high: 500
+    source: "expanded carrier-screening panel list prices (high-throughput)"
+    doi: "n/a"
+    table_or_page: "reasoned from commercial panel pricing"
+    retrieved: "2026-08-10"
+  ivf_pgt_cycle:
+    value: 15000
+    low: 6000
+    high: 25000
+    source: "IVF + PGT-M cycle cost, region-dependent"
+    doi: "n/a"
+    table_or_page: "reasoned; ESHRE cost surveys"
+    retrieved: "2026-08-10"
+  prenatal_screen_per_pregnancy:
+    value: 120
+    low: 40
+    high: 300
+    source: "cfDNA/NIPT + confirmatory dx program cost"
+    doi: "n/a"
+    table_or_page: "reasoned"
+    retrieved: "2026-08-10"
+  newborn_screen_per_infant:
+    value: 25
+    low: 8
+    high: 60
+    source: "NBS panel cost per infant (excl. treatment)"
+    doi: "n/a"
+    table_or_page: "reasoned; Kirby & Browne 2021"
+    retrieved: "2026-08-10"
+  haemoglobinopathy_program_per_birth_prevented:
+    value: 12000
+    low: 4000
+    high: 30000
+    source: "Cousens et al. 2010 β-thalassaemia carrier-screening cost-effectiveness"
+    doi: "10.1038/ejhg.2010.90"
+    table_or_page: "Cousens et al. 2010"
+    retrieved: "2026-08-10"
+  gene_therapy_list_price:
+    value: 2500000
+    low: 700000
+    high: 4250000
+    source: "approved gene-therapy list prices (e.g. SMA, metabolic)"
+    doi: "n/a"
+    table_or_page: "public list prices 2020-2024"
+    retrieved: "2026-08-10"
+  editing_program_per_birth_prevented:
+    value: 500000
+    low: 150000
+    high: 2000000
+    source: "reasoned germline-editing program overhead (IVF+PGT base + editing + oversight)"
+    doi: "n/a"
+    table_or_page: "wide interval; see ANALYSIS_LOG §costs"
+    retrieved: "2026-08-10"
+    placeholder: true
+  daly_per_severe_monogenic_case:
+    value: 30
+    low: 15
+    high: 55
+    source: "GBD-style DALYs per severe early-onset monogenic case (undiscounted)"
+    doi: "n/a"
+    table_or_page: "reasoned pending GBD 2023 pull (DATA_NEEDED.md)"
+    retrieved: "2026-08-10"
+    placeholder: true
+
+# ---------------------------------------------------------------------------
+# 9. Program-anchor reproduction targets (Phase-3 acceptance tests).
+# ---------------------------------------------------------------------------
+program_anchors:
+  thalassaemia_major_reduction:
+    value: 0.90
+    low: 0.70
+    high: 0.95
+    source: "Cyprus/Sardinia/Greece national thalassaemia programs"
+    doi: "10.2471/BLT.06.036673"
+    table_or_page: "Angastiniotis & Hadjiminas 1981; Cao 1989; Kattamis 2020"
+    retrieved: "2026-08-10"
+  down_syndrome_reduction_nordic:
+    value: 0.70
+    low: 0.55
+    high: 0.85
+    source: "Denmark/Iceland/Netherlands prenatal screening outcomes"
+    doi: "n/a"
+    table_or_page: "Wald 2018"
+    retrieved: "2026-08-10"

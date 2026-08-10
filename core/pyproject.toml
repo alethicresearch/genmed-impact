@@ -1,0 +1,25 @@
+[project]
+name = "denominator-core"
+version = "0.1.0"
+description = "Reproducible global genetic-disease-burden × intervention-impact pipeline"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "pyyaml>=6.0",
+    "pandas>=2.0",
+]
+
+[project.optional-dependencies]
+ingest = ["requests>=2.31", "pyarrow>=14.0"]
+test = ["pytest>=7.0"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["denominator", "denominator.ingest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

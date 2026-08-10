@@ -1,0 +1,28 @@
+{
+  "hiv": {
+    "vertical_infections_per_year": {
+      "median": 129922.93508830629,
+      "mean": 130620.94174253325,
+      "ci95": [
+        107931.5415971231,
+        156794.4361025496
+      ]
+    },
+    "residual_after_pmtct": {
+      "median": 25120.644982968075,
+      "mean": 25699.44837229067,
+      "ci95": [
+        13073.91548977879,
+        41787.38753575386
+      ]
+    },
+    "note": "Residual = infections × (1 − PMTCT effectiveness × coverage). CCR5 germline uniquely matters only within this residual."
+  },
+  "cardiovascular": {
+    "note": "Statins + somatic PCSK9 inhibition deliver comparable LDL lowering cheaply; unique germline benefit is small. Not reduced to a single birth count."
+  },
+  "neurodegeneration": {
+    "computable": false,
+    "note": "APOE developmental pleiotropy — no safe, clearly causal embryo-level target. Reported as not computable."
+  }
+}

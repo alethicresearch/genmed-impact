@@ -1,0 +1,126 @@
+# denominator — S1 condition curation (RQ3 "no selectable unaffected embryo").
+#
+# For each condition we record the parameters that determine whether a couple can have
+# NO unaffected embryo (the only monogenic configuration where selection cannot help):
+#   - recessive:  requires an affected × affected (aa × aa) couple.
+#   - dominant_viable_homozygote: requires an AA parent (homozygous, viable, e.g. Huntington).
+#   Standard both-heterozygous couples (¼ unaffected embryos) are SELECTION-ADDRESSABLE and
+#   are deliberately excluded here (documented in ANALYSIS_LOG §S1).
+#
+# Fields (each an interval unless a bare number):
+#   inheritance:            recessive | dominant_viable_homozygote
+#   allele_freq q:          global pathogenic allele frequency (gnomAD-anchored, ancestry-averaged)
+#   penetrance:             fraction of homozygotes/affecteds expressing the serious phenotype
+#   survival_to_repro s:    fraction of affected individuals surviving and reproducing
+#                           (0 for lethal early-onset → contributes ~0 to S1 via the aa×aa channel)
+#   assortative α:          fraction of affected who preferentially partner within the
+#                           affected/community pool (community endogamy). Wide intervals, cited.
+#   homozygote_viable:      dominant only — is the homozygote viable?
+#   consanguinity_sensitive: does the condition's S1 count scale with population inbreeding F?
+#
+# Ancestry-averaged allele frequencies are transcribed from literature/gnomAD summaries; the
+# ingest/gnomad.py module can overwrite `allele_freq` with ancestry-composition-weighted pulls.
+
+global_defaults:
+  consanguinity_F:
+    value: 0.010
+    low: 0.004
+    high: 0.020
+    source: "Bittles & Black / consang.net global population-weighted mean kinship"
+    doi: "n/a"
+    table_or_page: "consang.net country tables (population-weighted)"
+    retrieved: "2026-08-10"
+  translocation_no_viable_euploid_per_1000:
+    value: 0.02
+    low: 0.005
+    high: 0.05
+    source: "balanced-translocation carriers with no viable euploid embryo (rare configs)"
+    doi: "n/a"
+    table_or_page: "reasoned; cytogenetic literature"
+    retrieved: "2026-08-10"
+
+conditions:
+  - name: "Sickle cell disease"
+    gene: "HBB (HbS)"
+    inheritance: recessive
+    allele_freq:  {value: 0.0180, low: 0.0120, high: 0.0250}
+    penetrance:   {value: 1.00, low: 0.95, high: 1.00}
+    survival_to_repro: {value: 0.55, low: 0.30, high: 0.75}   # survive to reproduce, esp. with care
+    assortative:  {value: 0.20, low: 0.05, high: 0.45}
+    consanguinity_sensitive: true
+    source: "gnomAD HBB; Modell & Darlison 2008; Piel et al. sickle epidemiology"
+    doi: "10.2471/BLT.06.036673"
+
+  - name: "Beta-thalassaemia"
+    gene: "HBB"
+    inheritance: recessive
+    allele_freq:  {value: 0.0120, low: 0.0070, high: 0.0200}
+    penetrance:   {value: 1.00, low: 0.95, high: 1.00}
+    survival_to_repro: {value: 0.30, low: 0.10, high: 0.55}   # transfusion-dependent; reproduce with care
+    assortative:  {value: 0.15, low: 0.03, high: 0.35}
+    consanguinity_sensitive: true
+    source: "gnomAD HBB; Modell & Darlison 2008"
+    doi: "10.2471/BLT.06.036673"
+
+  - name: "Cystic fibrosis"
+    gene: "CFTR"
+    inheritance: recessive
+    allele_freq:  {value: 0.0150, low: 0.0100, high: 0.0220}   # ~1/25 carrier in Europeans → q~0.02; global lower
+    penetrance:   {value: 0.98, low: 0.90, high: 1.00}
+    survival_to_repro: {value: 0.25, low: 0.08, high: 0.45}    # rising with modulators
+    assortative:  {value: 0.05, low: 0.00, high: 0.15}
+    consanguinity_sensitive: true
+    source: "gnomAD CFTR F508del + panel; CF Registry survival"
+    doi: "n/a"
+
+  - name: "Congenital sensorineural deafness (GJB2)"
+    gene: "GJB2 (connexin-26)"
+    inheritance: recessive
+    allele_freq:  {value: 0.0130, low: 0.0080, high: 0.0200}
+    penetrance:   {value: 0.95, low: 0.85, high: 1.00}
+    survival_to_repro: {value: 0.98, low: 0.90, high: 1.00}    # full reproduction
+    assortative:  {value: 0.75, low: 0.55, high: 0.90}         # strong Deaf-community endogamy
+    locus_concordance: {value: 0.45, low: 0.30, high: 0.60}    # deafness is genetically heterogeneous;
+                                                               # only a fraction of Deaf×Deaf pairs share GJB2
+    consanguinity_sensitive: true
+    source: "gnomAD GJB2 35delG; assortative-mating studies in Deaf communities (Nance & Kearsey)"
+    doi: "n/a"
+    note: >
+      Large per-couple S1 contributor via assortative mating + full survival, but tempered by
+      locus_concordance: two Deaf partners produce all-affected embryos only when both are
+      homozygous at the SAME locus (GJB2 explains ~half of congenital non-syndromic deafness).
+
+  - name: "Spinal muscular atrophy (type I)"
+    gene: "SMN1"
+    inheritance: recessive
+    allele_freq:  {value: 0.0100, low: 0.0060, high: 0.0150}
+    penetrance:   {value: 1.00, low: 0.98, high: 1.00}
+    survival_to_repro: {value: 0.02, low: 0.00, high: 0.10}    # type I lethal in infancy absent therapy
+    assortative:  {value: 0.02, low: 0.00, high: 0.08}
+    consanguinity_sensitive: true
+    source: "gnomAD SMN1; NURTURE natural history"
+    doi: "n/a"
+
+  - name: "Tay-Sachs disease"
+    gene: "HEXA"
+    inheritance: recessive
+    allele_freq:  {value: 0.0015, low: 0.0005, high: 0.0060}   # elevated in specific founder pops
+    penetrance:   {value: 1.00, low: 0.98, high: 1.00}
+    survival_to_repro: {value: 0.00, low: 0.00, high: 0.02}    # infantile lethal → ~0 aa×aa
+    assortative:  {value: 0.10, low: 0.00, high: 0.30}
+    consanguinity_sensitive: true
+    source: "gnomAD HEXA; Tay-Sachs screening programs (Kaback)"
+    doi: "n/a"
+
+  - name: "Huntington's disease"
+    gene: "HTT"
+    inheritance: dominant_viable_homozygote
+    allele_freq:  {value: 0.00005, low: 0.00002, high: 0.00010}   # expanded-allele frequency
+    penetrance:   {value: 1.00, low: 0.95, high: 1.00}
+    survival_to_repro: {value: 0.85, low: 0.70, high: 0.95}       # late onset → reproduce before onset
+    assortative:  {value: 0.02, low: 0.00, high: 0.08}
+    homozygote_viable: true
+    consanguinity_sensitive: false
+    source: "HD prevalence; homozygotes viable and phenotypically similar to heterozygotes"
+    doi: "n/a"
+    note: "AA homozygote channel; numerically tiny but the canonical dominant-viable case."

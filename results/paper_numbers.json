@@ -1,0 +1,158 @@
+{
+  "births_per_year": {
+    "median": 135016417.62235594,
+    "ci95": [
+      130178065.04818273,
+      140053623.61802688
+    ]
+  },
+  "serious_genetic_births_per_year": {
+    "median": 8042018.664133552,
+    "ci95": [
+      6747368.514943173,
+      9591263.188988691
+    ],
+    "severity_def": "def_b",
+    "attribution": "inclusive"
+  },
+  "monogenic_births_per_year": {
+    "median": 1404840.351020278,
+    "ci95": [
+      1097734.3755561537,
+      1793181.509422333
+    ],
+    "severity_def": "def_b",
+    "attribution": "inclusive"
+  },
+  "multifactorial_births_per_year": {
+    "median": 6620881.336075608,
+    "ci95": [
+      5393430.007627981,
+      8126233.71530126
+    ],
+    "severity_def": "def_b",
+    "attribution": "inclusive"
+  },
+  "serious_share_of_all_births": {
+    "median": 0.05955033983564512,
+    "ci95": [
+      0.050096340523768774,
+      0.07084799171320505
+    ],
+    "severity_def": "def_b",
+    "attribution": "inclusive"
+  },
+  "s1_no_selectable_embryo_births_per_year": {
+    "median": 24876.559856884123,
+    "ci95": [
+      13111.319998067089,
+      46319.347425802356
+    ],
+    "severity_def": "def_b",
+    "attribution": "inclusive"
+  },
+  "s2_editing_superior_births_per_year__strict": {
+    "median": 1293.2091253989618,
+    "ci95": [
+      0.9518799826534897,
+      18471.1968652733
+    ],
+    "criteria": "strict"
+  },
+  "uniquely_editable_births_per_year__strict": {
+    "median": 27899.33171318326,
+    "ci95": [
+      14507.015554521804,
+      53308.63476345445
+    ],
+    "severity_def": "def_b",
+    "attribution": "inclusive",
+    "criteria": "strict"
+  },
+  "uniquely_editable_share_of_serious__strict": {
+    "median": 0.003477954896954084,
+    "ci95": [
+      0.0017921300176591537,
+      0.006680654132795927
+    ],
+    "severity_def": "def_b",
+    "attribution": "inclusive",
+    "criteria": "strict"
+  },
+  "addressable_share_of_serious__strict": {
+    "median": 0.9965220451030459,
+    "ci95": [
+      0.993319345867204,
+      0.9982078699823409
+    ],
+    "severity_def": "def_b",
+    "attribution": "inclusive",
+    "criteria": "strict"
+  },
+  "s2_editing_superior_births_per_year__permissive": {
+    "median": 126561.93960005764,
+    "ci95": [
+      56852.9192788615,
+      242708.53410604678
+    ],
+    "criteria": "permissive"
+  },
+  "uniquely_editable_births_per_year__permissive": {
+    "median": 152772.75598494464,
+    "ci95": [
+      80710.23002470723,
+      270284.1650048859
+    ],
+    "severity_def": "def_b",
+    "attribution": "inclusive",
+    "criteria": "permissive"
+  },
+  "uniquely_editable_share_of_serious__permissive": {
+    "median": 0.01906223050585149,
+    "ci95": [
+      0.010167058135068865,
+      0.03285095335950689
+    ],
+    "severity_def": "def_b",
+    "attribution": "inclusive",
+    "criteria": "permissive"
+  },
+  "addressable_share_of_serious__permissive": {
+    "median": 0.9809377694941486,
+    "ci95": [
+      0.9671490466404932,
+      0.9898329418649311
+    ],
+    "severity_def": "def_b",
+    "attribution": "inclusive",
+    "criteria": "permissive"
+  },
+  "hiv_vertical_infections_per_year": {
+    "median": 129922.93508830629,
+    "ci95": [
+      107931.5415971231,
+      156794.4361025496
+    ]
+  },
+  "hiv_residual_after_pmtct": {
+    "median": 25120.644982968075,
+    "ci95": [
+      13073.91548977879,
+      41787.38753575386
+    ]
+  },
+  "cost_per_birth_prevented_screening": {
+    "median": 12003.426774184101,
+    "ci95": [
+      4385.789703134756,
+      32861.39080819647
+    ]
+  },
+  "cost_per_birth_prevented_editing": {
+    "median": 499537.97303023835,
+    "ci95": [
+      135034.91726380048,
+      1841159.0251652398
+    ]
+  }
+}
