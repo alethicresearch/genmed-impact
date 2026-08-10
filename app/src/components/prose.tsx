@@ -21,6 +21,20 @@ export function Caption({ children }: { children: ReactNode }) {
   return <p className="text-xs leading-5 text-slate-500">{children}</p>;
 }
 
+// Inline link for count/derivation statements inside prose: clicking jumps to the
+// underlying, pre-filtered data view instead of leaving the reader to find it by hand.
+export function InlineLink({ onClick, children }: { onClick: () => void; children: ReactNode }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="font-medium text-accent underline decoration-accent/40 underline-offset-2 hover:decoration-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+    >
+      {children}
+    </button>
+  );
+}
+
 // ---- Epistemic-status labels ----
 // The site mixes cited data, model output, the authors' reading of it, and normative
 // recommendation. These small tags keep the four visibly distinct wherever prose moves

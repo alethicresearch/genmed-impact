@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { AllData, DiseaseClass, fmtCompact, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
 import { SourcesProvider, SourcesList } from '../components/SourceNote';
-import { Figure, EpistemicTag, EpistemicKind } from '../components/prose';
+import { Figure, EpistemicTag, EpistemicKind, InlineLink } from '../components/prose';
 
 interface Props {
   data: AllData;
@@ -51,7 +51,10 @@ export default function Overview({ data, update }: Props) {
           </Lead>
           <Lead>
             We address these questions by combining a disease-by-intervention catalogue (
-            {fmtInt(rollup.n_diseases_all)} conditions), global disease-burden evidence,
+            <InlineLink onClick={() => update({ tab: 'library', tier: 'all' })}>
+              {fmtInt(rollup.n_diseases_all)} conditions
+            </InlineLink>
+            ), global disease-burden evidence,
             population modeling, an explicit analysis of reproductive configurations in which
             embryo selection fails or becomes unusually burdensome, and a genetic-architecture
             model of potential polygenic intervention.
@@ -127,10 +130,15 @@ export default function Overview({ data, update }: Props) {
           </div>
           <Lead>
             Under the broad default attribution, the population model contains approximately{' '}
-            {fmtCompact(burden.monogenic.median)} monogenic and{' '}
-            {fmtCompact(burden.multifactorial.median)} multifactorial/partly genetic cases per
-            annual birth cohort. The multifactorial component is strongly sensitive to the
-            attribution definition.
+            <InlineLink onClick={() => update({ tab: 'denominator' })}>
+              {fmtCompact(burden.monogenic.median)} monogenic
+            </InlineLink>{' '}
+            and{' '}
+            <InlineLink onClick={() => update({ tab: 'denominator' })}>
+              {fmtCompact(burden.multifactorial.median)} multifactorial/partly genetic
+            </InlineLink>{' '}
+            cases per annual birth cohort. The multifactorial component is strongly sensitive
+            to the attribution definition.
           </Lead>
         </section>
 
@@ -151,11 +159,16 @@ export default function Overview({ data, update }: Props) {
             </p>
             <p>
               Under the current-evidence scaling scenario, the combined estimate is
-              approximately {fmtCompact(editableTotal.strict.median)} cases/year (
-              {fmtPct(editableShare.strict.median, 2)}). Under the future-capacity exploratory
+              approximately{' '}
+              <InlineLink onClick={() => update({ tab: 'residual' })}>
+                {fmtCompact(editableTotal.strict.median)} cases/year
+              </InlineLink>{' '}
+              ({fmtPct(editableShare.strict.median, 2)}). Under the future-capacity exploratory
               scaling scenario, it rises to approximately{' '}
-              {fmtCompact(editableTotal.permissive.median)}/year (
-              {fmtPct(editableShare.permissive.median, 1)}).
+              <InlineLink onClick={() => update({ tab: 'residual' })}>
+                {fmtCompact(editableTotal.permissive.median)}/year
+              </InlineLink>{' '}
+              ({fmtPct(editableShare.permissive.median, 1)}).
             </p>
             <p>
               These figures combine <strong>different kinds of medical value</strong>: an
@@ -182,8 +195,18 @@ export default function Overview({ data, update }: Props) {
           <div className="mt-2 space-y-2 text-[13px] leading-6 text-slate-600">
             <p>
               Two estimates run in parallel. A growing curated catalogue of{' '}
-              {fmtInt(rollup.n_diseases_all)} diseases ({fmtInt(rollup.n_diseases)} high-burden
-              core + {fmtInt(rollup.tiers.rare.n_diseases)} rare) — not an exhaustive universe —
+              <InlineLink onClick={() => update({ tab: 'library', tier: 'all' })}>
+                {fmtInt(rollup.n_diseases_all)} diseases
+              </InlineLink>{' '}
+              (
+              <InlineLink onClick={() => update({ tab: 'library', tier: 'core' })}>
+                {fmtInt(rollup.n_diseases)} high-burden core
+              </InlineLink>{' '}
+              +{' '}
+              <InlineLink onClick={() => update({ tab: 'library', tier: 'rare' })}>
+                {fmtInt(rollup.tiers.rare.n_diseases)} rare
+              </InlineLink>
+              ) — not an exhaustive universe —
               is summed disease-by-disease; a parametric model samples cited rates and
               assumptions to give the totals with uncertainty intervals. The catalogue sum
               ({fmtCompact(rollup.total_affected_births_per_year)}/yr over the core) is a floor

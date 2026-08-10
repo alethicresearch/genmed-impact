@@ -1,6 +1,6 @@
 import { AllData, fmtCompact, fmtPct } from '../data';
 import { UrlState } from '../urlState';
-import { Reading, PH, Lead, Claim, ClaimChain } from '../components/prose';
+import { Reading, PH, Lead, Claim, ClaimChain, InlineLink } from '../components/prose';
 
 interface Props {
   data: AllData;
@@ -107,12 +107,15 @@ export default function EthicsPolicy({ data, update }: Props) {
           {cur && ach && ideal ? (
             <>
               {' '}
-              The coverage scenarios reported in this project — roughly{' '}
-              {fmtPct(cur.total_averted_birth_fraction.median, 0)} of monogenic affected
-              births avoided at current coverage,{' '}
-              {fmtPct(ach.total_averted_birth_fraction.median, 0)} under expanded access, and{' '}
-              {fmtPct(ideal.total_averted_birth_fraction.median, 1)} under idealized full
-              coverage — are model results about achievable affected-birth avoidance. They are
+              The coverage scenarios reported in this project —{' '}
+              <InlineLink onClick={() => update({ tab: 'prevention' })}>
+                roughly {fmtPct(cur.total_averted_birth_fraction.median, 0)} of monogenic
+                affected births avoided at current coverage,{' '}
+                {fmtPct(ach.total_averted_birth_fraction.median, 0)} under expanded access,
+                and {fmtPct(ideal.total_averted_birth_fraction.median, 1)} under idealized
+                full coverage
+              </InlineLink>{' '}
+              — are model results about achievable affected-birth avoidance. They are
               not rankings of moral desirability, and greater affected-birth avoidance is not
               automatically ethically better.
             </>
@@ -125,11 +128,15 @@ export default function EthicsPolicy({ data, update }: Props) {
         <ClaimChain>
           <Claim kind="model">
             Under current-evidence assumptions, only about{' '}
-            {fmtPct(editableShare.strict.median, 1)} of the modeled serious-disease burden falls
-            within the editing-relevant residual (about{' '}
+            <InlineLink onClick={() => update({ tab: 'residual' })}>
+              {fmtPct(editableShare.strict.median, 1)} of the modeled serious-disease burden
+            </InlineLink>{' '}
+            falls within the editing-relevant residual (about{' '}
             {fmtCompact(editableTotal.strict.median)} births a year), dominated by approximately{' '}
-            {fmtCompact(s1.median)} births/year in reproductive configurations where no
-            unaffected embryo can be selected.
+            <InlineLink onClick={() => update({ tab: 'residual' })}>
+              {fmtCompact(s1.median)} births/year
+            </InlineLink>{' '}
+            in reproductive configurations where no unaffected embryo can be selected.
           </Claim>
           <Claim kind="interpretation">
             Germline editing therefore does not appear necessary as a broad population strategy

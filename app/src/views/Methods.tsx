@@ -135,7 +135,9 @@ export const WORKFLOW_STEPS = [
 export default function Methods({ data, state, update }: Props) {
   const m = data.meta;
   const query = (state.q || '').toLowerCase();
+  const kindFilter = (state.kind || '') as Badge | '';
   const tornadoRef = useRef<HTMLDivElement>(null);
+  const provenanceRef = useRef<HTMLDivElement>(null);
 
   const leaves = useMemo(() => {
     const out: FlatLeaf[] = [];
@@ -156,8 +158,12 @@ export default function Methods({ data, state, update }: Props) {
   }, [leaves]);
 
   const filtered = useMemo(() => {
-    if (!query) return leaves;
-    return leaves.filter((f) => {
+    let out = leaves;
+    if (kindFilter && kindFilter in BADGE_META) {
+      out = out.filter((f) => badgeOf(f.path, f.leaf) === kindFilter);
+    }
+    if (!query) return out;
+    return out.filter((f) => {
       const hay = (
         f.path +
         ' ' +
@@ -171,7 +177,13 @@ export default function Methods({ data, state, update }: Props) {
       ).toLowerCase();
       return hay.includes(query);
     });
-  }, [leaves, query]);
+  }, [leaves, query, kindFilter]);
+
+  // Clicking an evidentiary-status count filters the sources table to exactly those inputs.
+  const focusKind = (b: Badge) => {
+    update({ kind: kindFilter === b ? '' : b });
+    provenanceRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <div className="space-y-6">
@@ -283,13 +295,24 @@ export default function Methods({ data, state, update }: Props) {
         </p>
         <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
           {(Object.keys(BADGE_META) as Badge[]).map((b) => (
-            <div key={b} className="rounded border border-slate-200 p-3">
+            <button
+              key={b}
+              type="button"
+              onClick={() => focusKind(b)}
+              aria-pressed={kindFilter === b}
+              className={`rounded border p-3 text-left transition-colors hover:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                kindFilter === b ? 'border-accent bg-accent-soft/40' : 'border-slate-200 bg-white'
+              }`}
+            >
               <span className={`inline-block rounded px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${BADGE_META[b].cls}`}>
                 {BADGE_META[b].label}
               </span>
               <p className="tnum mt-1 text-xl font-bold text-slate-900">{badgeCounts[b]}</p>
               <p className="mt-0.5 text-xs leading-5 text-slate-600">{BADGE_META[b].desc}</p>
-            </div>
+              <p className="mt-1 text-xs font-medium text-accent">
+                {kindFilter === b ? 'Clear filter' : `List these ${badgeCounts[b]} inputs`} →
+              </p>
+            </button>
           ))}
         </div>
       </Card>
@@ -320,6 +343,7 @@ export default function Methods({ data, state, update }: Props) {
       </Card>
 
       {/* Provenance */}
+      <div ref={provenanceRef} className="scroll-mt-4">
       <Card>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-base font-semibold text-slate-900">Sources &amp; assumptions</h3>
@@ -339,6 +363,21 @@ export default function Methods({ data, state, update }: Props) {
           {filtered.length} of {leaves.length} inputs shown. Search any model parameter to see
           its value, uncertainty range, evidentiary status, source, DOI, and source location.
         </p>
+        {kindFilter && kindFilter in BADGE_META && (
+          <p className="mt-2">
+            <span className={`inline-flex items-center gap-1.5 rounded px-2 py-1 text-[11px] font-semibold uppercase tracking-wide ${BADGE_META[kindFilter as Badge].cls}`}>
+              Showing only: {BADGE_META[kindFilter as Badge].label}
+              <button
+                type="button"
+                onClick={() => update({ kind: '' })}
+                aria-label="Clear evidentiary-status filter"
+                className="rounded px-1 font-bold hover:bg-white/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                ×
+              </button>
+            </span>
+          </p>
+        )}
         <div className="mt-3 overflow-x-auto">
           <table className="w-full border-collapse text-sm">
             <caption className="sr-only">Model inputs with badges, values, intervals and sources</caption>
@@ -390,6 +429,7 @@ export default function Methods({ data, state, update }: Props) {
           </table>
         </div>
       </Card>
+      </div>
 
       {/* Advanced / reproducibility */}
       <details className="rounded-lg border border-slate-200 bg-slate-50 p-4">
