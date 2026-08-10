@@ -33,15 +33,21 @@ export default function Embryos({ data }: Props) {
         subtitle="PGT-M prevents an affected birth by selecting an embryo without the targeted genotype. Successful editing could instead correct an embryo that would otherwise not be selected for transfer."
       />
       <p className="text-sm leading-relaxed text-slate-700">
-        This creates one potentially important difference between the two strategies. When many
-        unaffected embryos are available, embryo selection requires relatively little
-        genotype-based non-selection. As unaffected embryos become rarer, more affected-genotype
-        embryos must be set aside to obtain one unaffected embryo. If no unaffected embryo
-        exists, selection cannot achieve the desired outcome at all.
+        The comparison between selection and correction is not simply binary. Selection may be
+        an excellent alternative when unaffected embryos are common, increasingly burdensome
+        when they are rare, and impossible when none exists. When many unaffected embryos are
+        available, embryo selection requires relatively little genotype-based non-selection. As
+        unaffected embryos become rarer, more affected-genotype embryos must be set aside to
+        obtain one unaffected embryo. If no unaffected embryo exists, selection cannot achieve
+        the desired outcome at all.
       </p>
       <p className="text-sm leading-relaxed text-slate-700">
-        The comparison below isolates this one dimension only. It does not assume that editing
-        is safe, successful, or ethically preferable overall.
+        This analysis quantifies one dimension of <strong>reproductive burden</strong> — the
+        embryo-level burden of achieving a reproductive outcome. Two interventions can achieve
+        the same disease outcome while imposing very different reproductive burdens, which is
+        why the comparison belongs in the impact framework rather than being a side ethical
+        issue. The comparison below isolates this one dimension only. It does not assume that
+        editing is safe, successful, or ethically preferable overall.
       </p>
       <div className="rounded-lg border border-amber-300 bg-amber-50/60 p-4 text-sm leading-6 text-slate-700">
         <strong>Idealized comparison.</strong> Successful editing is modeled as retaining the
@@ -115,6 +121,26 @@ export default function Embryos({ data }: Props) {
         </p>
       </Card>
 
+      {/* Future technology moves both sides of the comparison */}
+      <Card>
+        <h3 className="text-base font-semibold text-slate-900">
+          Future reproductive technologies change both sides of the comparison
+        </h3>
+        <p className="mt-1 text-sm leading-relaxed text-slate-700">
+          Larger embryo sets generated through technologies such as in-vitro maturation (IVM)
+          or in-vitro gametogenesis (IVG) could make selection substantially more powerful by
+          expanding the number of genomes available to choose among. Multiplex editing changes
+          a different constraint by expanding the number of variants that can be altered
+          directly. The relative impact of selection and correction must therefore be
+          reassessed as both technologies advance.
+        </p>
+        <p className="mt-2 text-sm leading-relaxed text-slate-700">
+          The reproductive-burden accounting cuts both ways here: larger embryo sets may
+          increase selection power while also increasing embryo creation, testing, and
+          non-selection.
+        </p>
+      </Card>
+
       {/* Illustrative population scaling — advanced, off the default reading path */}
       <details className="rounded-lg border border-slate-300 bg-slate-50 p-4">
         <summary className="cursor-pointer text-sm font-semibold text-slate-900">
@@ -122,9 +148,12 @@ export default function Embryos({ data }: Props) {
         </summary>
         <p className="mt-1 text-xs leading-5 text-slate-600">
           This counterfactual applies the per-child Mendelian ratio to the catalogue&apos;s
-          affected-birth count. It does not model uptake of IVF, number of cycles, embryo
-          attrition, clinical practice, cryopreservation, donation, or ultimate embryo
-          disposition.
+          affected-birth count. The primary quantity in this analysis is the genotype-based
+          non-selection ratio (1−u)/u above; any blastocyst-level figures depend on simplified
+          transfer assumptions and are illustrative only. Nothing here estimates actual embryos
+          created, non-selected, or required in clinical practice: uptake of IVF, number of
+          cycles, embryo attrition, clinical practice, cryopreservation, donation, and ultimate
+          embryo disposition are not modeled.
         </p>
         <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-3">
 

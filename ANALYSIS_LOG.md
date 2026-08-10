@@ -253,3 +253,41 @@ unchanged for compatibility.
   citation metadata retitled. Tests extended to lock the new title, the absence of the old
   title in public files, the absence of a public "optimistic scenario" label, and the
   demotion of the combined residual out of the primary Overview findings.
+
+## 2026-08-11 — Reproductive-burden addendum (expanded manuscript v2)
+
+The expanded manuscript adds one dimension to the impact framework and restores several
+compressed arguments. Implemented as an additive delta — no model logic or numbers changed.
+
+- **Reproductive burden is part of the impact framework**, not a side ethical issue: the
+  physical, procedural, embryo-level, and pregnancy-related burdens of achieving a
+  reproductive outcome. Two interventions can achieve the same disease outcome with very
+  different reproductive burdens. Defined on the Overview, in the glossary, and in Methods.
+- **Selection-versus-correction is a continuum, not a binary.** Broad framings now read
+  "where existing reproductive options fail *or become unusually burdensome*." Category 1
+  (no unaffected embryo → selection biologically impossible) remains the strongest near-term
+  case; Category 2 (unaffected embryos rare → selection possible but requiring many embryos
+  or repeated IVF cycles) grounds the "poor selection prospects" regulatory category. Poor
+  selection does not automatically justify editing — it changes the proportionality
+  comparison.
+- **The (1−u)/u analysis is a real Methods result** ("Embryo selection versus correction
+  accounting", methods.md §12), linked from the no-selectable-embryo page. Terminology:
+  "affected-genotype embryos not selected for transfer," never "embryos destroyed" —
+  disposition is not modeled. Blastocyst-level figures stay secondary and illustrative.
+- **IVM/IVG strengthens both sides**: larger embryo sets make selection substantially more
+  powerful (while increasing embryo creation, testing, and non-selection); multiplex editing
+  moves a different constraint. Stated on both the polygenic-frontier and
+  selection-vs-editing pages.
+- **Pathway moral non-equivalence** (Ethics & policy): quantitative comparability does not
+  imply moral equivalence; the coverage-scenario percentages are not rankings of moral
+  desirability.
+- **Selection-First and Somatic-First** added as rebuttable presumptions, not prohibitions.
+- **Spectacle, regulatory arbitrage, and ethical arbitrage** treated as three related but
+  distinct problems; ethical arbitrage = borrowing the moral urgency of a strongly justified
+  use for a weaker application.
+- **Investment horizons**: screening infrastructure buys present health-system capacity;
+  editing research buys knowledge and future option value — kept in the exploratory cost
+  section, not promoted to the main argument.
+- **Content-invariant test added**: nineteen core argument concepts must each have a
+  deliberate home in the research artifact (app source + README) so UI simplification can
+  relocate but never silently drop them.

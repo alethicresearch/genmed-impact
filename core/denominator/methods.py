@@ -69,7 +69,13 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
       "preventability are **derived bottom-up** by summing the library; a parametric "
       "**Monte-Carlo model** provides the calibrated top-down denominator with 95% uncertainty intervals "
       "and the editing-relevant residual. The analysis distinguishes **present impact**, the "
-      "**translational germline-editing frontier**, and **future polygenic-editing impact**. "
+      "**translational germline-editing frontier**, and **future polygenic-editing impact**; "
+      "impact is treated as multidimensional, including **reproductive burden** — the physical, "
+      "procedural, embryo-level, and pregnancy-related burdens of achieving a reproductive "
+      "outcome. The germline-editing analysis examines three related questions: when no "
+      "unaffected embryo can be selected; how the embryo-level burden of selection changes when "
+      "unaffected embryos are possible but rare; and how polygenic editing could change "
+      "complex-disease risk under future technological assumptions. "
       "The empirical workflow runs in six steps — define the "
       "burden; build the disease map; map intervention outcomes (affected-birth avoidance kept "
       "separate from postnatal burden mitigation); model access (technical applicability kept "
@@ -269,8 +275,12 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
       "is in editable large-effect loci (≈0 for massively polygenic traits). Two assumption sets "
       "map how the frontier moves as technical capacity increases: **current-capacity** (N≈5 "
       "embryos, 1 edit) and **future high-capacity** (N≈200 via IVM/IVG, ~10 multiplex edits; a "
-      "boundary analysis of improved capability, not a forecast). A `pleiotropy_caution` flag "
-      "overrides an otherwise-concentrated editing verdict (e.g. APOE, HLA).")
+      "boundary analysis of improved capability, not a forecast). Future technology moves both "
+      "sides of the comparison: larger embryo sets (IVM/IVG) strengthen selection by expanding "
+      "the genomes available to choose among, while multiplex editing expands the variants that "
+      "can be altered directly — so both pathways are modeled under both assumption sets. A "
+      "`pleiotropy_caution` flag overrides an otherwise-concentrated editing verdict "
+      "(e.g. APOE, HLA).")
     A("")
     fr = mf["frontier"]
     A(f"Frontier ({mf['n_diseases']} common complex diseases): **editing meets the model's "
@@ -320,15 +330,20 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
 
     # 11b. Embryo accounting
     em = R["embryos"]
-    A("## 12. Embryo accounting (created / not selected for transfer)")
+    A("## 12. Embryo selection versus correction accounting")
     A("")
-    A("Embryo **selection** (PGT) achieves an unaffected child by creating several embryos and not "
+    A("Reproductive burden is a dimension of impact, so the embryo-level burden of selection is "
+      "accounted for explicitly. Embryo **selection** (PGT) achieves an unaffected child by creating several embryos and not "
       "transferring those with the targeted genotype — an intrinsic embryo cost that idealized "
       "**correction** (the corrected embryo remains a transfer candidate; editing failure, "
       "mosaicism, and safety-related loss are not modeled) does not carry in this comparison. If a fraction *u* of a couple's "
-      "embryos are unaffected, the embryos not selected for transfer per unaffected child under "
-      "selection is **(1−u)/u**, which diverges as *u*→0 — exactly the S1 \"no selectable unaffected "
-      "embryo\" case, where selection is impossible and editing would be the only preventive option.")
+      "embryos are unaffected, the affected-genotype embryos not selected for transfer per unaffected child under "
+      "selection is **(1−u)/u**. The ratio is modest when unaffected embryos are common, rises "
+      "rapidly as they become rare — selection then remains technically possible but may require "
+      "many embryos or repeated IVF cycles — and diverges as *u*→0, exactly the S1 \"no selectable unaffected "
+      "embryo\" case, where selection is impossible and editing would be the only preventive option. "
+      "The model counts embryos *not selected for transfer*, not \"embryos destroyed\": actual "
+      "disposition (cryopreservation, donation, discard) is not modeled.")
     A("")
     A("```")
     A("Selection: embryos not selected for transfer / child = (1 − u) / u ;  blastocysts / child ≈ 1/(u·LBR)")

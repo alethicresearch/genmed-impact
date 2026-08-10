@@ -128,7 +128,7 @@ export const WORKFLOW_STEPS = [
   { title: 'Map intervention capability', desc: 'Which reproductive, diagnostic, screening, and therapeutic approaches apply to each disease?' },
   { title: 'Separate outcomes', desc: 'Which pathways avoid an affected birth, and which detect or mitigate disease after birth?' },
   { title: 'Estimate present impact and access', desc: 'How much benefit is technically possible, and how much is reached under current and expanded-coverage scenarios?' },
-  { title: 'Map the editing frontier', desc: 'Where does embryo selection fail, and how could the role of editing change as polygenic intervention capacity grows?' },
+  { title: 'Map the editing frontier', desc: 'Where does embryo selection fail or become unusually burdensome, and how could the role of editing change as polygenic intervention capacity grows?' },
   { title: 'Interpret impact over time', desc: 'What follows for present implementation, translational research, future technology development, and regulation?' },
 ];
 
@@ -188,6 +188,12 @@ export default function Methods({ data, state, update }: Props) {
         capabilities?</strong>
       </p>
       <p className="text-sm leading-relaxed text-slate-700">
+        Within that structure, the germline-editing analysis examines three related questions:
+        when no unaffected embryo can be selected; how the embryo-level burden of selection
+        changes when unaffected embryos are possible but rare; and how polygenic editing could
+        change complex-disease risk under future technological assumptions.
+      </p>
+      <p className="text-sm leading-relaxed text-slate-700">
         Quantitative uncertainty is propagated through {m.n_draws.toLocaleString('en-US')}{' '}
         Monte-Carlo draws. Definitional and ethical choices — such as what counts as serious
         disease, how multifactorial disease is attributed to genetics, and whether prenatal
@@ -236,6 +242,33 @@ export default function Methods({ data, state, update }: Props) {
             </li>
           ))}
         </ul>
+      </Card>
+
+      {/* Selection versus correction accounting */}
+      <Card>
+        <h3 className="text-base font-semibold text-slate-900">
+          Selection versus correction accounting
+        </h3>
+        <p className="mt-1 text-sm leading-relaxed text-slate-700">
+          Reproductive burden is treated as a dimension of impact, so the model accounts for
+          the embryo-level burden of embryo selection explicitly. If <em>u</em> is the
+          expected fraction of embryos unaffected by the targeted genotype, the expected
+          number of affected-genotype embryos not selected for transfer per unaffected embryo
+          is:
+        </p>
+        <p className="tnum my-2 rounded bg-slate-50 px-3 py-2 text-center font-mono text-base text-slate-900">
+          (1 − u) / u
+        </p>
+        <p className="text-sm leading-relaxed text-slate-700">
+          The quantity rises rapidly as unaffected embryos become rare and diverges as{' '}
+          <em>u</em> → 0 — the point at which selection becomes impossible and the analysis
+          hands over to the no-selectable-embryo (editing-only prevention) population.
+        </p>
+        <p className="mt-2 text-xs leading-5 text-slate-500">
+          Terminology: the model counts <strong>affected-genotype embryos not selected for
+          transfer</strong>. This is not a claim about embryo destruction — actual embryo
+          disposition (cryopreservation, donation, discard) is not modeled.
+        </p>
       </Card>
 
       {/* What kind of number is each input? */}

@@ -41,11 +41,20 @@ export default function Overview({ data, update }: Props) {
             advances in polygenic editing could change that landscape over the coming decades.
           </Lead>
           <Lead>
+            Impact, in this framework, is multidimensional. It includes population impact,
+            individual clinical impact, technological maturity, and distributional access —
+            and also <strong>reproductive burden</strong>: the physical, procedural, and
+            embryo-level burdens of achieving a reproductive outcome. Two interventions can
+            achieve the same disease outcome while imposing very different reproductive
+            burdens, so the route matters, not only the endpoint. Ethical acceptability is
+            assessed alongside these dimensions rather than reduced to any of them.
+          </Lead>
+          <Lead>
             We address these questions by combining a disease-by-intervention catalogue (
             {fmtInt(rollup.n_diseases_all)} conditions), global disease-burden evidence,
             population modeling, an explicit analysis of reproductive configurations in which
-            embryo selection fails, and a genetic-architecture model of potential polygenic
-            intervention.
+            embryo selection fails or becomes unusually burdensome, and a genetic-architecture
+            model of potential polygenic intervention.
           </Lead>
 
           {/* Source families, compact — each row links into Methods. */}
@@ -85,7 +94,7 @@ export default function Overview({ data, update }: Props) {
             />
             <HorizonCard
               title="Translational frontier"
-              body="Germline editing becomes medically distinctive where existing pathways cannot achieve the same outcome — for example, when no unaffected embryo can be selected for a severe monogenic disease."
+              body="Germline editing becomes medically distinctive where it provides a medically distinct or substantially less burdensome route — most clearly when no unaffected embryo can be selected for a severe monogenic disease, and more cautiously when selection remains possible but unusually burdensome."
             />
             <HorizonCard
               title="Future impact"
@@ -257,7 +266,10 @@ function Findings({
           {fmtCompact(s1Total.median)} births per year arise from these modeled configurations.
           These cases provide the clearest example of editing offering something medically
           different rather than simply another route to an outcome already available through
-          selection.
+          selection. Selection can also become unusually burdensome before it becomes
+          impossible — when unaffected embryos are rare, obtaining one may require many embryos
+          or repeated IVF cycles — which changes the proportionality comparison without by
+          itself justifying editing.
         </>
       ),
       goLabel: 'See the translational frontier',
@@ -343,6 +355,10 @@ function KeyDefinitions() {
     {
       term: 'Editing-only prevention',
       def: 'a modeled reproductive situation in which no unaffected embryo can be selected, so editing would provide a preventive route unavailable through selection. This does not imply that no postnatal treatment exists.',
+    },
+    {
+      term: 'Reproductive burden',
+      def: 'the physical, procedural, embryo-level, and pregnancy-related burdens of achieving a reproductive outcome — IVF cycles, embryo creation and testing, genotype-based non-selection, and pregnancy decisions where relevant. Two interventions can achieve the same disease outcome with very different reproductive burdens.',
     },
     {
       term: 'Potential editing advantage → editing-relevant residual',

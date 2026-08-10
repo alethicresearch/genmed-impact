@@ -188,6 +188,48 @@ def test_no_public_optimistic_scenario_label():
             f"{name}: label the permissive scenario 'future-capacity', not 'optimistic'")
 
 
+def test_argument_concepts_have_a_deliberate_home():
+    # Content invariants: each core concept of the paper's argument must live SOMEWHERE in
+    # the research artifact (app source or README). UI simplification passes must relocate
+    # a concept, never silently drop it. Not every concept belongs on the Overview.
+    corpus = "\n".join(_app_sources().values()) + (REPO / "README.md").read_text()
+    invariants = {
+        "proportionality principle": "proportionality",
+        "three time horizons": "Translational frontier",
+        "population vs individual impact": "Population impact and individual clinical",
+        "reproductive burden": "reproductive burden",
+        "pathway moral non-equivalence": "morally equivalent",
+        "Selection-First heuristic": "Selection-First",
+        "Somatic-First heuristic": "Somatic-First",
+        "editing-only prevention": "editing-only prevention",
+        "poor-selection cases": "poor embryo-selection prospects",
+        "selection-versus-correction ratio": "(1−u)/u",
+        "IVM/IVG changes selection capacity": "make selection substantially more powerful",
+        "future polygenic editing": "polygenic editing",
+        "spectacle": "Spectacle",
+        "regulatory arbitrage": "Regulatory arbitrage",
+        "ethical arbitrage": "Ethical arbitrage",
+        "prevention/resistance/enhancement separation": "resistance, and enhancement",
+        "investment horizons": "future option value",
+        "independent safety gate": "independent",
+    }
+    missing = [name for name, phrase in invariants.items() if phrase not in corpus]
+    assert not missing, (
+        "concepts dropped from the research artifact (app/src + README): " + ", ".join(missing))
+
+
+def test_embryo_accounting_never_says_destroyed():
+    # The model counts 'affected-genotype embryos not selected for transfer'; disposition is
+    # not modeled, so user-facing copy must never say embryos are destroyed or discarded.
+    for name, text in _app_sources().items():
+        if "/views/" not in name.replace("\\", "/"):
+            continue
+        for banned in ("embryos destroyed", "destroyed embryos", "embryos are destroyed"):
+            assert banned not in text, (
+                f"{name}: say 'affected-genotype embryos not selected for transfer' — "
+                "disposition is not modeled")
+
+
 def test_combined_residual_not_a_primary_overview_finding():
     # The combined S1+S2 scale summary lives in a collapsed 'For scale' details block,
     # not among the headline findings.

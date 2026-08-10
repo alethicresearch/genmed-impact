@@ -15,6 +15,9 @@ export default function EthicsPolicy({ data, update }: Props) {
   const editableShare = data.summary.uniquely_editable_share_of_serious;
   const editableTotal = data.summary.uniquely_editable_total;
   const s1 = data.summary.s1_total;
+  const cur = data.prevention['Global']?.['current']?.['monogenic']?.['pnd_on'];
+  const ach = data.prevention['Global']?.['achievable_2035']?.['monogenic']?.['pnd_on'];
+  const ideal = data.prevention['Global']?.['ideal']?.['monogenic']?.['pnd_on'];
 
   return (
     <Reading>
@@ -57,6 +60,64 @@ export default function EthicsPolicy({ data, update }: Props) {
           This does not answer the independent safety question. A strong medical justification
           does not make an intervention ready for clinical use.
         </Lead>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="rounded-lg border border-slate-200 bg-white p-4">
+            <p className="text-sm font-semibold text-slate-900">Selection-First</p>
+            <p className="mt-1 text-sm leading-6 text-slate-600">
+              When embryo selection can achieve the same medically important reproductive
+              outcome with substantially lower risk and acceptable reproductive burden,
+              editing should have to demonstrate why it is preferable.
+            </p>
+          </div>
+          <div className="rounded-lg border border-slate-200 bg-white p-4">
+            <p className="text-sm font-semibold text-slate-900">Somatic-First</p>
+            <p className="mt-1 text-sm leading-6 text-slate-600">
+              When treatment of the future person can provide comparable benefit without
+              making a heritable change, germline intervention should require additional
+              justification.
+            </p>
+          </div>
+        </div>
+        <Lead>
+          These are <strong>rebuttable presumptions, not prohibitions</strong>. Selection may
+          be impossible or unusually burdensome; somatic treatment may be less effective,
+          lifelong, inaccessible, or too late to prevent irreversible disease. In such cases
+          the presumption can be overcome by evidence.
+        </Lead>
+      </section>
+
+      <section className="space-y-3">
+        <PH>The same outcome does not make the pathways morally equivalent</PH>
+        <Lead>
+          Carrier screening, PGT-M, prenatal diagnosis, newborn screening, somatic treatment,
+          and germline correction can sometimes be compared using a common disease outcome,
+          but they achieve that outcome in different ways — with different reproductive
+          burdens and different moral profiles.
+        </Lead>
+        <Lead>
+          Carrier screening can support reproductive planning without IVF. PGT-M requires IVF,
+          embryo creation, testing, and selection. Prenatal diagnosis changes affected-birth
+          numbers only when followed by a subsequent reproductive decision. Newborn screening
+          accepts the birth of the child and seeks to reduce later disease. Somatic treatment
+          acts on the affected or at-risk person. Germline correction alters the embryo and
+          potentially descendants.
+        </Lead>
+        <Claim kind="interpretation">
+          Quantitative comparability does not imply moral equivalence.
+          {cur && ach && ideal ? (
+            <>
+              {' '}
+              The coverage scenarios reported in this project — roughly{' '}
+              {fmtPct(cur.total_averted_birth_fraction.median, 0)} of monogenic affected
+              births avoided at current coverage,{' '}
+              {fmtPct(ach.total_averted_birth_fraction.median, 0)} under expanded access, and{' '}
+              {fmtPct(ideal.total_averted_birth_fraction.median, 1)} under idealized full
+              coverage — are model results about achievable affected-birth avoidance. They are
+              not rankings of moral desirability, and greater affected-birth avoidance is not
+              automatically ethically better.
+            </>
+          ) : null}
+        </Claim>
       </section>
 
       <section className="space-y-3">
@@ -138,6 +199,49 @@ export default function EthicsPolicy({ data, update }: Props) {
             },
           ]}
         />
+      </section>
+
+      <section className="space-y-3">
+        <PH>Three ways premature use damages the field</PH>
+        <Lead>
+          Why does the sequencing above matter? Because misuse of germline editing tends to
+          take three related but distinct forms, each of which can set back genuinely
+          justified applications.
+        </Lead>
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+          <div className="rounded-lg border border-slate-200 bg-white p-4">
+            <p className="text-sm font-semibold text-slate-900">Spectacle</p>
+            <p className="mt-1 text-sm leading-6 text-slate-600">
+              Highly visible premature applications can dominate public perception far beyond
+              the number of people they affect. Visible failures can strengthen pressure for
+              broad prohibition and risk diverting attention from both established medicine
+              and carefully governed research.
+            </p>
+          </div>
+          <div className="rounded-lg border border-slate-200 bg-white p-4">
+            <p className="text-sm font-semibold text-slate-900">Regulatory arbitrage</p>
+            <p className="mt-1 text-sm leading-6 text-slate-600">
+              When credible pathways are unavailable elsewhere, research can move toward
+              jurisdictions with weaker or less settled oversight. A transparent, tightly
+              governed pathway for the strongest indications reduces the incentive to seek
+              the weakest regulator.
+            </p>
+          </div>
+          <div className="rounded-lg border border-slate-200 bg-white p-4">
+            <p className="text-sm font-semibold text-slate-900">Ethical arbitrage</p>
+            <p className="mt-1 text-sm leading-6 text-slate-600">
+              The moral urgency of a strongly justified use can be borrowed to support another
+              application with a weaker benefit-to-risk case. A compelling argument for
+              correcting a lethal monogenic disorder does not automatically justify CCR5
+              resistance editing, modest polygenic risk reduction, or enhancement.
+            </p>
+          </div>
+        </div>
+        <Claim kind="interpretation">
+          The proportional hierarchy is designed to resist all three: it evaluates each
+          application on its own medical need, alternatives, and evidence, rather than letting
+          the strongest case carry the weakest.
+        </Claim>
       </section>
 
     </Reading>

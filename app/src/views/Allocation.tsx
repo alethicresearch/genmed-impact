@@ -51,7 +51,10 @@ export default function Allocation({ data }: Props) {
         <p className="mt-1">
           The two investments are also not interchangeable: screening and reproductive
           programmes can serve broad populations, whereas a germline-editing programme would
-          initially target a much smaller population with different needs.
+          initially target a much smaller population with different needs. More fundamentally,
+          funding carrier-screening infrastructure and funding multiplex germline-editing
+          research are not direct substitutes — one purchases present health-system capacity;
+          the other purchases knowledge and future option value.
         </p>
       </div>
       <Card>

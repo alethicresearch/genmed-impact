@@ -53,6 +53,24 @@ export default function Residual({ data, state, update }: Props) {
         these no-selectable-unaffected-embryo reproductive configurations are expected to occur
         worldwide.
       </p>
+      <div className="rounded-lg border border-slate-200 bg-slate-50/60 p-4 text-sm leading-6 text-slate-700">
+        <p>
+          Selection can become burdensome before it becomes impossible. This analysis
+          distinguishes two situations. In the first, no unaffected embryo exists, so selection
+          is biologically impossible — the population estimated below. In the second,
+          unaffected embryos exist but are rare: PGT-M remains technically possible while
+          requiring many embryos or repeated IVF cycles. Poor selection prospects do not by
+          themselves justify editing, but they change the proportionality comparison, because
+          reproductive burden is one dimension of impact.
+        </p>
+        <button
+          type="button"
+          onClick={() => update({ tab: 'embryos' })}
+          className="mt-1.5 text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          See the selection-versus-correction analysis →
+        </button>
+      </div>
       <p className="text-sm leading-relaxed text-slate-700">
         This is important even though the population is small.{' '}
         <strong>Population impact and individual clinical justification are different

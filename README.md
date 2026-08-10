@@ -12,7 +12,7 @@ Genetic medicine is often discussed through its most technologically spectacular
 
 The answer changes with both disease architecture and technological maturity. Established carrier screening, reproductive genetics, prenatal diagnosis, newborn screening, and treatment already have substantial potential but remain unevenly deployed. Germline editing may provide a distinct option in a much smaller set of severe monogenic reproductive situations where embryo selection cannot produce an unaffected embryo. Over a longer horizon, advances in causal genomics and multiplex editing could substantially expand the role of heritable intervention in common polygenic disease.
 
-The project therefore separates **impact now**, the **translational frontier**, and **future impact**, and asks what each implies for research, implementation, ethics, and regulation.
+The project therefore separates **impact now**, the **translational frontier**, and **future impact**, and asks what each implies for research, implementation, ethics, and regulation. Impact is treated as multidimensional — population impact, individual clinical impact, technological maturity, distributional access, and **reproductive burden**, the route-dependent physical, procedural, and embryo-level burdens of achieving a reproductive outcome. Two interventions can achieve the same disease outcome while imposing very different reproductive burdens.
 
 ## The three horizons
 
@@ -22,7 +22,7 @@ Map serious genetic disease to existing genetic-medicine pathways and estimate t
 
 ### Translational frontier
 
-Identify reproductive situations in which existing embryo selection cannot provide an unaffected embryo and germline editing could supply a medically distinct route.
+Identify reproductive situations in which germline editing could supply a medically distinct or substantially less burdensome route — most clearly when no unaffected embryo can be selected, and more cautiously when selection remains possible but unusually burdensome.
 
 ### Future impact
 
@@ -71,6 +71,12 @@ The 35.8% → 99.7% comparison applies to **monogenic affected-birth avoidance u
 | No-selectable-unaffected-embryo configurations | 11.3k/yr (4.9–26.1k) |
 
 These cases define **editing-only prevention** in the model. They are a small population-level share but can carry a strong individual clinical justification because embryo selection cannot achieve the relevant preventive outcome. (Including congenital deafness — an ethically contested classification excluded by default — raises the estimate to ~24.9k/yr.)
+
+#### Selection can become burdensome before it becomes impossible
+
+PGT-M chooses among embryos; it does not alter them. If *u* is the expected fraction of embryos unaffected by a targeted genotype, the expected number of affected-genotype embryos not selected per unaffected embryo is **(1−u)/u**. The ratio is modest when unaffected embryos are common, rises rapidly as they become rare, and diverges when no unaffected embryo exists.
+
+This does not establish that editing is preferable. Correction introduces its own risks and embryo attrition. The comparison is included because **reproductive burden is one dimension of impact**, and because it distinguishes ordinary PGT-M cases from cases in which selection is technically possible but unusually burdensome. See the research page's [Selection vs editing view](https://alethicresearch.github.io/genmed-impact/?tab=embryos) for the full analysis.
 
 ### Future polygenic frontier
 

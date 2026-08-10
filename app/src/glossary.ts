@@ -60,6 +60,12 @@ export const GLOSSARY: Record<string, string> = {
     'A modeled situation in which germline editing might provide a medically meaningful benefit beyond selection, treatment, or other alternatives. This is not the same as being the only option.',
   'editing-relevant residual':
     'A summary quantity combining editing-only prevention with an exploratory complex-disease advantage term. Useful for comparing scale, but not a claim that the two components represent the same form of medical need.',
+  'reproductive burden':
+    'The physical, procedural, embryo-level, and pregnancy-related burdens associated with achieving a reproductive outcome, including IVF cycles, embryo creation and testing, genotype-based non-selection, and pregnancy decisions where relevant. Two interventions can achieve the same disease outcome while imposing very different reproductive burdens.',
+  'regulatory arbitrage':
+    'The movement of research toward jurisdictions with weaker or less settled oversight when credible pathways are unavailable elsewhere.',
+  'ethical arbitrage':
+    'Borrowing the moral urgency of a strongly justified use of a technology to support another application with a weaker benefit-to-risk case.',
   'present impact':
     'Medical benefit achievable with interventions available now, accounting separately for technical capability and real-world access.',
   'translational frontier':
