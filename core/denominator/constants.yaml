@@ -58,9 +58,9 @@ burden:
     value: 49.0
     low: 40.0
     high: 60.0
-    source: "March of Dimes Global Report on Birth Defects 2006; WHO Congenital anomalies 2023"
-    doi: "https://www.who.int/news-room/fact-sheets/detail/congenital-anomalies"
-    table_or_page: "MoD 2006 global birth-defect prevalence ~6% of births"
+    source: "GBD 2023 (Congenital birth defects: <1yr birth prevalence ~42/1000, incidence ~57/1000, Global) brackets this rate; March of Dimes 2006; WHO Congenital anomalies 2023"
+    doi: "https://vizhub.healthdata.org/gbd-results/"
+    table_or_page: "GBD 2023 Congenital birth defects, <1yr; MoD 2006 ~6% of births"
     retrieved: "2026-08-10"
     note: >
       49/1000 × 135M ≈ 6.6M/yr under the inclusive attribution stance, matching the draft paper.
@@ -266,14 +266,13 @@ costs:
     retrieved: "2026-08-10"
     placeholder: true
   daly_per_severe_monogenic_case:
-    value: 30
-    low: 15
-    high: 55
-    source: "GBD-style DALYs per severe early-onset monogenic case (undiscounted)"
-    doi: "n/a"
-    table_or_page: "reasoned pending GBD 2023 pull (DATA_NEEDED.md)"
+    value: 20
+    low: 8
+    high: 40
+    source: "GBD 2023: congenital birth defects DALYs (54.8M) / <1yr incident cases (7.07M) ≈ 7.7 DALYs per congenital case (all severities); severe early-onset monogenic conditions carry more, hence a higher central value"
+    doi: "https://vizhub.healthdata.org/gbd-results/"
+    table_or_page: "GBD 2023 Results, Congenital birth defects, DALYs & Incidence, Global 2023"
     retrieved: "2026-08-10"
-    placeholder: true
 
 # ---------------------------------------------------------------------------
 # 8c. Embryo accounting.

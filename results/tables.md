@@ -1,6 +1,6 @@
 # denominator — regenerated tables
 
-_Assumption set: severity=`def_b`, attribution=`inclusive`, scenario=`current`, PND-counts=`True` · Monte-Carlo n=20000 · pipeline commit `18c696b`._
+_Assumption set: severity=`def_b`, attribution=`inclusive`, scenario=`current`, PND-counts=`True` · Monte-Carlo n=20000 · pipeline commit `ea8f2ed`._
 
 ## Table 1 — Serious genetic disease: burden and uniquely editable residual
 

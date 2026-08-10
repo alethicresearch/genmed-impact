@@ -22,11 +22,11 @@
       "orphanet": "",
       "severity": "severe",
       "onset": "prenatal",
-      "incidence_per_100k": 800.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~8/1,000 births (all severities)",
-      "incidence_doi": null,
-      "affected_births_per_year": 1080000.0,
+      "incidence_per_100k": 988.0,
+      "incidence_basis": "cited",
+      "incidence_source": "GBD 2023 (Congenital heart anomalies, <1yr birth prevalence ~1/100, Global)",
+      "incidence_doi": "https://vizhub.healthdata.org/gbd-results/",
+      "affected_births_per_year": 1333800.0,
       "interventions": {
         "CS": {
           "applicable": false,
@@ -70,6 +70,68 @@
           "blastocysts_created_per_child": 2.2222222222222223
         },
         "excess_embryos_discarded_vs_editing": 1.0
+      }
+    },
+    {
+      "id": "sickle_cell_disease",
+      "name": "Sickle cell disease",
+      "category": "monogenic_recessive",
+      "genes": [
+        "HBB"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "603903",
+      "orphanet": "232",
+      "severity": "severe",
+      "onset": "infancy",
+      "incidence_per_100k": 432.0,
+      "incidence_basis": "cited",
+      "incidence_source": "GBD 2023 (Sickle cell disorders, <1yr birth incidence, Global)",
+      "incidence_doi": "https://vizhub.healthdata.org/gbd-results/",
+      "affected_births_per_year": 583200.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "premarital/carrier programs (Cyprus, Gulf)"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "widely used in high-prevalence settings"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "NBS + penicillin prophylaxis/hydroxyurea; gene therapy emerging"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable; affected×affected couples fall to the S1 residual.",
+      "notes": null,
+      "status": {
+        "status": "preventable_treatable",
+        "label": "Preventable & treatable",
+        "preventable": true,
+        "treatable": true,
+        "prenatal_detectable": true,
+        "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -325,68 +387,6 @@
       }
     },
     {
-      "id": "sickle_cell_disease",
-      "name": "Sickle cell disease",
-      "category": "monogenic_recessive",
-      "genes": [
-        "HBB"
-      ],
-      "inheritance": "autosomal_recessive",
-      "omim": "603903",
-      "orphanet": "232",
-      "severity": "severe",
-      "onset": "infancy",
-      "incidence_per_100k": 220.0,
-      "incidence_basis": "cited",
-      "incidence_source": "Modell & Darlison 2008 (Bull WHO)",
-      "incidence_doi": "10.2471/BLT.06.036673",
-      "affected_births_per_year": 297000.0,
-      "interventions": {
-        "CS": {
-          "applicable": true,
-          "note": "premarital/carrier programs (Cyprus, Gulf)"
-        },
-        "PGT": {
-          "applicable": true,
-          "note": "PGT-M"
-        },
-        "PND": {
-          "applicable": true,
-          "note": "widely used in high-prevalence settings"
-        },
-        "NBS": {
-          "applicable": true,
-          "note": "NBS + penicillin prophylaxis/hydroxyurea; gene therapy emerging"
-        }
-      },
-      "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": true,
-      "editing_unique": false,
-      "editing_note": "Selection-addressable; affected×affected couples fall to the S1 residual.",
-      "notes": null,
-      "status": {
-        "status": "preventable_treatable",
-        "label": "Preventable & treatable",
-        "preventable": true,
-        "treatable": true,
-        "prenatal_detectable": true,
-        "addressable": true
-      },
-      "embryos": {
-        "applicable": true,
-        "unaffected_embryo_fraction": 0.75,
-        "selection": {
-          "affected_embryos_discarded_per_child": 0.3333333333333333,
-          "blastocysts_created_per_child": 2.962962962962963
-        },
-        "editing": {
-          "affected_embryos_discarded_per_child": 0.0,
-          "blastocysts_created_per_child": 2.2222222222222223
-        },
-        "excess_embryos_discarded_vs_editing": 0.3333333333333333
-      }
-    },
-    {
       "id": "hypertrophic_cardiomyopathy",
       "name": "Hypertrophic cardiomyopathy",
       "category": "monogenic_dominant",
@@ -570,66 +570,6 @@
       }
     },
     {
-      "id": "down_syndrome",
-      "name": "Down syndrome (trisomy 21)",
-      "category": "chromosomal",
-      "genes": [],
-      "inheritance": "chromosomal",
-      "omim": "190685",
-      "orphanet": "870",
-      "severity": "severe",
-      "onset": "prenatal",
-      "incidence_per_100k": 140.0,
-      "incidence_basis": "cited",
-      "incidence_source": "standard livebirth prevalence (~1/700)",
-      "incidence_doi": null,
-      "affected_births_per_year": 189000.0,
-      "interventions": {
-        "CS": {
-          "applicable": false,
-          "note": "aneuploidy; screened via maternal-age/cfDNA, not carrier screening"
-        },
-        "PGT": {
-          "applicable": true,
-          "note": "PGT-A embryo selection"
-        },
-        "PND": {
-          "applicable": true,
-          "note": "cfDNA screening + diagnostic CVS/amniocentesis"
-        },
-        "NBS": {
-          "applicable": false,
-          "note": "not preventable postnatally; associated conditions managed"
-        }
-      },
-      "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": false,
-      "editing_unique": false,
-      "editing_note": "PGT-A/selection-addressable; whole-chromosome aneuploidy not an editing target.",
-      "notes": null,
-      "status": {
-        "status": "preventable",
-        "label": "Preventable",
-        "preventable": true,
-        "treatable": false,
-        "prenatal_detectable": true,
-        "addressable": true
-      },
-      "embryos": {
-        "applicable": true,
-        "unaffected_embryo_fraction": 0.45,
-        "selection": {
-          "affected_embryos_discarded_per_child": 1.2222222222222223,
-          "blastocysts_created_per_child": 4.938271604938271
-        },
-        "editing": {
-          "affected_embryos_discarded_per_child": 0.0,
-          "blastocysts_created_per_child": 2.2222222222222223
-        },
-        "excess_embryos_discarded_vs_editing": 1.2222222222222223
-      }
-    },
-    {
       "id": "orofacial_clefts",
       "name": "Orofacial clefts (cleft lip/palate)",
       "category": "multifactorial",
@@ -639,11 +579,11 @@
       "orphanet": "",
       "severity": "moderate",
       "onset": "prenatal",
-      "incidence_per_100k": 140.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/700 births (varies by ancestry)",
-      "incidence_doi": null,
-      "affected_births_per_year": 189000.0,
+      "incidence_per_100k": 145.0,
+      "incidence_basis": "cited",
+      "incidence_source": "GBD 2023 (Orofacial clefts, <1yr birth incidence, Global)",
+      "incidence_doi": "https://vizhub.healthdata.org/gbd-results/",
+      "affected_births_per_year": 195750.0,
       "interventions": {
         "CS": {
           "applicable": false,
@@ -816,68 +756,6 @@
       }
     },
     {
-      "id": "neural_tube_defects",
-      "name": "Neural tube defects",
-      "category": "multifactorial",
-      "genes": [
-        "MTHFR"
-      ],
-      "inheritance": "multifactorial",
-      "omim": "601634",
-      "orphanet": "823",
-      "severity": "severe",
-      "onset": "prenatal",
-      "incidence_per_100k": 100.0,
-      "incidence_basis": "textbook_estimate",
-      "incidence_source": "~1/1,000 births; folate-sensitive, varies widely",
-      "incidence_doi": null,
-      "affected_births_per_year": 135000.0,
-      "interventions": {
-        "CS": {
-          "applicable": false,
-          "note": "multifactorial; folate supplementation is the primary prevention, not carrier screening"
-        },
-        "PGT": {
-          "applicable": false,
-          "note": "not a single-gene disorder; embryo selection not applicable"
-        },
-        "PND": {
-          "applicable": true,
-          "note": "maternal serum AFP + ultrasound detect open defects"
-        },
-        "NBS": {
-          "applicable": false,
-          "note": "structural at birth; prevented antenatally by folate, not NBS"
-        }
-      },
-      "addressable_by_reproductive_tool": true,
-      "nbs_mitigable": false,
-      "editing_unique": false,
-      "editing_note": "Not selection- or editing-addressable as a monogenic trait; folate fortification is the key lever.",
-      "notes": null,
-      "status": {
-        "status": "detectable_only",
-        "label": "Detectable only",
-        "preventable": false,
-        "treatable": false,
-        "prenatal_detectable": true,
-        "addressable": true
-      },
-      "embryos": {
-        "applicable": false,
-        "unaffected_embryo_fraction": 0.5,
-        "selection": {
-          "affected_embryos_discarded_per_child": 1.0,
-          "blastocysts_created_per_child": 4.444444444444445
-        },
-        "editing": {
-          "affected_embryos_discarded_per_child": 0.0,
-          "blastocysts_created_per_child": 2.2222222222222223
-        },
-        "excess_embryos_discarded_vs_editing": 1.0
-      }
-    },
-    {
       "id": "clubfoot",
       "name": "Clubfoot (talipes equinovarus)",
       "category": "multifactorial",
@@ -981,6 +859,68 @@
         "preventable": false,
         "treatable": true,
         "prenatal_detectable": false,
+        "addressable": true
+      },
+      "embryos": {
+        "applicable": false,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
+      }
+    },
+    {
+      "id": "neural_tube_defects",
+      "name": "Neural tube defects",
+      "category": "multifactorial",
+      "genes": [
+        "MTHFR"
+      ],
+      "inheritance": "multifactorial",
+      "omim": "601634",
+      "orphanet": "823",
+      "severity": "severe",
+      "onset": "prenatal",
+      "incidence_per_100k": 97.0,
+      "incidence_basis": "cited",
+      "incidence_source": "GBD 2023 (Neural tube defects, <1yr birth incidence, Global)",
+      "incidence_doi": "https://vizhub.healthdata.org/gbd-results/",
+      "affected_births_per_year": 130950.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "multifactorial; folate supplementation is the primary prevention, not carrier screening"
+        },
+        "PGT": {
+          "applicable": false,
+          "note": "not a single-gene disorder; embryo selection not applicable"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "maternal serum AFP + ultrasound detect open defects"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "structural at birth; prevented antenatally by folate, not NBS"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Not selection- or editing-addressable as a monogenic trait; folate fortification is the key lever.",
+      "notes": null,
+      "status": {
+        "status": "detectable_only",
+        "label": "Detectable only",
+        "preventable": false,
+        "treatable": false,
+        "prenatal_detectable": true,
         "addressable": true
       },
       "embryos": {
@@ -1243,6 +1183,66 @@
           "blastocysts_created_per_child": 2.2222222222222223
         },
         "excess_embryos_discarded_vs_editing": 1.0
+      }
+    },
+    {
+      "id": "down_syndrome",
+      "name": "Down syndrome (trisomy 21)",
+      "category": "chromosomal",
+      "genes": [],
+      "inheritance": "chromosomal",
+      "omim": "190685",
+      "orphanet": "870",
+      "severity": "severe",
+      "onset": "prenatal",
+      "incidence_per_100k": 48.0,
+      "incidence_basis": "cited",
+      "incidence_source": "GBD 2023 (Down syndrome, <1yr incidence, Global — reflects live births after prenatal screening; natural rate ~1/700)",
+      "incidence_doi": "https://vizhub.healthdata.org/gbd-results/",
+      "affected_births_per_year": 64800.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "aneuploidy; screened via maternal-age/cfDNA, not carrier screening"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-A embryo selection"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "cfDNA screening + diagnostic CVS/amniocentesis"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "not preventable postnatally; associated conditions managed"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "PGT-A/selection-addressable; whole-chromosome aneuploidy not an editing target.",
+      "notes": null,
+      "status": {
+        "status": "preventable",
+        "label": "Preventable",
+        "preventable": true,
+        "treatable": false,
+        "prenatal_detectable": true,
+        "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -6010,29 +6010,29 @@
   ],
   "rollup": {
     "n_diseases": 97,
-    "total_affected_births_per_year": 6073380.0,
+    "total_affected_births_per_year": 6491880.0,
     "by_category": {
-      "multifactorial": 2308500.0,
+      "multifactorial": 2565000.0,
+      "monogenic_recessive": 1000080.0,
       "x_linked": 619650.0,
       "monogenic_dominant": 1987200.0,
-      "monogenic_recessive": 713880.0,
-      "chromosomal": 444150.0
+      "chromosomal": 319950.0
     },
     "by_severity": {
-      "severe": 2152710.0,
-      "moderate": 1749600.0,
+      "severe": 2564460.0,
+      "moderate": 1756350.0,
       "serious": 2110860.0,
       "catastrophic": 60210.0
     },
-    "births_addressable_by_reproductive_tool": 5668380.0,
-    "share_addressable_by_reproductive_tool": 0.9333155508135503,
-    "births_nbs_mitigable": 2344140.0,
+    "births_addressable_by_reproductive_tool": 6086880.0,
+    "share_addressable_by_reproductive_tool": 0.9376143736483115,
+    "births_nbs_mitigable": 2884140.0,
     "births_editing_unique": 0,
     "per_tool_addressable_births": {
-      "CS": 1326780.0,
-      "PGT": 3224880.0,
-      "PND": 5668380.0,
-      "NBS": 2344140.0
+      "CS": 1612980.0,
+      "PGT": 3386880.0,
+      "PND": 6086880.0,
+      "NBS": 2884140.0
     },
     "genetic_medicine_status": {
       "order": [
@@ -6046,22 +6046,22 @@
         "preventable_treatable": {
           "label": "Preventable & treatable",
           "n_diseases": 29,
-          "births": 994140.0
+          "births": 1280340.0
         },
         "preventable": {
           "label": "Preventable",
           "n_diseases": 59,
-          "births": 2770740.0
+          "births": 2646540.0
         },
         "treatable": {
           "label": "Treatable",
           "n_diseases": 3,
-          "births": 1350000.0
+          "births": 1603800.0
         },
         "detectable_only": {
           "label": "Detectable only",
           "n_diseases": 5,
-          "births": 688500.0
+          "births": 691200.0
         },
         "none": {
           "label": "No genetic-medicine option",
@@ -6069,11 +6069,11 @@
           "births": 270000.0
         }
       },
-      "addressable_by_existing_tools_births": 5803380.0,
-      "addressable_by_existing_tools_share": 0.9555437005423668,
+      "addressable_by_existing_tools_births": 6221880.0,
+      "addressable_by_existing_tools_share": 0.9584095824322076,
       "definition": "Each disease is placed in one status from its intervention flags (no weights): Preventable & treatable, Preventable (an unaffected child achievable via screening/selection), Treatable (effective early therapy), Detectable only (prenatal detection without selection), or No current option. The distribution across statuses — by disease count and by affected births — is the headline picture of what existing genetic medicine can already do."
     },
-    "cited_incidence_share": 0.1200320085356095,
+    "cited_incidence_share": 0.393029446015638,
     "note": "Bottom-up point sums over the curated catalogue. Coverage is partial (a seed catalogue of the highest-burden serious conditions), so totals are a LOWER BOUND on the full genetic-disease denominator and will rise as the Orphanet/GBD ingest expands the library. The parametric Monte-Carlo model provides the calibrated top-down denominator with credible intervals."
   }
 }

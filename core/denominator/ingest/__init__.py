@@ -8,10 +8,10 @@ PLACEHOLDER entries, they are never required for a run.
 """
 from __future__ import annotations
 
-from . import un_wpp, who_gho, gnomad, worldbank, unaids, orphanet
+from . import un_wpp, who_gho, gnomad, worldbank, unaids, orphanet, gbd
 
 
-MODULES = [un_wpp, who_gho, gnomad, worldbank, unaids, orphanet]
+MODULES = [un_wpp, who_gho, gnomad, worldbank, unaids, orphanet, gbd]
 
 
 def run_all() -> None:

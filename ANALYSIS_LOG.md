@@ -150,6 +150,21 @@ across its defensible range (see the app's Denominator and Sensitivity views).
   (Khera 2018 CAD PRS; PGC3 schizophrenia; Mavaddat 2019 breast-cancer PRS) pending a systematic
   PGS-Catalog pull.
 
+### GBD 2023 integration (real pull received)
+- The GBD 2023 Results export (Global, 2023; Incidence/Prevalence/Deaths/DALYs) is parsed by
+  `ingest/gbd.py` → `data/curated/gbd_2023.parquet`. Values folded in (all now `basis: cited`, GBD):
+  sickle cell disorders 432/100k, congenital heart anomalies 988/100k (birth prevalence ~1/100),
+  neural tube defects 97/100k, orofacial clefts 145/100k, **Down syndrome 48/100k** (GBD <1yr
+  incidence — reflects live births *after* prenatal screening; natural rate ~1/700, so this is a
+  deliberate, honest correction downward). `daly_per_severe_monogenic_case` re-anchored to GBD
+  (congenital DALYs 54.8M / 7.07M incident cases ≈ 7.7/case; severe subset higher → central 20);
+  placeholder flag removed. Top-down `multifactorial_serious_per_1000` kept at 49 (GBD congenital
+  birth prevalence ~42, incidence ~57 bracket it) to preserve the calibrated headline.
+- Effect: bottom-up catalogue total 6.07M → **6.49M/yr**; cited-incidence share ~14% → **39%**.
+  Top-down headline unchanged (8.0M serious, 98.3% not editing-dependent) — GBD improved the
+  library and provenance without destabilizing the calibrated denominator. GBD does not enumerate
+  individual monogenic diseases (CF/SMA/DMD/…); those remain Orphanet/curation-sourced.
+
 ### Known deviations from the draft paper (surfaced, not hidden)
 1. S1 median ≈25k vs paper's 14k (see above).
 2. Births default 135M vs paper's 140M (interval covers both).

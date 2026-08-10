@@ -70,7 +70,7 @@ diseases:
     orphanet: "232"
     severity: severe
     onset: infancy
-    incidence_per_100k: {value: 220, basis: cited, source: "Modell & Darlison 2008 (Bull WHO)", doi: "10.2471/BLT.06.036673"}
+    incidence_per_100k: {value: 432, basis: cited, source: "GBD 2023 (Sickle cell disorders, <1yr birth incidence, Global)", doi: "https://vizhub.healthdata.org/gbd-results/"}
     interventions:
       CS:  {applicable: true,  note: "premarital/carrier programs (Cyprus, Gulf)"}
       PGT: {applicable: true,  note: "PGT-M"}
@@ -703,7 +703,7 @@ diseases:
     orphanet: "870"
     severity: severe
     onset: prenatal
-    incidence_per_100k: {value: 140, basis: cited, source: "standard livebirth prevalence (~1/700)"}
+    incidence_per_100k: {value: 48, basis: cited, source: "GBD 2023 (Down syndrome, <1yr incidence, Global — reflects live births after prenatal screening; natural rate ~1/700)", doi: "https://vizhub.healthdata.org/gbd-results/"}
     interventions:
       CS:  {applicable: false, note: "aneuploidy; screened via maternal-age/cfDNA, not carrier screening"}
       PGT: {applicable: true,  note: "PGT-A embryo selection"}
@@ -812,7 +812,7 @@ diseases:
     orphanet: "823"
     severity: severe
     onset: prenatal
-    incidence_per_100k: {value: 100, basis: textbook_estimate, source: "~1/1,000 births; folate-sensitive, varies widely"}
+    incidence_per_100k: {value: 97, basis: cited, source: "GBD 2023 (Neural tube defects, <1yr birth incidence, Global)", doi: "https://vizhub.healthdata.org/gbd-results/"}
     interventions:
       CS:  {applicable: false, note: "multifactorial; folate supplementation is the primary prevention, not carrier screening"}
       PGT: {applicable: false, note: "not a single-gene disorder; embryo selection not applicable"}
@@ -830,7 +830,7 @@ diseases:
     orphanet: ""
     severity: severe
     onset: prenatal
-    incidence_per_100k: {value: 800, basis: textbook_estimate, source: "~8/1,000 births (all severities)"}
+    incidence_per_100k: {value: 988, basis: cited, source: "GBD 2023 (Congenital heart anomalies, <1yr birth prevalence ~1/100, Global)", doi: "https://vizhub.healthdata.org/gbd-results/"}
     interventions:
       CS:  {applicable: false, note: "multifactorial; no single-gene carrier screening for the common forms"}
       PGT: {applicable: false, note: "not a single-gene disorder in most cases"}
@@ -848,7 +848,7 @@ diseases:
     orphanet: ""
     severity: moderate
     onset: prenatal
-    incidence_per_100k: {value: 140, basis: textbook_estimate, source: "~1/700 births (varies by ancestry)"}
+    incidence_per_100k: {value: 145, basis: cited, source: "GBD 2023 (Orofacial clefts, <1yr birth incidence, Global)", doi: "https://vizhub.healthdata.org/gbd-results/"}
     interventions:
       CS:  {applicable: false, note: "multifactorial; no routine carrier screening for nonsyndromic clefts"}
       PGT: {applicable: false, note: "not a single-gene disorder in most cases"}

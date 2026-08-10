@@ -1,6 +1,6 @@
 # Methods — Global Genetic-Disease Burden × Genetic-Medicine Impact
 
-_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `18c696b` · model version 3.0._
+_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `ea8f2ed` · model version 3.0._
 
 This document describes every input, assumption, formula, and parameter behind the analysis. All headline figures below are regenerated from the pipeline; the full parameter provenance and disease catalogue are in the appendices. Contestable judgment calls are implemented as explicit parameters and reported across their range.
 
@@ -29,14 +29,14 @@ The curated catalogue contains **97 serious genetic diseases** across five categ
 
 | Category | Affected births/yr (bottom-up) |
 | --- | ---: |
-| multifactorial | 2,308,500 |
+| multifactorial | 2,565,000 |
+| monogenic_recessive | 1,000,080 |
 | x_linked | 619,650 |
 | monogenic_dominant | 1,987,200 |
-| monogenic_recessive | 713,880 |
-| chromosomal | 444,150 |
-| **Catalogue total (lower bound)** | **6,073,380** |
+| chromosomal | 319,950 |
+| **Catalogue total (lower bound)** | **6,491,880** |
 
-The catalogue sum (6,073,380/yr) is a **lower bound** on the full denominator — it covers the highest-burden conditions and rises as the library grows. The calibrated top-down denominator (§5) is the reference total.
+The catalogue sum (6,491,880/yr) is a **lower bound** on the full denominator — it covers the highest-burden conditions and rises as the library grows. The calibrated top-down denominator (§5) is the reference total.
 
 ## 5. Burden baseline (top-down)
 
@@ -70,12 +70,12 @@ The distribution across statuses — by disease count and by affected births —
 
 | Status | Diseases | Affected births/yr |
 | --- | ---: | ---: |
-| Preventable & treatable | 29 | 994,140 |
-| Preventable | 59 | 2,770,740 |
-| Treatable | 3 | 1,350,000 |
-| Detectable only | 5 | 688,500 |
+| Preventable & treatable | 29 | 1,280,340 |
+| Preventable | 59 | 2,646,540 |
+| Treatable | 3 | 1,603,800 |
+| Detectable only | 5 | 691,200 |
 | No genetic-medicine option | 1 | 270,000 |
-| **Addressable by existing tools** |  | **5,803,380 (96%)** |
+| **Addressable by existing tools** |  | **6,221,880 (96%)** |
 
 The editing-unique residual (§8) is deliberately *not* a status here: it is a sliver of couples *within* diseases (no selectable embryo), not a class of diseases.
 
@@ -148,7 +148,7 @@ Editing:   affected embryos discarded / child = 0            ;  blastocysts / ch
 | chromosomal | 0.45 | 1.22 |
 | multifactorial | 0.50 | 1.00 |
 
-**Scale contrast (illustrative):** if every PGT-addressable affected birth in the catalogue (~3,224,880/yr) were averted by *selection*, on the order of **2,818,860 affected embryos would be discarded per year**, versus **~0 under an editing strategy**. This is the normative axis on which editing can be preferable to the selection stack for conditions with few unaffected embryos. (Prenatal diagnosis is a separate moral category — termination of an affected fetus, not embryo discard — and is tracked separately.)
+**Scale contrast (illustrative):** if every PGT-addressable affected birth in the catalogue (~3,386,880/yr) were averted by *selection*, on the order of **2,762,460 affected embryos would be discarded per year**, versus **~0 under an editing strategy**. This is the normative axis on which editing can be preferable to the selection stack for conditions with few unaffected embryos. (Prenatal diagnosis is a separate moral category — termination of an affected fetus, not embryo discard — and is tracked separately.)
 
 ## 13. Uncertainty and sensitivity
 
@@ -184,7 +184,7 @@ Each is an explicit parameter with a documented default (see `ANALYSIS_LOG.md` f
 | --- | ---: | ---: | ---: | --- | --- |
 | `births.global_per_year` | 135000000 | 130000000 | 140000000 | UN World Population Prospects 2024 (annual live births, world, 2023) | https://population.un.org/wpp/ |
 | `burden.monogenic_serious_per_1000` |  |  |  | Modell & Darlison 2008; March of Dimes Global Report on Birth Defects  | 10.2471/BLT.06.036673 |
-| `burden.multifactorial_serious_per_1000` | 49.0 | 40.0 | 60.0 | March of Dimes Global Report on Birth Defects 2006; WHO Congenital ano | https://www.who.int/news-room/fact-sheet |
+| `burden.multifactorial_serious_per_1000` | 49.0 | 40.0 | 60.0 | GBD 2023 (Congenital birth defects: <1yr birth prevalence ~42/1000, in | https://vizhub.healthdata.org/gbd-result |
 | `attribution.inclusive` | 1.0 | 1.0 | 1.0 |  |  |
 | `attribution.heritability_weighted` | 0.5 | 0.35 | 0.65 | Twin/heritability estimates for congenital anomalies (broad-sense h^2  | reasoned central estimate; see ANALYSIS_ |
 | `attribution.exclusive` | 0.1 | 0.05 | 0.18 |  |  |
@@ -220,7 +220,7 @@ Each is an explicit parameter with a documented default (see `ANALYSIS_LOG.md` f
 | `costs.gene_therapy_list_price` | 2500000 | 2100000 | 4250000 | Approved one-time gene-therapy US list prices: Zolgensma ~$2.1M (SMA), | manufacturer list prices 2019-2024 (Nova |
 | `costs.pmtct_cost_per_infection_averted` | 2000 | 200 | 15000 | PMTCT cost-effectiveness: single-dose nevirapine ~$150-300/infection a | 10.2471/BLT.13.123646 |
 | `costs.editing_program_per_birth_prevented` | 500000 | 150000 | 2000000 | reasoned germline-editing program overhead (IVF+PGT base + editing + o | wide interval; see ANALYSIS_LOG §costs |
-| `costs.daly_per_severe_monogenic_case` | 30 | 15 | 55 | GBD-style DALYs per severe early-onset monogenic case (undiscounted) | reasoned pending GBD 2023 pull (DATA_NEE |
+| `costs.daly_per_severe_monogenic_case` | 20 | 8 | 40 | GBD 2023: congenital birth defects DALYs (54.8M) / <1yr incident cases | https://vizhub.healthdata.org/gbd-result |
 | `embryo_accounting.blastocysts_per_ivf_cycle` | 5.0 | 3.0 | 10.0 | usable blastocysts per stimulated IVF cycle (age-dependent) | ESHRE/SART ART registries |
 | `embryo_accounting.live_birth_rate_per_transfer` | 0.45 | 0.3 | 0.6 | live-birth rate per single euploid/unaffected blastocyst transfer | SART/ESHRE single-embryo-transfer outcom |
 | `embryo_accounting.unaffected_embryo_fraction.autosomal_recessive` | 0.75 | 0.7 | 0.78 |  |  |
@@ -236,26 +236,26 @@ Each is an explicit parameter with a documented default (see `ANALYSIS_LOG.md` f
 
 | Disease | Gene(s) | Inheritance | Severity | Births/yr | Status | Incidence basis |
 | --- | --- | --- | --- | ---: | --- | --- |
-| Congenital heart disease (multifactorial) | — | multifactorial | severe | 1,080,000 | Treatable | textbook_estimate |
+| Congenital heart disease (multifactorial) | — | multifactorial | severe | 1,333,800 | Treatable | cited |
+| Sickle cell disease | HBB | autosomal_recessive | severe | 583,200 | Preventable & treatable | cited |
 | G6PD deficiency | G6PD | x_linked_recessive | moderate | 540,000 | Preventable & treatable | order_of_magnitude |
 | Familial hypercholesterolaemia | LDLR, APOB, PCSK9 | autosomal_dominant | serious | 540,000 | Preventable | textbook_estimate |
 | Lynch syndrome | MLH1, MSH2 | autosomal_dominant | serious | 405,000 | Preventable | textbook_estimate |
 | Hereditary breast and ovarian cancer (BRCA1/2) | BRCA1, BRCA2 | autosomal_dominant | serious | 337,500 | Preventable | textbook_estimate |
-| Sickle cell disease | HBB | autosomal_recessive | severe | 297,000 | Preventable & treatable | cited |
 | Hypertrophic cardiomyopathy | MYBPC3, MYH7 | autosomal_dominant | serious | 270,000 | Preventable | textbook_estimate |
 | Hypospadias | — | multifactorial | moderate | 270,000 | Detectable only | textbook_estimate |
 | Infantile hypertrophic pyloric stenosis | — | multifactorial | moderate | 270,000 | No genetic-medicine option | textbook_estimate |
-| Down syndrome (trisomy 21) | — | chromosomal | severe | 189,000 | Preventable | cited |
-| Orofacial clefts (cleft lip/palate) | — | multifactorial | moderate | 189,000 | Detectable only | textbook_estimate |
+| Orofacial clefts (cleft lip/palate) | — | multifactorial | moderate | 195,750 | Detectable only | cited |
 | Alpha-thalassaemia | HBA1, HBA2 | autosomal_recessive | severe | 135,000 | Preventable | cited |
 | Autosomal dominant polycystic kidney disease | PKD1, PKD2 | autosomal_dominant | serious | 135,000 | Preventable | textbook_estimate |
-| Neural tube defects | MTHFR | multifactorial | severe | 135,000 | Detectable only | textbook_estimate |
 | Clubfoot (talipes equinovarus) | — | multifactorial | moderate | 135,000 | Treatable | textbook_estimate |
 | Developmental dysplasia of the hip | — | multifactorial | moderate | 135,000 | Treatable | textbook_estimate |
+| Neural tube defects | MTHFR | multifactorial | severe | 130,950 | Detectable only | cited |
 | Beta-thalassaemia | HBB | autosomal_recessive | severe | 108,000 | Preventable | cited |
 | Klinefelter syndrome (47,XXY) | — | chromosomal | moderate | 101,250 | Preventable | textbook_estimate |
 | Long QT syndrome | KCNQ1, KCNH2, SCN5A | autosomal_dominant | serious | 67,500 | Preventable | textbook_estimate |
 | Hereditary spherocytosis | ANK1 | autosomal_dominant | moderate | 67,500 | Preventable | textbook_estimate |
+| Down syndrome (trisomy 21) | — | chromosomal | severe | 64,800 | Preventable | cited |
 | Congenital diaphragmatic hernia | — | multifactorial | severe | 54,000 | Detectable only | textbook_estimate |
 | Neurofibromatosis type 1 | NF1 | autosomal_dominant | serious | 44,550 | Preventable | textbook_estimate |
 | Gastroschisis | — | multifactorial | serious | 40,500 | Detectable only | textbook_estimate |
