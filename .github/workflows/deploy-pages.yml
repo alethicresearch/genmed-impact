@@ -5,7 +5,7 @@ name: Deploy webapp to GitHub Pages
 
 on:
   push:
-    branches: [claude/session-setup-8gsax6, main]
+    branches: [main]
     paths:
       - "app/**"
       - ".github/workflows/deploy-pages.yml"
