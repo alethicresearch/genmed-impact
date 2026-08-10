@@ -189,6 +189,27 @@ export interface Disease {
   editing_note: string;
   notes: string | null;
   status: DiseaseStatus;
+  treatment: DiseaseTreatment;
+}
+
+export interface DiseaseTreatment {
+  modality: string;
+  label: string;
+  disease_modifying: boolean;
+  note: string | null;
+}
+
+export interface TreatmentBucket {
+  label: string;
+  disease_modifying: boolean;
+  n_diseases: number;
+  births: number;
+}
+
+export interface TreatmentModalities {
+  order: string[];
+  distribution: Record<string, TreatmentBucket>;
+  note: string;
 }
 
 export type StatusKey =
@@ -232,6 +253,7 @@ export interface LibraryRollup {
   births_editing_unique: number;
   per_tool_addressable_births: Record<ToolKey, number>;
   genetic_medicine_status: GeneticMedicineStatus;
+  treatment_modalities: TreatmentModalities;
   cited_incidence_share: number;
   note: string;
 }

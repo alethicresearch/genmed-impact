@@ -31,6 +31,45 @@ STATUS_LABEL = {
 }
 
 
+# Existing post-birth (somatic) treatment modalities — the *type* of treatment for the born
+# child. Germline editing is deliberately NOT in this list: it is a categorically different kind
+# of intervention (tracked as the residual / a distinct type), not one modality among these.
+TREATMENT_ORDER = [
+    "somatic_gene_cell_therapy", "enzyme_replacement", "pharmacologic", "transplant",
+    "dietary", "cofactor", "surgical", "supportive", "none", "unknown",
+]
+TREATMENT_LABEL = {
+    "somatic_gene_cell_therapy": "Somatic gene/cell therapy",
+    "enzyme_replacement": "Enzyme replacement",
+    "pharmacologic": "Pharmacologic (drug)",
+    "transplant": "Transplant",
+    "dietary": "Dietary/metabolic",
+    "cofactor": "Cofactor/vitamin",
+    "surgical": "Surgical",
+    "supportive": "Supportive only",
+    "none": "No disease-modifying treatment",
+    "unknown": "Unclassified",
+}
+# Modalities that meaningfully modify disease course (vs supportive/none).
+DISEASE_MODIFYING = {
+    "somatic_gene_cell_therapy", "enzyme_replacement", "pharmacologic", "transplant",
+    "dietary", "cofactor", "surgical",
+}
+
+
+def treatment_of(disease: dict) -> dict:
+    t = disease.get("treatment") or {}
+    mod = t.get("modality", "unknown")
+    if mod not in TREATMENT_LABEL:
+        mod = "unknown"
+    return {
+        "modality": mod,
+        "label": TREATMENT_LABEL[mod],
+        "disease_modifying": mod in DISEASE_MODIFYING,
+        "note": t.get("note"),
+    }
+
+
 def compute_status(disease: dict) -> dict:
     """Categorical genetic-medicine status from the four intervention flags (no weights).
 
@@ -111,6 +150,7 @@ def build_library(constants: dict) -> dict[str, Any]:
             "editing_note": d.get("editing_note"),
             "notes": d.get("notes"),
             "status": compute_status(d),
+            "treatment": treatment_of(d),
             "embryos": embryos.per_disease(
                 d.get("inheritance", "autosomal_recessive"),
                 _tool_applicable(d, "PGT"), constants),
@@ -150,6 +190,27 @@ def build_library(constants: dict) -> dict[str, Any]:
         }
         for s in STATUS_ORDER
     }
+    # Treatment-modality distribution (the *type* of existing treatment; editing kept separate).
+    treatment_distribution = {
+        m: {
+            "label": TREATMENT_LABEL[m],
+            "disease_modifying": m in DISEASE_MODIFYING,
+            "n_diseases": sum(1 for x in diseases_out if x["treatment"]["modality"] == m),
+            "births": _sum_where(lambda x, m=m: x["treatment"]["modality"] == m),
+        }
+        for m in TREATMENT_ORDER
+    }
+    treatment_summary = {
+        "order": TREATMENT_ORDER,
+        "distribution": {m: v for m, v in treatment_distribution.items() if v["n_diseases"] > 0},
+        "note": (
+            "The TYPE of existing post-birth treatment for the born child. Germline editing is not a "
+            "modality here — it is a categorically different kind of intervention, tracked as the "
+            "editing-unique residual. This breakdown keeps that distinction explicit rather than "
+            "collapsing everything into 'treatable'."
+        ),
+    }
+
     addressable_births = _sum_where(lambda x: x["status"]["addressable"])
     status_summary = {
         "order": STATUS_ORDER,
@@ -177,6 +238,7 @@ def build_library(constants: dict) -> dict[str, Any]:
         "births_editing_unique": editing_unique,
         "per_tool_addressable_births": per_tool_births,
         "genetic_medicine_status": status_summary,
+        "treatment_modalities": treatment_summary,
         "cited_incidence_share": (cited / total) if total else 0.0,
         "note": (
             "Bottom-up point sums over the curated catalogue. Coverage is partial (a seed catalogue "
