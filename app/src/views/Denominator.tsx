@@ -319,7 +319,7 @@ function Cascade(p: CascadeProps) {
   return (
     <svg
       role="img"
-      aria-label="Proportional cascade from all births to uniquely-editable residual"
+      aria-label="Proportional cascade from global births to serious genetic-disease burden and comparative editing-relevant scenarios"
       viewBox={`0 0 ${W} ${H}`}
       className="mt-3 w-full"
       style={{ maxWidth: '100%' }}

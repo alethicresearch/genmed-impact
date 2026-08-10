@@ -135,7 +135,7 @@ export default function EthicsPolicy({ data, update }: Props) {
             Under current-evidence assumptions, the combined editing-relevant scenario
             represents approximately{' '}
             <InlineLink onClick={() => update({ tab: 'residual' })}>
-              {fmtPct(editableShare.strict.median, 1)} of the broad default modeled
+              {fmtPct(editableShare.strict.median, 2)} of the broad default modeled
               serious-disease burden
             </InlineLink>
             , or about {fmtCompact(editableTotal.strict.median)} cases per year. Its
