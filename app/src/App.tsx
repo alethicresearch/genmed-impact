@@ -85,9 +85,7 @@ const REPO_URL = 'https://github.com/alethicresearch/genmed-impact';
 const DATA_ARCHIVE_URL = `${REPO_URL}/tree/main/results`;
 
 const BIBTEX = `@software{genmed_impact,
-  title  = {Genetic Disease and What Medicine Can Do:
-            a genetic-disease {\\texttimes} genetic-medicine impact library
-            and reproducible burden pipeline},
+  title  = {Reframing Genetic Medicine in Terms of Impact},
   author = {Ghose, Sankalpa and Wallach, D. A. and Singer, Peter and Savulescu, Julian},
   year   = {2026},
   url    = {https://github.com/alethicresearch/genmed-impact},
@@ -136,7 +134,7 @@ export default function App() {
           className="rounded text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         >
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 hover:text-accent">
-            Genetic Disease and What Medicine Can Do
+            Reframing Genetic Medicine in Terms of Impact
           </h1>
         </button>
         {/* Author names only — manuscript affiliations are finalised in the paper, not here. */}
@@ -146,9 +144,9 @@ export default function App() {
           <span className="text-slate-400">·</span> Julian Savulescu
         </p>
         <p className="mt-1.5 text-sm leading-6 text-slate-600">
-          An empirical study of serious genetic disease, what existing genetic medicine can
-          already achieve, and where human germline embryo editing might provide a distinct
-          medical option.
+          A quantitative framework for comparing what genetic medicine can achieve now, where
+          germline editing has a distinct translational role, and how its impact could change as
+          polygenic editing matures.
         </p>
         <p className="mt-2">
           <span

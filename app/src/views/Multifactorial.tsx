@@ -47,7 +47,7 @@ const VERDICT_META: Record<Verdict, { label: string; fill: string; text: string;
 
 const SCEN_OPTS = [
   { value: 'present', label: 'Current-capacity assumption set' },
-  { value: 'near_future', label: 'Hypothetical high-capacity assumption set' },
+  { value: 'near_future', label: 'Future high-capacity assumption set' },
   { value: 'both', label: 'Both' },
 ];
 
@@ -65,14 +65,32 @@ export default function Multifactorial({ data, state, update }: Props) {
     <SourcesProvider>
       <div className="space-y-6">
         <SectionHeading
-          title="Why complex disease is a harder target for embryo editing"
-          subtitle="Common diseases arise from many genetic variants together with non-genetic influences. This exploratory model asks how much risk embryo selection or editing a limited number of larger-effect loci could change."
+          title="How far is polygenic editing from medical usefulness?"
+          subtitle="Polygenic editing is not clinically viable today, but its potential could change substantially if causal variants can be identified more reliably and multiplex editing becomes sufficiently safe and precise. This model asks where that frontier currently lies and how it moves under higher-capacity assumptions."
         />
 
         <p className="text-sm leading-relaxed text-slate-700">
-          For a monogenic disorder, one pathogenic variant may account for most of the disease
-          risk. For common complex disease, risk is usually distributed across many variants,
-          often with each contributing only a small amount.
+          Monogenic editing and polygenic editing solve different problems. In a monogenic
+          disorder, changing one pathogenic variant may remove most of the relevant inherited
+          risk. In a common complex disease, risk is distributed across many variants and
+          interacts with environment and chance.
+        </p>
+        <p className="text-sm leading-relaxed text-slate-700">
+          That makes polygenic intervention more demanding — but it does not make it
+          unimportant. Recent quantitative work has argued that editing a limited number of
+          well-chosen causal variants could eventually produce large reductions in lifetime
+          disease risk if causal inference and multiplex editing improve sufficiently (Visscher
+          et al., <em>Nature</em>, 2025,{' '}
+          <a
+            href="https://doi.org/10.1038/s41586-024-08300-4"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent underline"
+          >
+            10.1038/s41586-024-08300-4
+          </a>
+          ). We therefore model polygenic editing as a <strong>developing technological
+          frontier</strong>, not as an extension of the monogenic no-alternative population.
         </p>
         <p className="text-sm leading-relaxed text-slate-700">
           We model each disease as a continuous underlying liability to disease. Embryo
@@ -109,13 +127,27 @@ export default function Multifactorial({ data, state, update }: Props) {
             onChange={(v) => update({ scen: v })}
           />
           <p className="max-w-md text-xs text-slate-500">
-            <span className="font-medium text-slate-700">Current-capacity</span>: approximately
+            <span className="font-medium text-slate-700">Current capacity</span>: approximately
             five embryos available for selection and one modeled edit.{' '}
-            <span className="font-medium text-slate-700">High-capacity</span>: approximately 200
-            embryos and up to ten modeled edits, representing hypothetical IVM/IVG and
-            multiplex-editing capabilities. This is not a forecast.
+            <span className="font-medium text-slate-700">Future high capacity</span>:
+            approximately 200 embryos and up to ten modeled edits, representing a hypothetical
+            combination of much larger embryo sets and multiplex editing. This is a boundary
+            scenario, not a prediction that these capabilities will arrive on a specified date.
           </p>
         </div>
+
+        <section className="space-y-2">
+          <h3 className="text-base font-semibold text-slate-900">
+            Why model the future before it is clinically ready?
+          </h3>
+          <p className="text-sm leading-relaxed text-slate-700">
+            Decisions about research, governance, and investment are made before a technology
+            reaches the clinic. Modeling the conditions under which polygenic editing begins to
+            provide meaningful benefit helps identify which scientific advances would matter,
+            which diseases might become relevant first, and where pleiotropy or distributed
+            genetic architecture may remain limiting.
+          </p>
+        </section>
 
         {/* Frontier summary */}
         <FrontierSummary mf={data.multifactorial} />
@@ -149,7 +181,9 @@ export default function Multifactorial({ data, state, update }: Props) {
             These values describe modeled changes in relative risk for a couple already using
             IVF. They are not estimates of population-wide disease prevention. A large modeled
             effect also does not establish that an edit is safe, clinically useful, ethically
-            justified, or free of harmful pleiotropic effects.
+            justified, or free of harmful pleiotropic effects. The purpose is to map a possible
+            future intervention frontier — not to declare these applications either clinically
+            ready or permanently infeasible.
           </p>
         </Card>
 
@@ -174,7 +208,7 @@ function FrontierSummary({ mf }: { mf: AllData['multifactorial'] }) {
   return (
     <Card className="border-accent/40 bg-accent-soft/40">
       <h3 className="text-base font-semibold text-slate-900">
-        What changes when more embryos and edits are assumed?
+        How the frontier moves as technical capacity increases
       </h3>
       <p className="mt-1 text-sm text-slate-600">
         Greater technical capacity increases the modeled risk reduction for some diseases,
@@ -234,7 +268,7 @@ function FrontierStat({
       <p className="tnum mt-1 text-xl font-bold text-slate-900">
         {from} <span className="text-sm font-normal text-slate-400">current-capacity</span> →{' '}
         {to}{' '}
-        <span className="text-sm font-normal text-slate-400">high-capacity (hypothetical)</span>
+        <span className="text-sm font-normal text-slate-400">future high capacity</span>
       </p>
       <p className="text-xs text-slate-500">
         of {n} diseases · {note}
@@ -333,7 +367,7 @@ function DiseaseRow({
               <div key={k}>
                 {showKeys.length > 1 && (
                   <p className="mb-1 text-[11px] font-medium uppercase tracking-wide text-slate-400">
-                    {k === 'present' ? 'Current-style' : 'High-capacity (hypothetical)'}
+                    {k === 'present' ? 'Current capacity' : 'Future high capacity'}
                   </p>
                 )}
                 <TrackBar

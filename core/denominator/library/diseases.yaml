@@ -1,7 +1,7 @@
 # ============================================================================
 # GENETIC DISEASE × GENETIC-MEDICINE IMPACT LIBRARY
 # ============================================================================
-# The core deliverable: a structured catalogue of serious genetic diseases,
+# A structured catalogue of serious genetic diseases,
 # each mapped to (a) the gene(s)/locus that cause it, (b) inheritance mode,
 # (c) approximate incidence at birth, and (d) which genetic-medicine
 # interventions can address it. Aggregate burden and preventability numbers

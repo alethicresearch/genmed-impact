@@ -19,21 +19,23 @@ export default function EthicsPolicy({ data, update }: Props) {
   return (
     <Reading>
       <p className="text-[15px] leading-7 text-slate-600">
-        The results point in two directions at once. At the population level, most modeled
-        serious genetic-disease burden does not require germline editing, and the larger
-        immediate opportunity is to expand access to screening, reproductive care, diagnosis,
-        and treatment that already exist.
+        The impact analysis points to <strong>three priorities operating on different time
+        horizons</strong>.
       </p>
       <p className="text-[15px] leading-7 text-slate-600">
-        At the same time, a much smaller group of families may have no unaffected embryo
-        available for selection. For them, germline editing could in principle offer something
-        medically different rather than merely another route to the same outcome.
+        First, established genetic medicine can produce substantial benefit now, and much of
+        that impact remains unrealized because access and implementation are incomplete.
       </p>
       <p className="text-[15px] leading-7 text-slate-600">
-        The ethical question is therefore not simply whether germline editing is “for” or
-        “against” disease prevention. It is when the additional benefit is large enough, and
-        the alternatives poor enough, to justify considering the additional risks of a
-        heritable intervention.
+        Second, a much smaller group of severe monogenic cases may already provide a strong
+        medical rationale for developing germline editing because embryo selection cannot
+        achieve the desired outcome.
+      </p>
+      <p className="text-[15px] leading-7 text-slate-600">
+        Third, the future role of editing may expand substantially if polygenic causal
+        inference and multiplex editing mature. That possibility justifies serious research and
+        governance work now, even though present technology is not ready for those
+        applications.
       </p>
 
       <section className="space-y-3">
@@ -43,6 +45,13 @@ export default function EthicsPolicy({ data, update }: Props) {
           reasonable alternatives, the stronger the case for considering germline-editing
           research. As effective alternatives become available — or as the goal moves away from
           treating serious disease — the burden of justification increases.
+        </Lead>
+        <Lead>
+          Proportionality is therefore dynamic. The balance of benefit, alternatives, and risk
+          can change as technologies mature. A use that is poorly justified today may become
+          more defensible if technical performance and expected medical benefit change;
+          conversely, the emergence of safer alternatives can weaken the case for germline
+          intervention.
         </Lead>
         <Lead>
           This does not answer the independent safety question. A strong medical justification
@@ -68,10 +77,17 @@ export default function EthicsPolicy({ data, update }: Props) {
             outcome.
           </Claim>
           <Claim kind="policy">
-            We therefore propose two parallel priorities: expand access to existing genetic
-            medicine at population scale, while maintaining a tightly governed pathway for
-            research on severe no-alternative cases if independent requirements for safety,
-            evidence, consent, oversight, and long-term follow-up can be satisfied.
+            We propose three parallel priorities. <strong>1. Scale present impact:</strong>{' '}
+            expand access to established screening, reproductive, diagnostic, and therapeutic
+            pathways where they already provide substantial benefit.{' '}
+            <strong>2. Develop the justified frontier:</strong> create a transparent, tightly
+            governed research pathway for severe germline-editing indications in which existing
+            reproductive options cannot achieve the same medically important outcome, subject
+            to independent safety and evidence requirements.{' '}
+            <strong>3. Prepare for future impact:</strong> support rigorous research into
+            causal genomics, polygenic intervention, multiplex editing, pleiotropy, embryo
+            technologies, and long-term governance so that future applications can be evaluated
+            before technological capability outruns public institutions.
           </Claim>
         </ClaimChain>
       </section>
@@ -103,8 +119,8 @@ export default function EthicsPolicy({ data, update }: Props) {
               goLabel: 'Selection vs editing',
             },
             {
-              title: 'Complex disease',
-              body: 'Editing is not an only-option intervention. Any future case would require evidence that it provides substantial benefit beyond selection, prevention, treatment, and somatic approaches.',
+              title: 'Complex and polygenic disease',
+              body: 'A potentially important future domain rather than a current clinical indication. Its justification strengthens as causal confidence, multiplex-editing capacity, effect predictability, and safety improve, and where editing can demonstrate substantial benefit beyond embryo selection, prevention, treatment, and somatic approaches. Research into this frontier is justified before clinical readiness; clinical use is not.',
               go: () => update({ tab: 'multifactorial' }),
               goLabel: 'Complex disease',
             },

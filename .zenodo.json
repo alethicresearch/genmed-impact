@@ -1,12 +1,13 @@
 {
-  "title": "genmed-impact / denominator: a genetic-disease × genetic-medicine impact library and reproducible burden pipeline",
-  "description": "<p>A reproducible pipeline and interactive webapp that derive the global burden of serious genetic disease and the comparative impact of existing interventions (preconception carrier screening, IVF + preimplantation genetic testing, prenatal diagnosis, newborn screening, and existing somatic therapies) versus germline embryo editing. The core deliverable is a structured library of serious genetic diseases mapped to their causal genes and to each intervention, with Monte-Carlo uncertainty and an explicitly isolated germline-editing residual. Accompanies the manuscript <em>Genetic Medicine</em>.</p><p>Code is licensed Apache-2.0; the curated data products are CC-BY-4.0. Third-party inputs (IHME GBD 2023, Orphanet, UN WPP, WHO, UNAIDS, World Bank) remain under their own licenses and are referenced rather than redistributed where their terms require it (notably GBD).</p>",
+  "title": "Reframing Genetic Medicine in Terms of Impact",
+  "description": "<p>A reproducible research project evaluating genetic medicine in terms of present and prospective impact. The analysis combines a structured disease-by-intervention catalogue, global disease-burden estimates, intervention and access modeling, a reproductive analysis of cases in which no unaffected embryo can be selected, and an exploratory model of how polygenic editing could alter common-disease risk as technological capacity increases. The project distinguishes present impact from the translational germline-editing frontier and future polygenic impact, and separates quantitative results from ethical and regulatory interpretation. Accompanies the manuscript <em>Reframing Genetic Medicine in Terms of Impact</em>.</p><p>Code is licensed Apache-2.0; the curated data products are CC-BY-4.0. Third-party inputs (IHME GBD 2023, Orphanet, UN WPP, WHO, UNAIDS, World Bank) remain under their own licenses and are referenced rather than redistributed where their terms require it (notably GBD).</p>",
   "upload_type": "software",
   "access_right": "open",
   "license": "Apache-2.0",
   "keywords": [
     "genetic medicine",
     "germline editing",
+    "polygenic editing",
     "carrier screening",
     "preimplantation genetic testing",
     "prenatal diagnosis",
@@ -16,7 +17,7 @@
     "Monte Carlo"
   ],
   "creators": [
-    { "name": "Ghose, Sankalpa", "affiliation": "Alethic Research" },
+    { "name": "Ghose, Sankalpa" },
     { "name": "Wallach, D. A." },
     { "name": "Singer, Peter" },
     { "name": "Savulescu, Julian" }

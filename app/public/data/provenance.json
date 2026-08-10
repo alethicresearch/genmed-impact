@@ -14,7 +14,7 @@
         "doi": "https://population.un.org/wpp/",
         "table_or_page": "Demographic Indicators, Births (thousands), World, 2023",
         "retrieved": "2026-08-10",
-        "note": "WPP 2024 places annual world births near 134M and declining; the draft paper rounds to ~140M. Modelled as an interval [130M, 140M]. Per-country births are pulled by ingest/un_wpp.py into data/curated/births_by_country.parquet and aggregated to regions.\n",
+        "note": "WPP 2024 places annual world births near 134M and declining; older summaries round to ~140M. Modelled as an interval [130M, 140M]. Per-country births are pulled by ingest/un_wpp.py into data/curated/births_by_country.parquet and aggregated to regions.\n",
         "epistemic_status": "cited"
       }
     },
@@ -39,7 +39,7 @@
         "doi": "10.2471/BLT.06.036673",
         "table_or_page": "Modell & Darlison 2008 Table 1; MoD 2006 Appendix tables",
         "retrieved": "2026-08-10",
-        "note": "Serious single-gene disorders. def_b default of 10.4/1000 reproduces ~1.4M/yr at 135M births, matching the draft paper's monogenic figure.\n",
+        "note": "Serious single-gene disorders. def_b default of 10.4/1000 gives ~1.4M/yr at 135M births.\n",
         "epistemic_status": "cited"
       },
       "multifactorial_serious_per_1000": {
@@ -50,7 +50,7 @@
         "doi": "https://vizhub.healthdata.org/gbd-results/",
         "table_or_page": "GBD 2023 Congenital birth defects, <1yr; MoD 2006 ~6% of births",
         "retrieved": "2026-08-10",
-        "note": "49/1000 × 135M ≈ 6.6M/yr under the inclusive attribution stance, matching the draft paper.\n",
+        "note": "49/1000 × 135M ≈ 6.6M/yr under the inclusive attribution stance.\n",
         "epistemic_status": "cited"
       }
     },
@@ -266,7 +266,7 @@
           "value": 0.02,
           "low": 0.008,
           "high": 0.035,
-          "note": "0.02 × 6.6M ≈ 132k, matching the draft paper's permissive figure"
+          "note": "0.02 × 6.6M ≈ 132k under the future-capacity exploratory scaling scenario"
         }
       },
       "source": "Ference et al. 2017 (PCSK9); Savulescu et al. 2025 (heritable polygenic editing); reasoned netting",

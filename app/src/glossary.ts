@@ -59,7 +59,15 @@ export const GLOSSARY: Record<string, string> = {
   'potential editing advantage':
     'A modeled situation in which germline editing might provide a medically meaningful benefit beyond selection, treatment, or other alternatives. This is not the same as being the only option.',
   'editing-relevant residual':
-    'The broader population in which editing is either the only modeled preventive route or is modeled as potentially providing an additional advantage. Its components are always reported separately because their evidentiary status differs.',
+    'A summary quantity combining editing-only prevention with an exploratory complex-disease advantage term. Useful for comparing scale, but not a claim that the two components represent the same form of medical need.',
+  'present impact':
+    'Medical benefit achievable with interventions available now, accounting separately for technical capability and real-world access.',
+  'translational frontier':
+    'Applications for which a developing technology may provide a medically distinct benefit sufficiently strong to justify further research, even before clinical readiness is established.',
+  'future-capacity scenario':
+    'A hypothetical technology configuration used to examine how intervention potential changes if capabilities such as embryo availability, causal inference, and multiplex editing improve. It is a boundary analysis, not a forecast.',
+  'polygenic editing':
+    'Germline editing of multiple variants intended to alter probabilistic risk for a complex trait or disease rather than correct one highly penetrant pathogenic variant.',
   'not uniquely dependent on germline editing':
     'The complement of the editing-relevant residual: cases for which the analysis does not identify a unique requirement for germline editing. This must not be read as a claim that the same share is preventable by existing medicine.',
   'S1 residual':

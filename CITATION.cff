@@ -1,13 +1,15 @@
 cff-version: 1.2.0
 message: "If you use this software or the curated dataset, please cite both the paper and this repository."
-title: "genmed-impact / denominator: a genetic-disease × genetic-medicine impact library and reproducible burden pipeline"
+title: "Reframing Genetic Medicine in Terms of Impact"
 abstract: >-
-  A reproducible pipeline and interactive webapp that derive the global burden of serious
-  genetic disease and the comparative impact of existing interventions (carrier screening,
-  IVF + preimplantation genetic testing, prenatal diagnosis, newborn screening, and existing
-  somatic therapies) versus germline embryo editing. The core deliverable is a structured
-  library of serious genetic diseases mapped to their causal genes and to each intervention,
-  with Monte-Carlo uncertainty and an explicitly isolated germline-editing residual.
+  A reproducible research project evaluating genetic medicine in terms of present and
+  prospective impact. The analysis combines a structured disease-by-intervention catalogue,
+  global disease-burden estimates, intervention and access modeling, a reproductive analysis
+  of cases in which no unaffected embryo can be selected, and an exploratory model of how
+  polygenic editing could alter common-disease risk as technological capacity increases. The
+  project distinguishes present impact from the translational germline-editing frontier and
+  future polygenic impact, and separates quantitative results from ethical and regulatory
+  interpretation.
 type: software
 repository-code: "https://github.com/alethicresearch/genmed-impact"
 url: "https://github.com/alethicresearch/genmed-impact"
@@ -19,6 +21,7 @@ license-url: "https://www.apache.org/licenses/LICENSE-2.0"
 keywords:
   - genetic medicine
   - germline editing
+  - polygenic editing
   - carrier screening
   - preimplantation genetic testing
   - global burden of disease
@@ -27,7 +30,6 @@ authors:
   # Manuscript author order: SG, DAW, PS, JS. TODO(authors): add affiliations + ORCIDs.
   - family-names: Ghose
     given-names: Sankalpa
-    affiliation: "Alethic Research"
     # orcid: "https://orcid.org/0000-0000-0000-0000"   # TODO
   - family-names: Wallach
     given-names: D. A.
@@ -41,6 +43,6 @@ authors:
 # TODO(authors): once the paper has a DOI, add it here and mirror it in .zenodo.json.
 # preferred-citation:
 #   type: article
-#   title: "Genetic Medicine: <final paper title>"
+#   title: "Reframing Genetic Medicine in Terms of Impact"
 #   doi: "10.xxxx/xxxxx"
 #   year: 2026

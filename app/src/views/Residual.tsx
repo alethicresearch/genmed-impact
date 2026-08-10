@@ -34,7 +34,7 @@ export default function Residual({ data, state, update }: Props) {
     <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
-        title="When embryo selection is not enough"
+        title="The translational frontier: when embryo selection is not enough"
         subtitle="For most monogenic conditions, IVF with PGT-M can select an unaffected embryo. A small number of reproductive situations are different: no unaffected embryo is expected to exist."
       />
       <p className="text-sm leading-relaxed text-slate-700">
@@ -52,6 +52,14 @@ export default function Residual({ data, state, update }: Props) {
         We call this <strong>editing-only prevention</strong>. The estimate below asks how often
         these no-selectable-unaffected-embryo reproductive configurations are expected to occur
         worldwide.
+      </p>
+      <p className="text-sm leading-relaxed text-slate-700">
+        This is important even though the population is small.{' '}
+        <strong>Population impact and individual clinical justification are different
+        questions.</strong>{' '}
+        A rare reproductive configuration can provide a strong rationale for research if the
+        condition is severe and no existing pathway can achieve the same medically important
+        outcome.
       </p>
 
       {/* Contested toggle + its effect on the headline */}
@@ -179,27 +187,27 @@ export default function Residual({ data, state, update }: Props) {
         </div>
       </Card>
 
-      {/* Complex disease: a different question, not another only-option population */}
+      {/* Beyond the near-term frontier: polygenic disease */}
       <div>
         <h3 className="text-base font-semibold text-slate-900">
-          Complex disease poses a different question
+          Beyond the near-term frontier
         </h3>
         <p className="mt-1 text-sm text-slate-600">
-          The situation above is unusual because embryo selection genuinely runs out of
-          options. Common complex diseases are different. There is usually no single
-          disease-causing variant to correct, and other preventive or therapeutic approaches
-          remain available.
+          The no-selectable-embryo analysis identifies the clearest near-term indication
+          because editing would supply a route that selection cannot. Polygenic disease
+          represents a different part of the translational pathway. There, editing would
+          compete with selection, prevention, treatment, and somatic intervention on the size
+          of the <strong>incremental benefit</strong> it can deliver.
         </p>
         <p className="mt-1 text-sm text-slate-600">
-          Here the question is therefore not whether editing is the only option. It is whether
-          changing a limited number of higher-effect variants could someday reduce disease risk
-          more than the modeled alternatives.
+          The next analysis asks how that balance could change as the technological frontier
+          moves.
         </p>
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Card>
           <h3 className="text-base font-semibold text-slate-900">
-            Current evidence: little additional population-level role identified
+            Current-evidence population-scaling scenario
           </h3>
           <p className="mt-1 text-sm text-slate-600">
             Under the current-evidence assumptions, the estimated contribution is small and
@@ -226,12 +234,17 @@ export default function Residual({ data, state, update }: Props) {
 
         <Card>
           <h3 className="text-base font-semibold text-slate-900">
-            Optimistic modeled scenario: a larger, assumption-dependent role
+            Future-capacity exploratory population-scaling scenario
           </h3>
           <p className="mt-1 text-sm text-slate-600">
             This scenario assumes that a small number of editable loci account for enough risk
             in selected complex diseases for editing to outperform modeled alternatives. It is
             an exploratory scenario, not a forecast of clinical feasibility.
+          </p>
+          <p className="mt-1 text-xs text-slate-500">
+            <strong>Exploratory population scaling.</strong> This quantity is generated from
+            the model&apos;s assumed future complex-disease editing share; it is not the direct
+            sum of the disease-specific liability-threshold analysis.
           </p>
           <p className="mt-4 text-2xl">
             <StatValue stat={r.s2.permissive} kind="int" showCi />
@@ -258,9 +271,9 @@ export default function Residual({ data, state, update }: Props) {
         </p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Mini label="Editing-only prevention" stat={s1Total} kind="int" />
-          <Mini label="Complex-disease advantage — current evidence" stat={r.s2.strict} kind="int" />
-          <Mini label="Complex-disease advantage — optimistic scenario" stat={r.s2.permissive} kind="int" />
-          <Mini label="Combined editing-relevant share — current / optimistic" stat={variant.uniquely_editable_share_of_serious.strict} kind="pct" decimals={3} secondStat={variant.uniquely_editable_share_of_serious.permissive} secondDecimals={2} />
+          <Mini label="Complex-disease scaling — current evidence" stat={r.s2.strict} kind="int" />
+          <Mini label="Complex-disease scaling — future-capacity exploratory" stat={r.s2.permissive} kind="int" />
+          <Mini label="Combined editing-relevant share — current / future-capacity" stat={variant.uniquely_editable_share_of_serious.strict} kind="pct" decimals={3} secondStat={variant.uniquely_editable_share_of_serious.permissive} secondDecimals={2} />
         </div>
       </Card>
 

@@ -1,8 +1,8 @@
 # denominator — regenerated tables
 
-_Assumption set: severity=`def_b`, attribution=`inclusive`, scenario=`current`, PND-counts=`True` · Monte-Carlo n=20000 · pipeline commit `4e98e2d`._
+_Assumption set: severity=`def_b`, attribution=`inclusive`, scenario=`current`, PND-counts=`True` · Monte-Carlo n=20000 · pipeline commit `c2b707b`._
 
-## Table 1 — Serious genetic disease: burden and uniquely editable residual
+## Table 1 — Serious genetic disease: burden and editing-relevant residual
 
 | Category | Births / year | % of serious genetic disease | % of all births |
 | --- | ---: | ---: | ---: |
@@ -10,10 +10,10 @@ _Assumption set: severity=`def_b`, attribution=`inclusive`, scenario=`current`, 
 | Serious multifactorial / partly-genetic | 6,620,881 | 82.3% | 4.90% |
 | All serious genetic disorders | 8,042,019 | 100% | 5.96% |
 | S1 — no selectable unaffected embryo | 11,320 | 0.14% | 0.01% |
-| S2 — editing-superior complex disease (permissive) | 127,166 | 1.58% | 0.09% |
-| **Total uniquely embryo-editable (permissive)** | **139,586** | **1.74%** | **0.10%** |
+| S2 — potential complex-disease editing advantage (future-capacity scaling) | 127,166 | 1.58% | 0.09% |
+| **Editing-relevant residual (future-capacity scaling)** | **139,586** | **1.74%** | **0.10%** |
 
-_Addressable by existing tools (1 − uniquely editable): **98.3%** (95% CrI 96.9%–99.1%)._
+_Not uniquely dependent on germline editing (1 − editing-relevant residual): **98.3%** (95% UI 96.9%–99.1%)._
 
 ## Table 2 — Serious genetic births/year across severity × attribution
 
@@ -31,7 +31,7 @@ _Addressable by existing tools (1 − uniquely editable): **98.3%** (95% CrI 96.
 
 ## Table 3 — S1 residual by condition (no selectable unaffected embryo)
 
-| Condition | Births / year (median) | 95% CrI |
+| Condition | Births / year (median) | 95% UI |
 | --- | ---: | ---: |
 | Congenital sensorineural deafness (GJB2) | 12,377 | 4,858 – 30,060 |
 | Sickle cell disease | 5,845 | 1,200 – 19,837 |
@@ -44,7 +44,7 @@ _Addressable by existing tools (1 − uniquely editable): **98.3%** (95% CrI 96.
 | **S1 total (incl. contested)** | **11,320** | 4,852 – 26,109 |
 | _S1 excl. congenital deafness (contested)_ | _11,320_ | 4,852 – 26,109 |
 
-_Congenital deafness (contested) contributes a median **12,377** (95% CrI 4,858–30,060) of the S1 total. The draft paper's 14,000 sits between the two variants._
+_Congenital deafness (contested) contributes a median **12,377** (95% UI 4,858–30,060) of the S1 total. A 14,000/yr point estimate sits between the two variants._
 
 ## Table 3b — S1 residual by World Bank income group
 

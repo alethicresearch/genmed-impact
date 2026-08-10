@@ -115,7 +115,7 @@ def _write_tables_md(R: dict[str, Any]) -> None:
                  f"Monte-Carlo n={R['meta']['n_draws']} · pipeline commit `{commit}`._")
     lines.append("")
 
-    # Table 1 — burden decomposition (default) reproducing the draft-paper table
+    # Table 1 — burden decomposition (default assumptions)
     total = b["total_serious"]["median"]
     mono = b["monogenic"]["median"]
     multi = b["multifactorial"]["median"]
@@ -123,7 +123,7 @@ def _write_tables_md(R: dict[str, Any]) -> None:
     perm = res["uniquely_editable_total"]["permissive"]["median"]
     s1 = res["s1_total"]["median"]
     s2p = res["s2"]["permissive"]["median"]
-    lines.append("## Table 1 — Serious genetic disease: burden and uniquely editable residual")
+    lines.append("## Table 1 — Serious genetic disease: burden and editing-relevant residual")
     lines.append("")
     lines.append(_row("Category", "Births / year", "% of serious genetic disease", "% of all births"))
     lines.append(_row("---", "---:", "---:", "---:"))
@@ -131,14 +131,14 @@ def _write_tables_md(R: dict[str, Any]) -> None:
     lines.append(_row("Serious multifactorial / partly-genetic", _fmt(multi), _fmt(multi / total, "pct1"), _fmt(multi / births, "pct")))
     lines.append(_row("All serious genetic disorders", _fmt(total), "100%", _fmt(total / births, "pct")))
     lines.append(_row("S1 — no selectable unaffected embryo", _fmt(s1), _fmt(s1 / total, "pct"), _fmt(s1 / births, "pct")))
-    lines.append(_row("S2 — editing-superior complex disease (permissive)", _fmt(s2p), _fmt(s2p / total, "pct"), _fmt(s2p / births, "pct")))
-    lines.append(_row("**Total uniquely embryo-editable (permissive)**", f"**{_fmt(perm)}**",
+    lines.append(_row("S2 — potential complex-disease editing advantage (future-capacity scaling)", _fmt(s2p), _fmt(s2p / total, "pct"), _fmt(s2p / births, "pct")))
+    lines.append(_row("**Editing-relevant residual (future-capacity scaling)**", f"**{_fmt(perm)}**",
                       f"**{_fmt(perm / total, 'pct')}**", f"**{_fmt(perm / births, 'pct')}**"))
     lines.append("")
     add = res["addressable_share_of_serious"]["permissive"]
-    lines.append(f"_Addressable by existing tools (1 − uniquely editable): "
+    lines.append(f"_Not uniquely dependent on germline editing (1 − editing-relevant residual): "
                  f"**{_fmt(add['median'], 'pct1')}** "
-                 f"(95% CrI {_fmt(add['ci95'][0], 'pct1')}–{_fmt(add['ci95'][1], 'pct1')})._")
+                 f"(95% UI {_fmt(add['ci95'][0], 'pct1')}–{_fmt(add['ci95'][1], 'pct1')})._")
     lines.append("")
 
     # Table 2 — burden across severity × attribution grid
@@ -157,7 +157,7 @@ def _write_tables_md(R: dict[str, Any]) -> None:
     # Table 3 — S1 by condition
     lines.append("## Table 3 — S1 residual by condition (no selectable unaffected embryo)")
     lines.append("")
-    lines.append(_row("Condition", "Births / year (median)", "95% CrI"))
+    lines.append(_row("Condition", "Births / year (median)", "95% UI"))
     lines.append(_row("---", "---:", "---:"))
     for name, node in sorted(res["s1_by_condition"].items(), key=lambda kv: -kv[1]["median"]):
         lines.append(_row(name, _fmt(node["median"]),
@@ -170,8 +170,8 @@ def _write_tables_md(R: dict[str, Any]) -> None:
     lines.append("")
     delta = res["s1_contested_delta"]
     lines.append(f"_Congenital deafness (contested) contributes a median **{_fmt(delta['median'])}** "
-                 f"(95% CrI {_fmt(delta['ci95'][0])}–{_fmt(delta['ci95'][1])}) of the S1 total. "
-                 f"The draft paper's 14,000 sits between the two variants._")
+                 f"(95% UI {_fmt(delta['ci95'][0])}–{_fmt(delta['ci95'][1])}) of the S1 total. "
+                 f"A 14,000/yr point estimate sits between the two variants._")
     lines.append("")
 
     # Table 3b — S1 by income group

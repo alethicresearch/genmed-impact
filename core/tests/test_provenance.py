@@ -137,3 +137,66 @@ def test_explainer_component_not_used():
     for name, text in _app_sources().items():
         assert "components/Explainer" not in text and "<Explainer" not in text, (
             f"{name}: the Explainer pattern was removed from the public UI")
+
+
+# ---------------------------------------------------------------------------
+# Impact-framing synchronization (2026-08 paper retitle).
+# ---------------------------------------------------------------------------
+
+TITLE = "Reframing Genetic Medicine in Terms of Impact"
+OLD_TITLE = "Genetic Disease and What Medicine Can Do"
+
+
+def _public_metadata_files() -> dict[str, str]:
+    files = {
+        "README.md": REPO / "README.md",
+        "CITATION.cff": REPO / "CITATION.cff",
+        ".zenodo.json": REPO / ".zenodo.json",
+        "app/index.html": REPO / "app" / "index.html",
+    }
+    return {name: p.read_text() for name, p in files.items() if p.exists()}
+
+
+def test_paper_title_is_synchronized():
+    app_tsx = (APP_SRC / "App.tsx").read_text()
+    index_html = (REPO / "app" / "index.html").read_text()
+    assert TITLE in app_tsx, "App.tsx: masthead must carry the exact paper title"
+    assert TITLE in index_html, "index.html: <title> must carry the exact paper title"
+    for name, text in _public_metadata_files().items():
+        assert TITLE in text, f"{name}: must cite the exact paper title"
+
+
+def test_old_paper_title_absent_from_public_files():
+    for name, text in {**_public_metadata_files(), **_app_sources()}.items():
+        assert OLD_TITLE not in text, (
+            f"{name}: the paper was retitled '{TITLE}' — remove the old title")
+
+
+def test_no_affiliation_in_public_files():
+    for name, text in {**_public_metadata_files(), **_app_sources()}.items():
+        assert "Alethic Research" not in text, (
+            f"{name}: authors are listed without institutional affiliation")
+
+
+def test_no_public_optimistic_scenario_label():
+    # The permissive S2 scenario is publicly the 'future-capacity exploratory
+    # population-scaling scenario' — never 'optimistic' or an 'upper bound'.
+    for name, text in _app_sources().items():
+        if "/views/" not in name.replace("\\", "/"):
+            continue
+        assert "optimistic" not in text.lower(), (
+            f"{name}: label the permissive scenario 'future-capacity', not 'optimistic'")
+
+
+def test_combined_residual_not_a_primary_overview_finding():
+    # The combined S1+S2 scale summary lives in a collapsed 'For scale' details block,
+    # not among the headline findings.
+    overview = (APP_SRC / "views" / "Overview.tsx").read_text()
+    assert "<H>Overall" not in overview, (
+        "Overview.tsx: the combined residual must not be a primary finding heading")
+    assert "For scale" in overview, (
+        "Overview.tsx: keep the combined scenario estimates as a collapsed 'For scale' block")
+    for_scale_idx = overview.index("For scale")
+    details_idx = overview.rfind("<details", 0, for_scale_idx)
+    assert details_idx != -1, (
+        "Overview.tsx: the 'For scale' section must sit inside a collapsed <details> block")

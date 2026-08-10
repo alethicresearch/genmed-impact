@@ -21,7 +21,11 @@ export default function Beyond({ data, update }: Props) {
     <SourcesProvider>
       <Reading>
         <p className="text-[15px] leading-7 text-slate-600">
-          The medical argument for correcting a severe inherited disorder does not automatically
+          The impact framework does not stop at disease prevention. The same technological
+          advances that could make polygenic disease editing more consequential may eventually
+          make resistance and enhancement more technically plausible. That makes it important
+          to distinguish <strong>technical continuity from ethical continuity</strong>: the
+          medical argument for correcting a severe inherited disorder does not automatically
           apply to every possible use of germline editing.
         </p>
         <p className="text-[15px] leading-7 text-slate-600">

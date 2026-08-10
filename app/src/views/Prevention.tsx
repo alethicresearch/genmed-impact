@@ -97,8 +97,8 @@ export default function Prevention({ data, state, update }: Props) {
   return (
     <div className="space-y-6">
       <SectionHeading
-        title="How much can existing genetic medicine already change?"
-        subtitle="Four pathways act at different points — from identifying reproductive risk before conception to detecting and treating disease after birth. They must be compared by the outcome they actually change."
+        title="Impact now: what can existing genetic medicine achieve?"
+        subtitle="Established genetic medicine already changes outcomes through reproductive planning, embryo selection, prenatal diagnosis, early detection, and treatment. The model asks both what these pathways can achieve in principle and how much of that potential reaches patients today."
       />
       <p className="text-sm leading-relaxed text-slate-700">
         Carrier screening + reproductive planning can identify couples at risk before
@@ -111,6 +111,13 @@ export default function Prevention({ data, state, update }: Props) {
         Because these outcomes are not equivalent, the model reports them on two separate
         tracks: <strong>affected births avoided</strong> and{' '}
         <strong>disease burden mitigated after birth</strong>.
+      </p>
+
+      <p className="text-xs leading-5 text-slate-500">
+        This part of the analysis is strongest for monogenic disease, where inheritance and
+        reproductive options can be modeled relatively directly. Multifactorial disease is also
+        shown, but its attribution and intervention pathways are more assumption-sensitive and
+        should not be interpreted as equivalent evidence.
       </p>
 
       <div className="flex flex-wrap items-end gap-5">
@@ -191,7 +198,7 @@ export default function Prevention({ data, state, update }: Props) {
             onClick={() => update({ tab: 'residual' })}
             className="rounded border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
-            Next: when do existing reproductive options run out? →
+            Next: where does germline editing provide something existing reproductive medicine cannot? →
           </button>
         </div>
 

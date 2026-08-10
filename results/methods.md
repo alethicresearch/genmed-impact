@@ -1,13 +1,13 @@
-# Methods — Global Genetic-Disease Burden × Genetic-Medicine Impact
+# Methods — Reframing Genetic Medicine in Terms of Impact
 
-_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `4e98e2d` · model version 3.0._
+_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `c2b707b` · model version 3.0._
 
 This document describes every input, assumption, formula, and parameter behind the analysis. All headline figures below are regenerated from the pipeline; the full parameter provenance and disease catalogue are in the appendices. Contestable judgment calls are implemented as explicit parameters and reported across their range.
 
 ---
 ## 1. Overview and objects
 
-The analysis is organized around a **library of serious genetic diseases**, each mapped to (a) the gene(s)/locus that cause it, (b) inheritance mode, (c) incidence at birth, and (d) which genetic-medicine interventions can address it. Aggregate burden and preventability are **derived bottom-up** by summing the library; a parametric **Monte-Carlo model** provides the calibrated top-down denominator with 95% uncertainty intervals and the editing-relevant residual. The empirical workflow runs in six steps — define the burden; build the disease map; map intervention outcomes (affected-birth avoidance kept separate from postnatal burden mitigation); model access (technical applicability kept separate from actual access); identify the editing-relevant residual (editing-only prevention kept separate from potential complex-disease editing advantage); interpret the implications — with uncertainty propagated through every quantitative step rather than as a final stage. Interventions considered:
+The analysis is organized around a **library of serious genetic diseases**, each mapped to (a) the gene(s)/locus that cause it, (b) inheritance mode, (c) incidence at birth, and (d) which genetic-medicine interventions can address it. Aggregate burden and preventability are **derived bottom-up** by summing the library; a parametric **Monte-Carlo model** provides the calibrated top-down denominator with 95% uncertainty intervals and the editing-relevant residual. The analysis distinguishes **present impact**, the **translational germline-editing frontier**, and **future polygenic-editing impact**. The empirical workflow runs in six steps — define the burden; build the disease map; map intervention outcomes (affected-birth avoidance kept separate from postnatal burden mitigation); model access (technical applicability kept separate from actual access); identify the editing-relevant residual (editing-only prevention kept separate from potential complex-disease editing advantage); interpret the implications — with uncertainty propagated through every quantitative step rather than as a final stage. Interventions considered:
 
 - **CS** — preconception carrier screening (identifies at-risk couples)
 - **PGT** — IVF + preimplantation genetic testing (embryo selection)
@@ -91,7 +91,7 @@ remaining_after_t = remaining_before_t × (1 − prevent[c,t] × coverage[t,regi
 
 Two outcome tracks are carried separately: **averted_birth** (CS, PGT, PND only) and **averted_burden** (adds NBS, which mitigates the burden of births that still occur, scaled by the treatable fraction). Full-coverage preventable fractions `prevent[c,t]` are anchored to national program outcomes (thalassaemia ~90%, Down syndrome ~70%); coverage scenarios are `current` / `achievable_2035` / `ideal`, refined per income group by an access multiplier (<1 for LMICs, reflecting that ~94% of birth-defect births occur in LMICs). PND counting is termination-dependent and reported with the toggle on and off.
 
-## 8. Editing-relevant residual (S1 + S2)
+## 8. Germline-editing frontier
 
 **S1 — no selectable unaffected embryo.** The only monogenic configuration where embryo selection cannot help: recessive affected × affected (aa × aa) couples, or a viable homozygous-dominant (AA) parent. Per condition, from allele frequency q, penetrance, survival-to-reproduction s, assortative-mating α, locus-concordance ℓ, and consanguinity F:
 
@@ -105,9 +105,9 @@ births_S1 = births × Σ_conditions P_couple  + structural-variant term
 
 Standard both-heterozygous couples (¼ unaffected embryos) are selection-addressable and excluded. Result — editing-only prevention: **S1 ≈ 11,320 (95% UI 4,852–26,109)** excluding congenital deafness (the headline default); **24,877** including it. Deafness is a contested, normative classification decision — many Deaf people and scholars reject the characterization of deafness as a condition that should necessarily be prevented — and is toggled explicitly.
 
-**S2 — potential complex-disease editing advantage.** The multifactorial share for which a single/oligo-locus edit might provide a medically meaningful benefit beyond somatic, pharmacological, and public-health alternatives (an advantage term, not an only-option population), under current-evidence (strict) vs optimistic (permissive) criteria: strict ≈ 1,320/yr, permissive ≈ 127,166/yr.
+**S2 — potential complex-disease editing advantage.** The multifactorial share for which a single/oligo-locus edit might provide a medically meaningful benefit beyond somatic, pharmacological, and public-health alternatives (an advantage term, not an only-option population), under the current-evidence (strict) vs future-capacity exploratory (permissive) scaling scenarios. This population-scaled quantity is generated from the model's assumed complex-disease editing share; it is not the direct sum of the disease-specific liability-threshold analysis (§9): strict ≈ 1,320/yr, permissive ≈ 127,166/yr.
 
-**Editing-relevant residual, optimistic scenario (S1 + permissive S2): 139,586 (95% UI 68,828–257,513)** — **1.74% (95% UI 0.87–3.10%)** of serious genetic disease; the complement, **98.26% (95% UI 96.90–99.13%)**, is not uniquely dependent on germline editing.
+**Editing-relevant residual, future-capacity exploratory scaling (S1 + permissive S2): 139,586 (95% UI 68,828–257,513)** — **1.74% (95% UI 0.87–3.10%)** of serious genetic disease; the complement, **98.26% (95% UI 96.90–99.13%)**, is not uniquely dependent on germline editing.
 
 ## 9. Multifactorial intervention viability (liability-threshold)
 
@@ -118,9 +118,9 @@ Embryo selection : δ = √(prs_r2 · sib_frac) · E|min of N embryos|      (Blo
 Oligo-locus edit : δ = √( oligo_editable_h2 · (1 − e^(−n_edits/τ)) )
 ```
 
-Selection power grows with embryo number N; editing power depends on how concentrated risk is in editable large-effect loci (≈0 for massively polygenic traits). Two technology scenarios move the frontier: **present** (N≈5 embryos, 1 edit) and **near-future** (N≈200 via IVM/IVG, ~10 multiplex edits). A `pleiotropy_caution` flag overrides an otherwise-concentrated editing verdict (e.g. APOE, HLA).
+Selection power grows with embryo number N; editing power depends on how concentrated risk is in editable large-effect loci (≈0 for massively polygenic traits). Two assumption sets map how the frontier moves as technical capacity increases: **current-capacity** (N≈5 embryos, 1 edit) and **future high-capacity** (N≈200 via IVM/IVG, ~10 multiplex edits; a boundary analysis of improved capability, not a forecast). A `pleiotropy_caution` flag overrides an otherwise-concentrated editing verdict (e.g. APOE, HLA).
 
-Frontier (10 common complex diseases): **editing viable for 0 disease(s) today → 3 near-future**; selection viable-or-marginal for 10 → 10. Massively polygenic traits (schizophrenia, major depression) never reach editing-viability regardless of technology.
+Frontier (10 common complex diseases): **editing meets the model's viability threshold for 0 disease(s) under current-capacity assumptions → 3 under the future high-capacity assumption set**; selection viable-or-marginal for 10 → 10. Massively polygenic traits (schizophrenia, major depression) never reach the editing-viability threshold under either assumption set — their risk is too dispersed for any bounded number of edits.
 
 _Caveats (stated in-app): selection RRR can look large for rare, highly-heritable traits — a property of the liability threshold, not an achievable program; genetic tractability is necessary but not sufficient for clinical viability (safety, pleiotropy, effect realism are separate gates)._
 

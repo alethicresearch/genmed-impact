@@ -197,7 +197,7 @@ export default function Denominator({ data, state, update }: Props) {
               share: `${fmtPct(ueStrictShareOfSerious.median, 2)} of serious`,
             },
             {
-              stage: 'Editing-relevant residual (optimistic scenario; default assumptions)',
+              stage: 'Editing-relevant residual (future-capacity scaling; default assumptions)',
               count: fmtInt(uePermissive.median),
               share: `${fmtPct(uePermShareOfSerious.median, 2)} of serious`,
             },
@@ -362,7 +362,7 @@ function Cascade(p: CascadeProps) {
 
       {/* Editable residual rows */}
       {[
-        { label: 'Editing-relevant (optimistic scenario)', frac: permFracOfSerious, color: '#f59e0b', count: p.uePermissive },
+        { label: 'Editing-relevant (future-capacity scaling)', frac: permFracOfSerious, color: '#f59e0b', count: p.uePermissive },
         { label: 'Editing-relevant (current evidence)', frac: strictFracOfSerious, color: '#b45309', count: p.ueStrict },
       ].map((r, idx) => {
         const y = (3 + idx) * (rowH + gap);

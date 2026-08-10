@@ -27,7 +27,7 @@ births:
     table_or_page: "Demographic Indicators, Births (thousands), World, 2023"
     retrieved: "2026-08-10"
     note: >
-      WPP 2024 places annual world births near 134M and declining; the draft paper rounds to
+      WPP 2024 places annual world births near 134M and declining; older summaries round to
       ~140M. Modelled as an interval [130M, 140M]. Per-country births are pulled by
       ingest/un_wpp.py into data/curated/births_by_country.parquet and aggregated to regions.
 
@@ -48,8 +48,7 @@ burden:
     table_or_page: "Modell & Darlison 2008 Table 1; MoD 2006 Appendix tables"
     retrieved: "2026-08-10"
     note: >
-      Serious single-gene disorders. def_b default of 10.4/1000 reproduces ~1.4M/yr at 135M births,
-      matching the draft paper's monogenic figure.
+      Serious single-gene disorders. def_b default of 10.4/1000 gives ~1.4M/yr at 135M births.
 
   # "Serious multifactorial / partly-genetic" congenital burden measured at birth
   # (congenital heart disease, neural-tube defects, orofacial clefts, and other
@@ -63,7 +62,7 @@ burden:
     table_or_page: "GBD 2023 Congenital birth defects, <1yr; MoD 2006 ~6% of births"
     retrieved: "2026-08-10"
     note: >
-      49/1000 × 135M ≈ 6.6M/yr under the inclusive attribution stance, matching the draft paper.
+      49/1000 × 135M ≈ 6.6M/yr under the inclusive attribution stance.
 
 # ---------------------------------------------------------------------------
 # 3. Genetic attribution weight g[d] for the multifactorial bucket (RQ / §3.2).
@@ -156,7 +155,7 @@ s2:
   fraction_of_multifactorial:
     strict:     {value: 0.0005, low: 0.0,   high: 0.003}
     permissive: {value: 0.020,  low: 0.008, high: 0.035,
-                 note: "0.02 × 6.6M ≈ 132k, matching the draft paper's permissive figure"}
+                 note: "0.02 × 6.6M ≈ 132k under the future-capacity exploratory scaling scenario"}
   source: "Ference et al. 2017 (PCSK9); Savulescu et al. 2025 (heritable polygenic editing); reasoned netting"
   doi: "10.1038/s41586-024-08300-4"
   table_or_page: "see ANALYSIS_LOG §S2"

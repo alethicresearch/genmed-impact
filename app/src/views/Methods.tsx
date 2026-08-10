@@ -115,7 +115,7 @@ function badgeOf(path: string, leaf: ProvenanceLeaf): Badge {
 const INTERNAL_TERMS: Array<{ internal: string; meaning: string }> = [
   { internal: 'S1', meaning: 'No unaffected embryo can be selected — the families for whom editing would be the only preventive option.' },
   { internal: 'S2', meaning: 'Complex-disease cases where editing might outperform every alternative.' },
-  { internal: 'strict / permissive', meaning: 'Current-evidence case / optimistic upper-bound case for how much complex-disease editing to credit.' },
+  { internal: 'strict / permissive', meaning: 'Internal identifiers for the current-evidence and future-capacity exploratory complex-disease scaling scenarios.' },
   { internal: 'def_a / def_b / def_c', meaning: 'Narrow / Main / Broad definition of serious disease (severity threshold).' },
   { internal: 'attribution (inclusive / heritability_weighted / exclusive)', meaning: 'How much multifactorial disease to count as genetically attributable: all of it / weighted by heritability / only a small, strongly genetic-familial component (~10% — narrow attribution, not zero).' },
   { internal: 'pnd_on / pnd_off', meaning: 'Whether prenatal diagnosis followed by pregnancy termination is counted as reducing affected births.' },
@@ -124,12 +124,12 @@ const INTERNAL_TERMS: Array<{ internal: string; meaning: string }> = [
 // The one canonical research workflow — identical to the Overview's and the paper's Figure 2.
 // Uncertainty is not a step: it is propagated through every quantitative step.
 export const WORKFLOW_STEPS = [
-  { title: 'Estimate the disease burden', desc: 'How much serious monogenic and multifactorial disease is attributed to the annual birth cohort?' },
-  { title: 'Build the disease catalogue', desc: 'Which diseases, genes, inheritance patterns, frequencies, and interventions are represented?' },
-  { title: 'Map what each intervention changes', desc: 'Does it avoid an affected birth, detect disease, or mitigate disease after birth?' },
-  { title: 'Model access', desc: 'How much of the technically applicable benefit is reached under current, expanded-access, and idealized coverage?' },
-  { title: 'Estimate what remains for editing', desc: 'How often can no unaffected embryo be selected, and could editing add additional benefit in complex disease?' },
-  { title: 'Interpret the result separately from the model', desc: 'What do the empirical results imply — and what requires additional ethical and policy premises?' },
+  { title: 'Estimate the disease burden', desc: 'What serious monogenic and multifactorial disease is represented under different severity and attribution assumptions?' },
+  { title: 'Map intervention capability', desc: 'Which reproductive, diagnostic, screening, and therapeutic approaches apply to each disease?' },
+  { title: 'Separate outcomes', desc: 'Which pathways avoid an affected birth, and which detect or mitigate disease after birth?' },
+  { title: 'Estimate present impact and access', desc: 'How much benefit is technically possible, and how much is reached under current and expanded-coverage scenarios?' },
+  { title: 'Map the editing frontier', desc: 'Where does embryo selection fail, and how could the role of editing change as polygenic intervention capacity grows?' },
+  { title: 'Interpret impact over time', desc: 'What follows for present implementation, translational research, future technology development, and regulation?' },
 ];
 
 export default function Methods({ data, state, update }: Props) {
@@ -180,12 +180,12 @@ export default function Methods({ data, state, update }: Props) {
         subtitle="How the disease catalogue, burden estimates, intervention model, editing residual, uncertainty analysis, and source provenance are constructed."
       />
       <p className="text-sm leading-relaxed text-slate-700">
-        The study has three linked empirical components. First, we estimate the burden of
-        serious monogenic and multifactorial disease in an annual global birth cohort. Second,
-        we map diseases to existing reproductive, screening, and treatment pathways and
-        estimate outcomes under different levels of access. Third, we estimate the reproductive
-        situations left without an unaffected embryo for selection and separately explore
-        whether editing could provide additional risk reduction for complex disease.
+        The study combines a disease-level catalogue with population, intervention, access,
+        reproductive, and genetic-architecture models. The empirical analyses answer three
+        related impact questions: <strong>what can genetic medicine achieve with technologies
+        available now; where does germline editing provide a medically distinct translational
+        option; and how might that role change under future polygenic-editing
+        capabilities?</strong>
       </p>
       <p className="text-sm leading-relaxed text-slate-700">
         Quantitative uncertainty is propagated through {m.n_draws.toLocaleString('en-US')}{' '}

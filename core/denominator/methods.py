@@ -48,7 +48,7 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     L: list[str] = []
     A = L.append
 
-    A("# Methods — Global Genetic-Disease Burden × Genetic-Medicine Impact")
+    A("# Methods — Reframing Genetic Medicine in Terms of Impact")
     A("")
     A(f"_Auto-generated from the analysis pipeline · Monte-Carlo n={R['meta']['n_draws']:,} · "
       f"pipeline commit `{R['meta']['commit']}` · model version {R['meta']['spec_version']}._")
@@ -68,7 +68,9 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
       "(d) which genetic-medicine interventions can address it. Aggregate burden and "
       "preventability are **derived bottom-up** by summing the library; a parametric "
       "**Monte-Carlo model** provides the calibrated top-down denominator with 95% uncertainty intervals "
-      "and the editing-relevant residual. The empirical workflow runs in six steps — define the "
+      "and the editing-relevant residual. The analysis distinguishes **present impact**, the "
+      "**translational germline-editing frontier**, and **future polygenic-editing impact**. "
+      "The empirical workflow runs in six steps — define the "
       "burden; build the disease map; map intervention outcomes (affected-birth avoidance kept "
       "separate from postnatal burden mitigation); model access (technical applicability kept "
       "separate from actual access); identify the editing-relevant residual (editing-only "
@@ -211,7 +213,7 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     A("")
 
     # 7. Residual
-    A("## 8. Editing-relevant residual (S1 + S2)")
+    A("## 8. Germline-editing frontier")
     A("")
     A("**S1 — no selectable unaffected embryo.** The only monogenic configuration where embryo "
       "selection cannot help: recessive affected × affected (aa × aa) couples, or a viable "
@@ -237,10 +239,13 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     A("**S2 — potential complex-disease editing advantage.** The multifactorial share for which a "
       "single/oligo-locus edit might provide a medically meaningful benefit beyond somatic, "
       "pharmacological, and public-health alternatives (an advantage term, not an only-option "
-      "population), under current-evidence (strict) vs optimistic (permissive) criteria: "
+      "population), under the current-evidence (strict) vs future-capacity exploratory "
+      "(permissive) scaling scenarios. This population-scaled quantity is generated from the "
+      "model's assumed complex-disease editing share; it is not the direct sum of the "
+      "disease-specific liability-threshold analysis (§9): "
       f"strict ≈ {_m(res['s2']['strict'])}/yr, permissive ≈ {_m(res['s2']['permissive'])}/yr.")
     A("")
-    A(f"**Editing-relevant residual, optimistic scenario (S1 + permissive S2): {_mci(res['uniquely_editable_total']['permissive'])}"
+    A(f"**Editing-relevant residual, future-capacity exploratory scaling (S1 + permissive S2): {_mci(res['uniquely_editable_total']['permissive'])}"
       f"** — **{_mci(res['uniquely_editable_share_of_serious']['permissive'], pct=True)}** of serious "
       f"genetic disease; the complement, **"
       f"{_mci(res['addressable_share_of_serious']['permissive'], pct=True)}**, is not uniquely dependent on germline editing.")
@@ -261,18 +266,21 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     A("```")
     A("")
     A("Selection power grows with embryo number N; editing power depends on how concentrated risk "
-      "is in editable large-effect loci (≈0 for massively polygenic traits). Two technology "
-      "scenarios move the frontier: **present** (N≈5 embryos, 1 edit) and **near-future** (N≈200 "
-      "via IVM/IVG, ~10 multiplex edits). A `pleiotropy_caution` flag overrides an otherwise-"
-      "concentrated editing verdict (e.g. APOE, HLA).")
+      "is in editable large-effect loci (≈0 for massively polygenic traits). Two assumption sets "
+      "map how the frontier moves as technical capacity increases: **current-capacity** (N≈5 "
+      "embryos, 1 edit) and **future high-capacity** (N≈200 via IVM/IVG, ~10 multiplex edits; a "
+      "boundary analysis of improved capability, not a forecast). A `pleiotropy_caution` flag "
+      "overrides an otherwise-concentrated editing verdict (e.g. APOE, HLA).")
     A("")
     fr = mf["frontier"]
-    A(f"Frontier ({mf['n_diseases']} common complex diseases): **editing viable for "
-      f"{fr['present']['editing_viable']} disease(s) today → {fr['near_future']['editing_viable']} "
-      f"near-future**; selection viable-or-marginal for "
+    A(f"Frontier ({mf['n_diseases']} common complex diseases): **editing meets the model's "
+      f"viability threshold for {fr['present']['editing_viable']} disease(s) under current-capacity "
+      f"assumptions → {fr['near_future']['editing_viable']} under the future high-capacity "
+      f"assumption set**; selection viable-or-marginal for "
       f"{fr['present']['selection_viable_or_marginal']} → "
       f"{fr['near_future']['selection_viable_or_marginal']}. Massively polygenic traits "
-      "(schizophrenia, major depression) never reach editing-viability regardless of technology.")
+      "(schizophrenia, major depression) never reach the editing-viability threshold under either "
+      "assumption set — their risk is too dispersed for any bounded number of edits.")
     A("")
     A("_Caveats (stated in-app): selection RRR can look large for rare, highly-heritable traits — a "
       "property of the liability threshold, not an achievable program; genetic tractability is "

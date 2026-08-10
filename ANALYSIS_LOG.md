@@ -214,3 +214,42 @@ inferring them:
 - **Beyond page.** Resistance: alternatives exist, but no claim that they beat an edit on
   reach/cost/risk without analysis; enhancement benefits may be absolute or positional; "no
   denominator" corrected to "the inherited-disease denominator does not transfer directly."
+
+## 2026-08-11 — Impact-framing synchronization
+
+The paper was retitled **"Reframing Genetic Medicine in Terms of Impact"** (no subtitle) and
+reorganized around three time horizons — impact now, the translational frontier, and future
+impact. This pass synchronizes the repository (research page, README, metadata, generated
+methods, tests) with that framing. **No quantitative model logic or numerical outputs
+changed**; internal identifiers (S1/S2, strict/permissive, `uniquely_editable_*`) are
+unchanged for compatibility.
+
+- **Combined residual demoted, not deleted.** The combined S1 + S2 quantities (~14k / ~0.18%
+  and ~140k / ~1.7%) are retained as *scale summaries* in a collapsed "For scale" section of
+  the Overview, explicitly marked as not the central conclusion. The central results are now
+  reported separately by horizon.
+- **S1 reinterpreted for the public copy** as the *near-term translational population*:
+  monogenic cases where no unaffected embryo can be selected, so germline editing would
+  provide a preventive route unavailable through embryo selection (~11.3k births/year at
+  default assumptions).
+- **S2 renamed publicly** to the *current-evidence* (strict) and *future-capacity*
+  (permissive) **exploratory population-scaling scenarios**. Neither is called "optimistic"
+  or an "upper bound" in public copy; the permissive scenario is a boundary analysis of what
+  changes if technical capacity improves, not a forecast. Public copy also states the scaled
+  figures are not the direct sum of the disease-specific liability-threshold analysis.
+- **The liability-threshold model separately examines the frontier.** The per-disease
+  analysis (current-capacity vs future high-capacity assumption sets) is the substantive
+  examination of how the polygenic editing frontier could move; verdict bands are reported as
+  modeled risk-reduction ranges plus a pleiotropy caution.
+- **Present non-viability ≠ permanent low future impact.** Polygenic editing is framed as a
+  developing frontier: not clinically ready under current-capacity assumptions, with the
+  future-capacity assumption set mapping how the frontier could move — without claiming
+  clinical readiness or attaching dates.
+- **Three horizons reported separately** everywhere results are summarized (Overview
+  findings, README, methods.md): present impact of existing genetic medicine (with the
+  capability-vs-access gap), the near-term editing-only translational population, and the
+  polygenic-architecture / future-capacity analysis.
+- Affiliation "Alethic Research" removed from README, CITATION.cff, and .zenodo.json;
+  citation metadata retitled. Tests extended to lock the new title, the absence of the old
+  title in public files, the absence of a public "optimistic scenario" label, and the
+  demotion of the combined residual out of the primary Overview findings.
