@@ -18,6 +18,48 @@ export function Caption({ children }: { children: ReactNode }) {
   return <p className="text-xs leading-5 text-slate-500">{children}</p>;
 }
 
+// ---- Epistemic-status labels ----
+// The site mixes cited data, model output, the authors' reading of it, and normative
+// recommendation. These small tags keep the four visibly distinct wherever prose moves
+// from a number to a conclusion.
+
+export type EpistemicKind = 'data' | 'model' | 'interpretation' | 'policy';
+
+const EPISTEMIC_META: Record<EpistemicKind, { label: string; cls: string }> = {
+  data: { label: 'Data', cls: 'bg-slate-200 text-slate-700' },
+  model: { label: 'Model result', cls: 'bg-sky-100 text-sky-800' },
+  interpretation: { label: 'Interpretation', cls: 'bg-amber-100 text-amber-800' },
+  policy: { label: 'Policy implication', cls: 'bg-violet-100 text-violet-800' },
+};
+
+export function EpistemicTag({ kind }: { kind: EpistemicKind }) {
+  const m = EPISTEMIC_META[kind];
+  return (
+    <span
+      className={`mr-2 inline-block whitespace-nowrap rounded px-1.5 py-0.5 align-middle text-[11px] font-semibold uppercase tracking-wide ${m.cls}`}
+    >
+      {m.label}
+    </span>
+  );
+}
+
+/** A short claim prefixed with its epistemic status — data, model result, interpretation, or policy. */
+export function Claim({ kind, children }: { kind: EpistemicKind; children: ReactNode }) {
+  return (
+    <p className="text-[15px] leading-7 text-slate-700">
+      <EpistemicTag kind={kind} />
+      {children}
+    </p>
+  );
+}
+
+/** A stack of Claims, visually grouped so the data → model → interpretation → policy chain reads as one unit. */
+export function ClaimChain({ children }: { children: ReactNode }) {
+  return (
+    <div className="space-y-2 rounded-lg border border-slate-200 bg-slate-50/60 p-4">{children}</div>
+  );
+}
+
 /**
  * A chart embedded in the reading flow: label, the figure itself, a caption, and — when the
  * chart has a fuller interactive version elsewhere — a click-through. The whole figure is the

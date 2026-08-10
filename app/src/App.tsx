@@ -9,29 +9,87 @@ import Prevention from './views/Prevention';
 import Multifactorial from './views/Multifactorial';
 import Embryos from './views/Embryos';
 import Residual from './views/Residual';
-import Resistance from './views/Resistance';
-import Enhancement from './views/Enhancement';
+import Beyond from './views/Beyond';
+import EthicsPolicy from './views/EthicsPolicy';
 import Allocation from './views/Allocation';
 import Methods from './views/Methods';
 
-// The views in the order they read as a paper — the user journey follows the argument.
-const ALL_TABS: TabDef[] = [
-  { id: 'overview', label: 'The argument' },
-  { id: 'library', label: 'The disease library' },
-  { id: 'denominator', label: 'The burden' },
-  { id: 'prevention', label: 'What medicine prevents' },
-  { id: 'residual', label: "Where editing is unique" },
-  { id: 'embryos', label: 'The embryo trade-off' },
-  { id: 'multifactorial', label: 'Complex disease' },
-  { id: 'resistance', label: 'Resistance' },
-  { id: 'enhancement', label: 'Enhancement' },
-  { id: 'allocation', label: 'Where to invest' },
-  { id: 'methods', label: 'Methods & sources' },
+// Two-layer navigation. The top level is the argument in six steps; specialized analyses
+// live inside sections as sub-views instead of competing as equal tabs. Each sub-view keeps
+// its own stable `tab` id so existing shared URLs continue to work.
+interface ViewDef {
+  id: string;
+  /** Short label used in the sub-navigation pills and prev/next journey. */
+  label: string;
+}
+interface SectionDef {
+  id: string;
+  label: string;
+  views: ViewDef[];
+}
+
+const SECTIONS: SectionDef[] = [
+  { id: 'sec-overview', label: 'Overview', views: [{ id: 'overview', label: 'Overview' }] },
+  {
+    id: 'sec-map',
+    label: 'Disease map',
+    views: [
+      { id: 'denominator', label: 'How much serious genetic disease is there?' },
+      { id: 'library', label: 'The disease catalogue' },
+    ],
+  },
+  {
+    id: 'sec-existing',
+    label: 'Existing options',
+    views: [{ id: 'prevention', label: 'What current medicine can do' }],
+  },
+  {
+    id: 'sec-editing',
+    label: 'Where editing adds value',
+    views: [
+      { id: 'residual', label: 'When editing is the only option' },
+      { id: 'multifactorial', label: 'Could editing help complex disease?' },
+    ],
+  },
+  {
+    id: 'sec-ethics',
+    label: 'Ethics & policy',
+    views: [
+      { id: 'ethics', label: 'What should follow' },
+      { id: 'embryos', label: 'The embryo trade-off' },
+      { id: 'beyond', label: 'Beyond disease prevention' },
+      { id: 'allocation', label: 'Cost scenario (exploratory)' },
+    ],
+  },
+  {
+    id: 'sec-methods',
+    label: 'Methods & data',
+    views: [{ id: 'methods', label: 'Methods & data' }],
+  },
 ];
+
+// Old view ids from previously shared URLs → their current home.
+const LEGACY_TABS: Record<string, string> = {
+  resistance: 'beyond',
+  enhancement: 'beyond',
+};
+
+const ALL_VIEWS: ViewDef[] = SECTIONS.flatMap((s) => s.views);
+
+function sectionOf(viewId: string): SectionDef {
+  return SECTIONS.find((s) => s.views.some((v) => v.id === viewId)) ?? SECTIONS[0];
+}
 
 // ---- Research-artifact masthead metadata ----
 const REPO_URL = 'https://github.com/alethicresearch/genmed-impact';
 const CITATION_URL = `${REPO_URL}/blob/main/CITATION.cff`;
+
+const AUTHORS: { name: string; affiliation?: string }[] = [
+  { name: 'Sankalpa Ghose', affiliation: 'Alethic Research' },
+  { name: 'D. A. Wallach' },
+  { name: 'Peter Singer' },
+  { name: 'Julian Savulescu' },
+];
 
 export default function App() {
   const [data, setData] = useState<AllData | null>(null);
@@ -44,13 +102,20 @@ export default function App() {
       .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)));
   }, []);
 
-  const tabs = ALL_TABS;
-  const activeTab = tabs.some((t) => t.id === state.tab) ? state.tab : 'overview';
-  // Number the tabs so the bar reads as an ordered table of contents.
-  const numberedTabs = tabs.map((t, i) => ({ ...t, label: `${i + 1}. ${t.label}` }));
-  const activeIdx = tabs.findIndex((t) => t.id === activeTab);
-  const prevTab = activeIdx > 0 ? tabs[activeIdx - 1] : null;
-  const nextTab = activeIdx >= 0 && activeIdx < tabs.length - 1 ? tabs[activeIdx + 1] : null;
+  const requested = LEGACY_TABS[state.tab] ?? state.tab;
+  const activeView = ALL_VIEWS.some((v) => v.id === requested) ? requested : 'overview';
+  const activeSection = sectionOf(activeView);
+
+  const sectionTabs: TabDef[] = SECTIONS.map((s) => ({ id: s.id, label: s.label }));
+  const onPickSection = (secId: string) => {
+    const sec = SECTIONS.find((s) => s.id === secId);
+    if (sec) update({ tab: sec.views[0].id });
+  };
+
+  const activeIdx = ALL_VIEWS.findIndex((v) => v.id === activeView);
+  const prevView = activeIdx > 0 ? ALL_VIEWS[activeIdx - 1] : null;
+  const nextView =
+    activeIdx >= 0 && activeIdx < ALL_VIEWS.length - 1 ? ALL_VIEWS[activeIdx + 1] : null;
 
   return (
     <div className="mx-auto flex min-h-full max-w-6xl flex-col px-4 pb-16 pt-6">
@@ -67,13 +132,24 @@ export default function App() {
                 Genetic Disease and What Medicine Can Do
               </h1>
             </button>
+            <p className="mt-1 text-sm text-slate-600">
+              {AUTHORS.map((a, i) => (
+                <span key={a.name}>
+                  {i > 0 && <span className="text-slate-400"> · </span>}
+                  <span className="font-medium text-slate-700">{a.name}</span>
+                  {a.affiliation && (
+                    <span className="text-slate-500"> ({a.affiliation})</span>
+                  )}
+                </span>
+              ))}
+            </p>
             {/* artifact link row */}
             <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
               <span
-                className="inline-flex items-center gap-1 rounded border border-slate-300 bg-slate-50 px-2 py-1 text-slate-500"
-                title="Manuscript in preparation"
+                className="inline-flex items-center gap-1 rounded border border-amber-300 bg-amber-50 px-2 py-1 text-amber-800"
+                title="The analysis and the accompanying manuscript are still under development; figures may change."
               >
-                📄 Paper — in preparation
+                ⚠ Work in progress — analysis &amp; manuscript under development
               </span>
               <a
                 href={REPO_URL}
@@ -111,52 +187,93 @@ export default function App() {
 
       {data && (
         <>
-          <Tabs tabs={numberedTabs} active={activeTab} onChange={(id) => update({ tab: id })} />
+          <Tabs tabs={sectionTabs} active={activeSection.id} onChange={onPickSection} />
+          {activeSection.views.length > 1 && (
+            <SubNav
+              views={activeSection.views}
+              active={activeView}
+              onPick={(id) => update({ tab: id })}
+            />
+          )}
           <main className="mt-5 flex-1">
             <div
               role="tabpanel"
-              id={`panel-${activeTab}`}
-              aria-labelledby={`tab-${activeTab}`}
+              id={`panel-${activeSection.id}`}
+              aria-labelledby={`tab-${activeSection.id}`}
             >
-              {activeTab === 'overview' && (
+              {activeView === 'overview' && (
                 <Overview data={data} state={state} update={update} />
               )}
-              {activeTab === 'library' && (
+              {activeView === 'library' && (
                 <Library data={data} state={state} update={update} />
               )}
-              {activeTab === 'denominator' && (
+              {activeView === 'denominator' && (
                 <Denominator data={data} state={state} update={update} />
               )}
-              {activeTab === 'prevention' && (
+              {activeView === 'prevention' && (
                 <Prevention data={data} state={state} update={update} />
               )}
-              {activeTab === 'multifactorial' && (
+              {activeView === 'multifactorial' && (
                 <Multifactorial data={data} state={state} update={update} />
               )}
-              {activeTab === 'residual' && (
+              {activeView === 'residual' && (
                 <Residual data={data} state={state} update={update} />
               )}
-              {activeTab === 'embryos' && (
+              {activeView === 'embryos' && (
                 <Embryos data={data} state={state} update={update} />
               )}
-              {activeTab === 'resistance' && (
-                <Resistance data={data} state={state} update={update} />
+              {activeView === 'beyond' && (
+                <Beyond data={data} state={state} update={update} />
               )}
-              {activeTab === 'enhancement' && (
-                <Enhancement data={data} state={state} update={update} />
+              {activeView === 'ethics' && (
+                <EthicsPolicy data={data} state={state} update={update} />
               )}
-              {activeTab === 'allocation' && <Allocation data={data} />}
-              {activeTab === 'methods' && (
+              {activeView === 'allocation' && <Allocation data={data} />}
+              {activeView === 'methods' && (
                 <Methods data={data} state={state} update={update} />
               )}
             </div>
           </main>
 
-          <PrevNext prev={prevTab} next={nextTab} onGo={(id) => update({ tab: id })} />
+          <PrevNext prev={prevView} next={nextView} onGo={(id) => update({ tab: id })} />
           <Footer commit={data.meta.commit} />
         </>
       )}
     </div>
+  );
+}
+
+// Second navigation level: the views inside the active section, as a pill row.
+function SubNav({
+  views,
+  active,
+  onPick,
+}: {
+  views: ViewDef[];
+  active: string;
+  onPick: (id: string) => void;
+}) {
+  return (
+    <nav aria-label="Section contents" className="no-print mt-3 flex flex-wrap gap-1.5">
+      {views.map((v) => {
+        const selected = v.id === active;
+        return (
+          <button
+            key={v.id}
+            type="button"
+            aria-current={selected ? 'page' : undefined}
+            onClick={() => onPick(v.id)}
+            className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+              selected
+                ? 'border-accent bg-accent text-white'
+                : 'border-slate-300 bg-white text-slate-600 hover:border-accent hover:text-accent'
+            }`}
+          >
+            {v.label}
+          </button>
+        );
+      })}
+    </nav>
   );
 }
 
@@ -166,8 +283,8 @@ function PrevNext({
   next,
   onGo,
 }: {
-  prev: TabDef | null;
-  next: TabDef | null;
+  prev: ViewDef | null;
+  next: ViewDef | null;
   onGo: (id: string) => void;
 }) {
   if (!prev && !next) return null;
@@ -209,7 +326,7 @@ function Footer({ commit }: { commit: string }) {
   return (
     <footer className="mt-10 space-y-1 border-t border-slate-200 pt-3 text-xs text-slate-500">
       <p>
-        Figures are model estimates shown with their uncertainty — see Methods &amp; Sources for
+        Figures are model estimates shown with their uncertainty — see Methods &amp; data for
         where each number comes from.
       </p>
       <p className="text-slate-400">
