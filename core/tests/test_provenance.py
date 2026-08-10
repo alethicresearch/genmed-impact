@@ -204,7 +204,7 @@ def test_argument_concepts_have_a_deliberate_home():
         "editing-only prevention": "editing-only prevention",
         "poor-selection cases": "poor embryo-selection prospects",
         "selection-versus-correction ratio": "(1−u)/u",
-        "IVM/IVG changes selection capacity": "make selection substantially more powerful",
+        "IVM/IVG changes selection capacity": "expanding the number of genomes available",
         "future polygenic editing": "polygenic editing",
         "spectacle": "Spectacle",
         "regulatory arbitrage": "Regulatory arbitrage",

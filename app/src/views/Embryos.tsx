@@ -2,7 +2,8 @@ import { AllData, fmtCompact, fmtInt } from '../data';
 import { UrlState } from '../urlState';
 import { Card, SectionHeading } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
-import { Claim } from '../components/prose';
+import Term from '../components/Term';
+import { Claim, InlineLink } from '../components/prose';
 
 interface Props {
   data: AllData;
@@ -20,7 +21,7 @@ const INHERITANCE_NOTE: Record<string, string> = {
   multifactorial: 'no single-locus target; selection is polygenic (see complex-disease analysis)',
 };
 
-export default function Embryos({ data }: Props) {
+export default function Embryos({ data, update }: Props) {
   const e = data.embryos;
   const agg = e.aggregate;
   const bl = e.params.blastocysts_per_ivf_cycle;
@@ -119,6 +120,19 @@ export default function Embryos({ data }: Props) {
           Zero means zero genotype-based exclusions by construction; editing failure, mosaicism,
           developmental attrition, and safety-related embryo loss are not modeled.
         </p>
+        <p className="mt-2 text-xs leading-relaxed text-slate-600">
+          At the limit u = 0, selection is impossible — those configurations are quantified in
+          the{' '}
+          <InlineLink onClick={() => update({ tab: 'residual' })}>
+            no-selectable-embryo analysis
+          </InlineLink>
+          . For multifactorial disease there is no single-locus target to select against; see
+          the{' '}
+          <InlineLink onClick={() => update({ tab: 'multifactorial' })}>
+            complex-disease analysis
+          </InlineLink>
+          .
+        </p>
       </Card>
 
       {/* Future technology moves both sides of the comparison */}
@@ -127,8 +141,10 @@ export default function Embryos({ data }: Props) {
           Future reproductive technologies change both sides of the comparison
         </h3>
         <p className="mt-1 text-sm leading-relaxed text-slate-700">
-          Larger embryo sets generated through technologies such as in-vitro maturation (IVM)
-          or in-vitro gametogenesis (IVG) could make selection substantially more powerful by
+          Larger embryo sets generated through technologies such as{' '}
+          <Term k="IVM">in-vitro maturation (IVM)</Term> or{' '}
+          <Term k="IVG">in-vitro gametogenesis (IVG)</Term> could make selection substantially
+          more powerful by
           expanding the number of genomes available to choose among. Multiplex editing changes
           a different constraint by expanding the number of variants that can be altered
           directly. The relative impact of selection and correction must therefore be
@@ -165,8 +181,11 @@ export default function Embryos({ data }: Props) {
             {fmtCompact(agg.pgt_addressable_affected_births_per_year)}
           </p>
           <p className="text-xs text-slate-500">
-            summed over the monogenic core-catalogue diseases where PGT applies — the population this
-            whole comparison is about
+            summed over the{' '}
+            <InlineLink onClick={() => update({ tab: 'library', tier: 'core', tool: 'PGT' })}>
+              monogenic core-catalogue diseases where PGT applies
+            </InlineLink>{' '}
+            — the population this whole comparison is about
           </p>
           <SourceNote
             source="Derived: Σ (affected births × PGT-applicable) over the monogenic core catalogue"

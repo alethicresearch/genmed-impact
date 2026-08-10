@@ -3,7 +3,7 @@ import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
 import { Card } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
-import { Reading, PH, Lead, Caption, Claim } from '../components/prose';
+import { Reading, PH, Lead, Caption, Claim, InlineLink } from '../components/prose';
 
 interface Props {
   data: AllData;
@@ -32,8 +32,11 @@ export default function Beyond({ data, update }: Props) {
           Resistance would alter an otherwise healthy embryo to reduce a future risk such as HIV
           infection or cardiovascular disease. Enhancement would alter traits beyond the
           prevention of disease. In both cases, the relevant alternatives, expected benefits,
-          and ethical questions differ from the no-alternative monogenic cases identified in the
-          main analysis.
+          and ethical questions differ from the{' '}
+          <InlineLink onClick={() => update({ tab: 'residual' })}>
+            no-alternative monogenic cases identified in the main analysis
+          </InlineLink>
+          .
         </p>
 
         <section className="space-y-3">

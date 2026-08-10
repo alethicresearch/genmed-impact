@@ -12,6 +12,7 @@ import StatValue from '../components/StatValue';
 import { Card, SectionHeading, Segmented, ExportSvgButton } from '../components/ui';
 import { ShowDataToggle } from '../components/DataTable';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
+import { InlineLink } from '../components/prose';
 import { exportContainerSvg } from '../svgExport';
 
 // Read a {source, doi} leaf from provenance constants without letting an object reach a child.
@@ -108,9 +109,12 @@ export default function Denominator({ data, state, update }: Props) {
         estimate is not: there is no single theory-neutral answer to how many cases of
         diabetes, cardiovascular disease, cancer, or other common conditions should be called
         “genetic.” We therefore show several attribution assumptions rather than treating one
-        number as definitive. (The editing-residual comparison at the end of the chart is
-        computed under the paper&apos;s default assumptions and does not respond to these
-        choices.)
+        number as definitive. (The{' '}
+        <InlineLink onClick={() => update({ tab: 'residual' })}>
+          editing-residual comparison
+        </InlineLink>{' '}
+        at the end of the chart is computed under the paper&apos;s default assumptions and does
+        not respond to these choices.)
       </p>
 
       <div className="flex flex-wrap gap-6">
@@ -134,7 +138,11 @@ export default function Denominator({ data, state, update }: Props) {
       </div>
       <p className="text-xs text-slate-500">
         There is no uniquely correct way to attribute multifactorial disease to genetics; this
-        choice is deliberately exposed because it strongly affects the denominator.
+        choice is deliberately exposed because it strongly affects the denominator.{' '}
+        <InlineLink onClick={() => update({ tab: 'methods', kind: 'normative' })}>
+          See all normative choices in the sources table
+        </InlineLink>
+        .
       </p>
 
       {/* Cascade */}

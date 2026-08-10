@@ -1,6 +1,8 @@
 import { AllData, ContestedKey, Stat, fmtInt } from '../data';
 import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
+import Term from '../components/Term';
+import { InlineLink } from '../components/prose';
 import { Card, SectionHeading, Toggle } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 
@@ -30,6 +32,18 @@ export default function Residual({ data, state, update }: Props) {
   const s1Excl = r.by_contested.without_contested.s1_total;
   const strictEmpty = r.s2.strict.median < 1;
 
+  // Resolve an S1 condition label to its library catalogue entry (labels differ slightly,
+  // e.g. "Huntington's disease" vs "Huntington disease"), so a condition links straight to
+  // its pre-filtered library record — and only when the record actually exists.
+  const libNames = data.library.diseases.map((d) => d.name);
+  const libraryNameFor = (condition: string): string | undefined => {
+    const stem = condition.split('(')[0].replace(/'s\b/g, '').trim().toLowerCase();
+    return libNames.find((n) => {
+      const ln = n.toLowerCase();
+      return ln.includes(stem) || stem.includes(ln.split('(')[0].trim());
+    });
+  };
+
   return (
     <SourcesProvider>
     <div className="space-y-6">
@@ -38,7 +52,8 @@ export default function Residual({ data, state, update }: Props) {
         subtitle="For most monogenic conditions, IVF with PGT-M can select an unaffected embryo. A small number of reproductive situations are different: no unaffected embryo is expected to exist."
       />
       <p className="text-sm leading-relaxed text-slate-700">
-        PGT-M can choose among embryos, but it cannot change the genotype of an embryo. If a
+        <Term k="PGT">PGT-M</Term> can choose among embryos, but it cannot change the genotype
+        of an embryo. If a
         couple is expected to produce some affected and some unaffected embryos, selection can
         usually identify an unaffected embryo for transfer.
       </p>
@@ -137,10 +152,20 @@ export default function Residual({ data, state, update }: Props) {
               </tr>
             </thead>
             <tbody>
-              {conditions.map(([name, s]) => (
+              {conditions.map(([name, s]) => {
+                const libName = libraryNameFor(name);
+                return (
                 <tr key={name} className="border-b border-slate-100">
                   <td className="px-3 py-1.5">
-                    {name}
+                    {libName ? (
+                      <InlineLink
+                        onClick={() => update({ tab: 'library', tier: 'all', libq: libName })}
+                      >
+                        {name}
+                      </InlineLink>
+                    ) : (
+                      name
+                    )}
                     {contestedSet.has(name) && (
                       <span className="ml-2 rounded bg-amber-200 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-900">
                         contested
@@ -152,7 +177,8 @@ export default function Residual({ data, state, update }: Props) {
                   </td>
                   <td className="tnum px-3 py-1.5 text-right text-slate-500">{fmtCrIntSmart(s)}</td>
                 </tr>
-              ))}
+                );
+              })}
               <tr className="border-t-2 border-slate-300 font-semibold">
                 <td className="px-3 py-2">Total ({includeContested ? 'incl.' : 'excl.'} contested)</td>
                 <td className="tnum px-3 py-2 text-right">{fmtInt(s1Total.median)}</td>
@@ -261,8 +287,15 @@ export default function Residual({ data, state, update }: Props) {
           </p>
           <p className="mt-1 text-xs text-slate-500">
             <strong>Exploratory population scaling.</strong> This quantity is generated from
-            the model&apos;s assumed future complex-disease editing share; it is not the direct
-            sum of the disease-specific liability-threshold analysis.
+            the model&apos;s{' '}
+            <InlineLink onClick={() => update({ tab: 'methods', q: 's2' })}>
+              assumed future complex-disease editing share
+            </InlineLink>
+            ; it is not the direct sum of the{' '}
+            <InlineLink onClick={() => update({ tab: 'multifactorial' })}>
+              disease-specific liability-threshold analysis
+            </InlineLink>
+            .
           </p>
           <p className="mt-4 text-2xl">
             <StatValue stat={r.s2.permissive} kind="int" showCi />
@@ -280,12 +313,14 @@ export default function Residual({ data, state, update }: Props) {
           </span>
         </h3>
         <p className="mb-3 text-sm text-slate-600">
-          For summary purposes, we combine the no-selectable-embryo population with the
-          potential complex-disease advantage into an <strong>editing-relevant residual</strong>.
-          They should not be interpreted as equivalent. The first describes cases in which
-          editing supplies a preventive route unavailable through embryo selection; the second
-          is a hypothetical additional advantage whose size depends strongly on modeling
-          assumptions.
+          For summary purposes, we combine the no-selectable-embryo population with the{' '}
+          <InlineLink onClick={() => update({ tab: 'multifactorial' })}>
+            potential complex-disease advantage
+          </InlineLink>{' '}
+          into an <strong>editing-relevant residual</strong>. They should not be interpreted as
+          equivalent. The first describes cases in which editing supplies a preventive route
+          unavailable through embryo selection; the second is a hypothetical additional
+          advantage whose size depends strongly on modeling assumptions.
         </p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Mini label="Editing-only prevention" stat={s1Total} kind="int" />

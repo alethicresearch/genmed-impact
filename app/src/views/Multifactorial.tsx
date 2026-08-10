@@ -3,6 +3,7 @@ import { UrlState } from '../urlState';
 import { Card, SectionHeading, Segmented } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 import Term from '../components/Term';
+import { InlineLink } from '../components/prose';
 
 interface Props {
   data: AllData;
@@ -142,14 +143,19 @@ export default function Multifactorial({ data, state, update }: Props) {
           </h3>
           <p className="text-sm leading-relaxed text-slate-700">
             Future reproductive technologies do not only enable editing. Larger embryo sets
-            generated through technologies such as IVM or IVG could make selection
+            generated through technologies such as <Term k="IVM">IVM</Term> or{' '}
+            <Term k="IVG">IVG</Term> could make selection
             substantially more powerful by expanding the number of genomes available to choose
             among, while multiplex editing changes a different constraint by expanding the
             number of variants that can be altered directly. The relative impact of selection
             and correction must therefore be reassessed as both technologies advance — which is
             why the analysis below models them side by side. Larger embryo sets may also
             increase embryo creation, testing, and non-selection, so greater selection power
-            carries its own reproductive burden.
+            carries its own{' '}
+            <InlineLink onClick={() => update({ tab: 'embryos' })}>
+              reproductive burden
+            </InlineLink>
+            .
           </p>
         </section>
 

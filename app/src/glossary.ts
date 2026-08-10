@@ -60,6 +60,8 @@ export const GLOSSARY: Record<string, string> = {
     'A modeled situation in which germline editing might provide a medically meaningful benefit beyond selection, treatment, or other alternatives. This is not the same as being the only option.',
   'editing-relevant residual':
     'A summary quantity combining editing-only prevention with an exploratory complex-disease advantage term. Useful for comparing scale, but not a claim that the two components represent the same form of medical need.',
+  IVM: 'In-vitro maturation — maturing eggs in the laboratory rather than in the body, which could increase the number of embryos available in an IVF cycle.',
+  IVG: 'In-vitro gametogenesis — creating eggs or sperm from reprogrammed cells, a laboratory technology that could dramatically increase the number of embryos available for selection.',
   'reproductive burden':
     'The physical, procedural, embryo-level, and pregnancy-related burdens associated with achieving a reproductive outcome, including IVF cycles, embryo creation and testing, genotype-based non-selection, and pregnancy decisions where relevant. Two interventions can achieve the same disease outcome while imposing very different reproductive burdens.',
   'regulatory arbitrage':

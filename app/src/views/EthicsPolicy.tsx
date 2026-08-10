@@ -65,8 +65,11 @@ export default function EthicsPolicy({ data, update }: Props) {
             <p className="text-sm font-semibold text-slate-900">Selection-First</p>
             <p className="mt-1 text-sm leading-6 text-slate-600">
               When embryo selection can achieve the same medically important reproductive
-              outcome with substantially lower risk and acceptable reproductive burden,
-              editing should have to demonstrate why it is preferable.
+              outcome with substantially lower risk and acceptable{' '}
+              <InlineLink onClick={() => update({ tab: 'embryos' })}>
+                reproductive burden
+              </InlineLink>
+              , editing should have to demonstrate why it is preferable.
             </p>
           </div>
           <div className="rounded-lg border border-slate-200 bg-white p-4">
@@ -146,16 +149,25 @@ export default function EthicsPolicy({ data, update }: Props) {
           </Claim>
           <Claim kind="policy">
             We propose three parallel priorities. <strong>1. Scale present impact:</strong>{' '}
-            expand access to established screening, reproductive, diagnostic, and therapeutic
-            pathways where they already provide substantial benefit.{' '}
+            expand access to{' '}
+            <InlineLink onClick={() => update({ tab: 'prevention' })}>
+              established screening, reproductive, diagnostic, and therapeutic pathways
+            </InlineLink>{' '}
+            where they already provide substantial benefit.{' '}
             <strong>2. Develop the justified frontier:</strong> create a transparent, tightly
-            governed research pathway for severe germline-editing indications in which existing
-            reproductive options cannot achieve the same medically important outcome, subject
-            to independent safety and evidence requirements.{' '}
-            <strong>3. Prepare for future impact:</strong> support rigorous research into
-            causal genomics, polygenic intervention, multiplex editing, pleiotropy, embryo
-            technologies, and long-term governance so that future applications can be evaluated
-            before technological capability outruns public institutions.
+            governed research pathway for{' '}
+            <InlineLink onClick={() => update({ tab: 'residual' })}>
+              severe germline-editing indications in which existing reproductive options cannot
+              achieve the same medically important outcome
+            </InlineLink>
+            , subject to independent safety and evidence requirements.{' '}
+            <strong>3. Prepare for future impact:</strong> support rigorous research into{' '}
+            <InlineLink onClick={() => update({ tab: 'multifactorial' })}>
+              causal genomics, polygenic intervention, multiplex editing, pleiotropy, embryo
+              technologies
+            </InlineLink>
+            , and long-term governance so that future applications can be evaluated before
+            technological capability outruns public institutions.
           </Claim>
         </ClaimChain>
       </section>
@@ -239,8 +251,11 @@ export default function EthicsPolicy({ data, update }: Props) {
             <p className="mt-1 text-sm leading-6 text-slate-600">
               The moral urgency of a strongly justified use can be borrowed to support another
               application with a weaker benefit-to-risk case. A compelling argument for
-              correcting a lethal monogenic disorder does not automatically justify CCR5
-              resistance editing, modest polygenic risk reduction, or enhancement.
+              correcting a lethal monogenic disorder does not automatically justify{' '}
+              <InlineLink onClick={() => update({ tab: 'beyond' })}>
+                CCR5 resistance editing
+              </InlineLink>
+              , modest polygenic risk reduction, or enhancement.
             </p>
           </div>
         </div>

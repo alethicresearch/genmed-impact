@@ -122,14 +122,15 @@ const INTERNAL_TERMS: Array<{ internal: string; meaning: string }> = [
 ];
 
 // The one canonical research workflow — identical to the Overview's and the paper's Figure 2.
-// Uncertainty is not a step: it is propagated through every quantitative step.
+// Uncertainty is not a step: it is propagated through every quantitative step. Each step
+// links to the view where that part of the analysis lives.
 export const WORKFLOW_STEPS = [
-  { title: 'Estimate the disease burden', desc: 'What serious monogenic and multifactorial disease is represented under different severity and attribution assumptions?' },
-  { title: 'Map intervention capability', desc: 'Which reproductive, diagnostic, screening, and therapeutic approaches apply to each disease?' },
-  { title: 'Separate outcomes', desc: 'Which pathways avoid an affected birth, and which detect or mitigate disease after birth?' },
-  { title: 'Estimate present impact and access', desc: 'How much benefit is technically possible, and how much is reached under current and expanded-coverage scenarios?' },
-  { title: 'Map the editing frontier', desc: 'Where does embryo selection fail or become unusually burdensome, and how could the role of editing change as polygenic intervention capacity grows?' },
-  { title: 'Interpret impact over time', desc: 'What follows for present implementation, translational research, future technology development, and regulation?' },
+  { title: 'Estimate the disease burden', desc: 'What serious monogenic and multifactorial disease is represented under different severity and attribution assumptions?', tab: 'denominator', tabLabel: 'How much disease?' },
+  { title: 'Map intervention capability', desc: 'Which reproductive, diagnostic, screening, and therapeutic approaches apply to each disease?', tab: 'library', tabLabel: 'Which diseases?' },
+  { title: 'Separate outcomes', desc: 'Which pathways avoid an affected birth, and which detect or mitigate disease after birth?', tab: 'prevention', tabLabel: 'Existing medicine' },
+  { title: 'Estimate present impact and access', desc: 'How much benefit is technically possible, and how much is reached under current and expanded-coverage scenarios?', tab: 'prevention', tabLabel: 'Existing medicine' },
+  { title: 'Map the editing frontier', desc: 'Where does embryo selection fail or become unusually burdensome, and how could the role of editing change as polygenic intervention capacity grows?', tab: 'residual', tabLabel: 'Role of editing' },
+  { title: 'Interpret impact over time', desc: 'What follows for present implementation, translational research, future technology development, and regulation?', tab: 'ethics', tabLabel: 'Ethics & policy' },
 ];
 
 export default function Methods({ data, state, update }: Props) {
@@ -224,6 +225,13 @@ export default function Methods({ data, state, update }: Props) {
               <span className="text-xs font-semibold text-slate-400">{i + 1}</span>
               <span className="mt-0.5 text-sm font-semibold text-slate-900">{s.title}</span>
               <span className="mt-1 text-xs leading-5 text-slate-600">{s.desc}</span>
+              <button
+                type="button"
+                onClick={() => update({ tab: s.tab })}
+                className="mt-auto pt-1.5 text-left text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                {s.tabLabel} →
+              </button>
             </li>
           ))}
         </ol>

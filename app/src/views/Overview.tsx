@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { AllData, DiseaseClass, fmtCompact, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
 import { SourcesProvider, SourcesList } from '../components/SourceNote';
+import Term from '../components/Term';
 import { Figure, EpistemicTag, EpistemicKind, InlineLink } from '../components/prose';
 
 interface Props {
@@ -43,7 +44,11 @@ export default function Overview({ data, update }: Props) {
           <Lead>
             Impact, in this framework, is multidimensional. It includes population impact,
             individual clinical impact, technological maturity, and distributional access —
-            and also <strong>reproductive burden</strong>: the physical, procedural, and
+            and also{' '}
+            <strong>
+              <Term k="reproductive burden">reproductive burden</Term>
+            </strong>
+            : the physical, procedural, and
             embryo-level burdens of achieving a reproductive outcome. Two interventions can
             achieve the same disease outcome while imposing very different reproductive
             burdens, so the route matters, not only the endpoint. Ethical acceptability is

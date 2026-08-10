@@ -11,6 +11,7 @@ import {
 } from '../data';
 import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
+import Term from '../components/Term';
 import { Card, SectionHeading, Select, Segmented, Toggle, ExportSvgButton } from '../components/ui';
 import { ShowDataToggle } from '../components/DataTable';
 import { exportContainerSvg } from '../svgExport';
@@ -101,16 +102,26 @@ export default function Prevention({ data, state, update }: Props) {
         subtitle="Established genetic medicine already changes outcomes through reproductive planning, embryo selection, prenatal diagnosis, early detection, and treatment. The model asks both what these pathways can achieve in principle and how much of that potential reaches patients today."
       />
       <p className="text-sm leading-relaxed text-slate-700">
-        Carrier screening + reproductive planning can identify couples at risk before
-        pregnancy. IVF with PGT-M can allow selection of an embryo without the targeted disease
-        genotype. Prenatal diagnosis can identify an affected pregnancy, but it changes the
-        number of affected births only if followed by a reproductive decision not to continue
-        that pregnancy. Newborn screening acts after birth by enabling earlier treatment.
+        <Term k="carrier screening">Carrier screening</Term> + reproductive planning can
+        identify couples at risk before pregnancy. IVF with <Term k="PGT">PGT-M</Term> can
+        allow selection of an embryo without the targeted disease genotype.{' '}
+        <Term k="prenatal diagnosis">Prenatal diagnosis</Term> can identify an affected
+        pregnancy, but it changes the number of affected births only if followed by a
+        reproductive decision not to continue that pregnancy.{' '}
+        <Term k="newborn screening">Newborn screening</Term> acts after birth by enabling
+        earlier treatment.
       </p>
       <p className="text-sm leading-relaxed text-slate-700">
         Because these outcomes are not equivalent, the model reports them on two separate
-        tracks: <strong>affected births avoided</strong> and{' '}
-        <strong>disease burden mitigated after birth</strong>.
+        tracks:{' '}
+        <strong>
+          <Term k="affected-birth avoidance">affected births avoided</Term>
+        </strong>{' '}
+        and{' '}
+        <strong>
+          <Term k="burden mitigation">disease burden mitigated after birth</Term>
+        </strong>
+        .
       </p>
 
       <p className="text-xs leading-5 text-slate-500">
