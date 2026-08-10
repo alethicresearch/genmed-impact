@@ -1,6 +1,14 @@
-# denominator
+# Genetic Disease and What Medicine Can Do
 
-**A library of genetic disease × genetic-medicine impact — plus the pipeline and webapp that make it explorable.**
+**A library of genetic disease × genetic-medicine impact — with the reproducible pipeline and interactive research page behind it.**
+
+Sankalpa Ghose<sup>1</sup> · D. A. Wallach · Peter Singer · Julian Savulescu
+
+<sup>1</sup> Alethic Research &nbsp;·&nbsp; *(affiliations for remaining authors to be finalised)*
+
+[Paper — in preparation] · [Research Page](https://alethicresearch.github.io/genmed-impact/) · [Code &amp; data](https://github.com/alethicresearch/genmed-impact) · [Cite](#citation)
+
+---
 
 The core deliverable is a **structured catalogue** of serious genetic diseases mapping each one to
 the **gene(s)** that cause it, its **inheritance mode**, its **incidence at birth**, and which
@@ -124,6 +132,23 @@ breakdown; plus **Prevention** waterfall, **Denominator** cascade, **Multifactor
 If you use this software or dataset, please cite the accompanying paper and this repository — see
 [`CITATION.cff`](CITATION.cff). A Zenodo archive of a tagged release plus the redistributable
 curated data will accompany submission/acceptance ([`.zenodo.json`](.zenodo.json)).
+
+## Citation
+
+If you use this software or the curated dataset, please cite the accompanying paper (when
+available) and this repository. Machine-readable metadata is in [`CITATION.cff`](CITATION.cff);
+the Zenodo archive of a tagged release will carry a DOI at submission/acceptance.
+
+```bibtex
+@software{genmed_impact,
+  title  = {Genetic Disease and What Medicine Can Do:
+            a genetic-disease {\texttimes} genetic-medicine impact library and reproducible burden pipeline},
+  author = {Ghose, Sankalpa and Wallach, D. A. and Singer, Peter and Savulescu, Julian},
+  year   = {2026},
+  url    = {https://github.com/alethicresearch/genmed-impact},
+  note   = {Version 0.1.0. Code Apache-2.0; curated data CC-BY-4.0.}
+}
+```
 
 ## Provenance rules
 

@@ -25,9 +25,8 @@ keywords:
   - reproducible research
 authors:
   # Manuscript author order: SG, DAW, PS, JS. TODO(authors): add affiliations + ORCIDs.
-  # TODO(authors): replace the first-author placeholder below with SG's full name.
-  - family-names: "G."          # TODO: first author (SG) — replace with full family name
-    given-names: "S."           # TODO: replace with full given name
+  - family-names: Ghose
+    given-names: Sankalpa
     affiliation: "Alethic Research"
     # orcid: "https://orcid.org/0000-0000-0000-0000"   # TODO
   - family-names: Wallach
