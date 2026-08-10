@@ -11,6 +11,7 @@ import Multifactorial from './views/Multifactorial';
 import Embryos from './views/Embryos';
 import Residual from './views/Residual';
 import Resistance from './views/Resistance';
+import Enhancement from './views/Enhancement';
 import Allocation from './views/Allocation';
 import Methods from './views/Methods';
 
@@ -24,6 +25,7 @@ const ALL_TABS: TabDef[] = [
   { id: 'embryos', label: 'The embryo trade-off' },
   { id: 'multifactorial', label: 'Complex disease' },
   { id: 'resistance', label: 'Resistance' },
+  { id: 'enhancement', label: 'Enhancement' },
   { id: 'allocation', label: 'Where to invest' },
   { id: 'methods', label: 'Methods & sources' },
 ];
@@ -43,6 +45,7 @@ const MODE_TABS: Record<string, string[]> = {
     'embryos',
     'multifactorial',
     'resistance',
+    'enhancement',
     'allocation',
     'methods',
   ],
@@ -166,7 +169,12 @@ export default function App() {
               {activeTab === 'embryos' && (
                 <Embryos data={data} state={state} update={update} />
               )}
-              {activeTab === 'resistance' && <Resistance data={data} />}
+              {activeTab === 'resistance' && (
+                <Resistance data={data} state={state} update={update} />
+              )}
+              {activeTab === 'enhancement' && (
+                <Enhancement data={data} state={state} update={update} />
+              )}
               {activeTab === 'allocation' && <Allocation data={data} />}
               {activeTab === 'methods' && (
                 <Methods data={data} state={state} update={update} />

@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { AllData, DiseaseClass, fmtCompact, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
-import { Card } from '../components/ui';
 import StatValue from '../components/StatValue';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 
@@ -43,63 +42,51 @@ export default function Overview({ data, state, update }: Props) {
   const editableTotal = data.summary.uniquely_editable_total.permissive;
   const editableShare = data.summary.uniquely_editable_share_of_serious.permissive;
 
+  const burden = data.summary.burden_default;
+
   return (
     <SourcesProvider>
-      <div className="space-y-5">
-        {/* Lede: the question and the one-line answer */}
-        <Card>
-          <p className="text-sm leading-relaxed text-slate-700">
-            This page follows one argument, in four steps. Across every serious genetic disease we
-            can catalogue, it asks: <strong>how much can medicine already do about it, and what is
-            genuinely left only for germline editing?</strong> The short answer — almost all of it
-            is addressable with tools we already have; editing is uniquely needed for a sliver; and
-            the real obstacle today is <strong>access</strong>, not biology.
-          </p>
-        </Card>
+      <article className="mx-auto max-w-2xl space-y-10 pb-4">
+        <p className="text-[15px] leading-7 text-slate-600">
+          An interactive companion to the paper. It maps every serious genetic disease to what
+          medicine can already do about it, and isolates the narrow place where germline editing
+          does something no existing tool can.
+        </p>
 
-        {/* STEP 1 — the burden */}
-        <ArgumentStep n={1} title="The burden is large">
-          <div className="grid grid-cols-1 items-center gap-4 sm:grid-cols-[auto,1fr]">
-            <div>
-              <div className="text-3xl font-bold text-slate-900">
-                <StatValue stat={data.summary.burden_default.total_serious} kind="compact" />
-              </div>
-              <p className="text-xs text-slate-500">children / year, 95% CrI shown on hover</p>
-            </div>
-            <p className="text-sm leading-relaxed text-slate-700">
-              About <strong>{fmtCompact(data.summary.burden_default.total_serious.median)}</strong>{' '}
-              children are born each year with a serious genetic disease —{' '}
-              {fmtPct(data.summary.burden_default.serious_share_of_births.median, 0)} of all births.
-              Roughly {fmtCompact(data.summary.burden_default.monogenic.median)} are single-gene
-              (monogenic) conditions and {fmtCompact(data.summary.burden_default.multifactorial.median)}{' '}
-              are multifactorial. Every figure on this page is shown with its uncertainty.
-              <SourceNote source={monoSrc.source || 'Modell & Darlison 2008'} doi={monoSrc.doi} detail="serious monogenic rate" />
-              <SourceNote source={multiSrc.source || 'March of Dimes; WHO congenital anomalies'} doi={multiSrc.doi} detail="serious multifactorial rate" />
-              <SourceNote source={birthsSrc.source || 'UN World Population Prospects 2024'} doi={birthsSrc.doi} detail="annual births" />
-            </p>
-          </div>
-        </ArgumentStep>
+        <section className="space-y-3">
+          <H>Serious genetic disease is common at birth</H>
+          <Lead>
+            About <Big><StatValue stat={burden.total_serious} kind="compact" /></Big> children are
+            born each year with a serious genetic disease —{' '}
+            {fmtPct(burden.serious_share_of_births.median, 0)} of all births. Roughly{' '}
+            {fmtCompact(burden.monogenic.median)} have a single-gene (monogenic) condition and{' '}
+            {fmtCompact(burden.multifactorial.median)} a multifactorial one. Every figure here
+            carries its uncertainty; hover any number for its 95% interval.
+            <SourceNote source={monoSrc.source || 'Modell & Darlison 2008'} doi={monoSrc.doi} detail="serious monogenic rate" />
+            <SourceNote source={multiSrc.source || 'March of Dimes; WHO congenital anomalies'} doi={multiSrc.doi} detail="serious multifactorial rate" />
+            <SourceNote source={birthsSrc.source || 'UN World Population Prospects 2024'} doi={birthsSrc.doi} detail="annual births" />
+          </Lead>
+        </section>
 
-        {/* STEP 2 — addressable by the existing stack, said precisely: prevent by what, treat to what end */}
-        <ArgumentStep
-          n={2}
-          title="Almost all of it is addressable already — but say by what"
-        >
-          <p className="text-sm leading-relaxed text-slate-700">
+        <section className="space-y-3">
+          <H>Almost all of it is already addressable — but by what?</H>
+          <Lead>
             “Addressable” hides two different things, so we keep them apart. Some disease is{' '}
-            <strong>prevented before birth</strong> (by carrier screening or embryo selection); the
-            rest is met <strong>after birth by treatment</strong> — and treatment ranges from a{' '}
-            <strong>cure</strong> to lifelong <strong>management</strong> to <strong>palliation</strong>,
-            which are worlds apart. Germline editing is none of these; it is the separate residual
-            below.
-          </p>
+            <em>prevented before birth</em>, by carrier screening or embryo selection. The rest is
+            met <em>after birth by treatment</em> — and treatment ranges from a cure, to lifelong
+            management, to palliation, which are worlds apart. Germline editing is none of these.
+          </Lead>
           <CapabilitySplit data={data} update={update} />
-          <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Caption>
+            Each disease on two axes — prevention (by which tool) and treatment (to what end). Click
+            a band to see those diseases. Bars are by affected births in the core catalogue.
+          </Caption>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <MiniStat
               tone="emerald"
               value={fmtPct(addressable.median, 1)}
               label="addressable by the existing stack"
-              sub={`95% CrI ${fmtPct(addressable.ci95[0], 0)}–${fmtPct(addressable.ci95[1], 0)} — prevented before birth, or treated after it (cure, management, or palliation)`}
+              sub={`95% CrI ${fmtPct(addressable.ci95[0], 0)}–${fmtPct(addressable.ci95[1], 0)} — prevented before birth, or treated after it`}
             />
             <MiniStat
               tone="violet"
@@ -108,74 +95,92 @@ export default function Overview({ data, state, update }: Props) {
               sub={`about ${fmtCompact(editableTotal.median)} births / yr — reachable by no existing tool, so germline editing is the only genetic-medicine option (not “no option”)`}
             />
           </div>
-        </ArgumentStep>
+        </section>
 
-        {/* STEP 3 — the real gap is access, not biology */}
-        <ArgumentStep
-          n={3}
-          title="“Addressable in principle” is not “prevented in practice” — the gap is access"
-        >
+        <section className="space-y-3">
+          <H>In principle is not in practice — the gap is access</H>
           <AccessGap data={data} update={update} />
-        </ArgumentStep>
+        </section>
 
-        {/* STEP 4 — the takeaway */}
-        <ArgumentStep n={4} title="So where does the impact come from?">
-          <p className="text-sm leading-relaxed text-slate-700">
-            Put together: the tools that already exist can, in principle, prevent or treat the
-            overwhelming majority of serious genetic disease — but today they only reach a fraction
-            of the people who need them. The largest gains come from{' '}
-            <strong>closing that access gap by scaling the existing tools globally</strong>. Germline
-            editing remains genuinely useful, but only for the narrow residual in step 2 — a small,
-            specialised role, not the centre of gravity.
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2 text-xs">
+        <section className="space-y-3">
+          <H>Where the impact is</H>
+          <Lead>
+            The tools that already exist can, in principle, prevent or treat the overwhelming
+            majority of serious genetic disease — but today they reach only a fraction of the people
+            who need them. The largest gains come from closing that access gap by scaling the
+            existing tools worldwide. Germline editing stays genuinely useful, but for a narrow
+            residual — a specialised role, not the centre of gravity.
+          </Lead>
+          <div className="flex flex-wrap gap-2 text-xs">
             <NavChip onClick={() => update({ tab: 'library' })}>Browse the disease library →</NavChip>
-            <NavChip onClick={() => update({ tab: 'prevention' })}>See prevention by tool →</NavChip>
+            <NavChip onClick={() => update({ tab: 'prevention' })}>Prevention, by tool →</NavChip>
             <NavChip onClick={() => update({ mode: 'detailed', tab: 'residual' })}>
-              Inspect the editing residual →
+              The editing residual →
             </NavChip>
           </div>
-        </ArgumentStep>
+        </section>
 
-        {/* Follow the argument along the paper's three axes */}
-        <ArgumentAxes update={update} />
+        <section className="space-y-3">
+          <H>Beyond prevention: correction → augmentation</H>
+          <Lead>
+            Preventing disease sits at the start of a longer trajectory. The same technologies can{' '}
+            <em>correct</em> a pathogenic variant — restoring a genome to a healthy baseline — and
+            correction shades into <em>augmenting</em> a trait beyond the typical range, and,
+            some argue, onward toward “perfection.” Where prevention ends, and whether the burden of
+            disease justifies moving along that line, is what the resistance and enhancement
+            questions turn on.
+          </Lead>
+          <Trajectory update={update} />
+        </section>
 
-        {/* About the numbers — quiet, at the bottom */}
-        <Card className="bg-slate-50">
-          <details>
-            <summary className="cursor-pointer text-sm font-medium text-slate-700">
-              About the numbers &amp; uncertainty
-            </summary>
-            <div className="mt-2 space-y-2 text-xs leading-relaxed text-slate-600">
-              <p>
-                Two estimates run in parallel. A <strong>catalogue</strong> of{' '}
-                {fmtInt(rollup.n_diseases_all)} diseases ({fmtInt(rollup.n_diseases)} high-burden core
-                + {fmtInt(rollup.tiers.rare.n_diseases)} rare) is summed disease-by-disease; a{' '}
-                <strong>parametric model</strong> samples cited rates and assumptions to give the
-                totals with credible intervals. The catalogue sum ({fmtCompact(rollup.total_affected_births_per_year)}/yr
-                over the core) is a floor that rises as the catalogue grows toward the modelled total
-                ({fmtCompact(data.summary.burden_default.total_serious.median)}/yr). Two judgment
-                calls — what counts as “serious” and how disease is attributed to genetics —
-                are adjustable in “The burden” section; every number responds.
-              </p>
-              <button
-                type="button"
-                onClick={() => update({ mode: 'detailed', tab: 'methods' })}
-                className="font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              >
-                Full methods &amp; sources →
-              </button>
-              {mode === 'detailed' && (
-                <span className="sr-only">
-                  <SourcesList />
-                </span>
-              )}
-            </div>
-          </details>
-        </Card>
-      </div>
+        <details className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+          <summary className="cursor-pointer text-sm font-medium text-slate-700">
+            About the numbers &amp; uncertainty
+          </summary>
+          <div className="mt-2 space-y-2 text-[13px] leading-6 text-slate-600">
+            <p>
+              Two estimates run in parallel. A catalogue of {fmtInt(rollup.n_diseases_all)} diseases
+              ({fmtInt(rollup.n_diseases)} high-burden core + {fmtInt(rollup.tiers.rare.n_diseases)}{' '}
+              rare) is summed disease-by-disease; a parametric model samples cited rates and
+              assumptions to give the totals with credible intervals. The catalogue sum
+              ({fmtCompact(rollup.total_affected_births_per_year)}/yr over the core) is a floor that
+              rises toward the modelled total ({fmtCompact(burden.total_serious.median)}/yr). What
+              counts as “serious” and how disease is attributed to genetics are adjustable in
+              “The burden”; every number responds.
+            </p>
+            <button
+              type="button"
+              onClick={() => update({ mode: 'detailed', tab: 'methods' })}
+              className="font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              Full methods &amp; sources →
+            </button>
+            {mode === 'detailed' && (
+              <span className="sr-only">
+                <SourcesList />
+              </span>
+            )}
+          </div>
+        </details>
+      </article>
     </SourcesProvider>
   );
+}
+
+// ---- interactive-paper typographic primitives ----
+function H({ children }: { children: ReactNode }) {
+  return (
+    <h2 className="text-xl font-semibold tracking-tight text-slate-900">{children}</h2>
+  );
+}
+function Lead({ children }: { children: ReactNode }) {
+  return <p className="text-[15px] leading-7 text-slate-700">{children}</p>;
+}
+function Caption({ children }: { children: ReactNode }) {
+  return <p className="text-xs leading-5 text-slate-500">{children}</p>;
+}
+function Big({ children }: { children: ReactNode }) {
+  return <span className="text-2xl font-bold text-slate-900">{children}</span>;
 }
 
 const PREVENTION_COLORS: Record<string, string> = {
@@ -344,110 +349,54 @@ function GapBar({ label, frac, color }: { label: string; frac: number; color: st
   );
 }
 
-// The paper sorts the whole question along three axes. This is the app's map to them.
-function ArgumentAxes({ update }: { update: (patch: UrlState) => void }) {
-  const go = (patch: UrlState) => () => update(patch);
+// The purpose × mechanism progression: the trajectory some argue runs from preventing disease
+// through resistance to enhancement — with germline editing entering at correction.
+function Trajectory({ update }: { update: (patch: UrlState) => void }) {
+  const stops = [
+    {
+      purpose: 'Prevention',
+      mech: 'Selection & correction',
+      desc: 'Avoid or cure serious disease. Where almost all the burden — and the justification — sits.',
+      go: () => update({ tab: 'prevention' }),
+      tone: 'emerald' as const,
+    },
+    {
+      purpose: 'Resistance',
+      mech: 'Correction',
+      desc: 'Blunt a common risk (infection, cardiovascular, ageing). Usually already met by drugs or public-health tools.',
+      go: () => update({ mode: 'detailed', tab: 'resistance' }),
+      tone: 'sky' as const,
+    },
+    {
+      purpose: 'Enhancement',
+      mech: 'Augmentation',
+      desc: 'Push a trait beyond the typical range — and, some argue, toward “perfection.” A different question from disease.',
+      go: () => update({ mode: 'detailed', tab: 'enhancement' }),
+      tone: 'violet' as const,
+    },
+  ];
+  const toneCls: Record<string, string> = {
+    emerald: 'border-emerald-200 bg-emerald-50/50 hover:border-emerald-400',
+    sky: 'border-sky-200 bg-sky-50/50 hover:border-sky-400',
+    violet: 'border-violet-200 bg-violet-50/50 hover:border-violet-400',
+  };
   return (
-    <Card>
-      <h3 className="text-base font-semibold text-slate-900">Follow the argument</h3>
-      <p className="mt-1 text-sm text-slate-600">
-        The paper sorts every case along three axes. Use them to navigate — each chip opens the
-        view that covers it.
-      </p>
-
-      <div className="mt-4 space-y-4">
-        <Axis
-          label="1 · Genetic architecture"
-          desc="How many genes drive the disease — this sets what any intervention can reach."
-          items={[
-            { name: 'Monogenic', sub: 'one gene', onClick: go({ tab: 'library', cat: 'all' }) },
-            { name: 'Oligogenic', sub: 'a few genes', onClick: go({ mode: 'detailed', tab: 'multifactorial' }) },
-            { name: 'Highly polygenic', sub: 'many genes', onClick: go({ mode: 'detailed', tab: 'multifactorial' }) },
-            { name: 'Massively polygenic', sub: 'thousands', onClick: go({ mode: 'detailed', tab: 'multifactorial' }) },
-          ]}
-        />
-        <Axis
-          label="2 · Purpose"
-          desc="What the intervention is for — the paper keeps these three separate and does not let one borrow another's justification."
-          items={[
-            { name: 'Prevention', sub: 'avoid serious disease', onClick: go({ tab: 'prevention' }) },
-            { name: 'Resistance', sub: 'blunt infection / ageing', onClick: go({ mode: 'detailed', tab: 'resistance' }) },
-            { name: 'Enhancement', sub: 'boost normal traits — out of scope here', tone: 'muted' },
-          ]}
-        />
-        <Axis
-          label="3 · Mechanism"
-          desc="How the change is made — only correction and augmentation involve germline editing."
-          items={[
-            { name: 'Selection', sub: 'choose an embryo (PGT) — no editing', onClick: go({ mode: 'detailed', tab: 'embryos' }) },
-            { name: 'Correction', sub: 'edit a disease variant to normal', onClick: go({ mode: 'detailed', tab: 'residual' }) },
-            { name: 'Augmentation', sub: 'edit beyond normal — enhancement', tone: 'muted' },
-          ]}
-        />
-      </div>
-    </Card>
-  );
-}
-
-function Axis({
-  label,
-  desc,
-  items,
-}: {
-  label: string;
-  desc: string;
-  items: { name: string; sub: string; onClick?: () => void; tone?: 'muted' }[];
-}) {
-  return (
-    <div>
-      <p className="text-sm font-semibold text-slate-800">{label}</p>
-      <p className="text-xs text-slate-500">{desc}</p>
-      <div className="mt-2 flex flex-wrap gap-2">
-        {items.map((it) => {
-          const base =
-            'rounded border px-2.5 py-1 text-left text-xs transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent';
-          if (!it.onClick) {
-            return (
-              <span
-                key={it.name}
-                className={`${base} border-dashed border-slate-200 bg-slate-50 text-slate-400`}
-                title={it.sub}
-              >
-                <span className="font-medium">{it.name}</span>
-                <span className="ml-1">· {it.sub}</span>
-              </span>
-            );
-          }
-          return (
-            <button
-              key={it.name}
-              type="button"
-              onClick={it.onClick}
-              className={`${base} border-slate-300 bg-white text-slate-700 hover:border-accent hover:text-accent`}
-            >
-              <span className="font-medium">{it.name}</span>
-              <span className="ml-1 text-slate-400">· {it.sub}</span>
-            </button>
-          );
-        })}
-      </div>
+    <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+      {stops.map((s, i) => (
+        <button
+          key={s.purpose}
+          type="button"
+          onClick={s.go}
+          className={`rounded-lg border p-3 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${toneCls[s.tone]}`}
+        >
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            {i + 1} · {s.mech}
+          </p>
+          <p className="mt-0.5 text-sm font-semibold text-slate-900">{s.purpose} →</p>
+          <p className="mt-1 text-xs leading-snug text-slate-600">{s.desc}</p>
+        </button>
+      ))}
     </div>
-  );
-}
-
-function ArgumentStep({ n, title, children }: { n: number; title: string; children: ReactNode }) {
-  return (
-    <Card>
-      <div className="flex items-start gap-3">
-        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-white">
-          {n}
-        </span>
-        <div className="min-w-0 flex-1">
-          <h3 className="text-base font-semibold text-slate-900">{title}</h3>
-          <div className="mt-2">{children}</div>
-        </div>
-      </div>
-    </Card>
   );
 }
 

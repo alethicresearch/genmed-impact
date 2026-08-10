@@ -1,29 +1,37 @@
 import { AllData } from '../data';
+import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
-import { Card, SectionHeading } from '../components/ui';
+import { Card } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
-import Explainer from '../components/Explainer';
+import { Reading, PH, Lead } from '../components/prose';
 
 interface Props {
   data: AllData;
+  state: UrlState;
+  update: (patch: UrlState) => void;
 }
 
-export default function Resistance({ data }: Props) {
+export default function Resistance({ data, update }: Props) {
   const r = data.resistance;
   return (
     <SourcesProvider>
-    <div className="space-y-6">
-      <SectionHeading
-        title="Resistance analysis"
-        subtitle="Three domains where a germline-editing case is sometimes made. Only HIV reduces to a single residual birth count; the others do not."
-      />
-      <Explainer
-        whatThisShows="Three proposed 'resistance' edits — to HIV, cardiovascular disease, and neurodegeneration — each set against the alternatives that already exist."
-        howToRead="Each panel names the existing alternative (for example, preventing mother-to-child HIV transmission) and the residual it leaves. Where the science cannot support a number, the panel says so plainly rather than inventing one."
-        whatItDetermines="Whether a germline resistance edit would add anything beyond the public-health and drug options already available."
-      />
+    <Reading>
+      <p className="text-[15px] leading-7 text-slate-600">
+        The next step along the trajectory is <em>resistance</em>: not preventing an inherited
+        disease, but editing a healthy genome to blunt a common risk — infection, cardiovascular
+        disease, the effects of ageing. The mechanism is correction, but the target is a baseline
+        everyone shares. The test is simple: does a germline edit add anything the drugs and
+        public-health tools we already have do not?
+      </p>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <section className="space-y-3">
+        <PH>Three proposed resistance edits, each against its alternative</PH>
+        <Lead>
+          Only HIV reduces to a single residual birth count; for the others the honest answer is
+          that no clean number exists, and each panel says so rather than inventing one.
+        </Lead>
+
+      <div className="grid grid-cols-1 gap-4">
         {/* HIV */}
         <Card>
           <h3 className="text-base font-semibold text-slate-900">HIV</h3>
@@ -70,9 +78,29 @@ export default function Resistance({ data }: Props) {
           <p className="mt-3 text-sm text-slate-700">{r.neurodegeneration.note}</p>
         </Card>
       </div>
+      </section>
+
+      <section className="space-y-3">
+        <PH>Where resistance sits</PH>
+        <Lead>
+          In every case the alternative already exists and reaches more people more cheaply than a
+          germline edit could. Resistance is not where the burden is. Push one step further — from
+          blunting a shared risk to augmenting a trait beyond the normal range — and the question
+          stops being about disease at all.
+        </Lead>
+        <div>
+          <button
+            type="button"
+            onClick={() => update({ mode: 'detailed', tab: 'enhancement' })}
+            className="rounded border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            On to enhancement →
+          </button>
+        </div>
+      </section>
 
       <SourcesList title="Sources" />
-    </div>
+    </Reading>
     </SourcesProvider>
   );
 }
