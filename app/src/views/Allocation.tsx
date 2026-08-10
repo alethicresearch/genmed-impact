@@ -56,7 +56,7 @@ export default function Allocation({ data }: Props) {
       </div>
       <Explainer
         whatThisShows="What a dollar buys under each strategy: the cost to prevent one affected birth, and the cost to avert one DALY (a year of healthy life lost), for scaled screening versus an editing program."
-        howToRead="Bars are on a log scale — each step is 10× — so further left is far cheaper; the whiskers are 95% credible intervals. The budget panel translates this into what $1B, $5B, or $10B a year would buy each way."
+        howToRead="Bars are on a log scale — each step is 10× — so further left is far cheaper; the whiskers are 95% uncertainty intervals. The budget panel translates this into what $1B, $5B, or $10B a year would buy each way."
         whatItDetermines="A first-pass sense of how the two kinds of investment differ in scale — to be firmed up when the provisional cost inputs are replaced with sourced anchors."
       />
 
@@ -75,7 +75,7 @@ export default function Allocation({ data }: Props) {
           columns={[
             { key: 'metric', header: 'Metric' },
             { key: 'median', header: 'Median (USD)', align: 'right' },
-            { key: 'ci', header: '95% CrI', align: 'right' },
+            { key: 'ci', header: '95% uncertainty interval', align: 'right' },
           ]}
           rows={allRows.map((r) => ({
             metric: r.label,
@@ -136,10 +136,10 @@ export default function Allocation({ data }: Props) {
               {budgets.map(([budget, v]) => (
                 <tr key={budget} className="border-b border-slate-100">
                   <td className="px-3 py-1.5 font-medium">{budget}</td>
-                  <td className="tnum px-3 py-1.5 text-right" title={`95% CrI ${fmtInt(v.screening_births_prevented.ci95[0])}–${fmtInt(v.screening_births_prevented.ci95[1])}`}>
+                  <td className="tnum px-3 py-1.5 text-right" title={`95% uncertainty interval ${fmtInt(v.screening_births_prevented.ci95[0])}–${fmtInt(v.screening_births_prevented.ci95[1])}`}>
                     {fmtInt(v.screening_births_prevented.median)}
                   </td>
-                  <td className="tnum px-3 py-1.5 text-right" title={`95% CrI ${fmtInt(v.editing_births_prevented.ci95[0])}–${fmtInt(v.editing_births_prevented.ci95[1])}`}>
+                  <td className="tnum px-3 py-1.5 text-right" title={`95% uncertainty interval ${fmtInt(v.editing_births_prevented.ci95[0])}–${fmtInt(v.editing_births_prevented.ci95[1])}`}>
                     {fmtInt(v.editing_births_prevented.median)}
                   </td>
                   <td className="tnum px-3 py-1.5 text-right text-slate-500">
@@ -187,7 +187,7 @@ function LogBars({ rows }: { rows: Row[] }) {
   return (
     <svg
       role="img"
-      aria-label="Cost-effectiveness log-scale bars with credible-interval whiskers"
+      aria-label="Cost-effectiveness log-scale bars with uncertainty-interval whiskers"
       viewBox={`0 0 ${W} ${H}`}
       className="mt-3 w-full"
       fontFamily="ui-sans-serif, system-ui, sans-serif"

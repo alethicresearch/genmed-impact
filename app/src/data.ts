@@ -503,13 +503,13 @@ export function fmtMoney(n: number): string {
 
 // Compact interval string for hover/inline CrI display.
 export function crInt(s: Stat): string {
-  return `95% CrI ${fmtInt(s.ci95[0])}–${fmtInt(s.ci95[1])}`;
+  return `95% uncertainty interval ${fmtInt(s.ci95[0])}–${fmtInt(s.ci95[1])}`;
 }
 
 export function crPct(s: Stat, decimals = 1): string {
-  return `95% CrI ${fmtPct(s.ci95[0], decimals)}–${fmtPct(s.ci95[1], decimals)}`;
+  return `95% uncertainty interval ${fmtPct(s.ci95[0], decimals)}–${fmtPct(s.ci95[1], decimals)}`;
 }
 
 export function crMoney(s: Stat): string {
-  return `95% CrI ${fmtMoney(s.ci95[0])}–${fmtMoney(s.ci95[1])}`;
+  return `95% uncertainty interval ${fmtMoney(s.ci95[0])}–${fmtMoney(s.ci95[1])}`;
 }

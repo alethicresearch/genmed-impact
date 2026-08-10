@@ -110,7 +110,7 @@ const PIPELINE_STEPS = [
   { title: 'Map conditions to interventions', desc: 'Which of the four existing pathways applies to each catalogued disease.' },
   { title: 'Model access & effectiveness', desc: 'How much each pathway prevents or mitigates at current, achievable, and full coverage.' },
   { title: 'Identify what remains', desc: 'The population no existing pathway reaches — where editing would be the only option.' },
-  { title: 'Propagate uncertainty', desc: 'Every input sampled in a 20,000-draw Monte-Carlo, so each figure carries a credible interval.' },
+  { title: 'Propagate uncertainty', desc: 'Every input sampled in a 20,000-draw Monte-Carlo, so each figure carries a uncertainty interval.' },
 ];
 
 export default function Methods({ data, state, update }: Props) {

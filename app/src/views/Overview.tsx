@@ -44,7 +44,7 @@ export default function Overview({ data, update }: Props) {
 
   return (
     <SourcesProvider>
-      <article className="mx-auto max-w-2xl space-y-10 pb-4">
+      <article className="space-y-10 pb-4">
         {/* The research question, first. */}
         <section className="space-y-3">
           <p className="text-xl font-semibold leading-8 tracking-tight text-slate-900">
@@ -171,7 +171,7 @@ export default function Overview({ data, update }: Props) {
               {fmtInt(rollup.n_diseases_all)} diseases ({fmtInt(rollup.n_diseases)} high-burden
               core + {fmtInt(rollup.tiers.rare.n_diseases)} rare) — not an exhaustive universe —
               is summed disease-by-disease; a parametric model samples cited rates and
-              assumptions to give the totals with credible intervals. The catalogue sum
+              assumptions to give the totals with uncertainty intervals. The catalogue sum
               ({fmtCompact(rollup.total_affected_births_per_year)}/yr over the core) is a floor
               that rises toward the modelled total ({fmtCompact(burden.total_serious.median)}/yr).
               What counts as “serious” and how much multifactorial disease is attributed to

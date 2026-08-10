@@ -44,12 +44,12 @@ export const GLOSSARY: Record<string, string> = {
     'The chosen rule for how much of a multifactorial disease’s burden to count as "genetic" — a judgement call, not a measured fact.',
   'severity threshold':
     'The chosen cut-off for how serious a condition must be to be counted as "serious genetic disease" in the totals.',
-  'credible interval':
-    'A Bayesian range (here 95%) that the true value is expected to fall within given the model and its inputs.',
+  'uncertainty interval':
+    'The range (here 95%) produced by propagating the specified uncertainty ranges and distributions of every input through the Monte-Carlo model — not a confidence interval from repeated sampling or a Bayesian posterior credible interval.',
   'S1 residual':
     'Monogenic cases where no unaffected embryo is available to select, so germline editing would be the only preventive option.',
   'S2 residual':
-    'Complex-disease cases that could be reached only by germline editing, not by any existing screening or selection tool.',
+    'Complex-disease cases where editing is modeled as potentially adding benefit beyond selection, treatment, or prevention — an editing advantage, not an editing-only population.',
   consanguinity:
     'Reproduction between close biological relatives, which raises the chance both parents carry the same recessive allele.',
   'assortative mating':

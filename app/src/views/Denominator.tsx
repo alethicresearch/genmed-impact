@@ -44,16 +44,23 @@ interface Props {
 
 // Public-facing labels for the model's internal definitions (def_a/b/c and the
 // attribution stances) — the internal ids stay in Methods for reproducibility.
+// Note the "exclusive" stance is a NARROW attribution (a small, strongly genetic/familial
+// component), not literally zero.
 const SEVERITY_OPTS = [
   { value: 'def_a', label: 'Narrow' },
   { value: 'def_b', label: 'Main (default)' },
   { value: 'def_c', label: 'Broad' },
 ];
 const ATTR_OPTS = [
-  { value: 'inclusive', label: 'Count all of it' },
-  { value: 'heritability_weighted', label: 'Weight by heritability' },
-  { value: 'exclusive', label: 'Count none of it' },
+  { value: 'inclusive', label: 'Broad attribution' },
+  { value: 'heritability_weighted', label: 'Heritability-weighted' },
+  { value: 'exclusive', label: 'Narrow genetic attribution' },
 ];
+const ATTR_HELP: Record<string, string> = {
+  inclusive: 'Count the full modeled multifactorial disease category.',
+  heritability_weighted: 'Attribute only the estimated genetic share.',
+  exclusive: 'Count only a small, strongly genetic/familial component.',
+};
 
 export default function Denominator({ data, state, update }: Props) {
   const severity = (state.severity as SeverityDef) || (data.meta.default_assumptions.severity as SeverityDef);
@@ -90,11 +97,11 @@ export default function Denominator({ data, state, update }: Props) {
     <div className="space-y-6">
       <SectionHeading
         title="How big is the burden — and how much do the definitions matter?"
-        subtitle="From all births down to the sliver reachable only by germline editing. Change what counts as 'serious' or how disease is attributed to genetics, and watch every number move."
+        subtitle="From all births down to the editing-relevant residual. The burden totals respond to the definition choices below; the editing-residual figures are computed under the paper's default assumptions and shown separately."
       />
       <Explainer
-        whatThisShows="The funnel from all births worldwide down to the small share of serious genetic disease for which germline editing would be the only option."
-        howToRead="Read top to bottom — each band is a subset of the one above. The two toggles change what counts as 'serious' (severity) and how much multifactorial disease to attribute to genetics (attribution). These are judgment calls, so the page shows how much the total moves when you change them."
+        whatThisShows="The funnel from all births worldwide down to the small editing-relevant residual of serious genetic disease."
+        howToRead="Read top to bottom — each band is a subset of the one above. The two toggles change what counts as 'serious' (severity) and how much multifactorial disease to attribute to genetics (attribution). These are judgment calls, so the page shows how much the burden totals move when you change them. The editing-residual rows do not respond to the toggles — they are computed once, under the paper's default assumptions."
         whatItDetermines="How large the genetic-disease total is, and how much of that total rests on judgment calls versus on data."
       />
 
@@ -106,33 +113,43 @@ export default function Denominator({ data, state, update }: Props) {
           options={SEVERITY_OPTS}
           onChange={(v) => update({ severity: v })}
         />
-        <Segmented
-          label="How much multifactorial disease counts as genetic?"
-          ariaLabel="Genetic attribution of multifactorial disease"
-          value={attribution}
-          options={ATTR_OPTS}
-          onChange={(v) => update({ attribution: v })}
-        />
+        <div>
+          <Segmented
+            label="How much multifactorial disease counts as genetic?"
+            ariaLabel="Genetic attribution of multifactorial disease"
+            value={attribution}
+            options={ATTR_OPTS}
+            onChange={(v) => update({ attribution: v })}
+          />
+          <p className="mt-1 max-w-md text-xs text-slate-500">{ATTR_HELP[attribution]}</p>
+        </div>
       </div>
+      <p className="max-w-3xl text-xs text-slate-500">
+        There is no uniquely correct way to attribute multifactorial disease to genetics; this
+        choice is deliberately exposed because it strongly affects the denominator.
+      </p>
 
-      {/* Headline */}
+      {/* Headline — computed at the paper's default assumptions, independent of the toggles above */}
       <Card className="border-accent/40 bg-accent-soft/40">
-        <p className="text-sm text-slate-600">Headline (default assumptions)</p>
+        <p className="text-sm text-slate-600">
+          Headline — computed under the paper&apos;s default assumptions (does not respond to the
+          toggles above)
+        </p>
         <p className="mt-1 text-xl font-semibold text-slate-900">
           Most serious genetic disease is not uniquely dependent on germline editing
         </p>
         <p className="mt-1 text-sm text-slate-600">
-          On the <strong>current-evidence</strong> definition of the editing-only population,{' '}
+          Under <strong>current evidence</strong>, the editing-relevant residual is{' '}
           <StatValue stat={ueStrictShareOfSerious} kind="pct" decimals={2} showCi /> of serious
-          cases — <StatValue stat={ueStrict} kind="int" showCi /> births/yr — are reachable{' '}
-          <em>only</em> by germline editing (leaving ~
-          <StatValue stat={addressableStrict} kind="pct" decimals={1} /> not editing-dependent).
-          Under the <strong>optimistic upper bound</strong>, which credits editing with a future
-          role in complex disease, the editing-only share rises to{' '}
+          cases — <StatValue stat={ueStrict} kind="int" showCi /> births/yr, essentially the
+          families for whom no unaffected embryo can be selected (leaving ~
+          <StatValue stat={addressableStrict} kind="pct" decimals={1} /> outside it). Under the{' '}
+          <strong>optimistic complex-disease scenario</strong>, which additionally credits
+          editing with a hypothesized advantage in a few complex diseases, the residual rises to{' '}
           <StatValue stat={uePermShareOfSerious} kind="pct" decimals={2} /> (
           <StatValue stat={uePermissive} kind="compact" />
           /yr). The conclusion is unchanged across the two; the size of the minority depends on
-          how much future complex-disease editing is credited.
+          how much complex-disease editing advantage is credited.
         </p>
       </Card>
 
@@ -191,12 +208,12 @@ export default function Denominator({ data, state, update }: Props) {
               share: `${fmtPct(multiShare, 1)} of serious`,
             },
             {
-              stage: 'Editing-only (current evidence)',
+              stage: 'Editing-relevant residual (current evidence; default assumptions)',
               count: fmtInt(ueStrict.median),
               share: `${fmtPct(ueStrictShareOfSerious.median, 2)} of serious`,
             },
             {
-              stage: 'Editing-only (optimistic upper bound)',
+              stage: 'Editing-relevant residual (optimistic scenario; default assumptions)',
               count: fmtInt(uePermissive.median),
               share: `${fmtPct(uePermShareOfSerious.median, 2)} of serious`,
             },
@@ -358,8 +375,8 @@ function Cascade(p: CascadeProps) {
 
       {/* Editable residual rows */}
       {[
-        { label: 'Editing-only (optimistic upper bound)', frac: permFracOfSerious, color: '#f59e0b', count: p.uePermissive },
-        { label: 'Editing-only (current evidence)', frac: strictFracOfSerious, color: '#b45309', count: p.ueStrict },
+        { label: 'Editing-relevant (optimistic scenario)', frac: permFracOfSerious, color: '#f59e0b', count: p.uePermissive },
+        { label: 'Editing-relevant (current evidence)', frac: strictFracOfSerious, color: '#b45309', count: p.ueStrict },
       ].map((r, idx) => {
         const y = (3 + idx) * (rowH + gap);
         const w = Math.max(seriousW * r.frac, 2);

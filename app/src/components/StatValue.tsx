@@ -33,7 +33,7 @@ function ciString(stat: Stat, kind: Kind, decimals: number): string {
     case 'money':
       return crMoney(stat);
     case 'compact':
-      return `95% CrI ${fmtCompact(stat.ci95[0])}–${fmtCompact(stat.ci95[1])}`;
+      return `95% uncertainty interval ${fmtCompact(stat.ci95[0])}–${fmtCompact(stat.ci95[1])}`;
     case 'int':
     default:
       return crInt(stat);
@@ -55,7 +55,7 @@ function ciInline(stat: Stat, kind: Kind, decimals: number): string {
 }
 
 /**
- * Displays a Stat's median with its 95% credible interval. When the interval is not shown
+ * Displays a Stat's median with its 95% uncertainty interval. When the interval is not shown
  * inline, the value is a click/tap toggle that reveals it — hover (title) works too, but is
  * never the only way in, so touch readers get the same information.
  */
@@ -74,7 +74,7 @@ export default function StatValue({
       <span className={`tnum ${className}`} title={title}>
         <span className="font-semibold">{median}</span>
         <span className="ml-1 text-xs font-normal text-slate-500">
-          (95% CrI {ciInline(stat, kind, decimals)})
+          (95% uncertainty interval {ciInline(stat, kind, decimals)})
         </span>
       </span>
     );
@@ -85,14 +85,14 @@ export default function StatValue({
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        aria-label={`${median} — show 95% credible interval`}
+        aria-label={`${median} — show 95% uncertainty interval`}
         className="cursor-help rounded font-semibold underline decoration-dotted decoration-slate-400 underline-offset-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       >
         {median}
       </button>
       {open && (
         <span className="ml-1 text-xs font-normal text-slate-500">
-          (95% CrI {ciInline(stat, kind, decimals)})
+          (95% uncertainty interval {ciInline(stat, kind, decimals)})
         </span>
       )}
     </span>

@@ -77,8 +77,9 @@ export default function Prevention({ data, state, update }: Props) {
   const totalAverted =
     track === 'burden' ? leaf.total_averted_burden_fraction : leaf.total_averted_birth_fraction;
 
-  // Full-coverage floor: what is still NOT prevented for this class even at ideal coverage —
-  // i.e. the biological floor the existing tools cannot reach, which is editing's domain.
+  // Full-coverage remainder: what is still NOT prevented for this class even at ideal
+  // coverage — beyond the modeled pathways. (Not the same as editing-addressable: whether
+  // editing can reach any of it is established separately in the residual analysis.)
   const idealLeaf = data.prevention[region!]?.['ideal']?.[cls]?.[pndKey];
   const floorFrac = idealLeaf
     ? track === 'burden'
@@ -112,9 +113,10 @@ export default function Prevention({ data, state, update }: Props) {
         In the chart, each pathway removes a share of a disease class&apos;s affected births; the
         bar shrinks toward what is still not prevented. Most of that remainder is cases the
         pathways would reach but don&apos;t today, because access is incomplete — it closes as
-        coverage improves. Only the thin slice below the dashed line (<strong>what remains even
-        if everyone had access</strong>) is beyond every existing pathway, and so is germline
-        editing&apos;s domain.
+        coverage improves. The thin slice below the dashed line is what{' '}
+        <strong>remains after full modeled coverage</strong> — beyond the modeled existing
+        pathways. Whether germline editing can address any of that remainder is a separate
+        question, analyzed in “Where editing adds value.”
       </p>
 
       <div className="flex flex-wrap items-end gap-5">
@@ -182,14 +184,24 @@ export default function Prevention({ data, state, update }: Props) {
         <ToolLegend tools={tools} />
         {floorFrac !== undefined && scenario !== 'ideal' && (
           <p className="mt-1 text-xs text-slate-600">
-            The dashed line marks <strong>what remains even if everyone had access</strong> — the
-            share these pathways cannot reach for this class even at 100% coverage (
+            The dashed line marks the share <strong>remaining after full modeled coverage</strong>{' '}
+            — what these four pathways cannot reach for this class even at 100% coverage (
             {fmtPct(floorFrac, 1)}). In the “Not prevented” bar, everything <em>above</em> the
             line is <strong>cases missed because access is incomplete</strong> (closed by scaling
-            the same pathways); only the sliver <em>below</em> it is germline editing&apos;s
-            domain.
+            the same pathways). The portion <em>below</em> the line remains beyond the modeled
+            existing pathways; whether germline editing can address any of it is a separate
+            question.
           </p>
         )}
+        <div className="mt-2">
+          <button
+            type="button"
+            onClick={() => update({ tab: 'residual' })}
+            className="rounded border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            Which part of this remainder could editing actually address? →
+          </button>
+        </div>
 
         <div className="mt-3">
           <label htmlFor="cov" className="flex flex-col gap-1 text-sm">
@@ -224,7 +236,7 @@ export default function Prevention({ data, state, update }: Props) {
           columns={[
             { key: 'stage', header: 'Stage' },
             { key: 'averted', header: 'Averted fraction (median)', align: 'right' },
-            { key: 'ci', header: '95% CrI', align: 'right' },
+            { key: 'ci', header: '95% uncertainty interval', align: 'right' },
           ]}
           rows={[
             { stage: 'Baseline', averted: '100%', ci: '—' },
@@ -271,7 +283,7 @@ export default function Prevention({ data, state, update }: Props) {
               <tr className="border-b border-slate-300 text-slate-600">
                 <th scope="col" className="px-3 py-2 text-left font-medium">Pathway</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">Averted births / yr (median)</th>
-                <th scope="col" className="px-3 py-2 text-right font-medium">95% CrI</th>
+                <th scope="col" className="px-3 py-2 text-right font-medium">95% uncertainty interval</th>
               </tr>
             </thead>
             <tbody>
@@ -459,7 +471,7 @@ function Waterfall({ steps, residual, floor, colors }: WaterfallProps) {
             strokeDasharray="6 4"
           />
           <text x={padL + 4} y={y(floor) - 4} fontSize={10} fill="#6d28d9">
-            Full-coverage floor · editing's domain ≈ {fmtPct(floor, 1)}
+            Remaining after full modeled coverage ≈ {fmtPct(floor, 1)}
           </text>
         </g>
       )}
