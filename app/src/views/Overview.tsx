@@ -223,36 +223,19 @@ function WhatWeBuilt({
     <section className="space-y-3">
       <H>What we built</H>
       <Lead>
-        We constructed a structured disease-by-intervention dataset linking{' '}
-        {fmtInt(r.n_diseases_all)} serious genetic conditions to their causal genes or loci,
-        inheritance patterns, incidence or prevalence, and the medical interventions that can
-        address them. The catalogue combines a hand-curated high-burden core (
-        {fmtInt(r.n_diseases)} conditions) with a growing rare-disease tier (
-        {fmtInt(r.tiers.rare.n_diseases)} conditions) derived from Orphanet and other
-        genetic-disease sources.
+        We assembled a disease-by-intervention dataset linking {fmtInt(r.n_diseases_all)}{' '}
+        serious genetic conditions to genes or loci, inheritance, incidence or prevalence,
+        reproductive options, screening, and postnatal treatment. The curated high-burden core
+        ({fmtInt(r.n_diseases)} conditions) is supplemented by an Orphanet-derived rare-disease
+        tier and linked to evidence from GBD, UN World Population Prospects, WHO, gnomAD,
+        World Bank, UNAIDS, and disease-specific literature.
       </Lead>
       <Lead>
-        We then connect this disease map to population-level and epidemiological evidence.
-        Two complementary analyses run in parallel: a <strong>bottom-up disease catalogue</strong>,
-        which sums burden disease by disease, and a <strong>top-down population model</strong>,
-        which estimates the broader burden of serious monogenic and multifactorial disease and
-        propagates uncertainty across the assumptions that matter most.
-      </Lead>
-      <Lead>
-        For each disease or disease class, we ask what different forms of genetic medicine can
-        actually achieve: carrier screening and reproductive planning, IVF with PGT-M embryo
-        selection, prenatal diagnosis and reproductive decision-making, newborn screening and
-        early treatment, and postnatal therapies including somatic genetic medicine. We keep{' '}
-        <strong>affected-birth avoidance</strong> separate from <strong>burden mitigation</strong>{' '}
-        after birth, because these interventions do not produce the same medical or ethical
-        outcome.
-      </Lead>
-      <Lead>
-        The final step is to ask what remains. We distinguish{' '}
-        <strong>editing-only prevention</strong> — reproductive situations in which no
-        selectable unaffected embryo exists — from the separate and more uncertain possibility
-        that germline editing could eventually provide a distinct advantage in some complex
-        diseases (<strong>potential complex-disease editing advantage</strong>).
+        We use this evidence in two complementary analyses: a bottom-up disease catalogue and a
+        top-down population model. We then compare what existing genetic medicine can achieve —
+        keeping affected-birth avoidance separate from burden mitigation after birth — with the
+        narrower situations in which germline embryo editing could provide either the only
+        modeled preventive option or a potential additional advantage.
       </Lead>
 
       {/* Source families, compact — each row links into Methods. */}
@@ -260,22 +243,6 @@ function WhatWeBuilt({
         <SourceRow label="Population & burden" items="GBD 2023 · UN WPP 2024 · WHO" onGo={() => update({ tab: 'methods' })} />
         <SourceRow label="Genetics & disease" items="Orphanet · gnomAD · published literature" onGo={() => update({ tab: 'methods' })} />
         <SourceRow label="Access & geography" items="World Bank · UNAIDS · national program evidence" onGo={() => update({ tab: 'methods' })} />
-      </div>
-
-      {/* The three research layers, kept explicit — the ethical analysis is not part of the model. */}
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-        <LayerCard
-          title="Disease map"
-          body="What diseases exist, how common they are, how they are inherited, and what interventions apply."
-        />
-        <LayerCard
-          title="Population model"
-          body="How those disease-level observations translate into a global burden and residual under uncertainty."
-        />
-        <LayerCard
-          title="Ethical analysis"
-          body="What the empirical results imply — or do not imply — for research priorities, regulation, resistance, and enhancement."
-        />
       </div>
     </section>
   );
@@ -304,60 +271,35 @@ function SourceRow({
   );
 }
 
-function LayerCard({ title, body }: { title: string; body: string }) {
-  return (
-    <div className="rounded-lg border border-slate-200 bg-white p-3">
-      <p className="text-sm font-semibold text-slate-900">{title}</p>
-      <p className="mt-1 text-xs leading-5 text-slate-600">{body}</p>
-    </div>
-  );
-}
-
-// 3. The canonical six-step research workflow — a lightweight explanatory figure, not
-// navigation. Shared with the Methods page so the site describes one workflow, not two.
+// 3. The canonical workflow, compact — the full version with step descriptions lives in
+// Methods. This is one line of orientation, not navigation.
 function HowAnalysisWorks() {
   return (
-    <section className="space-y-3">
+    <section className="space-y-2">
       <H>How the analysis works</H>
-      <ol className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+      <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[13px] text-slate-700">
         {WORKFLOW_STEPS.map((s, i) => (
-          <li key={s.title} className="flex flex-col rounded-lg border border-slate-200 bg-slate-50/60 p-3">
-            <span className="text-xs font-semibold text-slate-400">{i + 1}</span>
-            <span className="mt-0.5 text-sm font-semibold text-slate-900">{s.title}</span>
-            <span className="mt-1 text-xs leading-5 text-slate-600">{s.desc}</span>
+          <li key={s.title} className="flex items-center gap-1.5">
+            {i > 0 && <span aria-hidden="true" className="text-slate-300">→</span>}
+            <span className="rounded border border-slate-200 bg-slate-50/60 px-2 py-0.5">
+              {s.title}
+            </span>
           </li>
         ))}
       </ol>
       <p className="text-xs leading-5 text-slate-500">
-        The project moves from disease burden and intervention mapping to the residual medical
-        role of germline editing. Uncertainty is propagated through all quantitative steps
-        rather than added at the end, and empirical results are kept separate from ethical and
-        policy interpretation.
+        Uncertainty is propagated through all quantitative steps; empirical results are kept
+        separate from ethical and policy interpretation.
       </p>
     </section>
   );
 }
 
-// 4. What the interactive page adds beyond the paper.
+// 4. Entry points into the analysis.
 function HowToUse({ update }: { update: (patch: UrlState) => void }) {
   return (
-    <section className="space-y-3">
-      <H>How to use this research page</H>
-      <Lead>
-        This research page is the interactive companion to the paper. It exposes the analysis
-        behind the headline results rather than presenting only the final estimates. Readers can
-        inspect the disease catalogue, vary assumptions about disease severity and genetic
-        attribution, compare current and idealized access to existing interventions, examine the
-        reproductive configurations that generate the editing-only residual, explore alternative
-        assumptions about complex disease, and trace model inputs back to their underlying
-        sources.
-      </Lead>
-      <Lead>
-        The purpose of the page is to make the empirical assumptions behind the argument visible
-        and contestable. The paper presents the central analysis and normative argument; this
-        page allows readers to inspect the underlying data, assumptions, uncertainty, and
-        alternative scenarios in greater detail.
-      </Lead>
+    <section className="space-y-2">
+      <Lead>Explore the evidence, assumptions, and underlying disease data below.</Lead>
       <div className="flex flex-wrap gap-2 text-sm">
         <button
           type="button"
@@ -409,7 +351,7 @@ function Findings({
     go: () => void;
   }[] = [
     {
-      title: 'Existing genetic medicine has enormous unrealized reach',
+      title: 'Existing genetic medicine has substantial unrealized reach',
       kinds: ['model', 'interpretation'],
       body: (
         <>
@@ -430,8 +372,9 @@ function Findings({
       go: () => update({ tab: 'prevention' }),
     },
     {
-      title: 'Germline editing nevertheless has a narrow, real potential role',
-      kinds: ['model', 'policy'],
+      title:
+        'Germline editing may have a narrow medical role where embryo selection cannot produce an unaffected embryo',
+      kinds: ['model'],
       body: (
         <>
           A small monogenic population (~{fmtPct(s1Share, 2)} of the burden, about{' '}
@@ -441,8 +384,7 @@ function Findings({
           (combined editing-relevant residual ~{fmtPct(editableShare.strict.median, 2)}), and a
           larger role in complex disease (up to ~
           {fmtPct(editableShare.permissive.median, 1)} under an optimistic modeled scenario) is
-          a possibility, not another “only option” population. Together they are the strongest
-          argument for a carefully governed research pathway rather than a blanket ban.
+          a possibility, not another “only option” population.
         </>
       ),
       goLabel: 'Where editing adds value',
@@ -455,8 +397,8 @@ function Findings({
         <>
           The medical justification for preventing catastrophic inherited disease does not
           automatically extend to editing healthy embryos for resistance to common risks, or for
-          enhancement. Collapsing the three into one category — for or against — is how both
-          hype and blanket prohibition go wrong.
+          enhancement. These applications therefore require separate scientific and ethical
+          justification.
         </>
       ),
       goLabel: 'Beyond disease prevention',

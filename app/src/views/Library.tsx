@@ -12,7 +12,6 @@ import {
 import { UrlState } from '../urlState';
 import { Card, SectionHeading, Select } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
-import Explainer from '../components/Explainer';
 
 interface Props {
   data: AllData;
@@ -197,11 +196,12 @@ export default function Library({ data, state, update }: Props) {
           title="The disease catalogue"
           subtitle="A growing curated catalogue — not an exhaustive universe — of serious genetic diseases mapped to their causal genes and to the interventions that can address them. Sorted by affected births per year."
         />
-        <Explainer
-          whatThisShows="Each catalogued serious genetic disease — the gene(s) that cause it, how it is inherited, how common it is at birth, the type of existing treatment, and which reproductive tools apply. The catalogue has two tiers: a hand-curated CORE of the highest-burden conditions that drive the global numbers, and an Orphanet-derived RARE tail (individually rare, each with a cited birth prevalence) that completes the disease count. It grows as conditions are vetted and promoted; it does not claim to enumerate every serious genetic disease."
-          howToRead="Use the tier switch first: Core is the default so the long tail doesn't overwhelm; Rare adds the Orphanet-derived conditions; All merges both. Each row is one disease, classified on two 'by what' axes. Prevention (before birth): preventable by carrier screening or embryo selection, prenatally detectable only, or neither — the applicable tools are named on the badge. Treatment (if born affected): the END of the best existing therapy — curative, disease-modifying, or palliative — with its type. Rare-tier rows carry an 'auto' badge and their intent is a default from the treatment type, pending review. Germline editing is deliberately on neither axis — it is a distinct intervention for the residual (see 'Where editing is unique' and 'The embryo trade-off')."
-          whatItDetermines="How each disease is addressed today — and, by keeping editing distinct, where editing would add something existing modalities can't."
-        />
+        <p className="text-sm leading-relaxed text-slate-700">
+          The catalogue links each condition to its genetic basis, inheritance pattern,
+          estimated frequency, reproductive pathways, and available treatment. The curated core
+          is used for the bottom-up burden analysis; the Orphanet-derived tier broadens disease
+          coverage but has undergone less manual review.
+        </p>
 
         {/* Rollup strip */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -214,7 +214,7 @@ export default function Library({ data, state, update }: Props) {
               catalogue incl. rare tier
             </span>
           </RollupTile>
-          <RollupTile label="Addressable by ≥1 reproductive tool">
+          <RollupTile label="≥1 reproductive pathway technically applicable">
             <span className="tnum text-2xl font-bold text-slate-900">
               {fmtPct(rollup.share_addressable_by_reproductive_tool, 0)}
             </span>
@@ -222,7 +222,7 @@ export default function Library({ data, state, update }: Props) {
               {fmtCompact(rollup.births_addressable_by_reproductive_tool)}/yr
             </span>
           </RollupTile>
-          <RollupTile label="NBS-mitigable births / yr">
+          <RollupTile label="Births eligible for newborn screening + early treatment / yr">
             <span className="tnum text-2xl font-bold text-slate-900">
               {fmtCompact(rollup.births_nbs_mitigable)}
             </span>
@@ -282,7 +282,7 @@ export default function Library({ data, state, update }: Props) {
             />
             <Select
               id="tool"
-              label="Addressable by"
+              label="Reproductive pathway"
               value={tool}
               options={toolOptions}
               onChange={(v) => update({ tool: v })}
@@ -335,6 +335,12 @@ export default function Library({ data, state, update }: Props) {
         </Card>
 
         {/* Table */}
+        <p className="text-xs text-slate-500">
+          Treatment intent: curative eliminates the disease; disease-modifying alters its course
+          with ongoing care; palliative relieves symptoms. Rare-tier rows are rule-mapped
+          pending clinical review. Germline editing is analyzed separately and appears on
+          neither axis.
+        </p>
         <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
           <table className="w-full border-collapse text-sm">
             <caption className="sr-only">
@@ -465,9 +471,9 @@ function DiseaseRow({
           {d.tier === 'rare' && (
             <span
               className="ml-1.5 inline-block rounded bg-slate-100 px-1 py-0.5 align-middle text-[10px] font-medium uppercase tracking-wide text-slate-500"
-              title="Rare tier: Orphanet-derived, interventions assigned by rule (not hand-curated)."
+              title="Rare-disease tier: Orphanet-derived, interventions assigned by rule (not hand-curated)."
             >
-              auto
+              rule-mapped
             </span>
           )}
         </td>
@@ -589,14 +595,10 @@ function DiseaseDetail({ d }: { d: Disease }) {
             {d.treatment.modality !== 'none' && d.treatment.modality !== 'unknown'
               ? ` — ${d.treatment.label}`
               : ''}
-            {d.treatment.note ? ` (${d.treatment.note})` : ''}
           </span>
-          <span className="block text-xs text-slate-400">
-            {d.treatment.intent_curated
-              ? 'Curative eliminates the disease; disease-modifying alters its course but needs ongoing care; palliative relieves symptoms only.'
-              : 'Intent shown is a default from the treatment type, pending clinical review.'}{' '}
-            Germline editing is a distinct intervention, not a treatment modality.
-          </span>
+          {!d.treatment.intent_curated && (
+            <span className="block text-xs text-slate-400">rule-mapped intent</span>
+          )}
         </p>
         <p>
           <span className="font-medium text-slate-600">Incidence: </span>
@@ -622,16 +624,6 @@ function DiseaseDetail({ d }: { d: Disease }) {
             );
           })}
         </ul>
-        <p className="pt-1">
-          <span className="font-medium text-slate-600">Editing: </span>
-          <span className="text-slate-700">{d.editing_note}</span>
-        </p>
-        {d.notes && (
-          <p>
-            <span className="font-medium text-slate-600">Notes: </span>
-            <span className="text-slate-700">{d.notes}</span>
-          </p>
-        )}
       </div>
     </div>
   );
@@ -648,7 +640,7 @@ function TierSegment({
 }) {
   const opts: { key: string; label: string; n: number; sub: string }[] = [
     { key: 'core', label: 'Core', n: tiers.core.n_diseases, sub: 'curated · high-burden' },
-    { key: 'rare', label: 'Rare tail', n: tiers.rare.n_diseases, sub: 'Orphanet-derived' },
+    { key: 'rare', label: 'Rare-disease tier', n: tiers.rare.n_diseases, sub: 'Orphanet-derived' },
     { key: 'all', label: 'All', n: tiers.all.n_diseases, sub: 'full catalogue' },
   ];
   const citedAll = tiers.all.cited_incidence_share_by_count;
@@ -658,8 +650,9 @@ function TierSegment({
         <div>
           <p className="text-sm font-semibold text-slate-900">Catalogue tier</p>
           <p className="text-xs text-slate-500">
-            The core drives the burden headline; the rare tail completes the disease count without
-            inflating it. {fmtPct(citedAll, 0)} of the full catalogue rests on a cited incidence.
+            The curated core supports bottom-up burden estimates. The Orphanet-derived tier
+            broadens disease coverage and will be progressively reviewed.{' '}
+            {fmtPct(citedAll, 0)} of the full catalogue rests on a cited incidence.
           </p>
         </div>
         <div className="inline-flex overflow-hidden rounded-lg border border-slate-300">

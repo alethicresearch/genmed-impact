@@ -58,7 +58,7 @@ const SECTIONS: SectionDef[] = [
       { id: 'ethics', label: 'What should follow' },
       { id: 'embryos', label: 'The embryo trade-off' },
       { id: 'beyond', label: 'Beyond disease prevention' },
-      { id: 'allocation', label: 'Cost scenario (exploratory)' },
+      { id: 'allocation', label: 'Exploratory analyses' },
     ],
   },
   {

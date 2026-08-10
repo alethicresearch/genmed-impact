@@ -11,7 +11,6 @@ import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
 import { Card, SectionHeading, Segmented, ExportSvgButton } from '../components/ui';
 import { ShowDataToggle } from '../components/DataTable';
-import Explainer from '../components/Explainer';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 import { exportContainerSvg } from '../svgExport';
 
@@ -84,7 +83,6 @@ export default function Denominator({ data, state, update }: Props) {
   const uePermissive = data.residual.uniquely_editable_total.permissive;
   const ueStrictShareOfSerious = data.residual.uniquely_editable_share_of_serious.strict;
   const uePermShareOfSerious = data.residual.uniquely_editable_share_of_serious.permissive;
-  const addressableStrict = data.residual.addressable_share_of_serious.strict;
 
   const svgRef = useRef<HTMLDivElement>(null);
 
@@ -96,14 +94,14 @@ export default function Denominator({ data, state, update }: Props) {
     <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
-        title="How big is the burden — and how much do the definitions matter?"
-        subtitle="From all births down to the editing-relevant residual. The burden totals respond to the definition choices below; the editing-residual figures are computed under the paper's default assumptions and shown separately."
+        title="How much serious genetic disease is included in the analysis?"
+        subtitle="The estimated burden depends on two important choices: how severe a condition must be to enter the analysis, and how much multifactorial disease is attributed to genetics."
       />
-      <Explainer
-        whatThisShows="The funnel from all births worldwide down to the small editing-relevant residual of serious genetic disease."
-        howToRead="Read top to bottom — each band is a subset of the one above. The two toggles change what counts as 'serious' (severity) and how much multifactorial disease to attribute to genetics (attribution). These are judgment calls, so the page shows how much the burden totals move when you change them. The editing-residual rows do not respond to the toggles — they are computed once, under the paper's default assumptions."
-        whatItDetermines="How large the genetic-disease total is, and how much of that total rests on judgment calls versus on data."
-      />
+      <p className="text-sm leading-relaxed text-slate-700">
+        Change either assumption below to see how the estimated denominator changes. The
+        editing-residual figures shown at the end of the cascade are computed under the
+        paper&apos;s default assumptions and do not respond to these choices.
+      </p>
 
       <div className="flex flex-wrap gap-6">
         <Segmented
@@ -129,35 +127,11 @@ export default function Denominator({ data, state, update }: Props) {
         choice is deliberately exposed because it strongly affects the denominator.
       </p>
 
-      {/* Headline — computed at the paper's default assumptions, independent of the toggles above */}
-      <Card className="border-accent/40 bg-accent-soft/40">
-        <p className="text-sm text-slate-600">
-          Headline — computed under the paper&apos;s default assumptions (does not respond to the
-          toggles above)
-        </p>
-        <p className="mt-1 text-xl font-semibold text-slate-900">
-          Most serious genetic disease is not uniquely dependent on germline editing
-        </p>
-        <p className="mt-1 text-sm text-slate-600">
-          Under <strong>current evidence</strong>, the editing-relevant residual is{' '}
-          <StatValue stat={ueStrictShareOfSerious} kind="pct" decimals={2} showCi /> of serious
-          cases — <StatValue stat={ueStrict} kind="int" showCi /> births/yr, essentially the
-          families for whom no unaffected embryo can be selected (leaving ~
-          <StatValue stat={addressableStrict} kind="pct" decimals={1} /> outside it). Under the{' '}
-          <strong>optimistic complex-disease scenario</strong>, which additionally credits
-          editing with a hypothesized advantage in a few complex diseases, the residual rises to{' '}
-          <StatValue stat={uePermShareOfSerious} kind="pct" decimals={2} /> (
-          <StatValue stat={uePermissive} kind="compact" />
-          /yr). The conclusion is unchanged across the two; the size of the minority depends on
-          how much complex-disease editing advantage is credited.
-        </p>
-      </Card>
-
       {/* Cascade */}
       <Card>
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold text-slate-900">
-            From all births to editing-only cases
+            From annual births to the editing-relevant residual
           </h3>
           <ExportSvgButton
             onClick={() => exportContainerSvg(svgRef.current, 'denominator-cascade.svg')}
@@ -242,13 +216,6 @@ export default function Denominator({ data, state, update }: Props) {
           <SourceNote source={multiSrc.source || 'March of Dimes 2006; WHO congenital anomalies'} doi={multiSrc.doi} detail="multifactorial serious rate" />
         </MetricCard>
       </div>
-
-      <p className="text-xs text-slate-500">
-        Note: monogenic and multifactorial counts, total serious, and the serious share of
-        births come directly from <code>burden.json.grid[{severity}][{attribution}]</code>.
-        Shares shown here are ratios of those precomputed medians. The uniquely-editable
-        residual is reported at the model's default assumptions.
-      </p>
 
       <SourcesList />
     </div>

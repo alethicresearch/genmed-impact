@@ -24,7 +24,7 @@ interface Props {
 const REGIONS = ['Global', 'High income', 'Upper-middle income', 'Lower-middle income', 'Low income'];
 const SCENARIOS = [
   { value: 'current', label: 'Current coverage' },
-  { value: 'achievable_2035', label: 'Achievable by 2035' },
+  { value: 'achievable_2035', label: 'Expanded-access 2035 scenario' },
   { value: 'ideal', label: 'Full coverage (ideal)' },
 ];
 const CLASSES = [
@@ -101,22 +101,11 @@ export default function Prevention({ data, state, update }: Props) {
         subtitle="The four existing pathways applied one after another, under a chosen real-world coverage scenario."
       />
       <p className="text-sm leading-relaxed text-slate-700">
-        None of these pathways is a treatment in itself — each is a test plus what follows it.{' '}
-        <strong>Carrier screening</strong> identifies risk and enables reproductive planning;{' '}
-        <strong>IVF with embryo selection (PGT-M)</strong> avoids transferring an affected embryo;{' '}
-        <strong>prenatal diagnosis</strong> reduces affected births only via a subsequent
-        reproductive decision; <strong>newborn screening</strong> prevents no births at all — it
-        enables earlier treatment. The model keeps two tracks separate throughout:{' '}
-        <em>affected births avoided</em> and <em>disease burden mitigated after birth</em>.
-      </p>
-      <p className="text-sm leading-relaxed text-slate-700">
-        In the chart, each pathway removes a share of a disease class&apos;s affected births; the
-        bar shrinks toward what is still not prevented. Most of that remainder is cases the
-        pathways would reach but don&apos;t today, because access is incomplete — it closes as
-        coverage improves. The thin slice below the dashed line is what{' '}
-        <strong>remains after full modeled coverage</strong> — beyond the modeled existing
-        pathways. Whether germline editing can address any of that remainder is a separate
-        question, analyzed in “Where editing adds value.”
+        Existing genetic medicine affects two different outcomes. Carrier screening, PGT-M, and
+        — under a specified reproductive-decision assumption — prenatal diagnosis can reduce
+        affected births. Newborn screening acts after birth by enabling earlier treatment. The
+        model therefore reports affected-birth avoidance and postnatal burden mitigation
+        separately.
       </p>
 
       <div className="flex flex-wrap items-end gap-5">
@@ -184,13 +173,10 @@ export default function Prevention({ data, state, update }: Props) {
         <ToolLegend tools={tools} />
         {floorFrac !== undefined && scenario !== 'ideal' && (
           <p className="mt-1 text-xs text-slate-600">
-            The dashed line marks the share <strong>remaining after full modeled coverage</strong>{' '}
-            — what these four pathways cannot reach for this class even at 100% coverage (
-            {fmtPct(floorFrac, 1)}). In the “Not prevented” bar, everything <em>above</em> the
-            line is <strong>cases missed because access is incomplete</strong> (closed by scaling
-            the same pathways). The portion <em>below</em> the line remains beyond the modeled
-            existing pathways; whether germline editing can address any of it is a separate
-            question.
+            Dashed line: share remaining after full modeled coverage ({fmtPct(floorFrac, 1)}).
+            Above the line, cases missed because access is incomplete; below it, cases beyond
+            the modeled pathways — whether germline editing can address any of that remainder is
+            analyzed in “Where editing adds value.”
           </p>
         )}
         <div className="mt-2">
@@ -203,8 +189,13 @@ export default function Prevention({ data, state, update }: Props) {
           </button>
         </div>
 
-        <div className="mt-3">
-          <label htmlFor="cov" className="flex flex-col gap-1 text-sm">
+        {/* Exploratory control, off the default reading path — it rescales the display and is
+            explicitly not a model output. */}
+        <details className="mt-3" open={isIllustrative}>
+          <summary className="cursor-pointer text-xs font-medium text-slate-500">
+            Advanced / exploratory controls
+          </summary>
+          <label htmlFor="cov" className="mt-2 flex flex-col gap-1 text-sm">
             <span className="font-medium text-slate-700">
               Illustrative coverage multiplier: {fmtPct(coverage, 0)}
               {isIllustrative && (
@@ -229,7 +220,7 @@ export default function Prevention({ data, state, update }: Props) {
               100% to show the precomputed scenario.
             </span>
           </label>
-        </div>
+        </details>
 
         <ShowDataToggle
           caption="Prevention waterfall values"

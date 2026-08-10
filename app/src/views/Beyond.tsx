@@ -75,7 +75,12 @@ export default function Beyond({ data, update }: Props) {
                   </dd>
                 </div>
               </dl>
-              <p className="mt-3 text-sm text-slate-600">{r.hiv.note}</p>
+              <p className="mt-3 text-sm text-slate-600">
+                The modeled residual after PMTCT identifies infections not prevented under the
+                assumed coverage and effectiveness. It does not by itself establish a
+                germline-editing indication; editing would still need to show added value over
+                prevention, treatment, and future somatic approaches.
+              </p>
             </Card>
 
             {/* Cardiovascular */}
@@ -84,9 +89,13 @@ export default function Beyond({ data, update }: Props) {
                 Cardiovascular risk (e.g. PCSK9)
               </h3>
               <p className="mt-3 inline-block rounded bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600">
-                No single birth count
+                No comparable population estimate in this model
               </p>
-              <p className="mt-3 text-sm text-slate-600">{r.cardiovascular.note}</p>
+              <p className="mt-3 text-sm text-slate-600">
+                PCSK9 illustrates a biologically plausible risk-modification target, but existing
+                pharmacological and potential somatic approaches act on the same pathway. We
+                therefore do not estimate a distinct germline-editing population.
+              </p>
             </Card>
 
             {/* Neurodegeneration */}
@@ -94,8 +103,11 @@ export default function Beyond({ data, update }: Props) {
               <h3 className="text-base font-semibold text-slate-900">
                 Neurodegeneration (e.g. APOE)
               </h3>
-              <p className="mt-3 text-2xl font-semibold text-amber-800">Not computable</p>
-              <p className="mt-3 text-sm text-slate-700">{r.neurodegeneration.note}</p>
+              <p className="mt-3 text-2xl font-semibold text-amber-800">Not estimated</p>
+              <p className="mt-3 text-sm text-slate-700">
+                APOE illustrates the problem of pleiotropy: a large genetic association does not
+                necessarily identify a suitable germline-editing target.
+              </p>
             </Card>
           </div>
           <Claim kind="interpretation">
@@ -122,7 +134,7 @@ export default function Beyond({ data, update }: Props) {
         </section>
 
         <section className="space-y-3">
-          <PH>The continuum argument, and where it stops</PH>
+          <PH>Does biological continuity imply ethical continuity?</PH>
           <Lead>
             There is a genuine biological continuum from disease to trait. On the{' '}
             <button
@@ -135,7 +147,7 @@ export default function Beyond({ data, update }: Props) {
             everyone carries a continuous genetic load, and “disease” is the far tail past a
             threshold. From this some argue that if medicine already acts to lower risk along
             that continuum, shifting the whole distribution — enhancing everyone — is more of the
-            same. The inference does not hold: a continuum in biology is not a continuum in
+            same. We argue that it does not: a continuum in biology is not a continuum in
             justification. Below the threshold the goal is preventing serious illness in an
             identifiable future person; beyond it, changing a population's traits is a contested
             social project that medicine's mandate does not settle.

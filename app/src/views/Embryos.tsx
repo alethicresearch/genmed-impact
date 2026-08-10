@@ -2,8 +2,6 @@ import { AllData, fmtCompact, fmtInt } from '../data';
 import { UrlState } from '../urlState';
 import { Card, SectionHeading } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
-import Explainer from '../components/Explainer';
-import Term from '../components/Term';
 import { Claim } from '../components/prose';
 
 interface Props {
@@ -11,6 +9,16 @@ interface Props {
   state: UrlState;
   update: (patch: UrlState) => void;
 }
+
+// Curated per-inheritance descriptions (the typical at-risk couple each row models).
+const INHERITANCE_NOTE: Record<string, string> = {
+  autosomal_recessive: 'both parents carriers → 1/4 of embryos affected',
+  autosomal_dominant: 'affected heterozygous × unaffected → 1/2 affected',
+  x_linked_recessive: 'carrier mother; unaffected embryos selectable (may also select sex)',
+  x_linked_dominant: 'affected parent → ~1/2 affected',
+  chromosomal: 'euploid fraction (aneuploidy / translocation segregation), age-dependent',
+  multifactorial: 'no single-locus target; selection is polygenic (see complex-disease analysis)',
+};
 
 export default function Embryos({ data }: Props) {
   const e = data.embryos;
@@ -24,18 +32,12 @@ export default function Embryos({ data }: Props) {
         title="The embryo trade-off"
         subtitle="An idealized comparison of embryo selection and successful correction on one ethically relevant dimension: how many embryos with the targeted genotype remain candidates for transfer."
       />
-      <Explainer
-        whatThisShows="An idealized comparison of what preventing an affected birth asks of the embryos involved. Embryo selection (PGT) creates several embryos and avoids transferring those with the targeted genotype; successful correction would instead retain that embryo as a candidate for transfer."
-        howToRead={
-          <>
-            The curve shows embryos not selected for transfer per unaffected child as the fraction
-            of <Term k="embryo selection">unaffected embryos</Term> (u) falls. The selection figure
-            is (1−u)/u and rises without bound as u→0; idealized correction stays at zero.
-          </>
-        }
-        whatItDetermines="How the modeled embryo-selection trade-off changes as unaffected embryos become rarer. This does not by itself determine whether editing is ethically preferable overall."
-        defaultOpen
-      />
+      <p className="text-sm leading-relaxed text-slate-700">
+        Embryo selection and successful editing differ in what happens to embryos carrying the
+        targeted genotype. This idealized comparison estimates the number of affected-genotype
+        embryos not selected for transfer per unaffected child as unaffected embryos become
+        rarer.
+      </p>
       <div className="rounded-lg border border-amber-300 bg-amber-50/60 p-4 text-sm leading-6 text-slate-700">
         <strong>This is an idealized comparison.</strong> In the strategy modeled here, PGT avoids
         transfer of embryos with the targeted genotype, whereas successful correction would retain
@@ -55,7 +57,7 @@ export default function Embryos({ data }: Props) {
       {/* Curve */}
       <Card>
         <h3 className="text-base font-semibold text-slate-900">
-          How many embryos does selection set aside as unaffected embryos become rarer?
+          How embryo selection changes as unaffected embryos become rarer
         </h3>
         <p className="mt-1 text-sm text-slate-600">
           Affected embryos not selected for transfer, per unaffected child. As unaffected embryos
@@ -78,7 +80,7 @@ export default function Embryos({ data }: Props) {
                 <th scope="col" className="px-3 py-2 text-right font-medium">
                   Not selected for transfer / child (selection)
                 </th>
-                <th scope="col" className="px-3 py-2 text-right font-medium">Editing</th>
+                <th scope="col" className="px-3 py-2 text-right font-medium">Idealized successful editing</th>
               </tr>
             </thead>
             <tbody>
@@ -86,7 +88,9 @@ export default function Embryos({ data }: Props) {
                 <tr key={k} className="border-b border-slate-100 align-top">
                   <td className="px-3 py-1.5 text-slate-700">
                     {k.replace(/_/g, ' ')}
-                    {v.note && <span className="block text-xs text-slate-400">{v.note}</span>}
+                    {INHERITANCE_NOTE[k] && (
+                      <span className="block text-xs text-slate-400">{INHERITANCE_NOTE[k]}</span>
+                    )}
                   </td>
                   <td className="tnum px-3 py-1.5 text-right">{v.unaffected_embryo_fraction.toFixed(2)}</td>
                   <td className="tnum px-3 py-1.5 text-right font-semibold text-rose-700">
@@ -103,14 +107,17 @@ export default function Embryos({ data }: Props) {
           at-risk couple of each inheritance mode (e.g. ¾ for a recessive carrier × carrier cross);
           not-selected-per-child is (1−u)/u.
         </p>
-        <p className="mt-2 text-xs leading-relaxed text-slate-600">{e.note}</p>
+        <p className="mt-2 text-xs leading-relaxed text-slate-600">
+          Zero means zero genotype-based exclusions by construction; editing failure, mosaicism,
+          developmental attrition, and safety-related embryo loss are not modeled.
+        </p>
       </Card>
 
-      {/* Illustrative population scaling — deliberately AFTER the per-child analysis */}
-      <div className="rounded-lg border border-slate-300 bg-slate-50 p-4">
-        <p className="text-sm font-semibold text-slate-900">
-          Illustrative population scaling — not an estimate of actual annual embryo disposition
-        </p>
+      {/* Illustrative population scaling — advanced, off the default reading path */}
+      <details className="rounded-lg border border-slate-300 bg-slate-50 p-4">
+        <summary className="cursor-pointer text-sm font-semibold text-slate-900">
+          Illustrative scaling — advanced (not an estimate of actual annual embryo disposition)
+        </summary>
         <p className="mt-1 text-xs leading-5 text-slate-600">
           This counterfactual applies the per-child Mendelian ratio to the catalogue&apos;s
           affected-birth count. It does not model uptake of IVF, number of cycles, embryo
@@ -164,8 +171,13 @@ export default function Embryos({ data }: Props) {
           </p>
         </Card>
         </div>
-        <p className="mt-2 text-xs leading-relaxed text-slate-600">{agg.note}</p>
-      </div>
+        <p className="mt-2 text-xs leading-relaxed text-slate-600">
+          Real programs use a mix of pathways and coverage is far below 100%, so this is a scale
+          contrast, not a forecast. Prenatal diagnosis is a separate moral category — termination
+          of an affected pregnancy, not embryo non-selection — and is tracked separately in the
+          prevention model.
+        </p>
+      </details>
 
       <SourcesList title="Derivations" />
     </div>

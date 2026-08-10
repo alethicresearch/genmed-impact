@@ -2,7 +2,6 @@ import { AllData, MfDisease, MfScenario, MfScenarioKey, Verdict, fmtInt, fmtPct 
 import { UrlState } from '../urlState';
 import { Card, SectionHeading, Segmented } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
-import Explainer from '../components/Explainer';
 import Term from '../components/Term';
 
 interface Props {
@@ -47,8 +46,8 @@ const VERDICT_META: Record<Verdict, { label: string; fill: string; text: string;
 };
 
 const SCEN_OPTS = [
-  { value: 'present', label: 'Present technology' },
-  { value: 'near_future', label: 'Near-future (assumption set)' },
+  { value: 'present', label: 'Current-style scenario' },
+  { value: 'near_future', label: 'Hypothetical high-capacity scenario' },
   { value: 'both', label: 'Both' },
 ];
 
@@ -70,50 +69,25 @@ export default function Multifactorial({ data, state, update }: Props) {
           subtitle="How far embryo selection and gene editing could move risk for common, many-gene diseases — arranged along the polygenicity spectrum. Verdicts are model thresholds, not clinical conclusions."
         />
 
-        <Explainer
-          whatThisShows={
-            <>
-              Ten common <Term k="multifactorial">multifactorial</Term> diseases arranged along a{' '}
-              <strong>spectrum</strong>: from <Term k="oligogenic">oligogenic</Term> (a few
-              big-effect genes) to <strong>massively polygenic</strong> (thousands of tiny
-              effects). For each, two levers — <Term k="embryo selection">embryo selection</Term> on
-              a <Term k="PRS">PRS</Term> and <Term k="germline embryo editing">editing</Term> of a
-              handful of large-effect loci — are scored by how much risk they can remove.
-            </>
-          }
-          howToRead={
-            <>
-              Each disease has two bars for the paper's two mechanisms:{' '}
-              <strong>selection</strong> (choose among embryos) and <strong>correction</strong>{' '}
-              (edit a few large-effect loci), showing the{' '}
-              <Term k="RRR">relative risk reduction</Term> each achieves. Colour is the model
-              verdict — <span className="font-medium text-emerald-700">green = meets the model
-              threshold</span>, <span className="font-medium text-amber-700">amber = marginal</span>,
-              grey = below threshold,{' '}
-              <span className="font-medium text-red-700">red = blocked by pleiotropy</span>. Click
-              a bar for the underlying liability shift and embryo/edit counts.
-            </>
-          }
-          whatItDetermines={
-            <>
-              Where each lever <em>can</em> work and where architecture forecloses it. The{' '}
-              <strong>frontier moves outward</strong> as technology advances (more embryos, more
-              simultaneous edits) — but for the most polygenic traits, editing a few loci can never
-              reach far, and <Term k="pleiotropy">pleiotropy</Term> (e.g. APOE) blocks otherwise
-              concentrated targets no matter the tech.
-            </>
-          }
-          defaultOpen={false}
-        />
+        <p className="text-sm leading-relaxed text-slate-700">
+          For complex diseases, germline editing would rarely be the only available
+          intervention. This exploratory analysis instead asks whether editing a limited number
+          of higher-effect loci could reduce risk more than embryo selection, under specified
+          assumptions about genetic architecture and technology. Bars show the modeled relative
+          risk reduction for embryo selection and germline editing; colour marks whether each
+          meets the model threshold.
+        </p>
 
-        {/* The core teaching text, grounded in the model note */}
         <Card>
-          <p className="text-sm leading-relaxed text-slate-700">{str(mf.note)}</p>
-          <p className="mt-2 text-xs leading-relaxed text-slate-500">
-            All risk reductions here are computed on the{' '}
+          <p className="text-sm leading-relaxed text-slate-700">
+            Risk reductions are computed on the{' '}
             <Term k="liability threshold">liability-threshold</Term> model: everyone carries a
-            continuous risk load, and the disease appears once that load crosses a fixed threshold.
-            An intervention shifts that load by some fraction of a standard deviation.
+            continuous risk load, and the disease appears once that load crosses a fixed
+            threshold. Selection power grows with the number of embryos available; editing power
+            depends on how concentrated a disease&apos;s risk is in a few editable loci. A large
+            modeled genetic effect does not by itself make a locus a suitable editing target;{' '}
+            <Term k="pleiotropy">pleiotropic</Term> effects may substantially weaken the clinical
+            case.
           </p>
         </Card>
 
@@ -127,14 +101,11 @@ export default function Multifactorial({ data, state, update }: Props) {
             onChange={(v) => update({ scen: v })}
           />
           <p className="max-w-md text-xs text-slate-500">
-            <span className="font-medium text-slate-700">Present</span> ={' '}
-            {str(mf.tech_scenarios.present.label)}.{' '}
-            <span className="font-medium text-slate-700">Near-future</span> ={' '}
-            {str(mf.tech_scenarios.near_future.label)}.{' '}
-            <span className="font-medium text-amber-700">
-              The near-future scenario is an assumption set, not a forecast
-            </span>{' '}
-            — it asks what would follow <em>if</em> those capabilities arrived.
+            <span className="font-medium text-slate-700">Current-style</span> = embryo numbers
+            and single edits comparable to present IVF practice.{' '}
+            <span className="font-medium text-slate-700">Hypothetical high-capacity</span> =
+            many more embryos (via IVM/IVG) and multiplex editing. Both are assumption sets, not
+            forecasts.
           </p>
         </div>
 
@@ -175,10 +146,6 @@ export default function Multifactorial({ data, state, update }: Props) {
           </p>
         </Card>
 
-        <Card>
-          <p className="text-xs leading-relaxed text-slate-500">{str(mf.meta.liability_note)}</p>
-        </Card>
-
         <SourcesList title="Genetic-architecture sources" />
       </div>
     </SourcesProvider>
@@ -200,16 +167,17 @@ function FrontierSummary({ mf }: { mf: AllData['multifactorial'] }) {
   return (
     <Card className="border-accent/40 bg-accent-soft/40">
       <h3 className="text-base font-semibold text-slate-900">
-        How many diseases clear the model threshold, today vs under the near-future assumptions?
+        How many diseases clear the model threshold under each scenario?
       </h3>
       <p className="mt-1 text-sm text-slate-600">
-        Counts are across the <strong>{n} diseases listed below</strong> (each named row in the
-        spectrum). Under the near-future assumption set more fall inside reach — but architecture
-        caps how far correction can ever go. Near-future members are named under each count.
+        Counts are across the <strong>{n} diseases listed below</strong>. More clear the
+        threshold under the hypothetical high-capacity assumptions, but for highly polygenic
+        traits editing a few loci produces only small modeled risk reductions under any
+        assumption. High-capacity members are named under each count.
       </p>
       <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <FrontierStat
-          label="Correction (editing) meets threshold"
+          label="Germline editing meets threshold"
           from={p.editing_viable}
           to={f.editing_viable}
           n={n}
@@ -217,7 +185,7 @@ function FrontierSummary({ mf }: { mf: AllData['multifactorial'] }) {
           members={editNF}
         />
         <FrontierStat
-          label="Selection meets threshold"
+          label="Embryo selection meets threshold"
           from={p.selection_viable}
           to={f.selection_viable}
           n={n}
@@ -225,7 +193,7 @@ function FrontierSummary({ mf }: { mf: AllData['multifactorial'] }) {
           members={selNF}
         />
         <FrontierStat
-          label="Selection meets threshold + marginal"
+          label="Embryo selection meets threshold + marginal"
           from={p.selection_viable_or_marginal}
           to={f.selection_viable_or_marginal}
           n={n}
@@ -256,15 +224,15 @@ function FrontierStat({
     <div className="rounded border border-slate-200 bg-white p-3">
       <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
       <p className="tnum mt-1 text-xl font-bold text-slate-900">
-        {from} <span className="text-sm font-normal text-slate-400">today</span> →{' '}
+        {from} <span className="text-sm font-normal text-slate-400">current-style</span> →{' '}
         {to}{' '}
-        <span className="text-sm font-normal text-slate-400">near-future (assumed)</span>
+        <span className="text-sm font-normal text-slate-400">high-capacity (hypothetical)</span>
       </p>
       <p className="text-xs text-slate-500">
         of {n} diseases · {note}
       </p>
       <p className="mt-1 text-[11px] leading-snug text-slate-600">
-        <span className="text-slate-400">Near-future: </span>
+        <span className="text-slate-400">High-capacity: </span>
         {members.length ? members.join(', ') : 'none'}
       </p>
     </div>
@@ -346,7 +314,6 @@ function DiseaseRow({
               value={d.effective_loci == null ? '—' : fmtInt(d.effective_loci)}
             />
           </dl>
-          {d.notes && <p className="mt-2 text-xs italic leading-relaxed text-slate-500">{str(d.notes)}</p>}
         </div>
 
         {/* Intervention tracks */}
@@ -357,11 +324,11 @@ function DiseaseRow({
               <div key={k}>
                 {showKeys.length > 1 && (
                   <p className="mb-1 text-[11px] font-medium uppercase tracking-wide text-slate-400">
-                    {k === 'present' ? 'Present' : 'Near-future'}
+                    {k === 'present' ? 'Current-style' : 'High-capacity (hypothetical)'}
                   </p>
                 )}
                 <TrackBar
-                  label="Selection"
+                  label="Embryo selection"
                   result={sc.selection}
                   scenario={sc}
                   kind="selection"
@@ -369,7 +336,7 @@ function DiseaseRow({
                   mThresh={mThresh}
                 />
                 <TrackBar
-                  label="Correction"
+                  label="Germline editing"
                   result={sc.editing}
                   scenario={sc}
                   kind="editing"

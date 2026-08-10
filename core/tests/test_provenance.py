@@ -112,3 +112,28 @@ def test_no_hardcoded_draw_count_in_app():
     for name, text in _app_sources().items():
         assert "20,000-draw" not in text and "20000-draw" not in text, (
             f"{name}: read the Monte-Carlo draw count from data.meta.n_draws")
+
+
+def test_no_raw_note_fields_rendered_in_views():
+    # Internal data notes serve provenance/model development; they must never automatically
+    # become reader-facing prose. Explanatory UI text is written in the view (or a dedicated
+    # curated field), not pulled from `.note`/`.notes`. Hover-only `title` attributes on the
+    # per-disease intervention map are the one tolerated use.
+    banned = re.compile(
+        r"\{\s*(?:str\()?\s*[a-zA-Z_$][\w.$]*\.(note|notes|editing_note|liability_note|s1_by_region_note)\s*\)?\s*\}")
+    for name, text in _app_sources().items():
+        if "/views/" not in name.replace("\\", "/"):
+            continue
+        stripped = re.sub(r"title=\{[^}]*\}", "", text)  # tooltips excluded
+        m = banned.search(stripped)
+        assert m is None, (
+            f"{name}: renders raw data note field '{m.group(0) if m else ''}' — write curated "
+            "copy in the view instead")
+
+
+def test_explainer_component_not_used():
+    # The 'what this shows / reading it / what it tells you' pattern is retired from the
+    # public UI; sections use a heading plus at most one orientation paragraph.
+    for name, text in _app_sources().items():
+        assert "components/Explainer" not in text and "<Explainer" not in text, (
+            f"{name}: the Explainer pattern was removed from the public UI")

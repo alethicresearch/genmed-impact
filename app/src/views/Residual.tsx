@@ -3,7 +3,6 @@ import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
 import { Card, SectionHeading, Toggle } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
-import Explainer from '../components/Explainer';
 
 interface Props {
   data: AllData;
@@ -38,11 +37,13 @@ export default function Residual({ data, state, update }: Props) {
         title="When does embryo editing add a unique option?"
         subtitle="Two distinct questions: when is germline editing the only preventive option because no unaffected embryo can be selected, and when might editing provide an additional advantage for complex disease?"
       />
-      <Explainer
-        whatThisShows="The analysis separates an editing-only monogenic residual from a more speculative complex-disease term. In the first, embryo selection cannot produce an unaffected embryo. In the second, the question is whether editing could provide a meaningful advantage over selection, treatment, or prevention — not whether literally no alternative exists."
-        howToRead="The editing-only prevention population is built up disease by disease from allele frequencies and couple types; the congenital-deafness toggle shows how one contested inclusion shifts the total. The complex-disease advantage term is shown under a current-evidence case and an optimistic scenario side by side."
-        whatItDetermines="The size and composition of the editing-relevant residual — with the two components kept apart because they have different evidentiary status."
-      />
+      <p className="text-sm leading-relaxed text-slate-700">
+        There are two different reasons germline editing might matter. In some monogenic
+        reproductive configurations, no unaffected embryo can be selected; editing would
+        therefore provide a preventive option that embryo selection cannot. For complex disease,
+        the question is different: whether editing might eventually offer additional risk
+        reduction beyond existing alternatives.
+      </p>
 
       {/* Contested toggle + its effect on the headline */}
       <Card className="border-amber-300 bg-amber-50/40">
@@ -54,14 +55,11 @@ export default function Residual({ data, state, update }: Props) {
               onChange={(v) => update({ deaf: v ? '1' : '0' })}
             />
             <p className="mt-1 text-xs text-slate-600">
-              Deafness is a contested inclusion: many Deaf people and scholars reject the
-              characterization of deafness as a condition that should necessarily be prevented.
-              This toggle is a <strong>normative classification decision</strong>, not
-              epidemiological uncertainty. It changes the total by a median of{' '}
-              <strong className="tnum">{fmtInt(r.s1_contested_delta.median)}</strong> births/yr:
-              about <strong className="tnum">{fmtInt(s1Excl.median)}</strong> excluding it vs{' '}
-              <strong className="tnum">{fmtInt(s1Incl.median)}</strong> including it. The default
-              here and the paper&apos;s headline both exclude it.
+              Whether congenital deafness should be included as a condition to prevent is
+              ethically contested. The primary analysis excludes it (
+              <span className="tnum">{fmtInt(s1Excl.median)}</span> births/yr); use the toggle to
+              see how its inclusion changes the estimate (
+              <span className="tnum">{fmtInt(s1Incl.median)}</span>).
             </p>
           </div>
           <div className="text-right">
@@ -129,7 +127,10 @@ export default function Residual({ data, state, update }: Props) {
         <h3 className="text-base font-semibold text-slate-900">
           Where do these families live? — by World Bank income group
         </h3>
-        <p className="mt-1 text-xs text-slate-600">{r.s1_by_region_note}</p>
+        <p className="mt-1 text-xs text-slate-600">
+          Regional totals apply region-specific consanguinity to each region&apos;s births;
+          allele frequencies are currently global, so the regional split is approximate.
+        </p>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full border-collapse text-sm">
             <caption className="sr-only">S1 residual births per year by income group</caption>
@@ -178,14 +179,15 @@ export default function Residual({ data, state, update }: Props) {
             Current-evidence complex-disease case
           </h3>
           <p className="mt-1 text-sm text-slate-600">
-            Crediting only what is established today (internally: S2, strict).
+            Crediting only what is established today.
           </p>
           {strictEmpty ? (
             <div className="mt-4">
-              <p className="text-2xl font-semibold text-slate-900">≈ empty set</p>
+              <p className="text-2xl font-semibold text-slate-900">
+                Approximately zero at the median
+              </p>
               <p className="mt-1 text-sm text-slate-600">
-                Median <StatValue stat={r.s2.strict} kind="int" /> births / yr — indistinguishable
-                from zero.{' '}
+                Median <StatValue stat={r.s2.strict} kind="int" /> births / yr.{' '}
                 <span className="tnum text-slate-500">
                   95% uncertainty interval {r.s2.strict.ci95[0].toFixed(1)}–{fmtInt(r.s2.strict.ci95[1])}
                 </span>
@@ -203,9 +205,8 @@ export default function Residual({ data, state, update }: Props) {
             Optimistic complex-disease scenario
           </h3>
           <p className="mt-1 text-sm text-slate-600">
-            A modeled future scenario crediting editing with an advantage in a few
-            architecture-concentrated complex diseases (internally: S2, permissive). Not a
-            forecast.
+            A modeled scenario crediting editing with an advantage in a few
+            architecture-concentrated complex diseases. Not a forecast.
           </p>
           <p className="mt-4 text-2xl">
             <StatValue stat={r.s2.permissive} kind="int" showCi />
@@ -223,25 +224,14 @@ export default function Residual({ data, state, update }: Props) {
           </span>
         </h3>
         <p className="mb-3 text-sm text-slate-600">
-          The two components below have different evidentiary status and should not be read as
-          equivalent: the first is an editing-only population within the model; the second is a
-          hypothesized advantage. Their sum bounds a broader “editing-relevant” population.
+          The two components have different evidentiary status and are reported separately.
         </p>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <Mini label="① Editing-only prevention (no selectable embryo)" stat={s1Total} kind="int" />
-          <Mini label="② Complex-disease advantage — current evidence" stat={r.s2.strict} kind="int" />
-          <Mini label="② Complex-disease advantage — optimistic scenario" stat={r.s2.permissive} kind="int" />
-          <Mini label="① + ② combined — current evidence" stat={variant.uniquely_editable_total.strict} kind="int" />
-          <Mini label="① + ② combined — optimistic scenario" stat={variant.uniquely_editable_total.permissive} kind="int" />
-          <Mini label="Combined share of serious — current / optimistic" stat={variant.uniquely_editable_share_of_serious.strict} kind="pct" decimals={3} secondStat={variant.uniquely_editable_share_of_serious.permissive} secondDecimals={2} />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <Mini label="Editing-only prevention" stat={s1Total} kind="int" />
+          <Mini label="Complex-disease advantage — current evidence" stat={r.s2.strict} kind="int" />
+          <Mini label="Complex-disease advantage — optimistic scenario" stat={r.s2.permissive} kind="int" />
+          <Mini label="Combined editing-relevant share — current / optimistic" stat={variant.uniquely_editable_share_of_serious.strict} kind="pct" decimals={3} secondStat={variant.uniquely_editable_share_of_serious.permissive} secondDecimals={2} />
         </div>
-        <p className="mt-3 text-xs leading-relaxed text-slate-500">
-          These are <strong>derived ratios</strong>, not new inputs. The combined figures add the
-          editing-only prevention population (①) and the complex-disease advantage term (②); the
-          share divides that sum by the serious-disease total. The current-evidence and
-          optimistic figures differ only in how much complex-disease editing advantage is
-          credited.
-        </p>
       </Card>
 
       <SourcesList title="Derivations" />

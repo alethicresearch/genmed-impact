@@ -13,7 +13,6 @@ import { AllData, Stat, fmtInt, fmtMoney, fmtCompact } from '../data';
 import StatValue from '../components/StatValue';
 import { Card, SectionHeading, ExportSvgButton } from '../components/ui';
 import { ShowDataToggle } from '../components/DataTable';
-import Explainer from '../components/Explainer';
 import { exportContainerSvg } from '../svgExport';
 
 interface Props {
@@ -54,16 +53,10 @@ export default function Allocation({ data }: Props) {
           substitutes.
         </p>
       </div>
-      <Explainer
-        whatThisShows="What a dollar buys under each strategy: the cost to prevent one affected birth, and the cost to avert one DALY (a year of healthy life lost), for scaled screening versus an editing program."
-        howToRead="Bars are on a log scale — each step is 10× — so further left is far cheaper; the whiskers are 95% uncertainty intervals. The budget panel translates this into what $1B, $5B, or $10B a year would buy each way."
-        whatItDetermines="A first-pass sense of how the two kinds of investment differ in scale — to be firmed up when the provisional cost inputs are replaced with sourced anchors."
-      />
-
       <Card>
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold text-slate-900">
-            Cost-effectiveness (log scale, USD)
+            Illustrative cost ranges under provisional assumptions (log scale, USD)
           </h3>
           <ExportSvgButton onClick={() => exportContainerSvg(svgRef.current, 'allocation-cost.svg')} />
         </div>
@@ -123,13 +116,6 @@ export default function Allocation({ data }: Props) {
                 <th scope="col" className="px-3 py-2 text-left font-medium">Budget / yr</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">Screening births prevented</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">Editing births prevented</th>
-                <th
-                  scope="col"
-                  className="px-3 py-2 text-right font-medium"
-                  title="How many times more affected births the same budget prevents via screening than via editing"
-                >
-                  Screening ÷ editing
-                </th>
               </tr>
             </thead>
             <tbody>
@@ -141,9 +127,6 @@ export default function Allocation({ data }: Props) {
                   </td>
                   <td className="tnum px-3 py-1.5 text-right" title={`95% uncertainty interval ${fmtInt(v.editing_births_prevented.ci95[0])}–${fmtInt(v.editing_births_prevented.ci95[1])}`}>
                     {fmtInt(v.editing_births_prevented.median)}
-                  </td>
-                  <td className="tnum px-3 py-1.5 text-right text-slate-500">
-                    {(v.screening_births_prevented.median / v.editing_births_prevented.median).toFixed(0)}×
                   </td>
                 </tr>
               ))}

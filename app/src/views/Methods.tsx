@@ -3,7 +3,6 @@ import { AllData, ProvenanceLeaf, TornadoRow, fmtPct } from '../data';
 import { UrlState } from '../urlState';
 import { Card, SectionHeading, ExportSvgButton } from '../components/ui';
 import { exportContainerSvg } from '../svgExport';
-import Explainer from '../components/Explainer';
 import { GLOSSARY } from '../glossary';
 
 interface Props {
@@ -178,13 +177,16 @@ export default function Methods({ data, state, update }: Props) {
     <div className="space-y-6">
       <SectionHeading
         title="Methods & data"
-        subtitle="How the figures were computed, what kind of number each input is, how sensitive the headline is to assumptions, and everything needed to reproduce the analysis."
+        subtitle="Data sources, model structure, uncertainty, sensitivity analyses, and reproducibility details for the estimates used throughout this study."
       />
-      <Explainer
-        whatThisShows="The machinery behind the numbers: the five-step pipeline, every input classified by what kind of number it is, the assumptions that move the result most, and the full reproducibility record."
-        howToRead="Start with the pipeline and the input classification. The sensitivity chart shows which single assumption moves the headline result the most. The sources table lists every input with its badge, range, and reference — filter it by name or source."
-        whatItDetermines="Whether you can trust and reproduce the figures — and exactly where data ends and judgment begins."
-      />
+      <p className="text-sm leading-relaxed text-slate-700">
+        The analysis combines a disease-level catalogue with a population model. Each
+        quantitative input records its empirical source or is explicitly classified as derived,
+        a modeling assumption, a normative choice, or provisional. Uncertainty in quantitative
+        inputs is propagated through {m.n_draws.toLocaleString('en-US')} Monte-Carlo draws,
+        while major definitional choices are exposed separately through scenario and
+        sensitivity analyses.
+      </p>
 
       {/* The canonical six-step workflow (same as the Overview and the paper's Figure 2) */}
       <Card>
@@ -234,9 +236,9 @@ export default function Methods({ data, state, update }: Props) {
           What kind of number is each input?
         </h3>
         <p className="mt-1 text-sm text-slate-600">
-          Every parameter in the model carries one of five badges, so it is always visible where
-          data ends and judgment begins. The counts below cover the {leaves.length} inputs in the
-          sources table; badges are derived from each entry&apos;s provenance record.
+          Each parameter is classified by evidentiary status so empirical inputs, derived
+          quantities, assumptions, normative choices, and provisional values can be
+          distinguished. The counts below cover the {leaves.length} inputs in the sources table.
         </p>
         <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
           {(Object.keys(BADGE_META) as Badge[]).map((b) => (
@@ -255,7 +257,7 @@ export default function Methods({ data, state, update }: Props) {
       <Card>
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold text-slate-900">
-            Which single assumption moves the headline most?
+            Which assumptions most affect the editing-relevant share?
           </h3>
           <ExportSvgButton onClick={() => exportContainerSvg(tornadoRef.current, 'sensitivity-tornado.svg')} />
         </div>
@@ -291,8 +293,8 @@ export default function Methods({ data, state, update }: Props) {
           </label>
         </div>
         <p className="mt-1 text-xs text-slate-500">
-          {filtered.length} of {leaves.length} inputs shown. No value enters the model without a
-          source; unknowns are explicit provisional parameters, never silent guesses.
+          {filtered.length} of {leaves.length} inputs shown. Each input records either an
+          empirical source or an explicit status as derived, assumed, normative, or provisional.
         </p>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full border-collapse text-sm">

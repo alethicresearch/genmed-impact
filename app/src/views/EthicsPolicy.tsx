@@ -19,31 +19,19 @@ export default function EthicsPolicy({ data, update }: Props) {
   return (
     <Reading>
       <p className="text-[15px] leading-7 text-slate-600">
-        The earlier sections establish how much serious genetic disease there is, how much of it
-        existing medicine can already reach, and where germline editing would add an option
-        nothing else provides. This page states what the authors think should follow — for
-        research priorities and for regulation. Unlike the model results, these are normative
-        positions, and they are labeled as such.
+        The empirical model does not determine policy. We interpret the results using a
+        principle of proportionality: the case for a heritable intervention is strongest when
+        the condition is serious, expected benefit is substantial, and reasonable alternatives
+        cannot achieve the same medically important outcome with lower risk or burden.
       </p>
 
       <section className="space-y-3">
         <PH>Why the framing matters</PH>
         <Lead>
-          Germline editing has so far entered public life mainly through spectacle: announced
-          “firsts” conducted outside ordinary oversight, ventures locating themselves where
-          regulation is weakest, and claims about preventing disease stretched well past what the
-          epidemiology supports. Such episodes can make the environment for responsible research
-          more difficult — visible failures strengthen pressure for blanket prohibition, and the
-          narrow cases where editing could genuinely help risk being left with no lawful path at
-          all.
-        </Lead>
-        <Lead>
-          Exaggerated disease-prevention claims do specific damage. If embryo editing is
-          presented as the answer to genetic disease at large, it borrows an urgency the numbers
-          do not support — most of that burden is already reachable by other means — and it
-          risks diverting attention from the unglamorous work of extending screening and
-          treatment to the people who lack them. A quantitative map of what medicine can already
-          do is, among other things, a defense against that kind of ethical arbitrage.
+          Debate over germline editing has often been organized around high-profile
+          technological firsts or general claims about preventing genetic disease. Our analysis
+          suggests a more discriminating approach: compare medical need, available alternatives,
+          incremental benefit, and safety for each proposed use.
         </Lead>
       </section>
 
@@ -61,11 +49,11 @@ export default function EthicsPolicy({ data, update }: Props) {
             diseases, that rises to about {fmtPct(editableShare.permissive.median, 1)}.
           </Claim>
           <Claim kind="interpretation">
-            Germline editing is therefore unlikely ever to be the principal population-level tool
-            against genetic disease — but the editing-only prevention population, though narrow,
-            is real, identifiable, and poorly served by every existing option, and the
-            complex-disease term is a modeled possibility rather than a second “only option”
-            population.
+            Under the modeled scenarios, germline editing is not the principal population-level
+            tool for reducing serious genetic-disease burden — but the editing-only prevention
+            population, though narrow, is real, identifiable, and poorly served by every
+            existing option, and the complex-disease term is a modeled possibility rather than a
+            second “only option” population.
           </Claim>
           <Claim kind="policy">
             This supports giving public-health priority to widening access to existing
@@ -125,7 +113,7 @@ export default function EthicsPolicy({ data, update }: Props) {
             },
             {
               title: 'Enhancement',
-              body: 'Raising traits beyond the typical range. Not a medical question at all; to be argued on its own terms in a separate debate about advantage and fairness.',
+              body: 'Raising traits beyond the typical range. Outside the disease-prevention question analyzed here; to be argued on its own terms in a separate debate about advantage and fairness.',
               go: () => update({ tab: 'beyond' }),
               goLabel: 'Beyond disease prevention',
             },
@@ -133,30 +121,6 @@ export default function EthicsPolicy({ data, update }: Props) {
         />
       </section>
 
-      <section className="space-y-3">
-        <PH>The trade-offs examined in this section</PH>
-        <Lead>
-          Two supporting analyses sit alongside this argument. The{' '}
-          <button
-            type="button"
-            onClick={() => update({ tab: 'embryos' })}
-            className="font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          >
-            embryo trade-off
-          </button>{' '}
-          compares selection and correction on what each asks of the embryos involved — the one
-          axis on which editing can be ethically preferable to selection. The{' '}
-          <button
-            type="button"
-            onClick={() => update({ tab: 'allocation' })}
-            className="font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          >
-            exploratory cost scenario
-          </button>{' '}
-          asks what investments at scale versus frontier R&amp;D each accomplish — with its
-          inputs still provisional, it is presented as an exploration, not a paper result.
-        </Lead>
-      </section>
     </Reading>
   );
 }
