@@ -13,6 +13,7 @@ import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
 import { Card, SectionHeading, Select, Segmented, Toggle, ExportSvgButton } from '../components/ui';
 import { ShowDataToggle } from '../components/DataTable';
+import Explainer from '../components/Explainer';
 import { exportContainerSvg } from '../svgExport';
 
 interface Props {
@@ -81,6 +82,11 @@ export default function Prevention({ data, state, update }: Props) {
       <SectionHeading
         title="Prevention waterfall"
         subtitle="From a 100% baseline, each tool averts a share of the selected class. Fractions already encode coverage × effectiveness for the chosen scenario."
+      />
+      <Explainer
+        whatThisShows="How much of a disease class's affected births the four existing tools prevent, applied one after another: carrier screening, then embryo testing, then prenatal diagnosis, then newborn screening."
+        howToRead="Start at 100%. Each step removes a share of what is still left, so the bar shrinks toward the residual that remains. Change the region, coverage scenario, and disease class. The 'averted births' and 'averted burden' tracks differ because newborn screening treats disease rather than preventing the birth."
+        whatItDetermines="How far the existing toolkit actually gets under real-world coverage — and how much is left over for editing to address."
       />
 
       <div className="flex flex-wrap items-end gap-5">

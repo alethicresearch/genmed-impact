@@ -3,6 +3,7 @@ import { AllData, Disease, ToolKey, fmtCompact, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
 import { Card, SectionHeading, Select } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
+import Explainer from '../components/Explainer';
 
 interface Props {
   data: AllData;
@@ -104,6 +105,11 @@ export default function Library({ data, state, update }: Props) {
         <SectionHeading
           title="Disease Library"
           subtitle="The catalogue at the centre of the model: genetic diseases mapped to their causal genes and to the interventions that can address them. Sorted by affected births per year."
+        />
+        <Explainer
+          whatThisShows="Every serious genetic disease in the catalogue — the gene(s) that cause it, how it is inherited, how common it is at birth, and which genetic-medicine tools can address it."
+          howToRead="Each row is one disease. The four columns on the right (CS · PGT · PND · NBS) show a check when that tool applies. Use the filters to narrow by gene, inheritance, category, or a specific tool; expand any row for its incidence source, per-tool notes, and OMIM/Orphanet links."
+          whatItDetermines="Which diseases are already reachable by today's tools — and which are not — which is what the aggregate burden numbers are built from."
         />
 
         {/* Rollup strip */}

@@ -13,6 +13,7 @@ import { AllData, Stat, fmtInt, fmtMoney, fmtCompact } from '../data';
 import StatValue from '../components/StatValue';
 import { Card, SectionHeading, ExportSvgButton } from '../components/ui';
 import { ShowDataToggle } from '../components/DataTable';
+import Explainer from '../components/Explainer';
 import { exportContainerSvg } from '../svgExport';
 
 interface Props {
@@ -40,6 +41,11 @@ export default function Allocation({ data }: Props) {
       <SectionHeading
         title="Allocation"
         subtitle="Cost-effectiveness on a log scale, with 95% CrI whiskers. Screening dominates editing on both cost per birth prevented and cost per DALY averted."
+      />
+      <Explainer
+        whatThisShows="What a dollar buys under each strategy: the cost to prevent one affected birth, and the cost to avert one DALY (a year of healthy life lost), for scaled screening versus an editing program."
+        howToRead="Bars are on a log scale — each step is 10× — so further left is far cheaper; the whiskers are 95% credible intervals. The budget panel translates this into what $1B, $5B, or $10B a year would buy each way."
+        whatItDetermines="Where limited funding averts the most disease — the practical core of the paper's allocation argument."
       />
 
       <Card>

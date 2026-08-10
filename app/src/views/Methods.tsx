@@ -3,6 +3,8 @@ import { AllData, ProvenanceLeaf, TornadoRow, fmtPct } from '../data';
 import { UrlState } from '../urlState';
 import { Card, SectionHeading, ExportSvgButton } from '../components/ui';
 import { exportContainerSvg } from '../svgExport';
+import Explainer from '../components/Explainer';
+import { GLOSSARY } from '../glossary';
 
 interface Props {
   data: AllData;
@@ -77,8 +79,13 @@ export default function Methods({ data, state, update }: Props) {
   return (
     <div className="space-y-6">
       <SectionHeading
-        title="Methods & provenance"
-        subtitle="Model metadata, definitional sensitivity, and every source constant with its interval and citation."
+        title="Methods & sources"
+        subtitle="How the figures were computed, how sensitive they are to assumptions, every source behind them, and a glossary of the terms used throughout."
+      />
+      <Explainer
+        whatThisShows="The machinery behind the numbers: how they were computed, which assumptions matter most, the full list of source values with their citations, and a plain-language glossary."
+        howToRead="The sensitivity chart shows which single assumption moves the headline result the most. The sources table lists every input value with its range and reference — filter it by name or source. The glossary defines each technical term used elsewhere in the page."
+        whatItDetermines="Whether you can trust and reproduce the figures — and what each term means when you meet it in another view."
       />
 
       {/* Meta */}
@@ -88,7 +95,7 @@ export default function Methods({ data, state, update }: Props) {
           <MetaItem label="Monte-Carlo draws" value={m.n_draws.toLocaleString('en-US')} />
           <MetaItem label="Seed" value={String(m.seed)} />
           <MetaItem label="Pipeline commit" value={m.commit} mono />
-          <MetaItem label="Spec version" value={m.spec_version} />
+          <MetaItem label="Model version" value={m.spec_version} />
           <MetaItem label="Default severity" value={m.default_assumptions.severity} />
           <MetaItem label="Default attribution" value={m.default_assumptions.attribution} />
           <MetaItem label="Default scenario" value={m.default_assumptions.scenario} />
@@ -173,6 +180,23 @@ export default function Methods({ data, state, update }: Props) {
             </tbody>
           </table>
         </div>
+      </Card>
+
+      {/* Glossary */}
+      <Card>
+        <h3 className="text-base font-semibold text-slate-900">Glossary</h3>
+        <p className="mt-1 text-sm text-slate-600">
+          Plain-language definitions for the terms used across the views (also shown on hover
+          wherever a term is underlined).
+        </p>
+        <dl className="mt-3 grid grid-cols-1 gap-x-8 gap-y-3 md:grid-cols-2">
+          {Object.entries(GLOSSARY).map(([term, def]) => (
+            <div key={term} className="border-b border-slate-100 pb-2">
+              <dt className="text-sm font-semibold capitalize text-slate-800">{term}</dt>
+              <dd className="mt-0.5 text-sm leading-relaxed text-slate-600">{String(def)}</dd>
+            </div>
+          ))}
+        </dl>
       </Card>
     </div>
   );

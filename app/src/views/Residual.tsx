@@ -2,6 +2,7 @@ import { AllData, ContestedKey, Stat, fmtInt } from '../data';
 import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
 import { Card, SectionHeading, Toggle } from '../components/ui';
+import Explainer from '../components/Explainer';
 
 interface Props {
   data: AllData;
@@ -31,6 +32,11 @@ export default function Residual({ data, state, update }: Props) {
       <SectionHeading
         title="Residual explorer"
         subtitle="S1: monogenic couples with no selectable unaffected embryo (editing is the only preventive option). S2: complex-disease cases uniquely reachable only by editing."
+      />
+      <Explainer
+        whatThisShows="The two narrow situations where germline editing is genuinely the only option: couples for whom every embryo would be affected (S1), and complex-disease edits with no better alternative (S2)."
+        howToRead="S1 is built up disease by disease from allele frequencies and couple types; the congenital-deafness toggle shows how one contested inclusion shifts the total. S2 is shown under a strict and a permissive definition side by side."
+        whatItDetermines="The size of the genuinely editing-unique residual — the numerator that the whole 'how much does editing add?' question turns on."
       />
 
       {/* Contested toggle + its effect on the headline */}

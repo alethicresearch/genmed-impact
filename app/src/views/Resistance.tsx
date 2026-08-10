@@ -1,6 +1,7 @@
 import { AllData } from '../data';
 import StatValue from '../components/StatValue';
 import { Card, SectionHeading } from '../components/ui';
+import Explainer from '../components/Explainer';
 
 interface Props {
   data: AllData;
@@ -13,6 +14,11 @@ export default function Resistance({ data }: Props) {
       <SectionHeading
         title="Resistance analysis"
         subtitle="Three domains where a germline-editing case is sometimes made. Only HIV reduces to a single residual birth count; the others do not."
+      />
+      <Explainer
+        whatThisShows="Three proposed 'resistance' edits — to HIV, cardiovascular disease, and neurodegeneration — each set against the alternatives that already exist."
+        howToRead="Each panel names the existing alternative (for example, preventing mother-to-child HIV transmission) and the residual it leaves. Where the science cannot support a number, the panel says so plainly rather than inventing one."
+        whatItDetermines="Whether a germline resistance edit would add anything beyond the public-health and drug options already available."
       />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
