@@ -69,29 +69,51 @@ def test_ids_unique(built):
     assert len(ids) == len(set(ids))
 
 
-def test_every_disease_has_a_valid_status(built):
-    valid = set(library.STATUS_ORDER)
+def test_every_disease_has_prevention_and_intent(built):
+    prev_valid = set(library.PREVENTION_ORDER)
+    intent_valid = set(library.TREATMENT_INTENT_ORDER)
     for d in built["diseases"]:
-        assert d["status"]["status"] in valid
-        assert d["status"]["addressable"] == (d["status"]["status"] != "none")
+        assert d["prevention"]["category"] in prev_valid
+        assert d["treatment"]["intent"] in intent_valid
+        # reach never claims "no genetic-medicine option": it is addressable-by-existing XOR
+        # the editing-relevant residual.
+        assert d["reach"]["addressable_by_existing_tools"] != d["reach"]["editing_relevant_residual"]
 
 
-def test_status_distribution_reconciles(built):
-    dist = built["rollup"]["genetic_medicine_status"]["distribution"]
+def test_prevention_logic():
+    def dz(cs, pgt, pnd):
+        return {"interventions": {"CS": {"applicable": cs}, "PGT": {"applicable": pgt},
+                                  "PND": {"applicable": pnd}, "NBS": {"applicable": False}}}
+    assert library.compute_prevention(dz(1, 0, 1))["category"] == "preventable"
+    assert library.compute_prevention(dz(0, 1, 1))["category"] == "preventable"
+    assert library.compute_prevention(dz(0, 0, 1))["category"] == "detectable_only"
+    assert library.compute_prevention(dz(0, 0, 0))["category"] == "not_preventable"
+    assert library.compute_prevention(dz(1, 0, 0))["by"] == ["CS"]
+
+
+def test_treatment_intent_from_modality():
+    # intent defaults from the modality, and is overridable per disease.
+    assert library.treatment_of({"treatment": {"modality": "transplant"}})["intent"] == "curative"
+    assert library.treatment_of({"treatment": {"modality": "enzyme_replacement"}})["intent"] == "disease_modifying"
+    assert library.treatment_of({"treatment": {"modality": "supportive"}})["intent"] == "palliative"
+    assert library.treatment_of({"treatment": {"modality": "none"}})["intent"] == "none"
+    # explicit intent overrides the modality default and is flagged as curated
+    ov = library.treatment_of({"treatment": {"modality": "surgical", "intent": "curative"}})
+    assert ov["intent"] == "curative" and ov["intent_curated"] is True
+
+
+def test_prevention_distribution_reconciles(built):
+    dist = built["rollup"]["prevention"]["distribution"]
     assert sum(v["n_diseases"] for v in dist.values()) == built["rollup"]["n_diseases"]
     total_b = built["rollup"]["total_affected_births_per_year"]
     assert abs(sum(v["births"] for v in dist.values()) - total_b) < 1.0
 
 
-def test_status_logic():
-    def dz(cs, pgt, pnd, nbs):
-        return {"interventions": {"CS": {"applicable": cs}, "PGT": {"applicable": pgt},
-                                  "PND": {"applicable": pnd}, "NBS": {"applicable": nbs}}}
-    assert library.compute_status(dz(1, 1, 1, 1))["status"] == "preventable_treatable"
-    assert library.compute_status(dz(1, 1, 1, 0))["status"] == "preventable"
-    assert library.compute_status(dz(0, 0, 0, 1))["status"] == "treatable"
-    assert library.compute_status(dz(0, 0, 1, 0))["status"] == "detectable_only"
-    assert library.compute_status(dz(0, 0, 0, 0))["status"] == "none"
+def test_treatment_intent_distribution_reconciles(built):
+    dist = built["rollup"]["treatment_intent"]["distribution"]
+    assert sum(v["n_diseases"] for v in dist.values()) == built["rollup"]["n_diseases"]
+    total_b = built["rollup"]["total_affected_births_per_year"]
+    assert abs(sum(v["births"] for v in dist.values()) - total_b) < 1.0
 
 
 def test_every_disease_has_treatment_modality(built):
@@ -99,7 +121,7 @@ def test_every_disease_has_treatment_modality(built):
     for d in built["diseases"]:
         assert d["treatment"]["modality"] in valid
         assert d["treatment"]["disease_modifying"] == (
-            d["treatment"]["modality"] in library.DISEASE_MODIFYING)
+            d["treatment"]["intent"] in ("curative", "disease_modifying"))
 
 
 def test_editing_is_not_a_treatment_modality():

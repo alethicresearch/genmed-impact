@@ -20,21 +20,41 @@ RARE_YAML = config.PKG_DIR / "library" / "rare_orphanet.yaml"
 # Reproductive tools that prevent an affected birth (NBS mitigates, it doesn't prevent).
 REPRO_TOOLS = ["CS", "PGT", "PND"]
 
-# Genetic-medicine status: one legible, weight-free category per disease, derived directly from
-# which interventions apply. Ordered best-available first for display.
-STATUS_ORDER = ["preventable_treatable", "preventable", "treatable", "detectable_only", "none"]
-STATUS_LABEL = {
-    "preventable_treatable": "Preventable & treatable",
-    "preventable": "Preventable",
-    "treatable": "Treatable",
-    "detectable_only": "Detectable only",
-    "none": "No genetic-medicine option",
+# ---------------------------------------------------------------------------------------------
+# The paper's central move is to keep distinct things distinct. We classify each disease on TWO
+# independent axes, and always by WHICH tool — never with a single conflated "status" bucket:
+#
+#   1. PREVENTION (before birth): can an affected birth be avoided, and by what reproductive tool?
+#   2. TREATMENT (for a child born affected): what can medicine do, and to what END —
+#      curative vs disease-modifying vs palliative? "Treatable" alone hides that difference.
+#
+# Germline editing is NOT on either axis. It is the residual: the cases the EXISTING stack
+# (screening → PGT → prenatal diagnosis → post-birth therapy) reaches by neither prevention nor
+# treatment. So "no existing option" never means "no genetic-medicine option" — editing is one,
+# and it is exactly what that residual is about.
+
+PREVENTION_ORDER = ["preventable", "detectable_only", "not_preventable"]
+PREVENTION_LABEL = {
+    "preventable": "Preventable before birth",
+    "detectable_only": "Prenatally detectable only",
+    "not_preventable": "Not preventable before birth",
 }
 
+# TREATMENT INTENT — the END a treatment serves for the born child. This is the distinction the
+# paper insists on: a curative therapy, lifelong disease management, and palliation are worlds
+# apart. Assigned from the treatment modality by default (MODALITY_DEFAULT_INTENT) unless a disease
+# gives an explicit `treatment.intent`. NOTE: intent is a clinical judgment — the modality-derived
+# defaults are a transparent first pass meant to be curated per disease.
+TREATMENT_INTENT_ORDER = ["curative", "disease_modifying", "palliative", "none"]
+TREATMENT_INTENT_LABEL = {
+    "curative": "Curative",
+    "disease_modifying": "Disease-modifying / management",
+    "palliative": "Palliative / supportive only",
+    "none": "No effective treatment",
+}
 
-# Existing post-birth (somatic) treatment modalities — the *type* of treatment for the born
-# child. Germline editing is deliberately NOT in this list: it is a categorically different kind
-# of intervention (tracked as the residual / a distinct type), not one modality among these.
+# Existing post-birth (somatic) treatment modalities — the TYPE of treatment. Germline editing is
+# deliberately NOT in this list: it is a categorically different intervention (the residual).
 TREATMENT_ORDER = [
     "somatic_gene_cell_therapy", "enzyme_replacement", "pharmacologic", "transplant",
     "dietary", "cofactor", "surgical", "supportive", "none", "unknown",
@@ -51,6 +71,19 @@ TREATMENT_LABEL = {
     "none": "No disease-modifying treatment",
     "unknown": "Unclassified",
 }
+# Default treatment END for each modality (overridable per disease via treatment.intent).
+MODALITY_DEFAULT_INTENT = {
+    "somatic_gene_cell_therapy": "curative",
+    "transplant": "curative",
+    "enzyme_replacement": "disease_modifying",
+    "pharmacologic": "disease_modifying",
+    "dietary": "disease_modifying",
+    "cofactor": "disease_modifying",
+    "surgical": "disease_modifying",
+    "supportive": "palliative",
+    "none": "none",
+    "unknown": "none",
+}
 # Modalities that meaningfully modify disease course (vs supportive/none).
 DISEASE_MODIFYING = {
     "somatic_gene_cell_therapy", "enzyme_replacement", "pharmacologic", "transplant",
@@ -59,46 +92,61 @@ DISEASE_MODIFYING = {
 
 
 def treatment_of(disease: dict) -> dict:
+    """The type (modality) AND the end (intent) of the best existing treatment for the born child."""
     t = disease.get("treatment") or {}
     mod = t.get("modality", "unknown")
     if mod not in TREATMENT_LABEL:
         mod = "unknown"
+    intent = t.get("intent")
+    intent_curated = intent in TREATMENT_INTENT_LABEL
+    if not intent_curated:
+        intent = MODALITY_DEFAULT_INTENT.get(mod, "none")
     return {
         "modality": mod,
         "label": TREATMENT_LABEL[mod],
-        "disease_modifying": mod in DISEASE_MODIFYING,
+        "intent": intent,
+        "intent_label": TREATMENT_INTENT_LABEL[intent],
+        "intent_curated": intent_curated,   # False = derived from modality, pending clinical review
+        "disease_modifying": intent in ("curative", "disease_modifying"),
         "note": t.get("note"),
     }
 
 
-def compute_status(disease: dict) -> dict:
-    """Categorical genetic-medicine status from the four intervention flags (no weights).
+def compute_prevention(disease: dict) -> dict:
+    """Prevention axis: can an affected birth be avoided before birth, and by WHICH tool?
 
-    * can_select = carrier screening or embryo selection applies → an unaffected child is achievable
-    * treatable  = newborn screening + effective early therapy applies → a healthy born child
-    * detectable = prenatal diagnosis applies (detect + reproductive decision), even without selection
+    * preventable      = carrier screening or embryo selection (PGT) can yield an unaffected child
+    * detectable_only  = prenatal diagnosis applies (informed reproductive choice) but not selection
+    * not_preventable  = neither
     """
-    can_select = _tool_applicable(disease, "CS") or _tool_applicable(disease, "PGT")
-    treatable = _tool_applicable(disease, "NBS")
-    detectable = _tool_applicable(disease, "PND")
-
-    if can_select and treatable:
-        status = "preventable_treatable"
-    elif can_select:
-        status = "preventable"
-    elif treatable:
-        status = "treatable"
-    elif detectable:
-        status = "detectable_only"
+    cs = _tool_applicable(disease, "CS")
+    pgt = _tool_applicable(disease, "PGT")
+    pnd = _tool_applicable(disease, "PND")
+    by = [t for t in ("CS", "PGT", "PND") if _tool_applicable(disease, t)]
+    if cs or pgt:
+        category = "preventable"
+    elif pnd:
+        category = "detectable_only"
     else:
-        status = "none"
+        category = "not_preventable"
     return {
-        "status": status,
-        "label": STATUS_LABEL[status],
-        "preventable": can_select,
-        "treatable": treatable,
-        "prenatal_detectable": detectable,
-        "addressable": status != "none",  # addressable by some existing tool
+        "category": category,
+        "label": PREVENTION_LABEL[category],
+        "by": by,                       # which reproductive tools apply — the "by what"
+        "avoidable": cs or pgt,
+        "prenatal_detectable": pnd,
+    }
+
+
+def reach_of(prevention: dict, treatment: dict) -> dict:
+    """Whether the EXISTING stack does anything, and if not, that this is editing's residual."""
+    treated = treatment["intent"] != "none"
+    addressable = prevention["avoidable"] or prevention["prenatal_detectable"] or treated
+    return {
+        "addressable_by_existing_tools": addressable,
+        # No existing tool prevents, detects, or treats — this is where germline editing is the
+        # only genetic-medicine option, NOT "no genetic-medicine option".
+        "editing_relevant_residual": not addressable,
     }
 
 
@@ -143,6 +191,9 @@ def build_library(constants: dict) -> dict[str, Any]:
         affected = births * per100k / 100_000.0
         addressable_repro = any(_tool_applicable(d, t) for t in REPRO_TOOLS)
         nbs = _tool_applicable(d, "NBS")
+        prevention = compute_prevention(d)
+        treatment = treatment_of(d)
+        reach = reach_of(prevention, treatment)
         diseases_out.append({
             "id": d["id"],
             "name": d["name"],
@@ -172,8 +223,9 @@ def build_library(constants: dict) -> dict[str, Any]:
             "editing_unique": bool(d.get("editing_unique", False)),
             "editing_note": d.get("editing_note"),
             "notes": d.get("notes"),
-            "status": compute_status(d),
-            "treatment": treatment_of(d),
+            "prevention": prevention,
+            "treatment": treatment,
+            "reach": reach,
             "embryos": embryos.per_disease(
                 d.get("inheritance", "autosomal_recessive"),
                 _tool_applicable(d, "PGT"), constants),
@@ -199,7 +251,6 @@ def build_library(constants: dict) -> dict[str, Any]:
     for x in core_out:
         by_severity[x["severity"]] = by_severity.get(x["severity"], 0.0) + x["affected_births_per_year"]
 
-    addressable = _sum_where(lambda x: x["addressable_by_reproductive_tool"])
     nbs_mitigable = _sum_where(lambda x: x["nbs_mitigable"])
     editing_unique = _sum_where(lambda x: x["editing_unique"])
     cited = _sum_where(lambda x: x["incidence_basis"] == "cited")
@@ -209,16 +260,53 @@ def build_library(constants: dict) -> dict[str, Any]:
         for t in ["CS", "PGT", "PND", "NBS"]
     }
 
-    # Genetic-medicine status distribution (the headline split, weight-free)
-    status_distribution = {
-        s: {
-            "label": STATUS_LABEL[s],
-            "n_diseases": sum(1 for x in core_out if x["status"]["status"] == s),
-            "births": _sum_where(lambda x, s=s: x["status"]["status"] == s),
+    # AXIS 1 — Prevention (before birth), by which reproductive tool applies.
+    prevention_distribution = {
+        c: {
+            "label": PREVENTION_LABEL[c],
+            "n_diseases": sum(1 for x in core_out if x["prevention"]["category"] == c),
+            "births": _sum_where(lambda x, c=c: x["prevention"]["category"] == c),
         }
-        for s in STATUS_ORDER
+        for c in PREVENTION_ORDER
     }
-    # Treatment-modality distribution (the *type* of existing treatment; editing kept separate).
+    preventable_births = _sum_where(lambda x: x["prevention"]["avoidable"])
+    prevention_summary = {
+        "order": PREVENTION_ORDER,
+        "distribution": prevention_distribution,
+        "preventable_births": preventable_births,
+        "preventable_share": (preventable_births / total) if total else 0.0,
+        "per_tool_births": {t: per_tool_births[t] for t in ("CS", "PGT", "PND")},
+        "definition": (
+            "Can an affected birth be avoided before birth, and by which tool? Preventable = carrier "
+            "screening or embryo selection (PGT) can yield an unaffected child; detectable-only = "
+            "prenatal diagnosis applies without selection; not preventable = neither."
+        ),
+    }
+
+    # AXIS 2a — Treatment INTENT (the end it serves): curative vs disease-modifying vs palliative.
+    intent_distribution = {
+        i: {
+            "label": TREATMENT_INTENT_LABEL[i],
+            "n_diseases": sum(1 for x in core_out if x["treatment"]["intent"] == i),
+            "births": _sum_where(lambda x, i=i: x["treatment"]["intent"] == i),
+        }
+        for i in TREATMENT_INTENT_ORDER
+    }
+    n_intent_curated = sum(1 for x in core_out if x["treatment"]["intent_curated"])
+    treatment_intent_summary = {
+        "order": TREATMENT_INTENT_ORDER,
+        "distribution": intent_distribution,
+        "n_curated": n_intent_curated,
+        "definition": (
+            "For a child born affected, what is the END of the best existing treatment — a cure, "
+            "lifelong disease management, or palliation? Curative eliminates the disease; "
+            "disease-modifying alters its course but needs ongoing care; palliative relieves "
+            "symptoms only. Intent is assigned from the treatment type by default and curated per "
+            "disease where reviewed."
+        ),
+    }
+
+    # AXIS 2b — Treatment TYPE (modality). Editing kept separate.
     treatment_distribution = {
         m: {
             "label": TREATMENT_LABEL[m],
@@ -232,26 +320,22 @@ def build_library(constants: dict) -> dict[str, Any]:
         "order": TREATMENT_ORDER,
         "distribution": {m: v for m, v in treatment_distribution.items() if v["n_diseases"] > 0},
         "note": (
-            "The TYPE of existing post-birth treatment for the born child. Germline editing is not a "
-            "modality here — it is a categorically different kind of intervention, tracked as the "
-            "editing-unique residual. This breakdown keeps that distinction explicit rather than "
-            "collapsing everything into 'treatable'."
+            "The TYPE of existing post-birth treatment. Germline editing is not a modality here — it "
+            "is a categorically different intervention, tracked as the editing residual."
         ),
     }
 
-    addressable_births = _sum_where(lambda x: x["status"]["addressable"])
-    status_summary = {
-        "order": STATUS_ORDER,
-        "distribution": status_distribution,
+    # Reach: addressable by SOME existing tool vs the editing-relevant residual (never "no option").
+    addressable_births = _sum_where(lambda x: x["reach"]["addressable_by_existing_tools"])
+    editing_relevant_births = _sum_where(lambda x: x["reach"]["editing_relevant_residual"])
+    reach_summary = {
         "addressable_by_existing_tools_births": addressable_births,
         "addressable_by_existing_tools_share": (addressable_births / total) if total else 0.0,
+        "editing_relevant_residual_births": editing_relevant_births,
         "definition": (
-            "Each disease is placed in one status from its intervention flags (no weights): "
-            "Preventable & treatable, Preventable (an unaffected child achievable via screening/"
-            "selection), Treatable (effective early therapy), Detectable only (prenatal detection "
-            "without selection), or No current option. The distribution across statuses — by disease "
-            "count and by affected births — is the headline picture of what existing genetic "
-            "medicine can already do."
+            "A disease is addressable by the EXISTING stack if it is preventable, prenatally "
+            "detectable, or treatable (any intent) after birth. The remainder is not 'no "
+            "genetic-medicine option' — it is exactly where germline editing is the only option."
         ),
     }
 
@@ -259,24 +343,30 @@ def build_library(constants: dict) -> dict[str, Any]:
         b = sum(x["affected_births_per_year"] for x in subset)
         cited_b = sum(x["affected_births_per_year"] for x in subset if x["incidence_basis"] == "cited")
         n_cited = sum(1 for x in subset if x["incidence_basis"] == "cited")
-        status_counts = {s: sum(1 for x in subset if x["status"]["status"] == s) for s in STATUS_ORDER}
-        addressable_n = sum(1 for x in subset if x["status"]["addressable"])
+        prevention_counts = {c: sum(1 for x in subset if x["prevention"]["category"] == c)
+                             for c in PREVENTION_ORDER}
+        intent_counts = {i: sum(1 for x in subset if x["treatment"]["intent"] == i)
+                         for i in TREATMENT_INTENT_ORDER}
+        addressable_n = sum(1 for x in subset if x["reach"]["addressable_by_existing_tools"])
         return {
             "n_diseases": len(subset),
             "affected_births_per_year": b,
             "n_cited_incidence": n_cited,
             "cited_incidence_share_by_count": (n_cited / len(subset)) if subset else 0.0,
             "cited_incidence_share_by_births": (cited_b / b) if b else 0.0,
-            "status_counts": status_counts,
+            "prevention_counts": prevention_counts,
+            "treatment_intent_counts": intent_counts,
             "n_addressable_by_existing_tools": addressable_n,
         }
+
+    repro_addressable = _sum_where(lambda x: x["addressable_by_reproductive_tool"])
 
     tiers = {
         "core": _tier_summary(core_out),
         "rare": _tier_summary(rare_out),
         "all": _tier_summary(diseases_out),
         "note": (
-            "The headline rollup (total, status split, by_category, treatment modalities) is over "
+            "The headline rollup (total, the two axes, by_category, treatment modalities) is over "
             "the CURATED CORE tier — the ~97 highest-burden conditions that drive the global "
             "numbers. The RARE tier is the Orphanet-derived long tail: individually rare, "
             "collectively a catalogue-completing set, assigned interventions by transparent rule "
@@ -293,13 +383,15 @@ def build_library(constants: dict) -> dict[str, Any]:
         "total_affected_births_per_year": total,
         "by_category": by_category,
         "by_severity": by_severity,
-        "births_addressable_by_reproductive_tool": addressable,
-        "share_addressable_by_reproductive_tool": (addressable / total) if total else 0.0,
+        "births_addressable_by_reproductive_tool": repro_addressable,
+        "share_addressable_by_reproductive_tool": (repro_addressable / total) if total else 0.0,
         "births_nbs_mitigable": nbs_mitigable,
         "births_editing_unique": editing_unique,
         "per_tool_addressable_births": per_tool_births,
-        "genetic_medicine_status": status_summary,
+        "prevention": prevention_summary,
+        "treatment_intent": treatment_intent_summary,
         "treatment_modalities": treatment_summary,
+        "reach": reach_summary,
         "cited_incidence_share": (cited / total) if total else 0.0,
         "note": (
             "Bottom-up point sums over the curated CORE tier (the highest-burden serious "

@@ -1,5 +1,14 @@
 import { Fragment, useMemo, useState } from 'react';
-import { AllData, Disease, StatusKey, ToolKey, fmtCompact, fmtInt, fmtPct } from '../data';
+import {
+  AllData,
+  Disease,
+  PreventionCategory,
+  TreatmentIntent,
+  ToolKey,
+  fmtCompact,
+  fmtInt,
+  fmtPct,
+} from '../data';
 import { UrlState } from '../urlState';
 import { Card, SectionHeading, Select } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
@@ -11,20 +20,18 @@ interface Props {
   update: (patch: UrlState) => void;
 }
 
-// Best-available ordering + colour styling for the genetic-medicine status.
-const STATUS_RANK: Record<StatusKey, number> = {
-  preventable_treatable: 0,
-  preventable: 1,
-  treatable: 2,
-  detectable_only: 3,
-  none: 4,
-};
-const STATUS_STYLE: Record<StatusKey, { cls: string; short: string }> = {
-  preventable_treatable: { cls: 'bg-emerald-100 text-emerald-800', short: 'Prevent + treat' },
-  preventable: { cls: 'bg-sky-100 text-sky-800', short: 'Preventable' },
-  treatable: { cls: 'bg-teal-100 text-teal-800', short: 'Treatable' },
+// AXIS 1 — Prevention (before birth), by which tool.
+const PREVENTION_STYLE: Record<PreventionCategory, { cls: string; short: string }> = {
+  preventable: { cls: 'bg-emerald-100 text-emerald-800', short: 'Preventable' },
   detectable_only: { cls: 'bg-amber-100 text-amber-800', short: 'Detectable only' },
-  none: { cls: 'bg-slate-200 text-slate-600', short: 'No option' },
+  not_preventable: { cls: 'bg-slate-200 text-slate-600', short: 'Not preventable' },
+};
+// AXIS 2 — Treatment intent (the end it serves).
+const INTENT_STYLE: Record<TreatmentIntent, { cls: string; short: string }> = {
+  curative: { cls: 'bg-emerald-100 text-emerald-800', short: 'Curative' },
+  disease_modifying: { cls: 'bg-sky-100 text-sky-800', short: 'Disease-modifying' },
+  palliative: { cls: 'bg-amber-100 text-amber-800', short: 'Palliative' },
+  none: { cls: 'bg-slate-200 text-slate-600', short: 'No treatment' },
 };
 
 // Existing post-birth treatment modality — short labels for the table. Germline editing is
@@ -66,8 +73,11 @@ export default function Library({ data, state, update }: Props) {
   const sev = state.sev || 'all';
   const tool = state.tool || 'any';
   const sort =
-    state.libsort === 'name' || state.libsort === 'status' ? state.libsort : 'births';
-  const statusFilter = state.status || 'all';
+    state.libsort === 'name' || state.libsort === 'prevention' || state.libsort === 'intent'
+      ? state.libsort
+      : 'births';
+  const prevFilter = state.prev || 'all';
+  const intentFilter = state.intent || 'all';
   const txFilter = state.tx || 'all';
   // Default to the curated core so the long tail doesn't overwhelm the first interaction.
   const tierFilter = state.tier === 'rare' || state.tier === 'all' ? state.tier : 'core';
@@ -88,7 +98,8 @@ export default function Library({ data, state, update }: Props) {
       if (cat !== 'all' && d.category !== cat) return false;
       if (inh !== 'all' && d.inheritance !== inh) return false;
       if (sev !== 'all' && d.severity !== sev) return false;
-      if (statusFilter !== 'all' && d.status.status !== statusFilter) return false;
+      if (prevFilter !== 'all' && d.prevention.category !== prevFilter) return false;
+      if (intentFilter !== 'all' && d.treatment.intent !== intentFilter) return false;
       if (txFilter !== 'all' && d.treatment.modality !== txFilter) return false;
       if (tool !== 'any') {
         if (tool === 'reproductive') {
@@ -109,17 +120,33 @@ export default function Library({ data, state, update }: Props) {
       }
       return true;
     });
+    const PREV_RANK: Record<PreventionCategory, number> = {
+      preventable: 0,
+      detectable_only: 1,
+      not_preventable: 2,
+    };
+    const INTENT_RANK: Record<TreatmentIntent, number> = {
+      curative: 0,
+      disease_modifying: 1,
+      palliative: 2,
+      none: 3,
+    };
     rows = rows.slice().sort((a, b) => {
       if (sort === 'name') return a.name.localeCompare(b.name);
-      if (sort === 'status')
+      if (sort === 'prevention')
         return (
-          STATUS_RANK[a.status.status] - STATUS_RANK[b.status.status] ||
+          PREV_RANK[a.prevention.category] - PREV_RANK[b.prevention.category] ||
+          b.affected_births_per_year - a.affected_births_per_year
+        );
+      if (sort === 'intent')
+        return (
+          INTENT_RANK[a.treatment.intent] - INTENT_RANK[b.treatment.intent] ||
           b.affected_births_per_year - a.affected_births_per_year
         );
       return b.affected_births_per_year - a.affected_births_per_year;
     });
     return rows;
-  }, [lib.diseases, q, cat, inh, sev, tool, statusFilter, txFilter, tierFilter, sort]);
+  }, [lib.diseases, q, cat, inh, sev, tool, prevFilter, intentFilter, txFilter, tierFilter, sort]);
 
   const catOptions = [
     { value: 'all', label: 'All categories' },
@@ -141,11 +168,18 @@ export default function Library({ data, state, update }: Props) {
     { value: 'PND', label: 'Prenatal diagnosis (PND)' },
     { value: 'NBS', label: 'Newborn screening (NBS)' },
   ];
-  const statusOptions = [
-    { value: 'all', label: 'All statuses' },
-    ...lib.rollup.genetic_medicine_status.order.map((s) => ({
+  const prevOptions = [
+    { value: 'all', label: 'All (prevention)' },
+    ...lib.rollup.prevention.order.map((s) => ({
       value: s,
-      label: lib.rollup.genetic_medicine_status.distribution[s].label,
+      label: lib.rollup.prevention.distribution[s].label,
+    })),
+  ];
+  const intentOptions = [
+    { value: 'all', label: 'All (treatment intent)' },
+    ...lib.rollup.treatment_intent.order.map((s) => ({
+      value: s,
+      label: lib.rollup.treatment_intent.distribution[s].label,
     })),
   ];
   const txDist = lib.rollup.treatment_modalities.distribution;
@@ -165,7 +199,7 @@ export default function Library({ data, state, update }: Props) {
         />
         <Explainer
           whatThisShows="Every serious genetic disease in the catalogue — the gene(s) that cause it, how it is inherited, how common it is at birth, the type of existing treatment, and which reproductive tools apply. The catalogue has two tiers: a hand-curated CORE of the highest-burden conditions that drive the global numbers, and an Orphanet-derived RARE tail (individually rare, each with a cited birth prevalence) that completes the disease count."
-          howToRead="Use the tier switch first: Core is the default so the long tail doesn't overwhelm; Rare adds the Orphanet-derived conditions; All merges both. Each row is one disease. Status is the best thing existing genetic medicine can do; Treatment type is the kind of existing post-birth therapy; the four right-hand columns (CS · PGT · PND · NBS) flag applicable reproductive/newborn tools. Rare-tier rows carry an 'auto' badge — their interventions are assigned by rule, not curation (carrier screening for recessive/X-linked; PGT & prenatal diagnosis for any monogenic with a known gene; newborn treatment left uncredited pending curation). Germline editing is deliberately not a treatment type here — it is a categorically different intervention, tracked as the residual (see the Residual and Embryos tabs)."
+          howToRead="Use the tier switch first: Core is the default so the long tail doesn't overwhelm; Rare adds the Orphanet-derived conditions; All merges both. Each row is one disease, classified on two 'by what' axes. Prevention (before birth): preventable by carrier screening or embryo selection, prenatally detectable only, or neither — the applicable tools are named on the badge. Treatment (if born affected): the END of the best existing therapy — curative, disease-modifying, or palliative — with its type. Rare-tier rows carry an 'auto' badge and their intent is a default from the treatment type, pending review. Germline editing is deliberately on neither axis — it is a distinct intervention for the residual (see 'Where editing is unique' and 'The embryo trade-off')."
           whatItDetermines="How each disease is addressed today — and, by keeping editing distinct, where editing would add something existing modalities can't."
         />
 
@@ -213,7 +247,7 @@ export default function Library({ data, state, update }: Props) {
 
         {/* Filters */}
         <Card>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-7">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <label htmlFor="libq" className="flex flex-col gap-1 text-sm lg:col-span-1">
               <span className="font-medium text-slate-700">Search</span>
               <input
@@ -254,11 +288,18 @@ export default function Library({ data, state, update }: Props) {
               onChange={(v) => update({ tool: v })}
             />
             <Select
-              id="status"
-              label="Genetic-medicine status"
-              value={statusFilter}
-              options={statusOptions}
-              onChange={(v) => update({ status: v })}
+              id="prev"
+              label="Prevention"
+              value={prevFilter}
+              options={prevOptions}
+              onChange={(v) => update({ prev: v })}
+            />
+            <Select
+              id="intent"
+              label="Treatment intent"
+              value={intentFilter}
+              options={intentOptions}
+              onChange={(v) => update({ intent: v })}
             />
             <Select
               id="tx"
@@ -284,7 +325,8 @@ export default function Library({ data, state, update }: Props) {
               value={sort}
               options={[
                 { value: 'births', label: 'Affected births (desc)' },
-                { value: 'status', label: 'Genetic-medicine status' },
+                { value: 'prevention', label: 'Prevention' },
+                { value: 'intent', label: 'Treatment intent' },
                 { value: 'name', label: 'Name (A–Z)' },
               ]}
               onChange={(v) => update({ libsort: v })}
@@ -319,16 +361,16 @@ export default function Library({ data, state, update }: Props) {
                 <th
                   scope="col"
                   className="px-3 py-2 text-center font-medium"
-                  title="Genetic-medicine status: the best thing existing genetic medicine can currently do for this disease."
+                  title="Prevention before birth: can an affected birth be avoided (carrier screening / embryo selection), only detected prenatally, or neither?"
                 >
-                  Status
+                  Prevention
                 </th>
                 <th
                   scope="col"
                   className="px-3 py-2 text-center font-medium"
-                  title="Type of existing post-birth treatment for the born child. Germline editing is a distinct kind of intervention, not shown here."
+                  title="For a child born affected: the END of the best existing treatment — curative, disease-modifying, or palliative — and its type. Germline editing is a distinct intervention, not shown here."
                 >
-                  Treatment type
+                  Treatment
                 </th>
                 <th scope="col" className="px-3 py-2 text-center font-medium" title="Carrier screening / Embryo testing / Prenatal diagnosis / Newborn screening">
                   CS · PGT · PND · NBS
@@ -356,29 +398,36 @@ export default function Library({ data, state, update }: Props) {
   );
 }
 
-function StatusBadge({ d }: { d: Disease }) {
-  const st = d.status;
-  const style = STATUS_STYLE[st.status];
+function PreventionBadge({ d }: { d: Disease }) {
+  const p = d.prevention;
+  const style = PREVENTION_STYLE[p.category];
+  const by = p.by.length ? ` (${p.by.join(' · ')})` : '';
   return (
     <span
       className={`inline-block whitespace-nowrap rounded px-2 py-0.5 text-xs font-medium ${style.cls}`}
-      title={`${st.label} — the best thing existing genetic medicine can currently do for this disease.`}
+      title={`${p.label}${by ? ' — by ' + p.by.join(', ') : ''}`}
     >
       {style.short}
+      {p.by.length > 0 && <span className="ml-1 font-normal opacity-70">{p.by.join('·')}</span>}
     </span>
   );
 }
 
 function TreatmentBadge({ d }: { d: Disease }) {
   const t = d.treatment;
-  const short = TREATMENT_SHORT[t.modality] ?? t.label;
-  const cls = t.disease_modifying ? 'bg-violet-100 text-violet-800' : 'bg-slate-100 text-slate-500';
+  const style = INTENT_STYLE[t.intent];
+  const modality = TREATMENT_SHORT[t.modality] ?? t.label;
   return (
     <span
-      className={`inline-block whitespace-nowrap rounded px-2 py-0.5 text-xs font-medium ${cls}`}
-      title={`${t.label}${t.note ? ' — ' + t.note : ''}. Existing post-birth treatment type; germline editing is a distinct intervention, not shown here.`}
+      className={`inline-flex items-center gap-1 whitespace-nowrap rounded px-2 py-0.5 text-xs font-medium ${style.cls}`}
+      title={`${t.intent_label}${t.intent_curated ? '' : ' (default from treatment type — pending review)'}${
+        t.modality !== 'none' && t.modality !== 'unknown' ? ' · ' + t.label : ''
+      }${t.note ? ' — ' + t.note : ''}. Germline editing is a distinct intervention, not shown here.`}
     >
-      {short}
+      {style.short}
+      {t.modality !== 'none' && t.modality !== 'unknown' && (
+        <span className="font-normal opacity-70">· {modality}</span>
+      )}
     </span>
   );
 }
@@ -451,7 +500,7 @@ function DiseaseRow({
           />
         </td>
         <td className="px-3 py-2 text-center">
-          <StatusBadge d={d} />
+          <PreventionBadge d={d} />
         </td>
         <td className="px-3 py-2 text-center">
           <TreatmentBadge d={d} />
@@ -527,13 +576,26 @@ function DiseaseDetail({ d }: { d: Disease }) {
           <span className="text-slate-700">{titleCase(d.onset)}</span>
         </p>
         <p>
-          <span className="font-medium text-slate-600">Existing treatment: </span>
+          <span className="font-medium text-slate-600">Prevention: </span>
           <span className="text-slate-700">
-            {d.treatment.label}
-            {d.treatment.note ? ` — ${d.treatment.note}` : ''}
+            {d.prevention.label}
+            {d.prevention.by.length ? ` — by ${d.prevention.by.join(', ')}` : ''}
+          </span>
+        </p>
+        <p>
+          <span className="font-medium text-slate-600">Treatment (if born affected): </span>
+          <span className="text-slate-700">
+            <strong>{d.treatment.intent_label}</strong>
+            {d.treatment.modality !== 'none' && d.treatment.modality !== 'unknown'
+              ? ` — ${d.treatment.label}`
+              : ''}
+            {d.treatment.note ? ` (${d.treatment.note})` : ''}
           </span>
           <span className="block text-xs text-slate-400">
-            Germline editing is a distinct kind of intervention, not an existing treatment modality.
+            {d.treatment.intent_curated
+              ? 'Curative eliminates the disease; disease-modifying alters its course but needs ongoing care; palliative relieves symptoms only.'
+              : 'Intent shown is a default from the treatment type, pending clinical review.'}{' '}
+            Germline editing is a distinct intervention, not a treatment modality.
           </span>
         </p>
         <p>

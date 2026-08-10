@@ -80,24 +80,32 @@ export default function Overview({ data, state, update }: Props) {
           </div>
         </ArgumentStep>
 
-        {/* STEP 2 — preventable in principle vs the editing-only residual */}
+        {/* STEP 2 — addressable by the existing stack, said precisely: prevent by what, treat to what end */}
         <ArgumentStep
           n={2}
-          title="Almost all of it is addressable by tools we already have"
+          title="Almost all of it is addressable already — but say by what"
         >
-          <StatusSplit data={data} update={update} />
+          <p className="text-sm leading-relaxed text-slate-700">
+            “Addressable” hides two different things, so we keep them apart. Some disease is{' '}
+            <strong>prevented before birth</strong> (by carrier screening or embryo selection); the
+            rest is met <strong>after birth by treatment</strong> — and treatment ranges from a{' '}
+            <strong>cure</strong> to lifelong <strong>management</strong> to <strong>palliation</strong>,
+            which are worlds apart. Germline editing is none of these; it is the separate residual
+            below.
+          </p>
+          <CapabilitySplit data={data} update={update} />
           <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <MiniStat
               tone="emerald"
               value={fmtPct(addressable.median, 1)}
-              label="addressable by existing tools"
-              sub={`95% CrI ${fmtPct(addressable.ci95[0], 0)}–${fmtPct(addressable.ci95[1], 0)} — carrier screening, embryo testing, prenatal diagnosis, newborn screening, and today's therapies`}
+              label="addressable by the existing stack"
+              sub={`95% CrI ${fmtPct(addressable.ci95[0], 0)}–${fmtPct(addressable.ci95[1], 0)} — prevented before birth, or treated after it (cure, management, or palliation)`}
             />
             <MiniStat
               tone="violet"
               value={`~${fmtPct(editableShare.median, 1)}`}
               label="uniquely needs germline editing"
-              sub={`about ${fmtCompact(editableTotal.median)} births / yr — the only cases no existing tool can reach even in principle`}
+              sub={`about ${fmtCompact(editableTotal.median)} births / yr — reachable by no existing tool, so germline editing is the only genetic-medicine option (not “no option”)`}
             />
           </div>
         </ArgumentStep>
@@ -170,77 +178,107 @@ export default function Overview({ data, state, update }: Props) {
   );
 }
 
-const STATUS_COLORS: Record<string, string> = {
-  preventable_treatable: '#059669',
-  preventable: '#0284c7',
-  treatable: '#0d9488',
-  detectable_only: '#d97706',
-  none: '#94a3b8',
+const PREVENTION_COLORS: Record<string, string> = {
+  preventable: '#059669', // emerald
+  detectable_only: '#d97706', // amber
+  not_preventable: '#94a3b8', // slate
+};
+const INTENT_COLORS: Record<string, string> = {
+  curative: '#059669', // emerald
+  disease_modifying: '#0284c7', // sky
+  palliative: '#d97706', // amber
+  none: '#94a3b8', // slate
 };
 
-function StatusSplit({
+// The two "by what" axes, each a clickable stacked bar that filters the library.
+function CapabilitySplit({
   data,
   update,
 }: {
   data: AllData;
   update: (patch: UrlState) => void;
 }) {
-  const s = data.library.rollup.genetic_medicine_status;
-  const totalB = s.order.reduce((a, k) => a + s.distribution[k].births, 0) || 1;
-  let x = 0;
-  const segs = s.order.map((k) => {
-    const w = (s.distribution[k].births / totalB) * 100;
-    const seg = { k, x, w, ...s.distribution[k] };
-    x += w;
-    return seg;
-  });
+  const r = data.library.rollup;
+  return (
+    <div className="mt-3 space-y-4">
+      <AxisBar
+        title="Prevention — before birth, by which tool"
+        order={r.prevention.order}
+        dist={r.prevention.distribution}
+        colors={PREVENTION_COLORS}
+        onPick={(k) => update({ tab: 'library', prev: k, libsort: 'births' })}
+      />
+      <AxisBar
+        title="Treatment — for a child born affected, to what end"
+        order={r.treatment_intent.order}
+        dist={r.treatment_intent.distribution}
+        colors={INTENT_COLORS}
+        onPick={(k) => update({ tab: 'library', intent: k, libsort: 'births' })}
+      />
+    </div>
+  );
+}
 
+function AxisBar({
+  title,
+  order,
+  dist,
+  colors,
+  onPick,
+}: {
+  title: string;
+  order: string[];
+  dist: Record<string, { label: string; n_diseases: number; births: number }>;
+  colors: Record<string, string>;
+  onPick: (k: string) => void;
+}) {
+  const totalB = order.reduce((a, k) => a + dist[k].births, 0) || 1;
   return (
     <div>
-      <p className="text-sm text-slate-700">
-        Each disease sits in one status, set only by which interventions apply to it. The bar is by
-        affected births in the core catalogue — click any band to filter the library.
-      </p>
+      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{title}</p>
       <div
-        className="mt-2 flex h-8 w-full overflow-hidden rounded"
+        className="mt-1 flex h-8 w-full overflow-hidden rounded"
         role="img"
-        aria-label="Genetic-medicine status distribution by affected births"
+        aria-label={`${title} — distribution by affected births`}
       >
-        {segs.map((seg) =>
-          seg.w > 0 ? (
+        {order.map((k) => {
+          const w = (dist[k].births / totalB) * 100;
+          return w > 0 ? (
             <button
-              key={seg.k}
+              key={k}
               type="button"
-              onClick={() => update({ tab: 'library', status: seg.k, libsort: 'status' })}
-              title={`${seg.label}: ${fmtInt(seg.births)} births/yr (${fmtPct(
-                seg.births / totalB,
+              onClick={() => onPick(k)}
+              title={`${dist[k].label}: ${fmtInt(dist[k].births)} births/yr (${fmtPct(
+                dist[k].births / totalB,
                 0
-              )}) · ${seg.n_diseases} diseases`}
-              style={{ width: `${seg.w}%`, backgroundColor: STATUS_COLORS[seg.k] }}
+              )}) · ${dist[k].n_diseases} diseases`}
+              style={{ width: `${w}%`, backgroundColor: colors[k] }}
               className="h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-slate-900"
             />
+          ) : null;
+        })}
+      </div>
+      <div className="mt-1.5 grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-2">
+        {order.map((k) =>
+          dist[k].n_diseases > 0 ? (
+            <button
+              key={k}
+              type="button"
+              onClick={() => onPick(k)}
+              className="flex items-center gap-2 text-left text-xs hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <span
+                aria-hidden="true"
+                className="inline-block h-3 w-3 shrink-0 rounded-sm"
+                style={{ backgroundColor: colors[k] }}
+              />
+              <span className="text-slate-700">{dist[k].label}</span>
+              <span className="tnum ml-auto text-slate-500">
+                {fmtCompact(dist[k].births)} · {dist[k].n_diseases}
+              </span>
+            </button>
           ) : null
         )}
-      </div>
-      <div className="mt-2 grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
-        {segs.map((seg) => (
-          <button
-            key={seg.k}
-            type="button"
-            onClick={() => update({ tab: 'library', status: seg.k, libsort: 'status' })}
-            className="flex items-center gap-2 text-left text-xs hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          >
-            <span
-              aria-hidden="true"
-              className="inline-block h-3 w-3 shrink-0 rounded-sm"
-              style={{ backgroundColor: STATUS_COLORS[seg.k] }}
-            />
-            <span className="text-slate-700">{seg.label}</span>
-            <span className="tnum ml-auto text-slate-500">
-              {fmtCompact(seg.births)} · {seg.n_diseases}
-            </span>
-          </button>
-        ))}
       </div>
     </div>
   );

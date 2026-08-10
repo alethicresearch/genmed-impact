@@ -2,7 +2,7 @@
   "meta": {
     "n_draws": 20000,
     "seed": 20260810,
-    "commit": "455809b",
+    "commit": "9baa945",
     "spec_version": "3.0",
     "default_assumptions": {
       "severity": "def_b",

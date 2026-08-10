@@ -192,13 +192,33 @@ export interface Disease {
   editing_unique: boolean;
   editing_note: string;
   notes: string | null;
-  status: DiseaseStatus;
+  prevention: DiseasePrevention;
   treatment: DiseaseTreatment;
+  reach: DiseaseReach;
+}
+
+export type PreventionCategory = 'preventable' | 'detectable_only' | 'not_preventable';
+export type TreatmentIntent = 'curative' | 'disease_modifying' | 'palliative' | 'none';
+
+export interface DiseasePrevention {
+  category: PreventionCategory;
+  label: string;
+  by: ToolKey[]; // which reproductive tools apply — the "by what"
+  avoidable: boolean;
+  prenatal_detectable: boolean;
+}
+
+export interface DiseaseReach {
+  addressable_by_existing_tools: boolean;
+  editing_relevant_residual: boolean;
 }
 
 export interface DiseaseTreatment {
   modality: string;
   label: string;
+  intent: TreatmentIntent;
+  intent_label: string;
+  intent_curated: boolean;
   disease_modifying: boolean;
   note: string | null;
 }
@@ -216,33 +236,32 @@ export interface TreatmentModalities {
   note: string;
 }
 
-export type StatusKey =
-  | 'preventable_treatable'
-  | 'preventable'
-  | 'treatable'
-  | 'detectable_only'
-  | 'none';
-
-export interface DiseaseStatus {
-  status: StatusKey;
-  label: string;
-  preventable: boolean;
-  treatable: boolean;
-  prenatal_detectable: boolean;
-  addressable: boolean;
-}
-
-export interface StatusBucket {
+export interface AxisBucket {
   label: string;
   n_diseases: number;
   births: number;
 }
 
-export interface GeneticMedicineStatus {
-  order: StatusKey[];
-  distribution: Record<StatusKey, StatusBucket>;
+export interface PreventionSummary {
+  order: PreventionCategory[];
+  distribution: Record<PreventionCategory, AxisBucket>;
+  preventable_births: number;
+  preventable_share: number;
+  per_tool_births: Record<'CS' | 'PGT' | 'PND', number>;
+  definition: string;
+}
+
+export interface TreatmentIntentSummary {
+  order: TreatmentIntent[];
+  distribution: Record<TreatmentIntent, AxisBucket>;
+  n_curated: number;
+  definition: string;
+}
+
+export interface ReachSummary {
   addressable_by_existing_tools_births: number;
   addressable_by_existing_tools_share: number;
+  editing_relevant_residual_births: number;
   definition: string;
 }
 
@@ -252,7 +271,8 @@ export interface TierSummary {
   n_cited_incidence: number;
   cited_incidence_share_by_count: number;
   cited_incidence_share_by_births: number;
-  status_counts: Record<StatusKey, number>;
+  prevention_counts: Record<PreventionCategory, number>;
+  treatment_intent_counts: Record<TreatmentIntent, number>;
   n_addressable_by_existing_tools: number;
 }
 
@@ -275,8 +295,10 @@ export interface LibraryRollup {
   births_nbs_mitigable: number;
   births_editing_unique: number;
   per_tool_addressable_births: Record<ToolKey, number>;
-  genetic_medicine_status: GeneticMedicineStatus;
+  prevention: PreventionSummary;
+  treatment_intent: TreatmentIntentSummary;
   treatment_modalities: TreatmentModalities;
+  reach: ReachSummary;
   cited_incidence_share: number;
   note: string;
 }

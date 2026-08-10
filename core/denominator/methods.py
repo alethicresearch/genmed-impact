@@ -147,35 +147,42 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
       "and shown in the app's Denominator view.")
     A("")
 
-    # 5. Genetic-medicine status
-    st = lib["genetic_medicine_status"]
-    A("## 6. Genetic-medicine status")
+    # 5. What genetic medicine can do — two axes, by what
+    prev = lib["prevention"]
+    intent = lib["treatment_intent"]
+    reach = lib["reach"]
+    A("## 6. What genetic medicine can do — two axes, by what")
     A("")
-    A("Every disease is placed in one **status** derived directly from its intervention flags — no "
-      "weights, no composite score:")
+    A("We never collapse capability into a single 'preventable/treatable' bucket. Each disease is "
+      "classified on two independent axes, always naming *which* tool or *what* end:")
     A("")
-    A("- **Preventable & treatable** — an unaffected child is achievable (screening/selection) *and* "
-      "effective early therapy exists")
-    A("- **Preventable** — an unaffected child is achievable, but no cure")
-    A("- **Treatable** — effective early therapy exists, but hard to prevent")
-    A("- **Detectable only** — prenatal detection without selection")
-    A("- **No current option**")
+    A("**Axis 1 — Prevention (before birth):**")
     A("")
-    A("The distribution across statuses — by disease count and by affected births — is the headline "
-      "picture of what existing genetic medicine can already do. \"Addressable by existing tools\" is "
-      "everything but the empty status.")
-    A("")
-    A(_row("Status", "Diseases", "Affected births/yr"))
+    A(_row("Prevention", "Diseases", "Affected births/yr"))
     A(_row("---", "---:", "---:"))
-    for s in st["order"]:
-        v = st["distribution"][s]
+    for s in prev["order"]:
+        v = prev["distribution"][s]
         A(_row(v["label"], v["n_diseases"], f"{v['births']:,.0f}"))
-    A(_row("**Addressable by existing tools**", "",
-           f"**{st['addressable_by_existing_tools_births']:,.0f} "
-           f"({st['addressable_by_existing_tools_share']*100:.0f}%)**"))
     A("")
-    A("The editing-unique residual (§8) is deliberately *not* a status here: it is a sliver of "
-      "couples *within* diseases (no selectable embryo), not a class of diseases.")
+    A("**Axis 2 — Treatment intent (for a child born affected):** the difference between a cure, "
+      "lifelong disease management, and palliation. Intent defaults from the treatment type and is "
+      "curated per disease where reviewed.")
+    A("")
+    A(_row("Treatment intent", "Diseases", "Affected births/yr"))
+    A(_row("---", "---:", "---:"))
+    for s in intent["order"]:
+        v = intent["distribution"][s]
+        A(_row(v["label"], v["n_diseases"], f"{v['births']:,.0f}"))
+    A("")
+    A(_row("**Addressable by the existing stack**", "",
+           f"**{reach['addressable_by_existing_tools_births']:,.0f} "
+           f"({reach['addressable_by_existing_tools_share']*100:.0f}%)**"))
+    A("")
+    A("A disease is addressable by the existing stack if it is preventable, prenatally detectable, "
+      "or treatable (any intent). The remainder is **not** 'no genetic-medicine option' — germline "
+      "editing is a genetic-medicine option, and that residual (§8) is exactly where it is the only "
+      "one. The residual is a sliver of couples *within* diseases (no selectable embryo), not a "
+      "class of diseases.")
     A("")
 
     # 6. Preventability engine
@@ -390,11 +397,13 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     # Appendix B: catalogue
     A("## Appendix B — Disease catalogue")
     A("")
-    A(_row("Disease", "Gene(s)", "Inheritance", "Severity", "Births/yr", "Status", "Incidence basis"))
-    A(_row("---", "---", "---", "---", "---:", "---", "---"))
+    A(_row("Disease", "Gene(s)", "Inheritance", "Severity", "Births/yr", "Prevention",
+           "Treatment intent", "Incidence basis"))
+    A(_row("---", "---", "---", "---", "---:", "---", "---", "---"))
     for x in R["library"]["diseases"]:
         A(_row(x["name"], ", ".join(x["genes"]) or "—", x["inheritance"], x["severity"],
-               f"{x['affected_births_per_year']:,.0f}", x["status"]["label"], x["incidence_basis"]))
+               f"{x['affected_births_per_year']:,.0f}", x["prevention"]["label"],
+               x["treatment"]["intent_label"], x["incidence_basis"]))
     A("")
 
     with open(config.RESULTS_DIR / "methods.md", "w", encoding="utf-8") as fh:
