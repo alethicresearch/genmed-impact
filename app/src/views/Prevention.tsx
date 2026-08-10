@@ -84,10 +84,12 @@ export default function Prevention({ data, state, update }: Props) {
         subtitle="From a 100% baseline, each tool averts a share of the selected class. Fractions already encode coverage × effectiveness for the chosen scenario."
       />
       <Explainer
-        whatThisShows="How much of a disease class's affected births the four existing tools prevent, applied one after another: carrier screening, then embryo testing, then prenatal diagnosis, then newborn screening."
-        howToRead="Start at 100%. Each step removes a share of what is still left, so the bar shrinks toward the residual that remains. Change the region, coverage scenario, and disease class. The 'averted births' and 'averted burden' tracks differ because newborn screening treats disease rather than preventing the birth."
-        whatItDetermines="How far the existing toolkit actually gets under real-world coverage — and how much is left over for editing to address."
+        whatThisShows="How much of a disease class's affected births the four existing tools prevent under a given real-world coverage scenario, applied one after another: carrier screening, then embryo testing, then prenatal diagnosis, then newborn screening."
+        howToRead="Start at 100%. Each step removes a share of what is still left, so the bar shrinks toward what is still not prevented. Change the region, coverage scenario, and disease class. The 'averted births' and 'averted burden' tracks differ because newborn screening treats disease rather than preventing the birth."
+        whatItDetermines="How far the existing toolkit actually gets under today's access — and therefore how much headroom there is to prevent more by SCALING the same tools."
       />
+
+      <TwoResidualsCallout data={data} update={update} region={region!} cls={cls} scenario={scenario!} />
 
       <div className="flex flex-wrap items-end gap-5">
         <Select
@@ -185,7 +187,7 @@ export default function Prevention({ data, state, update }: Props) {
               ci: `${fmtPct(avertedMap[t].ci95[0], 2)}–${fmtPct(avertedMap[t].ci95[1], 2)}`,
             })),
             {
-              stage: 'Residual',
+              stage: 'Not prevented (coverage gap)',
               averted: fmtPct(isIllustrative ? residualScaled : residualStat.median, 2),
               ci: isIllustrative
                 ? '—'
@@ -209,7 +211,7 @@ export default function Prevention({ data, state, update }: Props) {
         </h3>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <CountCard label="Class births / yr" stat={leaf.class_births} />
-          <CountCard label="Residual births / yr" stat={leaf.residual_birth_count} />
+          <CountCard label="Not-prevented births / yr (coverage gap)" stat={leaf.residual_birth_count} />
           <CountCard
             label="PND counts toward births"
             valueOverride={pndOn ? 'Yes' : 'No'}
@@ -257,6 +259,68 @@ export default function Prevention({ data, state, update }: Props) {
   );
 }
 
+// Names the two very different "residuals" so the ~65% coverage gap here is never read as the
+// ~1.7% editing-only residual on the Overview/Residual tabs.
+function TwoResidualsCallout({
+  data,
+  update,
+  region,
+  cls,
+  scenario,
+}: {
+  data: AllData;
+  update: (patch: UrlState) => void;
+  region: string;
+  cls: DiseaseClass;
+  scenario: string;
+}) {
+  const leaf = data.prevention[region]?.[scenario]?.[cls]?.['pnd_on'];
+  const coverageGap = leaf ? leaf.residual_birth_fraction.median : undefined;
+  const editingShare = data.summary.uniquely_editable_share_of_serious.permissive.median;
+
+  return (
+    <Card className="border-amber-300 bg-amber-50/50">
+      <h3 className="text-sm font-semibold text-slate-900">
+        Two different “residuals” — don't confuse them
+      </h3>
+      <div className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="rounded border border-amber-200 bg-white p-3">
+          <p className="text-xs font-medium uppercase tracking-wide text-amber-800">
+            Not yet prevented at this coverage
+          </p>
+          <p className="tnum mt-1 text-2xl font-bold text-slate-900">
+            {coverageGap !== undefined ? fmtPct(coverageGap, 0) : '—'}
+          </p>
+          <p className="mt-1 text-xs text-slate-600">
+            The <strong>coverage / access gap</strong> — affected births the existing tools would
+            prevent but don't reach today ({scenario} coverage, {region}, {cls}). This is unmet
+            <em> access</em>, not unmet biology: it closes by <strong>scaling the same four
+            tools</strong>, and shrinks toward the floor on the right as coverage improves.
+          </p>
+        </div>
+        <div className="rounded border border-violet-200 bg-white p-3">
+          <p className="text-xs font-medium uppercase tracking-wide text-violet-800">
+            Uniquely needs germline editing
+          </p>
+          <p className="tnum mt-1 text-2xl font-bold text-slate-900">~{fmtPct(editingShare, 1)}</p>
+          <p className="mt-1 text-xs text-slate-600">
+            The <strong>in-principle</strong> residual — what no existing tool could reach even at
+            full coverage. This is the “narrow” number on the Overview, and it does not move
+            when coverage changes.{' '}
+            <button
+              type="button"
+              onClick={() => update({ mode: 'detailed', tab: 'residual' })}
+              className="font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              See the Residual tab →
+            </button>
+          </p>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
 function CountCard({
   label,
   stat,
@@ -301,7 +365,7 @@ function Waterfall({ steps, residual, colors }: WaterfallProps) {
   const padB = 50;
   const plotW = W - padL - padR;
   const plotH = H - padT - padB;
-  const cats = ['Baseline', ...steps.map((s) => s.tool), 'Residual'];
+  const cats = ['Baseline', ...steps.map((s) => s.tool), 'Not prevented'];
   const n = cats.length;
   const bandW = plotW / n;
   const barW = bandW * 0.6;
@@ -332,7 +396,7 @@ function Waterfall({ steps, residual, colors }: WaterfallProps) {
     yTop: y(residual),
     h: plotH - (y(residual) - padT),
     color: '#334155',
-    label: 'Residual',
+    label: 'Not prevented',
     value: residual,
     isFloat: false,
   });
@@ -342,7 +406,7 @@ function Waterfall({ steps, residual, colors }: WaterfallProps) {
   return (
     <svg
       role="img"
-      aria-label="Prevention waterfall from 100% baseline through each tool to residual"
+      aria-label="Prevention waterfall from 100% baseline through each tool to what is not prevented at this coverage"
       viewBox={`0 0 ${W} ${H}`}
       className="mt-3 w-full"
       fontFamily="ui-sans-serif, system-ui, sans-serif"
