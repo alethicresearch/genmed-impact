@@ -49,7 +49,19 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Not selection/editing-addressable as a monogenic trait; detection + surgical repair mitigate.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 55,
+        "addressed_fraction": 0.55,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 0.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.2,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "g6pd_deficiency",
@@ -90,7 +102,19 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Selection-addressable; usually mild so rarely pursued.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 75,
+        "addressed_fraction": 0.75,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 0.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.4,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "familial_hypercholesterolaemia",
@@ -133,7 +157,127 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable; treatability makes reproductive intervention uncommon.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "lynch_syndrome",
+      "name": "Lynch syndrome",
+      "category": "monogenic_dominant",
+      "genes": [
+        "MLH1",
+        "MSH2"
+      ],
+      "inheritance": "autosomal_dominant",
+      "omim": "120435",
+      "orphanet": "144",
+      "severity": "serious",
+      "onset": "adult",
+      "incidence_per_100k": 300.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/300 carriers",
+      "incidence_doi": null,
+      "affected_births_per_year": 405000.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "dominant; cascade testing of relatives, not preconception carrier screening"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known parental variant (rarely pursued given adult onset)"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "detectable but seldom indicated"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "adult-onset cancer risk; managed by surveillance, not NBS"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable; treatable/surveillable so reproductive intervention uncommon.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "hereditary_breast_ovarian_cancer",
+      "name": "Hereditary breast and ovarian cancer (BRCA1/2)",
+      "category": "monogenic_dominant",
+      "genes": [
+        "BRCA1",
+        "BRCA2"
+      ],
+      "inheritance": "autosomal_dominant",
+      "omim": "604370",
+      "orphanet": "145",
+      "severity": "serious",
+      "onset": "adult",
+      "incidence_per_100k": 250.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "combined BRCA1/2 pathogenic-variant carriers ~1/400",
+      "incidence_doi": null,
+      "affected_births_per_year": 337500.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "dominant; cascade testing of relatives, not preconception carrier screening"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M available for known parental variant (elective; adult-onset)"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "detectable but seldom indicated"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "adult cancer risk; managed by surveillance/risk-reducing surgery"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable; high-penetrance but treatable/surveillable, so intervention is elective.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "sickle_cell_disease",
@@ -174,7 +318,175 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Selection-addressable; affected×affected couples fall to the S1 residual.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "hypertrophic_cardiomyopathy",
+      "name": "Hypertrophic cardiomyopathy",
+      "category": "monogenic_dominant",
+      "genes": [
+        "MYBPC3",
+        "MYH7"
+      ],
+      "inheritance": "autosomal_dominant",
+      "omim": "192600",
+      "orphanet": "155",
+      "severity": "serious",
+      "onset": "variable",
+      "incidence_per_100k": 200.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/500 (population prevalence)",
+      "incidence_doi": null,
+      "affected_births_per_year": 270000.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "dominant; cascade testing of relatives, not preconception carrier screening"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known parental variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "clinical surveillance/ICD; not an NBS target"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable when a parent carries a known variant.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "hypospadias",
+      "name": "Hypospadias",
+      "category": "multifactorial",
+      "genes": [],
+      "inheritance": "multifactorial",
+      "omim": "",
+      "orphanet": "",
+      "severity": "moderate",
+      "onset": "prenatal",
+      "incidence_per_100k": 200.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/200-300 male births; per 100k total births (affects males)",
+      "incidence_doi": null,
+      "affected_births_per_year": 270000.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "multifactorial; no single-gene carrier screening"
+        },
+        "PGT": {
+          "applicable": false,
+          "note": "not a single-gene disorder in most cases"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "sometimes detectable on prenatal ultrasound"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "surgical repair postnatally, not an NBS target"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Not selection/editing-addressable as a monogenic trait; surgically correctable.",
+      "notes": null,
+      "gmi": {
+        "index": 20,
+        "addressed_fraction": 0.2,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 0.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.2,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "pyloric_stenosis",
+      "name": "Infantile hypertrophic pyloric stenosis",
+      "category": "multifactorial",
+      "genes": [],
+      "inheritance": "multifactorial",
+      "omim": "179010",
+      "orphanet": "2970",
+      "severity": "moderate",
+      "onset": "infancy",
+      "incidence_per_100k": 200.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/500 births (varies by sex/ancestry)",
+      "incidence_doi": null,
+      "affected_births_per_year": 270000.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "multifactorial; no single-gene carrier screening"
+        },
+        "PGT": {
+          "applicable": false,
+          "note": "not a single-gene disorder"
+        },
+        "PND": {
+          "applicable": false,
+          "note": "presents postnatally; not a prenatal diagnosis"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "diagnosed clinically in infancy; pyloromyotomy is curative"
+        }
+      },
+      "addressable_by_reproductive_tool": false,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Not selection/editing-addressable as a monogenic trait; surgically curable.",
+      "notes": null,
+      "gmi": {
+        "index": 0,
+        "addressed_fraction": 0.0,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 0.0,
+          "PND": 0.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.0,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "down_syndrome",
@@ -213,7 +525,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "PGT-A/selection-addressable; whole-chromosome aneuploidy not an editing target.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "orofacial_clefts",
@@ -252,7 +576,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Not selection/editing-addressable as a monogenic trait; surgically correctable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 20,
+        "addressed_fraction": 0.2,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 0.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.2,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "alpha_thalassaemia",
@@ -294,7 +630,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable (both-carrier couples have unaffected embryos).",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "adpkd",
@@ -336,7 +684,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "neural_tube_defects",
@@ -377,7 +737,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Not selection- or editing-addressable as a monogenic trait; folate fortification is the key lever.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 20,
+        "addressed_fraction": 0.2,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 0.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.2,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "clubfoot",
@@ -416,7 +788,70 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Not selection/editing-addressable as a monogenic trait; early casting mitigates.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 55,
+        "addressed_fraction": 0.55,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 0.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.2,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "developmental_dysplasia_hip",
+      "name": "Developmental dysplasia of the hip",
+      "category": "multifactorial",
+      "genes": [],
+      "inheritance": "multifactorial",
+      "omim": "",
+      "orphanet": "",
+      "severity": "moderate",
+      "onset": "neonatal",
+      "incidence_per_100k": 100.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/1,000 births with frank dislocation (instability more common)",
+      "incidence_doi": null,
+      "affected_births_per_year": 135000.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "multifactorial; no single-gene carrier screening"
+        },
+        "PGT": {
+          "applicable": false,
+          "note": "not a single-gene disorder"
+        },
+        "PND": {
+          "applicable": false,
+          "note": "not a prenatal diagnosis"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "newborn hip exam (Ortolani/Barlow) ± ultrasound + early bracing corrects most cases"
+        }
+      },
+      "addressable_by_reproductive_tool": false,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "Not selection/editing-addressable as a monogenic trait; early bracing mitigates.",
+      "notes": null,
+      "gmi": {
+        "index": 35,
+        "addressed_fraction": 0.35,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 0.0,
+          "PND": 0.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.0,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "beta_thalassaemia",
@@ -457,7 +892,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "klinefelter_syndrome",
@@ -496,7 +943,178 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "PGT-A/selection-addressable; aneuploidy not an editing target.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "long_qt_syndrome",
+      "name": "Long QT syndrome",
+      "category": "monogenic_dominant",
+      "genes": [
+        "KCNQ1",
+        "KCNH2",
+        "SCN5A"
+      ],
+      "inheritance": "autosomal_dominant",
+      "omim": "192500",
+      "orphanet": "768",
+      "severity": "serious",
+      "onset": "variable",
+      "incidence_per_100k": 50.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/2,000",
+      "incidence_doi": null,
+      "affected_births_per_year": 67500.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "dominant; identified via family history/cascade testing, not carrier screening"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known parental variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "managed with beta-blockers/ICD; not a routine NBS target"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable when a parent carries a known variant.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "hereditary_spherocytosis",
+      "name": "Hereditary spherocytosis",
+      "category": "monogenic_dominant",
+      "genes": [
+        "ANK1"
+      ],
+      "inheritance": "autosomal_dominant",
+      "omim": "182900",
+      "orphanet": "822",
+      "severity": "moderate",
+      "onset": "childhood",
+      "incidence_per_100k": 50.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/2,000 (Northern European)",
+      "incidence_doi": null,
+      "affected_births_per_year": 67500.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "mostly dominant; family-based testing, not carrier screening"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M possible but rarely pursued given treatability"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "detectable but seldom indicated"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "manageable (phototherapy, transfusion, splenectomy); not classic NBS"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable; treatability makes reproductive intervention uncommon.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "congenital_diaphragmatic_hernia",
+      "name": "Congenital diaphragmatic hernia",
+      "category": "multifactorial",
+      "genes": [],
+      "inheritance": "multifactorial",
+      "omim": "142340",
+      "orphanet": "2140",
+      "severity": "severe",
+      "onset": "prenatal",
+      "incidence_per_100k": 40.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/2,500 births",
+      "incidence_doi": null,
+      "affected_births_per_year": 54000.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "mostly multifactorial/de novo; no routine carrier screening"
+        },
+        "PGT": {
+          "applicable": false,
+          "note": "not a single-gene disorder in most cases"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "detectable on prenatal ultrasound/MRI"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "surgical repair postnatally (± fetal therapy); not an NBS target"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Not selection/editing-addressable as a monogenic trait; surgically correctable.",
+      "notes": null,
+      "gmi": {
+        "index": 20,
+        "addressed_fraction": 0.2,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 0.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.2,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "neurofibromatosis_type1",
@@ -537,7 +1155,70 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "gastroschisis",
+      "name": "Gastroschisis",
+      "category": "multifactorial",
+      "genes": [],
+      "inheritance": "multifactorial",
+      "omim": "230750",
+      "orphanet": "2368",
+      "severity": "serious",
+      "onset": "prenatal",
+      "incidence_per_100k": 30.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/2,000-5,000 births; rising incidence, young maternal age",
+      "incidence_doi": null,
+      "affected_births_per_year": 40500.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "multifactorial; no single-gene carrier screening"
+        },
+        "PGT": {
+          "applicable": false,
+          "note": "not a single-gene disorder"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "maternal serum AFP elevation + prenatal ultrasound"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "structural at birth; surgical repair postnatally, not NBS"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Not selection/editing-addressable as a monogenic trait; surgically correctable.",
+      "notes": null,
+      "gmi": {
+        "index": 20,
+        "addressed_fraction": 0.2,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 0.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.2,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "cystic_fibrosis",
@@ -578,7 +1259,19 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Selection-addressable (both-carrier couples have unaffected embryos).",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "digeorge_22q11",
@@ -619,7 +1312,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable; contiguous-gene deletion not an editing target.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "gjb2_deafness",
@@ -660,7 +1365,19 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "fragile_x_syndrome",
@@ -701,7 +1418,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "marfan_syndrome",
@@ -742,7 +1471,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "edwards_syndrome",
@@ -781,7 +1522,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "PGT-A/selection-addressable; aneuploidy not an editing target.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "turner_syndrome",
@@ -820,7 +1573,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "PGT-A/selection-addressable; monosomy not an editing target.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "tuberous_sclerosis",
@@ -862,7 +1627,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "myotonic_dystrophy_type1",
@@ -903,7 +1680,70 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries the expansion.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "chromosome_1p36_deletion",
+      "name": "1p36 deletion syndrome",
+      "category": "chromosomal",
+      "genes": [],
+      "inheritance": "chromosomal",
+      "omim": "607872",
+      "orphanet": "1606",
+      "severity": "severe",
+      "onset": "neonatal",
+      "incidence_per_100k": 12.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/5,000-10,000 births; commonest terminal deletion syndrome",
+      "incidence_doi": null,
+      "affected_births_per_year": 16200.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "mostly de novo deletion; carrier screening not meaningful"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-SR when a parent carries a balanced rearrangement"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal microarray"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "not an NBS target; supportive management"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable; structural deletion not an editing target.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "spinal_muscular_atrophy",
@@ -944,7 +1784,19 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Selection- and NBS-addressable; a leading NBS success story.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "duchenne_muscular_dystrophy",
@@ -985,7 +1837,19 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Selection-addressable when maternal variant known.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "haemophilia_a",
@@ -1026,7 +1890,125 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable when maternal variant known.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "familial_adenomatous_polyposis",
+      "name": "Familial adenomatous polyposis",
+      "category": "monogenic_dominant",
+      "genes": [
+        "APC"
+      ],
+      "inheritance": "autosomal_dominant",
+      "omim": "175100",
+      "orphanet": "733",
+      "severity": "severe",
+      "onset": "adult",
+      "incidence_per_100k": 10.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/10,000; ~25% de novo",
+      "incidence_doi": null,
+      "affected_births_per_year": 13500.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "dominant; family-based/cascade testing, not carrier screening"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known parental variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "colonoscopic surveillance/colectomy; not an NBS target"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable when a parent carries a known variant.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "williams_syndrome",
+      "name": "Williams syndrome",
+      "category": "chromosomal",
+      "genes": [
+        "ELN"
+      ],
+      "inheritance": "chromosomal",
+      "omim": "194050",
+      "orphanet": "904",
+      "severity": "serious",
+      "onset": "infancy",
+      "incidence_per_100k": 10.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/10,000 births; 7q11.23 microdeletion (mostly de novo)",
+      "incidence_doi": null,
+      "affected_births_per_year": 13500.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "usually de novo microdeletion; carrier screening not meaningful"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-A/targeted testing in the rare familial case"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal microarray"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "not an NBS target; associated conditions managed clinically"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable; contiguous-gene deletion not an editing target.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "phenylketonuria",
@@ -1067,7 +2049,19 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "NBS + diet essentially prevents the disease phenotype.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "patau_syndrome",
@@ -1106,7 +2100,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "PGT-A/selection-addressable; aneuploidy not an editing target.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "mcad_deficiency",
@@ -1147,7 +2153,19 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "NBS + fasting-avoidance largely prevents the phenotype; selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "congenital_adrenal_hyperplasia",
@@ -1188,7 +2206,19 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "NBS mitigates; selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "huntington_disease",
@@ -1229,7 +2259,283 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable for a heterozygous parent; only a viable homozygous-affected parent (all embryos affected) would lack an unaffected embryo — couple-config dependent, handled in S1.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "primary_ciliary_dyskinesia",
+      "name": "Primary ciliary dyskinesia",
+      "category": "monogenic_recessive",
+      "genes": [
+        "DNAH5"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "244400",
+      "orphanet": "244",
+      "severity": "serious",
+      "onset": "infancy",
+      "incidence_per_100k": 7.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/15,000 births",
+      "incidence_doi": null,
+      "affected_births_per_year": 9450.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels (genetically heterogeneous)"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known parental variants"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "not an NBS target; airway clearance management"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable when parental variants known.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "pendred_syndrome",
+      "name": "Pendred syndrome",
+      "category": "monogenic_recessive",
+      "genes": [
+        "SLC26A4"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "274600",
+      "orphanet": "705",
+      "severity": "moderate",
+      "onset": "childhood",
+      "incidence_per_100k": 7.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "a leading syndromic cause of congenital hearing loss",
+      "incidence_doi": null,
+      "affected_births_per_year": 9450.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "SLC26A4 on hearing-loss carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "hearing screen detects deafness; no therapy alters the underlying defect"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "osteogenesis_imperfecta",
+      "name": "Osteogenesis imperfecta",
+      "category": "monogenic_dominant",
+      "genes": [
+        "COL1A1",
+        "COL1A2"
+      ],
+      "inheritance": "autosomal_dominant",
+      "omim": "166200",
+      "orphanet": "666",
+      "severity": "serious",
+      "onset": "prenatal",
+      "incidence_per_100k": 7.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/15,000 births (all types)",
+      "incidence_doi": null,
+      "affected_births_per_year": 9450.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "dominant forms; family-based testing (rare recessive forms exist)"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known parental variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing/ultrasound"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "bisphosphonates/orthopaedic care; not an NBS target"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable when a parent carries a known variant.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "prader_willi_syndrome",
+      "name": "Prader-Willi syndrome",
+      "category": "chromosomal",
+      "genes": [],
+      "inheritance": "chromosomal",
+      "omim": "176270",
+      "orphanet": "739",
+      "severity": "serious",
+      "onset": "neonatal",
+      "incidence_per_100k": 7.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/15,000 births; 15q11-q13 paternal deletion/imprinting",
+      "incidence_doi": null,
+      "affected_births_per_year": 9450.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "imprinting/de novo deletion; carrier screening not meaningful"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-SR/PGT-A in rare translocation/familial cases"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal microarray/methylation testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "not an NBS target; growth hormone/management clinically"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable in familial cases; imprinting defect not an editing target.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "angelman_syndrome",
+      "name": "Angelman syndrome",
+      "category": "chromosomal",
+      "genes": [
+        "UBE3A"
+      ],
+      "inheritance": "chromosomal",
+      "omim": "105830",
+      "orphanet": "72",
+      "severity": "severe",
+      "onset": "infancy",
+      "incidence_per_100k": 7.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/15,000 births; 15q11-q13 maternal deletion/UBE3A",
+      "incidence_doi": null,
+      "affected_births_per_year": 9450.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "imprinting/de novo deletion; carrier screening not meaningful"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M/PGT-SR in rare familial UBE3A or translocation cases"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal microarray/methylation testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "not an NBS target; supportive management"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable in familial cases; imprinting defect not an editing target.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "retinoblastoma",
@@ -1270,7 +2576,125 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable when a parent carries a known variant.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "li_fraumeni_syndrome",
+      "name": "Li-Fraumeni syndrome",
+      "category": "monogenic_dominant",
+      "genes": [
+        "TP53"
+      ],
+      "inheritance": "autosomal_dominant",
+      "omim": "151623",
+      "orphanet": "524",
+      "severity": "severe",
+      "onset": "variable",
+      "incidence_per_100k": 5.0,
+      "incidence_basis": "order_of_magnitude",
+      "incidence_source": "rare; ~1/5,000-20,000",
+      "incidence_doi": null,
+      "affected_births_per_year": 6750.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "dominant; family-based testing, not carrier screening"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known parental variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "intensive cancer surveillance; not an NBS target"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable when a parent carries a known variant.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "rett_syndrome",
+      "name": "Rett syndrome",
+      "category": "x_linked",
+      "genes": [
+        "MECP2"
+      ],
+      "inheritance": "x_linked_dominant",
+      "omim": "312750",
+      "orphanet": "778",
+      "severity": "severe",
+      "onset": "infancy",
+      "incidence_per_100k": 5.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/10,000 female births; per 100k total births (affects females); mostly de novo",
+      "incidence_doi": null,
+      "affected_births_per_year": 6750.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "almost always de novo MECP2 mutation; carrier screening not meaningful"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M in the rare familial case with known maternal variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing when variant known"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "no disease-modifying early therapy"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Mostly de novo; selection-addressable only in rare familial cases.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "achondroplasia",
@@ -1311,7 +2735,73 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable for affected parents; most cases de novo.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "usher_syndrome",
+      "name": "Usher syndrome",
+      "category": "monogenic_recessive",
+      "genes": [
+        "MYO7A",
+        "USH2A"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "276900",
+      "orphanet": "886",
+      "severity": "serious",
+      "onset": "childhood",
+      "incidence_per_100k": 4.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/25,000 births (all types)",
+      "incidence_doi": null,
+      "affected_births_per_year": 5400.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "hearing screen detects the deafness; no therapy halts retinitis pigmentosa"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "wilson_disease",
@@ -1352,7 +2842,19 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "x_linked_adrenoleukodystrophy",
@@ -1393,7 +2895,176 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Selection- and NBS-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "von_hippel_lindau",
+      "name": "Von Hippel-Lindau disease",
+      "category": "monogenic_dominant",
+      "genes": [
+        "VHL"
+      ],
+      "inheritance": "autosomal_dominant",
+      "omim": "193300",
+      "orphanet": "892",
+      "severity": "serious",
+      "onset": "adult",
+      "incidence_per_100k": 3.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/36,000",
+      "incidence_doi": null,
+      "affected_births_per_year": 4050.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "dominant; family-based testing, not carrier screening"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known parental variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "surveillance imaging; not an NBS target"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable when a parent carries a known variant.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "cri_du_chat_syndrome",
+      "name": "Cri-du-chat syndrome (5p deletion)",
+      "category": "chromosomal",
+      "genes": [],
+      "inheritance": "chromosomal",
+      "omim": "123450",
+      "orphanet": "281",
+      "severity": "severe",
+      "onset": "neonatal",
+      "incidence_per_100k": 3.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/15,000-50,000 births; 5p terminal deletion",
+      "incidence_doi": null,
+      "affected_births_per_year": 4050.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "mostly de novo deletion; carrier screening not meaningful (parental translocation in a minority)"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-SR when a parent carries a balanced translocation"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal microarray/karyotype"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "not an NBS target; supportive management"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable; structural deletion not an editing target.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "pompe_disease",
+      "name": "Pompe disease (GSD II)",
+      "category": "monogenic_recessive",
+      "genes": [
+        "GAA"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "232300",
+      "orphanet": "365",
+      "severity": "severe",
+      "onset": "infancy",
+      "incidence_per_100k": 2.5,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/40,000 births (all forms combined)",
+      "incidence_doi": null,
+      "affected_births_per_year": 3375.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "GAA on expanded carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known parental variants"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal enzyme/DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "NBS + early enzyme replacement (alglucosidase) transforms infantile outcome"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable; NBS + ERT mitigates.",
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "gaucher_disease",
@@ -1434,7 +3105,19 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "friedreich_ataxia",
@@ -1475,7 +3158,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "galactosemia",
@@ -1516,7 +3211,19 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "NBS + diet mitigates; selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "haemophilia_b",
@@ -1557,7 +3264,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable when maternal variant known.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "fabry_disease",
@@ -1598,7 +3317,282 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "methylmalonic_acidemia",
+      "name": "Methylmalonic acidemia",
+      "category": "monogenic_recessive",
+      "genes": [
+        "MMUT"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "251000",
+      "orphanet": "27",
+      "severity": "severe",
+      "onset": "neonatal",
+      "incidence_per_100k": 2.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/50,000 births (all forms)",
+      "incidence_doi": null,
+      "affected_births_per_year": 2700.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal metabolite/DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "NBS + diet/B12/carnitine reduces metabolic crises"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "NBS partially mitigates; selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "zellweger_syndrome",
+      "name": "Zellweger syndrome (peroxisome biogenesis disorder)",
+      "category": "monogenic_recessive",
+      "genes": [
+        "PEX1"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "214100",
+      "orphanet": "912",
+      "severity": "catastrophic",
+      "onset": "neonatal",
+      "incidence_per_100k": 2.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/50,000 births (peroxisome biogenesis disorders)",
+      "incidence_doi": null,
+      "affected_births_per_year": 2700.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal biochemical/DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "no effective therapy; usually fatal in infancy"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "alport_syndrome",
+      "name": "Alport syndrome (X-linked)",
+      "category": "x_linked",
+      "genes": [
+        "COL4A5"
+      ],
+      "inheritance": "x_linked_dominant",
+      "omim": "301050",
+      "orphanet": "88917",
+      "severity": "serious",
+      "onset": "childhood",
+      "incidence_per_100k": 2.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/50,000 births (X-linked form predominates)",
+      "incidence_doi": null,
+      "affected_births_per_year": 2700.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier/family testing"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known familial variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "ACE inhibitors slow progression clinically; not an NBS target"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable when familial variant known.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "wolf_hirschhorn_syndrome",
+      "name": "Wolf-Hirschhorn syndrome (4p deletion)",
+      "category": "chromosomal",
+      "genes": [],
+      "inheritance": "chromosomal",
+      "omim": "194190",
+      "orphanet": "280",
+      "severity": "severe",
+      "onset": "prenatal",
+      "incidence_per_100k": 2.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/50,000 births; 4p16.3 deletion",
+      "incidence_doi": null,
+      "affected_births_per_year": 2700.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "mostly de novo deletion; carrier screening not meaningful (parental translocation in a minority)"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-SR when a parent carries a balanced translocation"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal microarray/ultrasound"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "not an NBS target; supportive management"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable; structural deletion not an editing target.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "biotinidase_deficiency",
+      "name": "Biotinidase deficiency",
+      "category": "monogenic_recessive",
+      "genes": [
+        "BTD"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "253260",
+      "orphanet": "79241",
+      "severity": "serious",
+      "onset": "infancy",
+      "incidence_per_100k": 1.7,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "profound form ~1/60,000 births",
+      "incidence_doi": null,
+      "affected_births_per_year": 2295.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal enzyme/DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "NBS + oral biotin essentially prevents the disease (classic NBS success)"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "NBS + biotin prevents the phenotype; selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "metachromatic_leukodystrophy",
@@ -1639,7 +3633,125 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "sanfilippo_mps_iii",
+      "name": "Mucopolysaccharidosis III (Sanfilippo)",
+      "category": "monogenic_recessive",
+      "genes": [
+        "SGSH"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "252900",
+      "orphanet": "79269",
+      "severity": "severe",
+      "onset": "childhood",
+      "incidence_per_100k": 1.5,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/70,000 births (all subtypes)",
+      "incidence_doi": null,
+      "affected_births_per_year": 2025.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal enzyme/DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "no disease-modifying therapy proven"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "otc_deficiency",
+      "name": "Ornithine transcarbamylase deficiency",
+      "category": "x_linked",
+      "genes": [
+        "OTC"
+      ],
+      "inheritance": "x_linked_recessive",
+      "omim": "311250",
+      "orphanet": "664",
+      "severity": "severe",
+      "onset": "neonatal",
+      "incidence_per_100k": 1.5,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/60,000-70,000 births (most common urea-cycle disorder)",
+      "incidence_doi": null,
+      "affected_births_per_year": 2025.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier testing in female relatives (heterozygous females can be symptomatic)"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known maternal variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "early detection + protein restriction/nitrogen scavengers prevents hyperammonaemic crises"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "Selection- and NBS-addressable; early management mitigates.",
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "mps_i_hurler",
@@ -1680,7 +3792,709 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "krabbe_disease",
+      "name": "Krabbe disease",
+      "category": "monogenic_recessive",
+      "genes": [
+        "GALC"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "245200",
+      "orphanet": "487",
+      "severity": "catastrophic",
+      "onset": "infancy",
+      "incidence_per_100k": 1.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/100,000 births",
+      "incidence_doi": null,
+      "affected_births_per_year": 1350.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal enzyme/DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "presymptomatic HSCT improves outcome; on some NBS panels"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "batten_cln3",
+      "name": "Batten disease (juvenile neuronal ceroid lipofuscinosis, CLN3)",
+      "category": "monogenic_recessive",
+      "genes": [
+        "CLN3"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "204200",
+      "orphanet": "79262",
+      "severity": "catastrophic",
+      "onset": "childhood",
+      "incidence_per_100k": 1.0,
+      "incidence_basis": "order_of_magnitude",
+      "incidence_source": "~1/100,000 births",
+      "incidence_doi": null,
+      "affected_births_per_year": 1350.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "no disease-modifying therapy for the CLN3 form"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "tyrosinemia_type_i",
+      "name": "Tyrosinemia type I",
+      "category": "monogenic_recessive",
+      "genes": [
+        "FAH"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "276700",
+      "orphanet": "882",
+      "severity": "severe",
+      "onset": "infancy",
+      "incidence_per_100k": 1.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/100,000 births (much higher in Quebec founders)",
+      "incidence_doi": null,
+      "affected_births_per_year": 1350.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal succinylacetone/DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "NBS + nitisinone (NTBC) + diet prevents liver failure/HCC"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "NBS + NTBC mitigates; selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "propionic_acidemia",
+      "name": "Propionic acidemia",
+      "category": "monogenic_recessive",
+      "genes": [
+        "PCCA",
+        "PCCB"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "606054",
+      "orphanet": "35",
+      "severity": "severe",
+      "onset": "neonatal",
+      "incidence_per_100k": 1.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/100,000 births",
+      "incidence_doi": null,
+      "affected_births_per_year": 1350.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal metabolite/DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "NBS + protein-restricted diet/carnitine reduces crises, though outcome remains guarded"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "NBS partially mitigates; selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "glutaric_aciduria_type_i",
+      "name": "Glutaric aciduria type I",
+      "category": "monogenic_recessive",
+      "genes": [
+        "GCDH"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "231670",
+      "orphanet": "25",
+      "severity": "severe",
+      "onset": "infancy",
+      "incidence_per_100k": 1.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/100,000 births",
+      "incidence_doi": null,
+      "affected_births_per_year": 1350.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal metabolite/DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "NBS + lysine-restricted diet/carnitine prevents encephalopathic crises"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "NBS mitigates; selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "gsd_type_i",
+      "name": "Glycogen storage disease type I (von Gierke)",
+      "category": "monogenic_recessive",
+      "genes": [
+        "G6PC1"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "232200",
+      "orphanet": "364",
+      "severity": "serious",
+      "onset": "infancy",
+      "incidence_per_100k": 1.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/100,000 births",
+      "incidence_doi": null,
+      "affected_births_per_year": 1350.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "not on standard NBS panels; managed with cornstarch/dietary regimen"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "ataxia_telangiectasia",
+      "name": "Ataxia-telangiectasia",
+      "category": "monogenic_recessive",
+      "genes": [
+        "ATM"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "208900",
+      "orphanet": "100",
+      "severity": "severe",
+      "onset": "childhood",
+      "incidence_per_100k": 1.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/40,000-100,000 births",
+      "incidence_doi": null,
+      "affected_births_per_year": 1350.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "no disease-modifying early therapy"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "congenital_nephrotic_syndrome",
+      "name": "Congenital nephrotic syndrome (Finnish type)",
+      "category": "monogenic_recessive",
+      "genes": [
+        "NPHS1"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "256300",
+      "orphanet": "839",
+      "severity": "severe",
+      "onset": "neonatal",
+      "incidence_per_100k": 1.0,
+      "incidence_basis": "order_of_magnitude",
+      "incidence_source": "rare globally; ~1/8,000 in Finnish founders",
+      "incidence_doi": null,
+      "affected_births_per_year": 1350.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels; founder-population screening"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing; elevated amniotic AFP"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "not an NBS target; supportive care/transplant"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "vascular_ehlers_danlos",
+      "name": "Vascular Ehlers-Danlos syndrome (type IV)",
+      "category": "monogenic_dominant",
+      "genes": [
+        "COL3A1"
+      ],
+      "inheritance": "autosomal_dominant",
+      "omim": "130050",
+      "orphanet": "286",
+      "severity": "severe",
+      "onset": "adult",
+      "incidence_per_100k": 1.0,
+      "incidence_basis": "order_of_magnitude",
+      "incidence_source": "~1/100,000-250,000",
+      "incidence_doi": null,
+      "affected_births_per_year": 1350.0,
+      "interventions": {
+        "CS": {
+          "applicable": false,
+          "note": "dominant; family-based testing, not carrier screening"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known parental variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "no early-life mitigation of vascular fragility"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable when a parent carries a known variant.",
+      "notes": null,
+      "gmi": {
+        "index": 45,
+        "addressed_fraction": 0.45,
+        "contributions": {
+          "CS": 0.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.45,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "x_linked_scid",
+      "name": "X-linked severe combined immunodeficiency",
+      "category": "x_linked",
+      "genes": [
+        "IL2RG"
+      ],
+      "inheritance": "x_linked_recessive",
+      "omim": "300400",
+      "orphanet": "",
+      "severity": "catastrophic",
+      "onset": "infancy",
+      "incidence_per_100k": 1.0,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/50,000-100,000 male births; per 100k total births (affects males)",
+      "incidence_doi": null,
+      "affected_births_per_year": 1350.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier testing in female relatives"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known maternal variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "TREC-based SCID NBS + early HSCT/gene therapy is curative"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "Selection- and NBS-addressable; a leading SCID NBS success.",
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "choroideremia",
+      "name": "Choroideremia",
+      "category": "x_linked",
+      "genes": [
+        "CHM"
+      ],
+      "inheritance": "x_linked_recessive",
+      "omim": "303100",
+      "orphanet": "180",
+      "severity": "serious",
+      "onset": "childhood",
+      "incidence_per_100k": 1.0,
+      "incidence_basis": "order_of_magnitude",
+      "incidence_source": "~1/50,000-100,000 male births; per 100k total births (affects males)",
+      "incidence_doi": null,
+      "affected_births_per_year": 1350.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier testing in female relatives"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known maternal variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "no approved therapy that halts the retinal degeneration"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable when maternal variant known.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "isovaleric_acidemia",
+      "name": "Isovaleric acidemia",
+      "category": "monogenic_recessive",
+      "genes": [
+        "IVD"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "243500",
+      "orphanet": "33",
+      "severity": "serious",
+      "onset": "neonatal",
+      "incidence_per_100k": 0.7,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/150,000 births",
+      "incidence_doi": null,
+      "affected_births_per_year": 945.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal metabolite/DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "NBS + leucine restriction/glycine/carnitine prevents crises"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "NBS mitigates; selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "bardet_biedl_syndrome",
+      "name": "Bardet-Biedl syndrome",
+      "category": "monogenic_recessive",
+      "genes": [
+        "BBS1"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "209900",
+      "orphanet": "110",
+      "severity": "serious",
+      "onset": "childhood",
+      "incidence_per_100k": 0.7,
+      "incidence_basis": "order_of_magnitude",
+      "incidence_source": "~1/100,000-160,000 (higher in isolated populations)",
+      "incidence_doi": null,
+      "affected_births_per_year": 945.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "no early-life mitigation of the ciliopathy phenotype"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "maple_syrup_urine_disease",
@@ -1723,7 +4537,19 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "NBS + diet mitigates; selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
     },
     {
       "id": "hunter_syndrome_mps_ii",
@@ -1764,7 +4590,284 @@
       "nbs_mitigable": true,
       "editing_unique": false,
       "editing_note": "Selection-addressable when maternal variant known.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "morquio_mps_iv",
+      "name": "Mucopolysaccharidosis IV (Morquio)",
+      "category": "monogenic_recessive",
+      "genes": [
+        "GALNS"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "253000",
+      "orphanet": "309297",
+      "severity": "severe",
+      "onset": "childhood",
+      "incidence_per_100k": 0.5,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/200,000 births",
+      "incidence_doi": null,
+      "affected_births_per_year": 675.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal enzyme/DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "ERT (elosulfase) available but does not broadly prevent skeletal disease"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "homocystinuria_cbs",
+      "name": "Homocystinuria (CBS deficiency)",
+      "category": "monogenic_recessive",
+      "genes": [
+        "CBS"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "236200",
+      "orphanet": "394",
+      "severity": "serious",
+      "onset": "childhood",
+      "incidence_per_100k": 0.5,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/200,000 births (higher in some founders)",
+      "incidence_doi": null,
+      "affected_births_per_year": 675.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal enzyme/DNA testing"
+        },
+        "NBS": {
+          "applicable": true,
+          "note": "NBS + B6/betaine/diet prevents thromboembolic and skeletal complications"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": true,
+      "editing_unique": false,
+      "editing_note": "NBS + treatment mitigates; selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 100,
+        "addressed_fraction": 1.0,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 35.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.35
+      }
+    },
+    {
+      "id": "fanconi_anaemia",
+      "name": "Fanconi anaemia",
+      "category": "monogenic_recessive",
+      "genes": [
+        "FANCA"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "227650",
+      "orphanet": "84",
+      "severity": "severe",
+      "onset": "childhood",
+      "incidence_per_100k": 0.5,
+      "incidence_basis": "order_of_magnitude",
+      "incidence_source": "~1/130,000 births; elevated in Ashkenazi/Afrikaner founders",
+      "incidence_doi": null,
+      "affected_births_per_year": 675.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels; founder-population screening"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M (also used for HLA-matched sibling selection)"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA/chromosome-breakage testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "not an NBS target; surveillance and HSCT as needed"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "wiskott_aldrich_syndrome",
+      "name": "Wiskott-Aldrich syndrome",
+      "category": "x_linked",
+      "genes": [
+        "WAS"
+      ],
+      "inheritance": "x_linked_recessive",
+      "omim": "301000",
+      "orphanet": "906",
+      "severity": "severe",
+      "onset": "infancy",
+      "incidence_per_100k": 0.5,
+      "incidence_basis": "textbook_estimate",
+      "incidence_source": "~1/100,000-250,000 male births; per 100k total births (affects males)",
+      "incidence_doi": null,
+      "affected_births_per_year": 675.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier testing in female relatives"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known maternal variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "not on standard NBS panels; HSCT/gene therapy curative when done early"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable when maternal variant known.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "menkes_disease",
+      "name": "Menkes disease",
+      "category": "x_linked",
+      "genes": [
+        "ATP7A"
+      ],
+      "inheritance": "x_linked_recessive",
+      "omim": "309400",
+      "orphanet": "565",
+      "severity": "catastrophic",
+      "onset": "infancy",
+      "incidence_per_100k": 0.5,
+      "incidence_basis": "order_of_magnitude",
+      "incidence_source": "~1/100,000-250,000 male births; per 100k total births (affects males)",
+      "incidence_doi": null,
+      "affected_births_per_year": 675.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier testing in female relatives"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M for known maternal variant"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "early copper-histidine helps only some genotypes; not standard NBS"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable when maternal variant known.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "tay_sachs",
@@ -1805,7 +4908,72 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable; affected individuals do not reproduce (S1 ~0).",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "sandhoff_disease",
+      "name": "Sandhoff disease",
+      "category": "monogenic_recessive",
+      "genes": [
+        "HEXB"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "268800",
+      "orphanet": "796",
+      "severity": "catastrophic",
+      "onset": "infancy",
+      "incidence_per_100k": 0.3,
+      "incidence_basis": "order_of_magnitude",
+      "incidence_source": "rare globally; GM2 gangliosidosis",
+      "incidence_doi": null,
+      "affected_births_per_year": 405.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal enzyme/DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "no effective therapy; fatal in early childhood"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "canavan_disease",
@@ -1846,7 +5014,19 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
     },
     {
       "id": "niemann_pick_a",
@@ -1887,36 +5067,120 @@
       "nbs_mitigable": false,
       "editing_unique": false,
       "editing_note": "Selection-addressable.",
-      "notes": null
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
+    },
+    {
+      "id": "bloom_syndrome",
+      "name": "Bloom syndrome",
+      "category": "monogenic_recessive",
+      "genes": [
+        "BLM"
+      ],
+      "inheritance": "autosomal_recessive",
+      "omim": "210900",
+      "orphanet": "125",
+      "severity": "severe",
+      "onset": "childhood",
+      "incidence_per_100k": 0.1,
+      "incidence_basis": "order_of_magnitude",
+      "incidence_source": "very rare; elevated in Ashkenazi founders",
+      "incidence_doi": null,
+      "affected_births_per_year": 135.0,
+      "interventions": {
+        "CS": {
+          "applicable": true,
+          "note": "BLM on Ashkenazi carrier panels"
+        },
+        "PGT": {
+          "applicable": true,
+          "note": "PGT-M"
+        },
+        "PND": {
+          "applicable": true,
+          "note": "prenatal DNA testing"
+        },
+        "NBS": {
+          "applicable": false,
+          "note": "no early-life mitigation; cancer surveillance"
+        }
+      },
+      "addressable_by_reproductive_tool": true,
+      "nbs_mitigable": false,
+      "editing_unique": false,
+      "editing_note": "Selection-addressable.",
+      "notes": null,
+      "gmi": {
+        "index": 65,
+        "addressed_fraction": 0.65,
+        "contributions": {
+          "CS": 20.0,
+          "PGT": 25.0,
+          "PND": 20.0,
+          "NBS": 0.0
+        },
+        "prevent_score": 0.65,
+        "treat_score": 0.0
+      }
     }
   ],
   "rollup": {
-    "n_diseases": 46,
-    "total_affected_births_per_year": 3997755.0,
+    "n_diseases": 97,
+    "total_affected_births_per_year": 6073380.0,
     "by_category": {
-      "multifactorial": 1539000.0,
-      "x_linked": 604125.0,
-      "monogenic_dominant": 804600.0,
-      "monogenic_recessive": 661230.0,
-      "chromosomal": 388800.0
+      "multifactorial": 2308500.0,
+      "x_linked": 619650.0,
+      "monogenic_dominant": 1987200.0,
+      "monogenic_recessive": 713880.0,
+      "chromosomal": 444150.0
     },
     "by_severity": {
-      "severe": 2018925.0,
-      "moderate": 997650.0,
-      "serious": 928800.0,
-      "catastrophic": 52380.0
+      "severe": 2152710.0,
+      "moderate": 1749600.0,
+      "serious": 2110860.0,
+      "catastrophic": 60210.0
     },
-    "births_addressable_by_reproductive_tool": 3997755.0,
-    "share_addressable_by_reproductive_tool": 1.0,
-    "births_nbs_mitigable": 2190375.0,
+    "births_addressable_by_reproductive_tool": 5668380.0,
+    "share_addressable_by_reproductive_tool": 0.9333155508135503,
+    "births_nbs_mitigable": 2344140.0,
     "births_editing_unique": 0,
     "per_tool_addressable_births": {
-      "CS": 1265355.0,
-      "PGT": 1918755.0,
-      "PND": 3997755.0,
-      "NBS": 2190375.0
+      "CS": 1326780.0,
+      "PGT": 3224880.0,
+      "PND": 5668380.0,
+      "NBS": 2344140.0
     },
-    "cited_incidence_share": 0.18235234525377367,
+    "genetic_medicine_index": {
+      "mean": 65.10309278350516,
+      "births_weighted_mean": 49.819062861207435,
+      "bands": {
+        "high (70-100)": {
+          "n_diseases": 29,
+          "births": 994140.0
+        },
+        "moderate (40-69)": {
+          "n_diseases": 61,
+          "births": 3985740.0
+        },
+        "low (0-39)": {
+          "n_diseases": 7,
+          "births": 1093500.0
+        }
+      },
+      "definition": "Genetic Medicine Index (0-100): a weighted sum over four capabilities — carrier screening, embryo selection, prenatal diagnosis, and newborn screening + early therapy — each counted where it applies to the disease. Treatment is weighted highest (a healthy living child is a fuller outcome than avoidance of an affected birth). Higher = more fully addressable by existing genetic medicine."
+    },
+    "cited_incidence_share": 0.1200320085356095,
     "note": "Bottom-up point sums over the curated catalogue. Coverage is partial (a seed catalogue of the highest-burden serious conditions), so totals are a LOWER BOUND on the full genetic-disease denominator and will rise as the Orphanet/GBD ingest expands the library. The parametric Monte-Carlo model provides the calibrated top-down denominator with credible intervals."
   }
 }

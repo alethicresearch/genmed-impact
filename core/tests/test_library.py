@@ -54,6 +54,28 @@ def test_ids_unique(built):
     assert len(ids) == len(set(ids))
 
 
+def test_gmi_in_range_and_discriminates(built):
+    idx = [d["gmi"]["index"] for d in built["diseases"]]
+    assert all(0 <= i <= 100 for i in idx)
+    # a useful index must actually spread diseases out, not collapse to one value
+    assert max(idx) - min(idx) >= 30
+    for d in built["diseases"]:
+        g = d["gmi"]
+        # prevent_score and treat_score are 0-1 weight sums that partition addressed_fraction
+        assert abs(g["prevent_score"] + g["treat_score"] - g["addressed_fraction"]) < 1e-6
+
+
+def test_gmi_treatment_beats_prevention_only():
+    from denominator import harmonize
+    C = harmonize.load_constants()
+    treatable = {"category": "monogenic_recessive",
+                 "interventions": {t: {"applicable": True} for t in ["CS", "PGT", "PND", "NBS"]}}
+    prevent_only = {"category": "monogenic_recessive",
+                    "interventions": {**{t: {"applicable": True} for t in ["CS", "PGT", "PND"]},
+                                      "NBS": {"applicable": False}}}
+    assert library.compute_gmi(treatable, C)["index"] > library.compute_gmi(prevent_only, C)["index"]
+
+
 def test_rollup_shares_in_unit_interval(built):
     r = built["rollup"]
     assert 0.0 <= r["share_addressable_by_reproductive_tool"] <= 1.0

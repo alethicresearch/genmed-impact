@@ -34,7 +34,10 @@ export default function Library({ data, state, update }: Props) {
   const inh = state.inh || 'all';
   const sev = state.sev || 'all';
   const tool = state.tool || 'any';
-  const sort = state.libsort === 'name' ? 'name' : 'births';
+  const sort =
+    state.libsort === 'name' || state.libsort === 'gmi' || state.libsort === 'gmi_asc'
+      ? state.libsort
+      : 'births';
 
   const inheritances = useMemo(
     () => Array.from(new Set(lib.diseases.map((d) => d.inheritance))).sort(),
@@ -70,11 +73,12 @@ export default function Library({ data, state, update }: Props) {
       }
       return true;
     });
-    rows = rows.slice().sort((a, b) =>
-      sort === 'name'
-        ? a.name.localeCompare(b.name)
-        : b.affected_births_per_year - a.affected_births_per_year
-    );
+    rows = rows.slice().sort((a, b) => {
+      if (sort === 'name') return a.name.localeCompare(b.name);
+      if (sort === 'gmi') return b.gmi.index - a.gmi.index;
+      if (sort === 'gmi_asc') return a.gmi.index - b.gmi.index;
+      return b.affected_births_per_year - a.affected_births_per_year;
+    });
     return rows;
   }, [lib.diseases, q, cat, inh, sev, tool, sort]);
 
@@ -200,6 +204,8 @@ export default function Library({ data, state, update }: Props) {
               value={sort}
               options={[
                 { value: 'births', label: 'Affected births (desc)' },
+                { value: 'gmi', label: 'Genetic Medicine Index (high→low)' },
+                { value: 'gmi_asc', label: 'Genetic Medicine Index (low→high)' },
                 { value: 'name', label: 'Name (A–Z)' },
               ]}
               onChange={(v) => update({ libsort: v })}
@@ -231,6 +237,13 @@ export default function Library({ data, state, update }: Props) {
                 <th scope="col" className="px-3 py-2 text-right font-medium">
                   Affected births/yr
                 </th>
+                <th
+                  scope="col"
+                  className="px-3 py-2 text-center font-medium"
+                  title="Genetic Medicine Index (0–100): how fully existing genetic medicine can address this disease. Defined in Methods."
+                >
+                  GMI
+                </th>
                 <th scope="col" className="px-3 py-2 text-center font-medium" title="Carrier screening / Embryo testing / Prenatal diagnosis / Newborn screening">
                   CS · PGT · PND · NBS
                 </th>
@@ -242,7 +255,7 @@ export default function Library({ data, state, update }: Props) {
               ))}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-3 py-6 text-center text-slate-500">
+                  <td colSpan={7} className="px-3 py-6 text-center text-slate-500">
                     No diseases match these filters.
                   </td>
                 </tr>
@@ -254,6 +267,24 @@ export default function Library({ data, state, update }: Props) {
         <SourcesList title="Incidence sources" />
       </div>
     </SourcesProvider>
+  );
+}
+
+function GmiBadge({ value }: { value: number }) {
+  const band = value >= 70 ? 'high' : value >= 40 ? 'moderate' : 'low';
+  const cls =
+    band === 'high'
+      ? 'bg-emerald-100 text-emerald-800'
+      : band === 'moderate'
+      ? 'bg-amber-100 text-amber-800'
+      : 'bg-slate-100 text-slate-600';
+  return (
+    <span
+      className={`tnum inline-block min-w-[2.2rem] rounded px-1.5 py-0.5 text-xs font-semibold ${cls}`}
+      title={`Genetic Medicine Index ${value}/100 (${band}) — how fully existing genetic medicine can address this disease. Defined in Methods.`}
+    >
+      {value}
+    </span>
   );
 }
 
@@ -316,6 +347,9 @@ function DiseaseRow({
             detail={`basis: ${d.incidence_basis.replace(/_/g, ' ')}`}
           />
         </td>
+        <td className="px-3 py-2 text-center">
+          <GmiBadge value={d.gmi.index} />
+        </td>
         <td className="px-3 py-2">
           <span className="flex items-center justify-center gap-2 font-mono text-sm">
             {TOOLS.map((t) => {
@@ -337,7 +371,7 @@ function DiseaseRow({
       </tr>
       {open && (
         <tr className="border-b border-slate-200 bg-slate-50/60">
-          <td colSpan={6} className="px-4 py-3">
+          <td colSpan={7} className="px-4 py-3">
             <DiseaseDetail d={d} />
           </td>
         </tr>

@@ -188,6 +188,15 @@ export interface Disease {
   editing_unique: boolean;
   editing_note: string;
   notes: string | null;
+  gmi: Gmi;
+}
+
+export interface Gmi {
+  index: number; // 0-100 Genetic Medicine Index
+  addressed_fraction: number;
+  contributions: Record<ToolKey, number>;
+  prevent_score: number;
+  treat_score: number;
 }
 
 export interface LibraryRollup {

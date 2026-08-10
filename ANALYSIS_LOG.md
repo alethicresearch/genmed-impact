@@ -113,6 +113,21 @@ across its defensible range (see the app's Denominator and Sensitivity views).
   Architecture values (h², K, PRS R², oligo-editable h²) are literature anchors with basis flags,
   to be refined by a systematic PGS-Catalog pull.
 
+### Genetic Medicine Index (GMI) — added
+- Every catalogue disease maps to a single 0–100 **Genetic Medicine Index**: a weighted sum over
+  four capabilities (carrier screening, embryo selection, prenatal diagnosis, newborn screening +
+  early therapy), each counted where it applies to that disease. Weights
+  (`genetic_medicine_index_weights` in constants.yaml, default CS .20 / PGT .25 / PND .20 / NBS .35)
+  are an explicit judgment call — **treatment is weighted highest** because a healthy living child is
+  a fuller genetic-medicine outcome than avoidance of an affected birth. Adjustable; sums to 1.
+- Chosen over a "1 − Π(1−effectiveness)" composition, which saturated (almost every monogenic
+  disease → 100) and so failed as an index. The weighted form discriminates: treatable disease 100,
+  preventable-only catastrophic (e.g. Tay-Sachs, DMD) 65, de-novo chromosomal (Down) 45,
+  multifactorial-congenital (PND only) 20. It is fully derived from catalogue applicability, so any
+  ingested disease is scored automatically — the index scales with the library.
+- GMI measures *addressability by existing genetic medicine*, deliberately independent of severity
+  (a catastrophic disease can be highly addressable). Severity stays a separate axis.
+
 ### Known deviations from the draft paper (surfaced, not hidden)
 1. S1 median ≈25k vs paper's 14k (see above).
 2. Births default 135M vs paper's 140M (interval covers both).

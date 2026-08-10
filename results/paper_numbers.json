@@ -174,13 +174,13 @@
     ]
   },
   "library_n_diseases": {
-    "value": 46
+    "value": 97
   },
   "library_total_affected_births_per_year": {
-    "value": 3997755.0,
+    "value": 6073380.0,
     "note": "bottom-up sum over the curated catalogue; a lower bound pending Orphanet/GBD expansion"
   },
   "library_share_addressable_by_reproductive_tool": {
-    "value": 1.0
+    "value": 0.9333155508135503
   }
 }

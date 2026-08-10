@@ -19,6 +19,44 @@ LIBRARY_YAML = config.PKG_DIR / "library" / "diseases.yaml"
 # Reproductive tools that prevent an affected birth (NBS mitigates, it doesn't prevent).
 REPRO_TOOLS = ["CS", "PGT", "PND"]
 
+# Which full-coverage effectiveness profile applies to each library category.
+GMI_CLASS = {
+    "monogenic_recessive": "monogenic",
+    "monogenic_dominant": "monogenic",
+    "x_linked": "monogenic",
+    "chromosomal": "monogenic",
+    "multifactorial": "multifactorial",
+}
+
+
+GMI_TOOLS = ["CS", "PGT", "PND", "NBS"]
+
+
+def compute_gmi(disease: dict, constants: dict) -> dict:
+    """Genetic Medicine Index (0-100): how fully existing genetic medicine can address a disease.
+
+    A weighted sum over four distinct capabilities — carrier screening (CS), embryo selection
+    (PGT), prenatal diagnosis (PND), and newborn screening + early therapy (NBS) — each counted
+    when it applies to the disease, weighted by ``genetic_medicine_index_weights``. Treatment is
+    weighted highest because a healthy living child is a fuller outcome than avoidance of an
+    affected birth. Fully derived from catalogue applicability × the weights, so every disease —
+    curated or ingested — maps to one comparable, discriminating index. The per-capability
+    contributions are returned so the profile (not just the total) is visible.
+    """
+    weights = constants["genetic_medicine_index_weights"]
+    contributions = {
+        t: (float(weights[t]["value"]) if _tool_applicable(disease, t) else 0.0)
+        for t in GMI_TOOLS
+    }
+    addressed = sum(contributions.values())
+    return {
+        "index": round(100.0 * addressed),
+        "addressed_fraction": addressed,
+        "contributions": {t: 100.0 * c for t, c in contributions.items()},
+        "prevent_score": contributions["CS"] + contributions["PGT"] + contributions["PND"],
+        "treat_score": contributions["NBS"],
+    }
+
 
 def load_library() -> dict:
     with open(LIBRARY_YAML, "r", encoding="utf-8") as fh:
@@ -68,6 +106,7 @@ def build_library(constants: dict) -> dict[str, Any]:
             "editing_unique": bool(d.get("editing_unique", False)),
             "editing_note": d.get("editing_note"),
             "notes": d.get("notes"),
+            "gmi": compute_gmi(d, constants),
         })
 
     diseases_out.sort(key=lambda x: -x["affected_births_per_year"])
@@ -95,6 +134,36 @@ def build_library(constants: dict) -> dict[str, Any]:
         for t in ["CS", "PGT", "PND", "NBS"]
     }
 
+    # Genetic Medicine Index summary
+    gmi_vals = [x["gmi"]["index"] for x in diseases_out]
+    gmi_mean = sum(gmi_vals) / len(gmi_vals) if gmi_vals else 0.0
+    gmi_births_weighted = (
+        sum(x["gmi"]["index"] * x["affected_births_per_year"] for x in diseases_out) / total
+        if total else 0.0
+    )
+
+    def _band(lo, hi):
+        n = sum(1 for x in diseases_out if lo <= x["gmi"]["index"] < hi)
+        b = _sum_where(lambda x, lo=lo, hi=hi: lo <= x["gmi"]["index"] < hi)
+        return {"n_diseases": n, "births": b}
+
+    gmi_summary = {
+        "mean": gmi_mean,
+        "births_weighted_mean": gmi_births_weighted,
+        "bands": {
+            "high (70-100)": _band(70, 101),
+            "moderate (40-69)": _band(40, 70),
+            "low (0-39)": _band(0, 40),
+        },
+        "definition": (
+            "Genetic Medicine Index (0-100): a weighted sum over four capabilities — carrier "
+            "screening, embryo selection, prenatal diagnosis, and newborn screening + early therapy "
+            "— each counted where it applies to the disease. Treatment is weighted highest (a healthy "
+            "living child is a fuller outcome than avoidance of an affected birth). Higher = more "
+            "fully addressable by existing genetic medicine."
+        ),
+    }
+
     rollup = {
         "n_diseases": len(diseases_out),
         "total_affected_births_per_year": total,
@@ -105,6 +174,7 @@ def build_library(constants: dict) -> dict[str, Any]:
         "births_nbs_mitigable": nbs_mitigable,
         "births_editing_unique": editing_unique,
         "per_tool_addressable_births": per_tool_births,
+        "genetic_medicine_index": gmi_summary,
         "cited_incidence_share": (cited / total) if total else 0.0,
         "note": (
             "Bottom-up point sums over the curated catalogue. Coverage is partial (a seed catalogue "

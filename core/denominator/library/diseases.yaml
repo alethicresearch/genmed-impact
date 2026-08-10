@@ -874,3 +874,927 @@ diseases:
       NBS: {applicable: true,  note: "newborn exam + early Ponseti casting corrects most cases"}
     editing_unique: false
     editing_note: "Not selection/editing-addressable as a monogenic trait; early casting mitigates."
+
+  # ---- Autosomal recessive (metabolic / lysosomal, appended) ----
+  - id: pompe_disease
+    name: Pompe disease (GSD II)
+    category: monogenic_recessive
+    genes: [GAA]
+    inheritance: autosomal_recessive
+    omim: "232300"
+    orphanet: "365"
+    severity: severe
+    onset: infancy
+    incidence_per_100k: {value: 2.5, basis: textbook_estimate, source: "~1/40,000 births (all forms combined)"}
+    interventions:
+      CS:  {applicable: true,  note: "GAA on expanded carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M for known parental variants"}
+      PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
+      NBS: {applicable: true,  note: "NBS + early enzyme replacement (alglucosidase) transforms infantile outcome"}
+    editing_unique: false
+    editing_note: "Selection-addressable; NBS + ERT mitigates."
+
+  - id: krabbe_disease
+    name: Krabbe disease
+    category: monogenic_recessive
+    genes: [GALC]
+    inheritance: autosomal_recessive
+    omim: "245200"
+    orphanet: "487"
+    severity: catastrophic
+    onset: infancy
+    incidence_per_100k: {value: 1, basis: textbook_estimate, source: "~1/100,000 births"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
+      NBS: {applicable: true,  note: "presymptomatic HSCT improves outcome; on some NBS panels"}
+    editing_unique: false
+    editing_note: "Selection-addressable."
+
+  - id: sandhoff_disease
+    name: Sandhoff disease
+    category: monogenic_recessive
+    genes: [HEXB]
+    inheritance: autosomal_recessive
+    omim: "268800"
+    orphanet: "796"
+    severity: catastrophic
+    onset: infancy
+    incidence_per_100k: {value: 0.3, basis: order_of_magnitude, source: "rare globally; GM2 gangliosidosis"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
+      NBS: {applicable: false, note: "no effective therapy; fatal in early childhood"}
+    editing_unique: false
+    editing_note: "Selection-addressable."
+
+  - id: sanfilippo_mps_iii
+    name: Mucopolysaccharidosis III (Sanfilippo)
+    category: monogenic_recessive
+    genes: [SGSH]
+    inheritance: autosomal_recessive
+    omim: "252900"
+    orphanet: "79269"
+    severity: severe
+    onset: childhood
+    incidence_per_100k: {value: 1.5, basis: textbook_estimate, source: "~1/70,000 births (all subtypes)"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
+      NBS: {applicable: false, note: "no disease-modifying therapy proven"}
+    editing_unique: false
+    editing_note: "Selection-addressable."
+
+  - id: morquio_mps_iv
+    name: Mucopolysaccharidosis IV (Morquio)
+    category: monogenic_recessive
+    genes: [GALNS]
+    inheritance: autosomal_recessive
+    omim: "253000"
+    orphanet: "309297"
+    severity: severe
+    onset: childhood
+    incidence_per_100k: {value: 0.5, basis: textbook_estimate, source: "~1/200,000 births"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
+      NBS: {applicable: false, note: "ERT (elosulfase) available but does not broadly prevent skeletal disease"}
+    editing_unique: false
+    editing_note: "Selection-addressable."
+
+  - id: batten_cln3
+    name: Batten disease (juvenile neuronal ceroid lipofuscinosis, CLN3)
+    category: monogenic_recessive
+    genes: [CLN3]
+    inheritance: autosomal_recessive
+    omim: "204200"
+    orphanet: "79262"
+    severity: catastrophic
+    onset: childhood
+    incidence_per_100k: {value: 1, basis: order_of_magnitude, source: "~1/100,000 births"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "no disease-modifying therapy for the CLN3 form"}
+    editing_unique: false
+    editing_note: "Selection-addressable."
+
+  - id: homocystinuria_cbs
+    name: Homocystinuria (CBS deficiency)
+    category: monogenic_recessive
+    genes: [CBS]
+    inheritance: autosomal_recessive
+    omim: "236200"
+    orphanet: "394"
+    severity: serious
+    onset: childhood
+    incidence_per_100k: {value: 0.5, basis: textbook_estimate, source: "~1/200,000 births (higher in some founders)"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
+      NBS: {applicable: true,  note: "NBS + B6/betaine/diet prevents thromboembolic and skeletal complications"}
+    editing_unique: false
+    editing_note: "NBS + treatment mitigates; selection-addressable."
+
+  - id: tyrosinemia_type_i
+    name: Tyrosinemia type I
+    category: monogenic_recessive
+    genes: [FAH]
+    inheritance: autosomal_recessive
+    omim: "276700"
+    orphanet: "882"
+    severity: severe
+    onset: infancy
+    incidence_per_100k: {value: 1, basis: textbook_estimate, source: "~1/100,000 births (much higher in Quebec founders)"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal succinylacetone/DNA testing"}
+      NBS: {applicable: true,  note: "NBS + nitisinone (NTBC) + diet prevents liver failure/HCC"}
+    editing_unique: false
+    editing_note: "NBS + NTBC mitigates; selection-addressable."
+
+  - id: propionic_acidemia
+    name: Propionic acidemia
+    category: monogenic_recessive
+    genes: [PCCA, PCCB]
+    inheritance: autosomal_recessive
+    omim: "606054"
+    orphanet: "35"
+    severity: severe
+    onset: neonatal
+    incidence_per_100k: {value: 1, basis: textbook_estimate, source: "~1/100,000 births"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal metabolite/DNA testing"}
+      NBS: {applicable: true,  note: "NBS + protein-restricted diet/carnitine reduces crises, though outcome remains guarded"}
+    editing_unique: false
+    editing_note: "NBS partially mitigates; selection-addressable."
+
+  - id: methylmalonic_acidemia
+    name: Methylmalonic acidemia
+    category: monogenic_recessive
+    genes: [MMUT]
+    inheritance: autosomal_recessive
+    omim: "251000"
+    orphanet: "27"
+    severity: severe
+    onset: neonatal
+    incidence_per_100k: {value: 2, basis: textbook_estimate, source: "~1/50,000 births (all forms)"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal metabolite/DNA testing"}
+      NBS: {applicable: true,  note: "NBS + diet/B12/carnitine reduces metabolic crises"}
+    editing_unique: false
+    editing_note: "NBS partially mitigates; selection-addressable."
+
+  - id: isovaleric_acidemia
+    name: Isovaleric acidemia
+    category: monogenic_recessive
+    genes: [IVD]
+    inheritance: autosomal_recessive
+    omim: "243500"
+    orphanet: "33"
+    severity: serious
+    onset: neonatal
+    incidence_per_100k: {value: 0.7, basis: textbook_estimate, source: "~1/150,000 births"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal metabolite/DNA testing"}
+      NBS: {applicable: true,  note: "NBS + leucine restriction/glycine/carnitine prevents crises"}
+    editing_unique: false
+    editing_note: "NBS mitigates; selection-addressable."
+
+  - id: glutaric_aciduria_type_i
+    name: Glutaric aciduria type I
+    category: monogenic_recessive
+    genes: [GCDH]
+    inheritance: autosomal_recessive
+    omim: "231670"
+    orphanet: "25"
+    severity: severe
+    onset: infancy
+    incidence_per_100k: {value: 1, basis: textbook_estimate, source: "~1/100,000 births"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal metabolite/DNA testing"}
+      NBS: {applicable: true,  note: "NBS + lysine-restricted diet/carnitine prevents encephalopathic crises"}
+    editing_unique: false
+    editing_note: "NBS mitigates; selection-addressable."
+
+  - id: biotinidase_deficiency
+    name: Biotinidase deficiency
+    category: monogenic_recessive
+    genes: [BTD]
+    inheritance: autosomal_recessive
+    omim: "253260"
+    orphanet: "79241"
+    severity: serious
+    onset: infancy
+    incidence_per_100k: {value: 1.7, basis: textbook_estimate, source: "profound form ~1/60,000 births"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
+      NBS: {applicable: true,  note: "NBS + oral biotin essentially prevents the disease (classic NBS success)"}
+    editing_unique: false
+    editing_note: "NBS + biotin prevents the phenotype; selection-addressable."
+
+  - id: gsd_type_i
+    name: Glycogen storage disease type I (von Gierke)
+    category: monogenic_recessive
+    genes: [G6PC1]
+    inheritance: autosomal_recessive
+    omim: "232200"
+    orphanet: "364"
+    severity: serious
+    onset: infancy
+    incidence_per_100k: {value: 1, basis: textbook_estimate, source: "~1/100,000 births"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "not on standard NBS panels; managed with cornstarch/dietary regimen"}
+    editing_unique: false
+    editing_note: "Selection-addressable."
+
+  # ---- Autosomal recessive (multisystem, appended) ----
+  - id: fanconi_anaemia
+    name: Fanconi anaemia
+    category: monogenic_recessive
+    genes: [FANCA]
+    inheritance: autosomal_recessive
+    omim: "227650"
+    orphanet: "84"
+    severity: severe
+    onset: childhood
+    incidence_per_100k: {value: 0.5, basis: order_of_magnitude, source: "~1/130,000 births; elevated in Ashkenazi/Afrikaner founders"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels; founder-population screening"}
+      PGT: {applicable: true,  note: "PGT-M (also used for HLA-matched sibling selection)"}
+      PND: {applicable: true,  note: "prenatal DNA/chromosome-breakage testing"}
+      NBS: {applicable: false, note: "not an NBS target; surveillance and HSCT as needed"}
+    editing_unique: false
+    editing_note: "Selection-addressable."
+
+  - id: ataxia_telangiectasia
+    name: Ataxia-telangiectasia
+    category: monogenic_recessive
+    genes: [ATM]
+    inheritance: autosomal_recessive
+    omim: "208900"
+    orphanet: "100"
+    severity: severe
+    onset: childhood
+    incidence_per_100k: {value: 1, basis: textbook_estimate, source: "~1/40,000-100,000 births"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "no disease-modifying early therapy"}
+    editing_unique: false
+    editing_note: "Selection-addressable."
+
+  - id: bloom_syndrome
+    name: Bloom syndrome
+    category: monogenic_recessive
+    genes: [BLM]
+    inheritance: autosomal_recessive
+    omim: "210900"
+    orphanet: "125"
+    severity: severe
+    onset: childhood
+    incidence_per_100k: {value: 0.1, basis: order_of_magnitude, source: "very rare; elevated in Ashkenazi founders"}
+    interventions:
+      CS:  {applicable: true,  note: "BLM on Ashkenazi carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "no early-life mitigation; cancer surveillance"}
+    editing_unique: false
+    editing_note: "Selection-addressable."
+
+  - id: zellweger_syndrome
+    name: Zellweger syndrome (peroxisome biogenesis disorder)
+    category: monogenic_recessive
+    genes: [PEX1]
+    inheritance: autosomal_recessive
+    omim: "214100"
+    orphanet: "912"
+    severity: catastrophic
+    onset: neonatal
+    incidence_per_100k: {value: 2, basis: textbook_estimate, source: "~1/50,000 births (peroxisome biogenesis disorders)"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal biochemical/DNA testing"}
+      NBS: {applicable: false, note: "no effective therapy; usually fatal in infancy"}
+    editing_unique: false
+    editing_note: "Selection-addressable."
+
+  - id: usher_syndrome
+    name: Usher syndrome
+    category: monogenic_recessive
+    genes: [MYO7A, USH2A]
+    inheritance: autosomal_recessive
+    omim: "276900"
+    orphanet: "886"
+    severity: serious
+    onset: childhood
+    incidence_per_100k: {value: 4, basis: textbook_estimate, source: "~1/25,000 births (all types)"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "hearing screen detects the deafness; no therapy halts retinitis pigmentosa"}
+    editing_unique: false
+    editing_note: "Selection-addressable."
+
+  - id: bardet_biedl_syndrome
+    name: Bardet-Biedl syndrome
+    category: monogenic_recessive
+    genes: [BBS1]
+    inheritance: autosomal_recessive
+    omim: "209900"
+    orphanet: "110"
+    severity: serious
+    onset: childhood
+    incidence_per_100k: {value: 0.7, basis: order_of_magnitude, source: "~1/100,000-160,000 (higher in isolated populations)"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "no early-life mitigation of the ciliopathy phenotype"}
+    editing_unique: false
+    editing_note: "Selection-addressable."
+
+  - id: primary_ciliary_dyskinesia
+    name: Primary ciliary dyskinesia
+    category: monogenic_recessive
+    genes: [DNAH5]
+    inheritance: autosomal_recessive
+    omim: "244400"
+    orphanet: "244"
+    severity: serious
+    onset: infancy
+    incidence_per_100k: {value: 7, basis: textbook_estimate, source: "~1/15,000 births"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels (genetically heterogeneous)"}
+      PGT: {applicable: true,  note: "PGT-M for known parental variants"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "not an NBS target; airway clearance management"}
+    editing_unique: false
+    editing_note: "Selection-addressable when parental variants known."
+
+  - id: congenital_nephrotic_syndrome
+    name: Congenital nephrotic syndrome (Finnish type)
+    category: monogenic_recessive
+    genes: [NPHS1]
+    inheritance: autosomal_recessive
+    omim: "256300"
+    orphanet: "839"
+    severity: severe
+    onset: neonatal
+    incidence_per_100k: {value: 1, basis: order_of_magnitude, source: "rare globally; ~1/8,000 in Finnish founders"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier panels; founder-population screening"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal DNA testing; elevated amniotic AFP"}
+      NBS: {applicable: false, note: "not an NBS target; supportive care/transplant"}
+    editing_unique: false
+    editing_note: "Selection-addressable."
+
+  - id: pendred_syndrome
+    name: Pendred syndrome
+    category: monogenic_recessive
+    genes: [SLC26A4]
+    inheritance: autosomal_recessive
+    omim: "274600"
+    orphanet: "705"
+    severity: moderate
+    onset: childhood
+    incidence_per_100k: {value: 7, basis: textbook_estimate, source: "a leading syndromic cause of congenital hearing loss"}
+    interventions:
+      CS:  {applicable: true,  note: "SLC26A4 on hearing-loss carrier panels"}
+      PGT: {applicable: true,  note: "PGT-M"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "hearing screen detects deafness; no therapy alters the underlying defect"}
+    editing_unique: false
+    editing_note: "Selection-addressable."
+
+  # ---- Autosomal dominant (appended) ----
+  - id: long_qt_syndrome
+    name: Long QT syndrome
+    category: monogenic_dominant
+    genes: [KCNQ1, KCNH2, SCN5A]
+    inheritance: autosomal_dominant
+    omim: "192500"
+    orphanet: "768"
+    severity: serious
+    onset: variable
+    incidence_per_100k: {value: 50, basis: textbook_estimate, source: "~1/2,000"}
+    interventions:
+      CS:  {applicable: false, note: "dominant; identified via family history/cascade testing, not carrier screening"}
+      PGT: {applicable: true,  note: "PGT-M for known parental variant"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "managed with beta-blockers/ICD; not a routine NBS target"}
+    editing_unique: false
+    editing_note: "Selection-addressable when a parent carries a known variant."
+
+  - id: hypertrophic_cardiomyopathy
+    name: Hypertrophic cardiomyopathy
+    category: monogenic_dominant
+    genes: [MYBPC3, MYH7]
+    inheritance: autosomal_dominant
+    omim: "192600"
+    orphanet: "155"
+    severity: serious
+    onset: variable
+    incidence_per_100k: {value: 200, basis: textbook_estimate, source: "~1/500 (population prevalence)"}
+    interventions:
+      CS:  {applicable: false, note: "dominant; cascade testing of relatives, not preconception carrier screening"}
+      PGT: {applicable: true,  note: "PGT-M for known parental variant"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "clinical surveillance/ICD; not an NBS target"}
+    editing_unique: false
+    editing_note: "Selection-addressable when a parent carries a known variant."
+
+  - id: familial_adenomatous_polyposis
+    name: Familial adenomatous polyposis
+    category: monogenic_dominant
+    genes: [APC]
+    inheritance: autosomal_dominant
+    omim: "175100"
+    orphanet: "733"
+    severity: severe
+    onset: adult
+    incidence_per_100k: {value: 10, basis: textbook_estimate, source: "~1/10,000; ~25% de novo"}
+    interventions:
+      CS:  {applicable: false, note: "dominant; family-based/cascade testing, not carrier screening"}
+      PGT: {applicable: true,  note: "PGT-M for known parental variant"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "colonoscopic surveillance/colectomy; not an NBS target"}
+    editing_unique: false
+    editing_note: "Selection-addressable when a parent carries a known variant."
+
+  - id: lynch_syndrome
+    name: Lynch syndrome
+    category: monogenic_dominant
+    genes: [MLH1, MSH2]
+    inheritance: autosomal_dominant
+    omim: "120435"
+    orphanet: "144"
+    severity: serious
+    onset: adult
+    incidence_per_100k: {value: 300, basis: textbook_estimate, source: "~1/300 carriers"}
+    interventions:
+      CS:  {applicable: false, note: "dominant; cascade testing of relatives, not preconception carrier screening"}
+      PGT: {applicable: true,  note: "PGT-M for known parental variant (rarely pursued given adult onset)"}
+      PND: {applicable: true,  note: "detectable but seldom indicated"}
+      NBS: {applicable: false, note: "adult-onset cancer risk; managed by surveillance, not NBS"}
+    editing_unique: false
+    editing_note: "Selection-addressable; treatable/surveillable so reproductive intervention uncommon."
+
+  - id: li_fraumeni_syndrome
+    name: Li-Fraumeni syndrome
+    category: monogenic_dominant
+    genes: [TP53]
+    inheritance: autosomal_dominant
+    omim: "151623"
+    orphanet: "524"
+    severity: severe
+    onset: variable
+    incidence_per_100k: {value: 5, basis: order_of_magnitude, source: "rare; ~1/5,000-20,000"}
+    interventions:
+      CS:  {applicable: false, note: "dominant; family-based testing, not carrier screening"}
+      PGT: {applicable: true,  note: "PGT-M for known parental variant"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "intensive cancer surveillance; not an NBS target"}
+    editing_unique: false
+    editing_note: "Selection-addressable when a parent carries a known variant."
+
+  - id: von_hippel_lindau
+    name: Von Hippel-Lindau disease
+    category: monogenic_dominant
+    genes: [VHL]
+    inheritance: autosomal_dominant
+    omim: "193300"
+    orphanet: "892"
+    severity: serious
+    onset: adult
+    incidence_per_100k: {value: 3, basis: textbook_estimate, source: "~1/36,000"}
+    interventions:
+      CS:  {applicable: false, note: "dominant; family-based testing, not carrier screening"}
+      PGT: {applicable: true,  note: "PGT-M for known parental variant"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "surveillance imaging; not an NBS target"}
+    editing_unique: false
+    editing_note: "Selection-addressable when a parent carries a known variant."
+
+  - id: osteogenesis_imperfecta
+    name: Osteogenesis imperfecta
+    category: monogenic_dominant
+    genes: [COL1A1, COL1A2]
+    inheritance: autosomal_dominant
+    omim: "166200"
+    orphanet: "666"
+    severity: serious
+    onset: prenatal
+    incidence_per_100k: {value: 7, basis: textbook_estimate, source: "~1/15,000 births (all types)"}
+    interventions:
+      CS:  {applicable: false, note: "dominant forms; family-based testing (rare recessive forms exist)"}
+      PGT: {applicable: true,  note: "PGT-M for known parental variant"}
+      PND: {applicable: true,  note: "prenatal DNA testing/ultrasound"}
+      NBS: {applicable: false, note: "bisphosphonates/orthopaedic care; not an NBS target"}
+    editing_unique: false
+    editing_note: "Selection-addressable when a parent carries a known variant."
+
+  - id: vascular_ehlers_danlos
+    name: Vascular Ehlers-Danlos syndrome (type IV)
+    category: monogenic_dominant
+    genes: [COL3A1]
+    inheritance: autosomal_dominant
+    omim: "130050"
+    orphanet: "286"
+    severity: severe
+    onset: adult
+    incidence_per_100k: {value: 1, basis: order_of_magnitude, source: "~1/100,000-250,000"}
+    interventions:
+      CS:  {applicable: false, note: "dominant; family-based testing, not carrier screening"}
+      PGT: {applicable: true,  note: "PGT-M for known parental variant"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "no early-life mitigation of vascular fragility"}
+    editing_unique: false
+    editing_note: "Selection-addressable when a parent carries a known variant."
+
+  - id: hereditary_spherocytosis
+    name: Hereditary spherocytosis
+    category: monogenic_dominant
+    genes: [ANK1]
+    inheritance: autosomal_dominant
+    omim: "182900"
+    orphanet: "822"
+    severity: moderate
+    onset: childhood
+    incidence_per_100k: {value: 50, basis: textbook_estimate, source: "~1/2,000 (Northern European)"}
+    interventions:
+      CS:  {applicable: false, note: "mostly dominant; family-based testing, not carrier screening"}
+      PGT: {applicable: true,  note: "PGT-M possible but rarely pursued given treatability"}
+      PND: {applicable: true,  note: "detectable but seldom indicated"}
+      NBS: {applicable: false, note: "manageable (phototherapy, transfusion, splenectomy); not classic NBS"}
+    editing_unique: false
+    editing_note: "Selection-addressable; treatability makes reproductive intervention uncommon."
+
+  - id: hereditary_breast_ovarian_cancer
+    name: Hereditary breast and ovarian cancer (BRCA1/2)
+    category: monogenic_dominant
+    genes: [BRCA1, BRCA2]
+    inheritance: autosomal_dominant
+    omim: "604370"
+    orphanet: "145"
+    severity: serious
+    onset: adult
+    incidence_per_100k: {value: 250, basis: textbook_estimate, source: "combined BRCA1/2 pathogenic-variant carriers ~1/400"}
+    interventions:
+      CS:  {applicable: false, note: "dominant; cascade testing of relatives, not preconception carrier screening"}
+      PGT: {applicable: true,  note: "PGT-M available for known parental variant (elective; adult-onset)"}
+      PND: {applicable: true,  note: "detectable but seldom indicated"}
+      NBS: {applicable: false, note: "adult cancer risk; managed by surveillance/risk-reducing surgery"}
+    editing_unique: false
+    editing_note: "Selection-addressable; high-penetrance but treatable/surveillable, so intervention is elective."
+
+  # ---- X-linked (appended) ----
+  - id: rett_syndrome
+    name: Rett syndrome
+    category: x_linked
+    genes: [MECP2]
+    inheritance: x_linked_dominant
+    omim: "312750"
+    orphanet: "778"
+    severity: severe
+    onset: infancy
+    incidence_per_100k: {value: 5, basis: textbook_estimate, source: "~1/10,000 female births; per 100k total births (affects females); mostly de novo"}
+    interventions:
+      CS:  {applicable: false, note: "almost always de novo MECP2 mutation; carrier screening not meaningful"}
+      PGT: {applicable: true,  note: "PGT-M in the rare familial case with known maternal variant"}
+      PND: {applicable: true,  note: "prenatal DNA testing when variant known"}
+      NBS: {applicable: false, note: "no disease-modifying early therapy"}
+    editing_unique: false
+    editing_note: "Mostly de novo; selection-addressable only in rare familial cases."
+
+  - id: wiskott_aldrich_syndrome
+    name: Wiskott-Aldrich syndrome
+    category: x_linked
+    genes: [WAS]
+    inheritance: x_linked_recessive
+    omim: "301000"
+    orphanet: "906"
+    severity: severe
+    onset: infancy
+    incidence_per_100k: {value: 0.5, basis: textbook_estimate, source: "~1/100,000-250,000 male births; per 100k total births (affects males)"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier testing in female relatives"}
+      PGT: {applicable: true,  note: "PGT-M for known maternal variant"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "not on standard NBS panels; HSCT/gene therapy curative when done early"}
+    editing_unique: false
+    editing_note: "Selection-addressable when maternal variant known."
+
+  - id: x_linked_scid
+    name: X-linked severe combined immunodeficiency
+    category: x_linked
+    genes: [IL2RG]
+    inheritance: x_linked_recessive
+    omim: "300400"
+    orphanet: ""
+    severity: catastrophic
+    onset: infancy
+    incidence_per_100k: {value: 1, basis: textbook_estimate, source: "~1/50,000-100,000 male births; per 100k total births (affects males)"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier testing in female relatives"}
+      PGT: {applicable: true,  note: "PGT-M for known maternal variant"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: true,  note: "TREC-based SCID NBS + early HSCT/gene therapy is curative"}
+    editing_unique: false
+    editing_note: "Selection- and NBS-addressable; a leading SCID NBS success."
+
+  - id: menkes_disease
+    name: Menkes disease
+    category: x_linked
+    genes: [ATP7A]
+    inheritance: x_linked_recessive
+    omim: "309400"
+    orphanet: "565"
+    severity: catastrophic
+    onset: infancy
+    incidence_per_100k: {value: 0.5, basis: order_of_magnitude, source: "~1/100,000-250,000 male births; per 100k total births (affects males)"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier testing in female relatives"}
+      PGT: {applicable: true,  note: "PGT-M for known maternal variant"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "early copper-histidine helps only some genotypes; not standard NBS"}
+    editing_unique: false
+    editing_note: "Selection-addressable when maternal variant known."
+
+  - id: alport_syndrome
+    name: Alport syndrome (X-linked)
+    category: x_linked
+    genes: [COL4A5]
+    inheritance: x_linked_dominant
+    omim: "301050"
+    orphanet: "88917"
+    severity: serious
+    onset: childhood
+    incidence_per_100k: {value: 2, basis: textbook_estimate, source: "~1/50,000 births (X-linked form predominates)"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier/family testing"}
+      PGT: {applicable: true,  note: "PGT-M for known familial variant"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "ACE inhibitors slow progression clinically; not an NBS target"}
+    editing_unique: false
+    editing_note: "Selection-addressable when familial variant known."
+
+  - id: choroideremia
+    name: Choroideremia
+    category: x_linked
+    genes: [CHM]
+    inheritance: x_linked_recessive
+    omim: "303100"
+    orphanet: "180"
+    severity: serious
+    onset: childhood
+    incidence_per_100k: {value: 1, basis: order_of_magnitude, source: "~1/50,000-100,000 male births; per 100k total births (affects males)"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier testing in female relatives"}
+      PGT: {applicable: true,  note: "PGT-M for known maternal variant"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: false, note: "no approved therapy that halts the retinal degeneration"}
+    editing_unique: false
+    editing_note: "Selection-addressable when maternal variant known."
+
+  - id: otc_deficiency
+    name: Ornithine transcarbamylase deficiency
+    category: x_linked
+    genes: [OTC]
+    inheritance: x_linked_recessive
+    omim: "311250"
+    orphanet: "664"
+    severity: severe
+    onset: neonatal
+    incidence_per_100k: {value: 1.5, basis: textbook_estimate, source: "~1/60,000-70,000 births (most common urea-cycle disorder)"}
+    interventions:
+      CS:  {applicable: true,  note: "carrier testing in female relatives (heterozygous females can be symptomatic)"}
+      PGT: {applicable: true,  note: "PGT-M for known maternal variant"}
+      PND: {applicable: true,  note: "prenatal DNA testing"}
+      NBS: {applicable: true,  note: "early detection + protein restriction/nitrogen scavengers prevents hyperammonaemic crises"}
+    editing_unique: false
+    editing_note: "Selection- and NBS-addressable; early management mitigates."
+
+  # ---- Chromosomal / microdeletion (appended) ----
+  - id: prader_willi_syndrome
+    name: Prader-Willi syndrome
+    category: chromosomal
+    genes: []
+    inheritance: chromosomal
+    omim: "176270"
+    orphanet: "739"
+    severity: serious
+    onset: neonatal
+    incidence_per_100k: {value: 7, basis: textbook_estimate, source: "~1/15,000 births; 15q11-q13 paternal deletion/imprinting"}
+    interventions:
+      CS:  {applicable: false, note: "imprinting/de novo deletion; carrier screening not meaningful"}
+      PGT: {applicable: true,  note: "PGT-SR/PGT-A in rare translocation/familial cases"}
+      PND: {applicable: true,  note: "prenatal microarray/methylation testing"}
+      NBS: {applicable: false, note: "not an NBS target; growth hormone/management clinically"}
+    editing_unique: false
+    editing_note: "Selection-addressable in familial cases; imprinting defect not an editing target."
+
+  - id: angelman_syndrome
+    name: Angelman syndrome
+    category: chromosomal
+    genes: [UBE3A]
+    inheritance: chromosomal
+    omim: "105830"
+    orphanet: "72"
+    severity: severe
+    onset: infancy
+    incidence_per_100k: {value: 7, basis: textbook_estimate, source: "~1/15,000 births; 15q11-q13 maternal deletion/UBE3A"}
+    interventions:
+      CS:  {applicable: false, note: "imprinting/de novo deletion; carrier screening not meaningful"}
+      PGT: {applicable: true,  note: "PGT-M/PGT-SR in rare familial UBE3A or translocation cases"}
+      PND: {applicable: true,  note: "prenatal microarray/methylation testing"}
+      NBS: {applicable: false, note: "not an NBS target; supportive management"}
+    editing_unique: false
+    editing_note: "Selection-addressable in familial cases; imprinting defect not an editing target."
+
+  - id: williams_syndrome
+    name: Williams syndrome
+    category: chromosomal
+    genes: [ELN]
+    inheritance: chromosomal
+    omim: "194050"
+    orphanet: "904"
+    severity: serious
+    onset: infancy
+    incidence_per_100k: {value: 10, basis: textbook_estimate, source: "~1/10,000 births; 7q11.23 microdeletion (mostly de novo)"}
+    interventions:
+      CS:  {applicable: false, note: "usually de novo microdeletion; carrier screening not meaningful"}
+      PGT: {applicable: true,  note: "PGT-A/targeted testing in the rare familial case"}
+      PND: {applicable: true,  note: "prenatal microarray"}
+      NBS: {applicable: false, note: "not an NBS target; associated conditions managed clinically"}
+    editing_unique: false
+    editing_note: "Selection-addressable; contiguous-gene deletion not an editing target."
+
+  - id: cri_du_chat_syndrome
+    name: Cri-du-chat syndrome (5p deletion)
+    category: chromosomal
+    genes: []
+    inheritance: chromosomal
+    omim: "123450"
+    orphanet: "281"
+    severity: severe
+    onset: neonatal
+    incidence_per_100k: {value: 3, basis: textbook_estimate, source: "~1/15,000-50,000 births; 5p terminal deletion"}
+    interventions:
+      CS:  {applicable: false, note: "mostly de novo deletion; carrier screening not meaningful (parental translocation in a minority)"}
+      PGT: {applicable: true,  note: "PGT-SR when a parent carries a balanced translocation"}
+      PND: {applicable: true,  note: "prenatal microarray/karyotype"}
+      NBS: {applicable: false, note: "not an NBS target; supportive management"}
+    editing_unique: false
+    editing_note: "Selection-addressable; structural deletion not an editing target."
+
+  - id: chromosome_1p36_deletion
+    name: 1p36 deletion syndrome
+    category: chromosomal
+    genes: []
+    inheritance: chromosomal
+    omim: "607872"
+    orphanet: "1606"
+    severity: severe
+    onset: neonatal
+    incidence_per_100k: {value: 12, basis: textbook_estimate, source: "~1/5,000-10,000 births; commonest terminal deletion syndrome"}
+    interventions:
+      CS:  {applicable: false, note: "mostly de novo deletion; carrier screening not meaningful"}
+      PGT: {applicable: true,  note: "PGT-SR when a parent carries a balanced rearrangement"}
+      PND: {applicable: true,  note: "prenatal microarray"}
+      NBS: {applicable: false, note: "not an NBS target; supportive management"}
+    editing_unique: false
+    editing_note: "Selection-addressable; structural deletion not an editing target."
+
+  - id: wolf_hirschhorn_syndrome
+    name: Wolf-Hirschhorn syndrome (4p deletion)
+    category: chromosomal
+    genes: []
+    inheritance: chromosomal
+    omim: "194190"
+    orphanet: "280"
+    severity: severe
+    onset: prenatal
+    incidence_per_100k: {value: 2, basis: textbook_estimate, source: "~1/50,000 births; 4p16.3 deletion"}
+    interventions:
+      CS:  {applicable: false, note: "mostly de novo deletion; carrier screening not meaningful (parental translocation in a minority)"}
+      PGT: {applicable: true,  note: "PGT-SR when a parent carries a balanced translocation"}
+      PND: {applicable: true,  note: "prenatal microarray/ultrasound"}
+      NBS: {applicable: false, note: "not an NBS target; supportive management"}
+    editing_unique: false
+    editing_note: "Selection-addressable; structural deletion not an editing target."
+
+  # ---- Multifactorial congenital (appended) ----
+  - id: gastroschisis
+    name: Gastroschisis
+    category: multifactorial
+    genes: []
+    inheritance: multifactorial
+    omim: "230750"
+    orphanet: "2368"
+    severity: serious
+    onset: prenatal
+    incidence_per_100k: {value: 30, basis: textbook_estimate, source: "~1/2,000-5,000 births; rising incidence, young maternal age"}
+    interventions:
+      CS:  {applicable: false, note: "multifactorial; no single-gene carrier screening"}
+      PGT: {applicable: false, note: "not a single-gene disorder"}
+      PND: {applicable: true,  note: "maternal serum AFP elevation + prenatal ultrasound"}
+      NBS: {applicable: false, note: "structural at birth; surgical repair postnatally, not NBS"}
+    editing_unique: false
+    editing_note: "Not selection/editing-addressable as a monogenic trait; surgically correctable."
+
+  - id: hypospadias
+    name: Hypospadias
+    category: multifactorial
+    genes: []
+    inheritance: multifactorial
+    omim: ""
+    orphanet: ""
+    severity: moderate
+    onset: prenatal
+    incidence_per_100k: {value: 200, basis: textbook_estimate, source: "~1/200-300 male births; per 100k total births (affects males)"}
+    interventions:
+      CS:  {applicable: false, note: "multifactorial; no single-gene carrier screening"}
+      PGT: {applicable: false, note: "not a single-gene disorder in most cases"}
+      PND: {applicable: true,  note: "sometimes detectable on prenatal ultrasound"}
+      NBS: {applicable: false, note: "surgical repair postnatally, not an NBS target"}
+    editing_unique: false
+    editing_note: "Not selection/editing-addressable as a monogenic trait; surgically correctable."
+
+  - id: congenital_diaphragmatic_hernia
+    name: Congenital diaphragmatic hernia
+    category: multifactorial
+    genes: []
+    inheritance: multifactorial
+    omim: "142340"
+    orphanet: "2140"
+    severity: severe
+    onset: prenatal
+    incidence_per_100k: {value: 40, basis: textbook_estimate, source: "~1/2,500 births"}
+    interventions:
+      CS:  {applicable: false, note: "mostly multifactorial/de novo; no routine carrier screening"}
+      PGT: {applicable: false, note: "not a single-gene disorder in most cases"}
+      PND: {applicable: true,  note: "detectable on prenatal ultrasound/MRI"}
+      NBS: {applicable: false, note: "surgical repair postnatally (± fetal therapy); not an NBS target"}
+    editing_unique: false
+    editing_note: "Not selection/editing-addressable as a monogenic trait; surgically correctable."
+
+  - id: pyloric_stenosis
+    name: Infantile hypertrophic pyloric stenosis
+    category: multifactorial
+    genes: []
+    inheritance: multifactorial
+    omim: "179010"
+    orphanet: "2970"
+    severity: moderate
+    onset: infancy
+    incidence_per_100k: {value: 200, basis: textbook_estimate, source: "~1/500 births (varies by sex/ancestry)"}
+    interventions:
+      CS:  {applicable: false, note: "multifactorial; no single-gene carrier screening"}
+      PGT: {applicable: false, note: "not a single-gene disorder"}
+      PND: {applicable: false, note: "presents postnatally; not a prenatal diagnosis"}
+      NBS: {applicable: false, note: "diagnosed clinically in infancy; pyloromyotomy is curative"}
+    editing_unique: false
+    editing_note: "Not selection/editing-addressable as a monogenic trait; surgically curable."
+
+  - id: developmental_dysplasia_hip
+    name: Developmental dysplasia of the hip
+    category: multifactorial
+    genes: []
+    inheritance: multifactorial
+    omim: ""
+    orphanet: ""
+    severity: moderate
+    onset: neonatal
+    incidence_per_100k: {value: 100, basis: textbook_estimate, source: "~1/1,000 births with frank dislocation (instability more common)"}
+    interventions:
+      CS:  {applicable: false, note: "multifactorial; no single-gene carrier screening"}
+      PGT: {applicable: false, note: "not a single-gene disorder"}
+      PND: {applicable: false, note: "not a prenatal diagnosis"}
+      NBS: {applicable: true,  note: "newborn hip exam (Ortolani/Barlow) ± ultrasound + early bracing corrects most cases"}
+    editing_unique: false
+    editing_note: "Not selection/editing-addressable as a monogenic trait; early bracing mitigates."
