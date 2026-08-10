@@ -12,7 +12,7 @@ from typing import Any
 import numpy as np
 
 from . import (attribution, config, embryos, harmonize, library, model, montecarlo as mc,
-               multifactorial, residual, sensitivity)
+               multifactorial, provenance, residual, sensitivity)
 
 
 def _git_commit() -> str:
@@ -218,11 +218,12 @@ def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
         "multifactorial": multifactorial.build_multifactorial(),
         "embryos": embryos.build_embryos(constants, _library_built["diseases"]),
         "provenance": {
-            "constants": constants,
-            "conditions": conditions,
-            "regions": {"income_groups": harmonize.INCOME_GROUPS,
-                        "gbd_super_regions": harmonize.GBD_SUPER_REGIONS,
-                        "source": harmonize.REGION_SOURCE},
+            "constants": provenance.annotate(constants, "constants"),
+            "conditions": provenance.annotate(conditions, "conditions"),
+            "regions": provenance.annotate(
+                {"income_groups": harmonize.INCOME_GROUPS,
+                 "gbd_super_regions": harmonize.GBD_SUPER_REGIONS,
+                 "source": harmonize.REGION_SOURCE}, "regions"),
         },
     }
     return R

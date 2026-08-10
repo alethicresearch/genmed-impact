@@ -4,6 +4,7 @@ import { Card, SectionHeading } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 import Explainer from '../components/Explainer';
 import Term from '../components/Term';
+import { Claim } from '../components/prose';
 
 interface Props {
   data: AllData;
@@ -21,7 +22,7 @@ export default function Embryos({ data }: Props) {
     <div className="space-y-6">
       <SectionHeading
         title="The embryo trade-off"
-        subtitle="What each strategy asks of the embryos involved — the one axis on which editing can be ethically preferable to selection."
+        subtitle="An idealized comparison of embryo selection and successful correction on one ethically relevant dimension: how many embryos with the targeted genotype remain candidates for transfer."
       />
       <Explainer
         whatThisShows="An idealized comparison of what preventing an affected birth asks of the embryos involved. Embryo selection (PGT) creates several embryos and avoids transferring those with the targeted genotype; successful correction would instead retain that embryo as a candidate for transfer."
@@ -32,7 +33,7 @@ export default function Embryos({ data }: Props) {
             is (1−u)/u and rises without bound as u→0; idealized correction stays at zero.
           </>
         }
-        whatItDetermines="Where editing could become preferable — or, at u→0 (no selectable unaffected embryo), the only option — on embryo-loss grounds."
+        whatItDetermines="How the modeled embryo-selection trade-off changes as unaffected embryos become rarer. This does not by itself determine whether editing is ethically preferable overall."
         defaultOpen
       />
       <div className="rounded-lg border border-amber-300 bg-amber-50/60 p-4 text-sm leading-6 text-slate-700">
@@ -44,55 +45,12 @@ export default function Embryos({ data }: Props) {
         transfer” is used as the analytic term because it describes the modeled decision, not the
         eventual disposition of any embryo.
       </div>
-
-      {/* Scale contrast */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <Card>
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            Affected births addressable by embryo selection / yr
-          </p>
-          <p className="tnum mt-1 text-2xl font-bold text-slate-900">
-            {fmtCompact(agg.pgt_addressable_affected_births_per_year)}
-          </p>
-          <p className="text-xs text-slate-500">
-            summed over the monogenic core-catalogue diseases where PGT applies — the population this
-            whole comparison is about
-          </p>
-          <SourceNote
-            source="Derived: Σ (affected births × PGT-applicable) over the monogenic core catalogue"
-            doi={null}
-          />
-        </Card>
-        <Card className="border-rose-200 bg-rose-50/50">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            Affected embryos not selected for transfer / yr — <strong>selection</strong> strategy
-          </p>
-          <p className="tnum mt-1 text-2xl font-bold text-rose-700">
-            {fmtCompact(agg.affected_embryos_discarded_selection_strategy)}
-          </p>
-          <p className="text-xs text-slate-500">
-            to reach those births by choosing unaffected embryos: Σ (1−u)/u × addressable births
-          </p>
-          <SourceNote
-            source={`Derived from the per-inheritance unaffected-embryo fraction u and ~${bl} blastocysts per IVF cycle (table below)`}
-            doi={null}
-          />
-        </Card>
-        <Card className="border-emerald-200 bg-emerald-50/50">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            Affected embryos not selected for transfer / yr — <strong>correction</strong> (editing)
-            strategy
-          </p>
-          <p className="tnum mt-1 text-2xl font-bold text-emerald-700">
-            {fmtInt(agg.affected_embryos_discarded_editing_strategy)}
-          </p>
-          <p className="text-xs text-slate-500">
-            zero by construction in this idealized model — a successfully corrected embryo remains
-            a transfer candidate (editing failure and safety-related loss are not modeled)
-          </p>
-        </Card>
-      </div>
-      <p className="-mt-2 text-xs leading-relaxed text-slate-600">{agg.note}</p>
+      <Claim kind="interpretation">
+        On this one dimension, successful correction can compare favorably with selection — and
+        increasingly so as unaffected embryos become rarer. Whether that makes editing ethically
+        preferable overall is a separate judgment that also depends on safety, feasibility, and
+        the considerations in Ethics &amp; policy.
+      </Claim>
 
       {/* Curve */}
       <Card>
@@ -148,6 +106,67 @@ export default function Embryos({ data }: Props) {
         <p className="mt-2 text-xs leading-relaxed text-slate-600">{e.note}</p>
       </Card>
 
+      {/* Illustrative population scaling — deliberately AFTER the per-child analysis */}
+      <div className="rounded-lg border border-slate-300 bg-slate-50 p-4">
+        <p className="text-sm font-semibold text-slate-900">
+          Illustrative population scaling — not an estimate of actual annual embryo disposition
+        </p>
+        <p className="mt-1 text-xs leading-5 text-slate-600">
+          This counterfactual applies the per-child Mendelian ratio to the catalogue&apos;s
+          affected-birth count. It does not model uptake of IVF, number of cycles, embryo
+          attrition, clinical practice, cryopreservation, donation, or ultimate embryo
+          disposition.
+        </p>
+        <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-3">
+
+        <Card>
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+            Affected births addressable by embryo selection / yr
+          </p>
+          <p className="tnum mt-1 text-2xl font-bold text-slate-900">
+            {fmtCompact(agg.pgt_addressable_affected_births_per_year)}
+          </p>
+          <p className="text-xs text-slate-500">
+            summed over the monogenic core-catalogue diseases where PGT applies — the population this
+            whole comparison is about
+          </p>
+          <SourceNote
+            source="Derived: Σ (affected births × PGT-applicable) over the monogenic core catalogue"
+            doi={null}
+          />
+        </Card>
+        <Card className="border-rose-200 bg-rose-50/50">
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+            Affected embryos not selected for transfer / yr — <strong>selection</strong> strategy
+          </p>
+          <p className="tnum mt-1 text-2xl font-bold text-rose-700">
+            {fmtCompact(agg.affected_embryos_discarded_selection_strategy)}
+          </p>
+          <p className="text-xs text-slate-500">
+            to reach those births by choosing unaffected embryos: Σ (1−u)/u × addressable births
+          </p>
+          <SourceNote
+            source={`Derived from the per-inheritance unaffected-embryo fraction u and ~${bl} blastocysts per IVF cycle (table below)`}
+            doi={null}
+          />
+        </Card>
+        <Card className="border-emerald-200 bg-emerald-50/50">
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+            Idealized successful correction — embryos not selected for transfer / yr
+          </p>
+          <p className="tnum mt-1 text-xl font-bold text-emerald-700">
+            {fmtInt(agg.affected_embryos_discarded_editing_strategy)} disease-genotype exclusions
+            <span className="font-normal"> — by construction</span>
+          </p>
+          <p className="text-xs text-slate-500">
+            zero by construction in this idealized model — a successfully corrected embryo remains
+            a transfer candidate (editing failure and safety-related loss are not modeled)
+          </p>
+        </Card>
+        </div>
+        <p className="mt-2 text-xs leading-relaxed text-slate-600">{agg.note}</p>
+      </div>
+
       <SourcesList title="Derivations" />
     </div>
     </SourcesProvider>
@@ -179,7 +198,7 @@ function CurveChart({ e }: { e: AllData['embryos'] }) {
         {/* editing line (flat at 0) */}
         <line x1={padL} y1={editY} x2={W - padR} y2={editY} stroke="#059669" strokeWidth={2} />
         <text x={W - padR} y={editY - 6} fontSize={11} textAnchor="end" fill="#059669">
-          Idealized correction = 0
+          Idealized successful correction: 0 genotype-based exclusions
         </text>
         {/* selection curve */}
         <path d={selPath} fill="none" stroke="#e11d48" strokeWidth={2.5} />

@@ -3,7 +3,7 @@ import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
 import { Card } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
-import { Reading, PH, Lead, Caption } from '../components/prose';
+import { Reading, PH, Lead, Caption, Claim } from '../components/prose';
 
 interface Props {
   data: AllData;
@@ -98,25 +98,27 @@ export default function Beyond({ data, update }: Props) {
               <p className="mt-3 text-sm text-slate-700">{r.neurodegeneration.note}</p>
             </Card>
           </div>
-          <Lead>
-            In each case an alternative already exists that reaches more people at lower cost and
-            risk than a germline edit could. Resistance editing may merit research on its own
-            terms, but it cannot be justified by the burden of untreated inherited disease — the
-            burden sits elsewhere, and the alternatives are not exhausted.
-          </Lead>
+          <Claim kind="interpretation">
+            For each proposed resistance intervention, established preventive or therapeutic
+            alternatives already exist. The current analysis does not establish that a germline
+            edit would provide a superior overall balance of benefit, reach, cost, and risk. A
+            germline resistance intervention would therefore require its own evidence of added
+            value rather than inheriting the justification for preventing severe monogenic
+            disease.
+          </Claim>
         </section>
 
         <section className="space-y-3">
           <PH>Enhancement: a different question, not a further step</PH>
-          <Lead>
-            Enhancement means raising a trait — cognition, height, longevity — beyond the typical
-            range, rather than preventing or curing disease. Preventing serious disease removes
-            suffering that would otherwise fall on a specific child; enhancement redistributes
-            relative advantage. The two call on different ethical arguments, and only the first
-            carries the public-health justification that drives the rest of this analysis. The
-            paper's position is that enhancement must be argued for, or against, on its own
-            terms.
-          </Lead>
+          <Claim kind="interpretation">
+            Enhancement targets traits outside the disease-prevention framework — cognition,
+            height, longevity — rather than preventing or curing disease. Its possible benefits
+            may be absolute, positional, or both, and it raises questions about distribution,
+            fairness, autonomy, and social effects that are not captured by the serious-disease
+            burden denominator used here. The justification developed in this project for
+            preventing severe inherited disease therefore cannot simply be transferred to
+            enhancement; enhancement must be assessed on its own terms.
+          </Claim>
         </section>
 
         <section className="space-y-3">
@@ -168,15 +170,15 @@ export default function Beyond({ data, update }: Props) {
         </section>
 
         <section className="space-y-3">
-          <PH>No burden denominator applies here</PH>
+          <PH>The inherited-disease denominator does not transfer directly</PH>
           <div className="rounded-lg border border-amber-300 bg-amber-50/60 p-4">
             <p className="text-sm leading-7 text-slate-700">
-              Every disease-facing section of this analysis reduces to a number of affected
-              births or cases. Resistance mostly does not, and enhancement does not at all: there
-              is no disease burden being averted. That absence is itself a finding. Whatever case
-              exists for these uses of editing, it belongs to a separate debate about risk,
-              advantage, and fairness — and should be assessed there, not carried by the case for
-              preventing disease. What this separation implies for regulation is taken up in{' '}
+              Resistance interventions can in principle avert future disease burden, but they do
+              not map onto the inherited-disease birth denominator used for the core analysis in
+              the same way. Enhancement has no analogous disease denominator at all. These
+              applications therefore require different outcome measures and different ethical
+              comparisons — assessed there, not carried by the case for preventing inherited
+              disease. What this separation implies for regulation is taken up in{' '}
               <button
                 type="button"
                 onClick={() => update({ tab: 'ethics' })}

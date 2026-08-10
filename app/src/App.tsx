@@ -47,7 +47,7 @@ const SECTIONS: SectionDef[] = [
     id: 'sec-editing',
     label: 'Where editing adds value',
     views: [
-      { id: 'residual', label: 'When editing is the only option' },
+      { id: 'residual', label: 'When editing adds a unique option' },
       { id: 'multifactorial', label: 'Could editing help complex disease?' },
     ],
   },

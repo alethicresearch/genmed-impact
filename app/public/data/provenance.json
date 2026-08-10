@@ -1,805 +1,876 @@
 {
-  "constants": {
-    "meta": {
-      "spec_version": "3.0",
-      "currency_year": 2024,
-      "notes": "This file is the single source of truth for the deterministic pipeline. Ingest modules (core/denominator/ingest/*) overwrite the PLACEHOLDER entries in-place with primary data when their sources are available; until then the pipeline runs on these cited anchors.\n"
-    },
-    "births": {
-      "global_per_year": {
-        "value": 135000000,
-        "low": 130000000,
-        "high": 140000000,
-        "source": "UN World Population Prospects 2024 (annual live births, world, 2023)",
-        "doi": "https://population.un.org/wpp/",
-        "table_or_page": "Demographic Indicators, Births (thousands), World, 2023",
-        "retrieved": "2026-08-10",
-        "note": "WPP 2024 places annual world births near 134M and declining; the draft paper rounds to ~140M. Modelled as an interval [130M, 140M]. Per-country births are pulled by ingest/un_wpp.py into data/curated/births_by_country.parquet and aggregated to regions.\n"
-      }
-    },
-    "burden": {
-      "monogenic_serious_per_1000": {
-        "def_a": {
-          "value": 8.0,
-          "low": 6.0,
-          "high": 10.0
-        },
-        "def_b": {
-          "value": 10.4,
-          "low": 8.0,
-          "high": 13.0
-        },
-        "def_c": {
-          "value": 12.0,
-          "low": 9.0,
-          "high": 15.0
-        },
-        "source": "Modell & Darlison 2008; March of Dimes Global Report on Birth Defects 2006",
-        "doi": "10.2471/BLT.06.036673",
-        "table_or_page": "Modell & Darlison 2008 Table 1; MoD 2006 Appendix tables",
-        "retrieved": "2026-08-10",
-        "note": "Serious single-gene disorders. def_b default of 10.4/1000 reproduces ~1.4M/yr at 135M births, matching the draft paper's monogenic figure.\n"
-      },
-      "multifactorial_serious_per_1000": {
-        "value": 49.0,
-        "low": 40.0,
-        "high": 60.0,
-        "source": "GBD 2023 (Congenital birth defects: <1yr birth prevalence ~42/1000, incidence ~57/1000, Global) brackets this rate; March of Dimes 2006; WHO Congenital anomalies 2023",
-        "doi": "https://vizhub.healthdata.org/gbd-results/",
-        "table_or_page": "GBD 2023 Congenital birth defects, <1yr; MoD 2006 ~6% of births",
-        "retrieved": "2026-08-10",
-        "note": "49/1000 × 135M ≈ 6.6M/yr under the inclusive attribution stance, matching the draft paper.\n"
-      }
-    },
-    "attribution": {
-      "inclusive": {
-        "value": 1.0,
-        "low": 1.0,
-        "high": 1.0,
-        "note": "Any disorder with substantial genetic/multifactorial contribution counted in full."
-      },
-      "heritability_weighted": {
-        "value": 0.5,
-        "low": 0.35,
-        "high": 0.65,
-        "source": "Twin/heritability estimates for congenital anomalies (broad-sense h^2 ~0.3-0.6)",
-        "doi": "n/a",
-        "table_or_page": "reasoned central estimate; see ANALYSIS_LOG",
-        "retrieved": "2026-08-10"
-      },
-      "exclusive": {
-        "value": 0.1,
-        "low": 0.05,
-        "high": 0.18,
-        "note": "Only high-penetrance familial subsets (e.g. familial hypercholesterolaemia within CVD)."
-      }
-    },
-    "prevention_full_coverage": {
-      "monogenic": {
-        "CS": {
-          "value": 0.85,
-          "low": 0.6,
-          "high": 0.95,
-          "outcome": "averted_birth",
-          "source": "Cyprus/Sardinia/Greece thalassaemia premarital+carrier programs",
-          "doi": "10.2471/BLT.06.036673",
-          "table_or_page": "Modell & Darlison 2008; Cao 1989; Kattamis 2020"
-        },
-        "PGT": {
-          "value": 0.95,
-          "low": 0.85,
-          "high": 0.99,
-          "outcome": "averted_birth",
-          "source": "ESHRE PGT Consortium data collections",
-          "doi": "10.1093/humrep/deq231",
-          "table_or_page": "Harper et al. ESHRE PGT best-practice"
-        },
-        "PND": {
-          "value": 0.7,
-          "low": 0.4,
-          "high": 0.9,
-          "outcome": "averted_birth",
-          "termination_dependent": true,
-          "source": "Denmark/Iceland/Netherlands trisomy-21 screening outcomes",
-          "doi": "n/a",
-          "table_or_page": "Wald 2018; national screening registries"
-        },
-        "NBS": {
-          "value": 0.55,
-          "low": 0.3,
-          "high": 0.8,
-          "outcome": "averted_burden",
-          "source": "SMA presymptomatic treatment (NURTURE); metabolic NBS ICERs",
-          "doi": "n/a",
-          "table_or_page": "Kirby & Browne 2021; NURTURE cohort",
-          "treatable_fraction": {
-            "value": 0.25,
-            "low": 0.15,
-            "high": 0.4,
-            "note": "share of serious monogenic conditions with an effective early-life therapy"
-          }
-        }
-      },
-      "multifactorial": {
-        "CS": {
-          "value": 0.05,
-          "low": 0.01,
-          "high": 0.12,
-          "outcome": "averted_birth",
-          "source": "limited monogenic subsets within multifactorial bucket",
-          "doi": "n/a",
-          "table_or_page": "reasoned"
-        },
-        "PGT": {
-          "value": 0.05,
-          "low": 0.01,
-          "high": 0.12,
-          "outcome": "averted_birth",
-          "source": "PGT-A/-M applicable to small share",
-          "doi": "n/a",
-          "table_or_page": "reasoned"
-        },
-        "PND": {
-          "value": 0.45,
-          "low": 0.25,
-          "high": 0.65,
-          "outcome": "averted_birth",
-          "termination_dependent": true,
-          "source": "prenatal detection of major structural anomalies (CHD, NTD)",
-          "doi": "n/a",
-          "table_or_page": "reasoned"
-        },
-        "NBS": {
-          "value": 0.15,
-          "low": 0.05,
-          "high": 0.3,
-          "outcome": "averted_burden",
-          "source": "limited treatable multifactorial subset",
-          "doi": "n/a",
-          "table_or_page": "reasoned"
-        }
-      }
-    },
-    "coverage": {
-      "current": {
-        "CS": {
-          "value": 0.12,
-          "low": 0.05,
-          "high": 0.25
-        },
-        "PGT": {
-          "value": 0.06,
-          "low": 0.02,
-          "high": 0.15
-        },
-        "PND": {
-          "value": 0.35,
-          "low": 0.2,
-          "high": 0.55
-        },
-        "NBS": {
-          "value": 0.3,
-          "low": 0.15,
-          "high": 0.5
-        }
-      },
-      "achievable_2035": {
-        "CS": {
-          "value": 0.55,
-          "low": 0.35,
-          "high": 0.75
-        },
-        "PGT": {
-          "value": 0.3,
-          "low": 0.15,
-          "high": 0.5
-        },
-        "PND": {
-          "value": 0.65,
-          "low": 0.45,
-          "high": 0.85
-        },
-        "NBS": {
-          "value": 0.7,
-          "low": 0.5,
-          "high": 0.9
-        }
-      },
-      "ideal": {
-        "CS": {
-          "value": 0.98,
-          "low": 0.95,
-          "high": 1.0
-        },
-        "PGT": {
-          "value": 0.98,
-          "low": 0.95,
-          "high": 1.0
-        },
-        "PND": {
-          "value": 0.98,
-          "low": 0.95,
-          "high": 1.0
-        },
-        "NBS": {
-          "value": 0.98,
-          "low": 0.95,
-          "high": 1.0
-        }
-      },
-      "note": "'current' coverage is population-weighted global; ~94% of birth-defect births occur in LMICs with limited access (March of Dimes 2006), which pins current global coverage low.\n"
-    },
-    "s2": {
-      "fraction_of_multifactorial": {
-        "strict": {
-          "value": 0.0005,
-          "low": 0.0,
-          "high": 0.003
-        },
-        "permissive": {
-          "value": 0.02,
-          "low": 0.008,
-          "high": 0.035,
-          "note": "0.02 × 6.6M ≈ 132k, matching the draft paper's permissive figure"
-        }
-      },
-      "source": "Ference et al. 2017 (PCSK9); Savulescu et al. 2025 (heritable polygenic editing); reasoned netting",
-      "doi": "10.1038/s41586-024-08300-4",
-      "table_or_page": "see ANALYSIS_LOG §S2",
-      "retrieved": "2026-08-10"
-    },
-    "resistance": {
-      "hiv_vertical_infections_per_year": {
-        "value": 130000,
-        "low": 110000,
-        "high": 160000,
-        "source": "UNAIDS AIDSinfo 2023 (new vertical HIV infections)",
-        "doi": "https://www.unaids.org/en/resources/fact-sheet",
-        "table_or_page": "UNAIDS 2023 fact sheet",
-        "retrieved": "2026-08-10"
-      },
-      "pmtct_effectiveness": {
-        "value": 0.98,
-        "low": 0.9,
-        "high": 0.99,
-        "source": "WHO PMTCT (mother-to-child transmission prevention) where implemented",
-        "doi": "n/a",
-        "table_or_page": "WHO 2022 PMTCT guidance",
-        "retrieved": "2026-08-10"
-      },
-      "pmtct_coverage_global": {
-        "value": 0.82,
-        "low": 0.7,
-        "high": 0.9,
-        "source": "UNAIDS PMTCT coverage estimate",
-        "doi": "https://www.unaids.org/en/resources/fact-sheet",
-        "table_or_page": "UNAIDS 2023",
-        "retrieved": "2026-08-10"
-      },
-      "cardiovascular_note": "Statins + somatic PCSK9 inhibition deliver comparable LDL lowering cheaply for most at-risk individuals; unique germline benefit is small relative to the birth cohort. Computed as a residual over statin-eligible coverage in residual.py.\n",
-      "neurodegeneration_computable": false
-    },
-    "costs": {
-      "carrier_screening_per_couple": {
-        "value": 200,
-        "low": 60,
-        "high": 500,
-        "source": "expanded carrier-screening panel list prices (high-throughput)",
-        "doi": "n/a",
-        "table_or_page": "reasoned from commercial panel pricing",
-        "retrieved": "2026-08-10"
-      },
-      "ivf_pgt_cycle": {
-        "value": 15000,
-        "low": 6000,
-        "high": 25000,
-        "source": "IVF + PGT-M cycle cost, region-dependent",
-        "doi": "n/a",
-        "table_or_page": "reasoned; ESHRE cost surveys",
-        "retrieved": "2026-08-10"
-      },
-      "prenatal_screen_per_pregnancy": {
-        "value": 120,
-        "low": 40,
-        "high": 300,
-        "source": "cfDNA/NIPT + confirmatory dx program cost",
-        "doi": "n/a",
-        "table_or_page": "reasoned",
-        "retrieved": "2026-08-10"
-      },
-      "newborn_screen_per_infant": {
-        "value": 25,
-        "low": 8,
-        "high": 60,
-        "source": "NBS panel cost per infant (excl. treatment)",
-        "doi": "n/a",
-        "table_or_page": "reasoned; Kirby & Browne 2021",
-        "retrieved": "2026-08-10"
-      },
-      "haemoglobinopathy_program_per_birth_prevented": {
-        "value": 12000,
-        "low": 4000,
-        "high": 30000,
-        "source": "Cousens et al. 2010 β-thalassaemia carrier-screening cost-effectiveness",
-        "doi": "10.1038/ejhg.2010.90",
-        "table_or_page": "Cousens et al. 2010",
-        "retrieved": "2026-08-10"
-      },
-      "gene_therapy_list_price": {
-        "value": 2500000,
-        "low": 2100000,
-        "high": 4250000,
-        "source": "Approved one-time gene-therapy US list prices: Zolgensma ~$2.1M (SMA), Casgevy $2.2M (SCD), Hemgenix $3.5M (haemophilia B), Lenmeldy $4.25M (MLD, most expensive drug, 2024)",
-        "doi": "n/a",
-        "table_or_page": "manufacturer list prices 2019-2024 (Novartis, Vertex/CRISPR, CSL, Orchard)",
-        "retrieved": "2026-08-10"
-      },
-      "pmtct_cost_per_infection_averted": {
-        "value": 2000,
-        "low": 200,
-        "high": 15000,
-        "source": "PMTCT cost-effectiveness: single-dose nevirapine ~$150-300/infection averted; Option B+ ~$4,000-23,000 (Tanzania PMTCT-Plus $4,062)",
-        "doi": "10.2471/BLT.13.123646",
-        "table_or_page": "Option B+ cost-benefit (Bull WHO 2014); PMTCT-Plus Tanzania cost-effectiveness",
-        "retrieved": "2026-08-10"
-      },
-      "editing_program_per_birth_prevented": {
-        "value": 500000,
-        "low": 150000,
-        "high": 2000000,
-        "source": "reasoned germline-editing program overhead (IVF+PGT base + editing + oversight)",
-        "doi": "n/a",
-        "table_or_page": "wide interval; see ANALYSIS_LOG §costs",
-        "retrieved": "2026-08-10",
-        "placeholder": true
-      },
-      "daly_per_severe_monogenic_case": {
-        "value": 20,
-        "low": 8,
-        "high": 40,
-        "source": "GBD 2023: congenital birth defects DALYs (54.8M) / <1yr incident cases (7.07M) ≈ 7.7 DALYs per congenital case (all severities); severe early-onset monogenic conditions carry more, hence a higher central value",
-        "doi": "https://vizhub.healthdata.org/gbd-results/",
-        "table_or_page": "GBD 2023 Results, Congenital birth defects, DALYs & Incidence, Global 2023",
-        "retrieved": "2026-08-10"
-      }
-    },
-    "embryo_accounting": {
-      "blastocysts_per_ivf_cycle": {
-        "value": 5.0,
-        "low": 3.0,
-        "high": 10.0,
-        "source": "usable blastocysts per stimulated IVF cycle (age-dependent)",
-        "doi": "n/a",
-        "table_or_page": "ESHRE/SART ART registries",
-        "retrieved": "2026-08-10"
-      },
-      "live_birth_rate_per_transfer": {
-        "value": 0.45,
-        "low": 0.3,
-        "high": 0.6,
-        "source": "live-birth rate per single euploid/unaffected blastocyst transfer",
-        "doi": "n/a",
-        "table_or_page": "SART/ESHRE single-embryo-transfer outcomes",
-        "retrieved": "2026-08-10"
-      },
-      "unaffected_embryo_fraction": {
-        "autosomal_recessive": {
-          "value": 0.75,
-          "low": 0.7,
-          "high": 0.78,
-          "note": "both carriers → 1/4 affected"
-        },
-        "autosomal_dominant": {
-          "value": 0.5,
-          "low": 0.45,
-          "high": 0.55,
-          "note": "affected het × unaffected → 1/2 affected"
-        },
-        "x_linked_recessive": {
-          "value": 0.75,
-          "low": 0.6,
-          "high": 0.8,
-          "note": "carrier mother; unaffected embryos selectable (may also select sex)"
-        },
-        "x_linked_dominant": {
-          "value": 0.5,
-          "low": 0.4,
-          "high": 0.55,
-          "note": "affected parent → ~1/2 affected"
-        },
-        "chromosomal": {
-          "value": 0.45,
-          "low": 0.2,
-          "high": 0.7,
-          "note": "euploid fraction (aneuploidy risk / translocation-carrier segregation), age-dependent"
-        },
-        "multifactorial": {
-          "value": 0.5,
-          "low": 0.3,
-          "high": 0.7,
-          "note": "no single-locus target; selection is polygenic (see viability model)"
-        }
-      }
-    },
-    "program_anchors": {
-      "thalassaemia_major_reduction": {
-        "value": 0.9,
-        "low": 0.7,
-        "high": 0.95,
-        "source": "Cyprus/Sardinia/Greece national thalassaemia programs",
-        "doi": "10.2471/BLT.06.036673",
-        "table_or_page": "Angastiniotis & Hadjiminas 1981; Cao 1989; Kattamis 2020",
-        "retrieved": "2026-08-10"
-      },
-      "down_syndrome_reduction_nordic": {
-        "value": 0.7,
-        "low": 0.55,
-        "high": 0.85,
-        "source": "Denmark/Iceland/Netherlands prenatal screening outcomes",
-        "doi": "n/a",
-        "table_or_page": "Wald 2018",
-        "retrieved": "2026-08-10"
-      }
-    }
+ "constants": {
+  "meta": {
+   "spec_version": "3.0",
+   "currency_year": 2024,
+   "notes": "This file is the single source of truth for the deterministic pipeline. Ingest modules (core/denominator/ingest/*) overwrite the PLACEHOLDER entries in-place with primary data when their sources are available; until then the pipeline runs on these cited anchors.\n"
   },
-  "conditions": {
-    "global_defaults": {
-      "consanguinity_F": {
-        "value": 0.01,
-        "low": 0.004,
-        "high": 0.02,
-        "source": "Bittles & Black 2010; consang.net. Consanguineous unions ~10.4% globally (2nd-cousin or closer); 20-50% across MENA/South Asia (Pakistan ~64%, Egypt 20-39%), <1% in most high-income settings. Population mean kinship F weighted accordingly.",
-        "doi": "10.1073/pnas.0906079106",
-        "table_or_page": "Bittles & Black PNAS 2010; consang.net global map",
-        "retrieved": "2026-08-10"
-      },
-      "translocation_no_viable_euploid_per_1000": {
-        "value": 0.02,
-        "low": 0.005,
-        "high": 0.05,
-        "source": "balanced-translocation carriers with no viable euploid embryo (rare configs)",
-        "doi": "n/a",
-        "table_or_page": "reasoned; cytogenetic literature",
-        "retrieved": "2026-08-10"
-      }
-    },
-    "conditions": [
-      {
-        "name": "Sickle cell disease",
-        "gene": "HBB (HbS)",
-        "inheritance": "recessive",
-        "allele_freq": {
-          "value": 0.018,
-          "low": 0.012,
-          "high": 0.025
-        },
-        "penetrance": {
-          "value": 1.0,
-          "low": 0.95,
-          "high": 1.0
-        },
-        "survival_to_repro": {
-          "value": 0.55,
-          "low": 0.3,
-          "high": 0.75
-        },
-        "assortative": {
-          "value": 0.2,
-          "low": 0.05,
-          "high": 0.45
-        },
-        "consanguinity_sensitive": true,
-        "source": "gnomAD HBB; Modell & Darlison 2008; Piel et al. sickle epidemiology",
-        "doi": "10.2471/BLT.06.036673"
-      },
-      {
-        "name": "Beta-thalassaemia",
-        "gene": "HBB",
-        "inheritance": "recessive",
-        "allele_freq": {
-          "value": 0.012,
-          "low": 0.007,
-          "high": 0.02
-        },
-        "penetrance": {
-          "value": 1.0,
-          "low": 0.95,
-          "high": 1.0
-        },
-        "survival_to_repro": {
-          "value": 0.3,
-          "low": 0.1,
-          "high": 0.55
-        },
-        "assortative": {
-          "value": 0.15,
-          "low": 0.03,
-          "high": 0.35
-        },
-        "consanguinity_sensitive": true,
-        "source": "gnomAD HBB; Modell & Darlison 2008",
-        "doi": "10.2471/BLT.06.036673"
-      },
-      {
-        "name": "Cystic fibrosis",
-        "gene": "CFTR",
-        "inheritance": "recessive",
-        "allele_freq": {
-          "value": 0.015,
-          "low": 0.01,
-          "high": 0.022
-        },
-        "penetrance": {
-          "value": 0.98,
-          "low": 0.9,
-          "high": 1.0
-        },
-        "survival_to_repro": {
-          "value": 0.25,
-          "low": 0.08,
-          "high": 0.45
-        },
-        "assortative": {
-          "value": 0.05,
-          "low": 0.0,
-          "high": 0.15
-        },
-        "consanguinity_sensitive": true,
-        "source": "gnomAD CFTR F508del + panel; CF Registry survival",
-        "doi": "n/a"
-      },
-      {
-        "name": "Congenital sensorineural deafness (GJB2)",
-        "gene": "GJB2 (connexin-26)",
-        "inheritance": "recessive",
-        "allele_freq": {
-          "value": 0.013,
-          "low": 0.008,
-          "high": 0.02
-        },
-        "penetrance": {
-          "value": 0.95,
-          "low": 0.85,
-          "high": 1.0
-        },
-        "survival_to_repro": {
-          "value": 0.98,
-          "low": 0.9,
-          "high": 1.0
-        },
-        "assortative": {
-          "value": 0.75,
-          "low": 0.55,
-          "high": 0.9
-        },
-        "locus_concordance": {
-          "value": 0.45,
-          "low": 0.3,
-          "high": 0.6
-        },
-        "consanguinity_sensitive": true,
-        "contested": true,
-        "contested_reason": "Congenital deafness is the single largest S1 contributor but its inclusion is contested: many Deaf people do not regard it as a disease, and Deaf×Deaf couples may actively seek Deaf children. Reported as an explicit in/out toggle rather than silently counted.\n",
-        "source": "gnomAD GJB2 35delG; assortative-mating studies in Deaf communities (Nance & Kearsey)",
-        "doi": "n/a",
-        "note": "Large per-couple S1 contributor via assortative mating + full survival, but tempered by locus_concordance: two Deaf partners produce all-affected embryos only when both are homozygous at the SAME locus (GJB2 explains ~half of congenital non-syndromic deafness).\n"
-      },
-      {
-        "name": "Spinal muscular atrophy (type I)",
-        "gene": "SMN1",
-        "inheritance": "recessive",
-        "allele_freq": {
-          "value": 0.01,
-          "low": 0.006,
-          "high": 0.015
-        },
-        "penetrance": {
-          "value": 1.0,
-          "low": 0.98,
-          "high": 1.0
-        },
-        "survival_to_repro": {
-          "value": 0.02,
-          "low": 0.0,
-          "high": 0.1
-        },
-        "assortative": {
-          "value": 0.02,
-          "low": 0.0,
-          "high": 0.08
-        },
-        "consanguinity_sensitive": true,
-        "source": "gnomAD SMN1; NURTURE natural history",
-        "doi": "n/a"
-      },
-      {
-        "name": "Tay-Sachs disease",
-        "gene": "HEXA",
-        "inheritance": "recessive",
-        "allele_freq": {
-          "value": 0.0015,
-          "low": 0.0005,
-          "high": 0.006
-        },
-        "penetrance": {
-          "value": 1.0,
-          "low": 0.98,
-          "high": 1.0
-        },
-        "survival_to_repro": {
-          "value": 0.0,
-          "low": 0.0,
-          "high": 0.02
-        },
-        "assortative": {
-          "value": 0.1,
-          "low": 0.0,
-          "high": 0.3
-        },
-        "consanguinity_sensitive": true,
-        "source": "gnomAD HEXA; Tay-Sachs screening programs (Kaback)",
-        "doi": "n/a"
-      },
-      {
-        "name": "Huntington's disease",
-        "gene": "HTT",
-        "inheritance": "dominant_viable_homozygote",
-        "allele_freq": {
-          "value": 5e-05,
-          "low": 2e-05,
-          "high": 0.0001
-        },
-        "penetrance": {
-          "value": 1.0,
-          "low": 0.95,
-          "high": 1.0
-        },
-        "survival_to_repro": {
-          "value": 0.85,
-          "low": 0.7,
-          "high": 0.95
-        },
-        "assortative": {
-          "value": 0.02,
-          "low": 0.0,
-          "high": 0.08
-        },
-        "homozygote_viable": true,
-        "consanguinity_sensitive": false,
-        "source": "HD prevalence; homozygotes viable and phenotypically similar to heterozygotes",
-        "doi": "n/a",
-        "note": "AA homozygote channel; numerically tiny but the canonical dominant-viable case."
-      }
-    ]
+  "births": {
+   "global_per_year": {
+    "value": 135000000,
+    "low": 130000000,
+    "high": 140000000,
+    "source": "UN World Population Prospects 2024 (annual live births, world, 2023)",
+    "doi": "https://population.un.org/wpp/",
+    "table_or_page": "Demographic Indicators, Births (thousands), World, 2023",
+    "retrieved": "2026-08-10",
+    "note": "WPP 2024 places annual world births near 134M and declining; the draft paper rounds to ~140M. Modelled as an interval [130M, 140M]. Per-country births are pulled by ingest/un_wpp.py into data/curated/births_by_country.parquet and aggregated to regions.\n",
+    "epistemic_status": "cited"
+   }
   },
-  "regions": {
-    "income_groups": {
-      "High income": {
-        "birth_share": {
-          "value": 0.1,
-          "low": 0.08,
-          "high": 0.12
-        },
-        "access_multiplier": {
-          "value": 1.0,
-          "low": 0.95,
-          "high": 1.0
-        },
-        "consanguinity_F": {
-          "value": 0.002,
-          "low": 0.001,
-          "high": 0.005
-        }
-      },
-      "Upper-middle income": {
-        "birth_share": {
-          "value": 0.32,
-          "low": 0.28,
-          "high": 0.36
-        },
-        "access_multiplier": {
-          "value": 0.55,
-          "low": 0.35,
-          "high": 0.75
-        },
-        "consanguinity_F": {
-          "value": 0.01,
-          "low": 0.004,
-          "high": 0.02
-        }
-      },
-      "Lower-middle income": {
-        "birth_share": {
-          "value": 0.44,
-          "low": 0.4,
-          "high": 0.48
-        },
-        "access_multiplier": {
-          "value": 0.2,
-          "low": 0.1,
-          "high": 0.35
-        },
-        "consanguinity_F": {
-          "value": 0.02,
-          "low": 0.01,
-          "high": 0.035
-        }
-      },
-      "Low income": {
-        "birth_share": {
-          "value": 0.14,
-          "low": 0.11,
-          "high": 0.17
-        },
-        "access_multiplier": {
-          "value": 0.08,
-          "low": 0.03,
-          "high": 0.18
-        },
-        "consanguinity_F": {
-          "value": 0.025,
-          "low": 0.012,
-          "high": 0.045
-        }
-      }
+  "burden": {
+   "monogenic_serious_per_1000": {
+    "def_a": {
+     "value": 8.0,
+     "low": 6.0,
+     "high": 10.0
     },
-    "gbd_super_regions": {
-      "Sub-Saharan Africa": {
-        "birth_share": {
-          "value": 0.24,
-          "low": 0.21,
-          "high": 0.27
-        }
-      },
-      "South Asia": {
-        "birth_share": {
-          "value": 0.25,
-          "low": 0.22,
-          "high": 0.28
-        }
-      },
-      "Southeast/East Asia & Oceania": {
-        "birth_share": {
-          "value": 0.2,
-          "low": 0.17,
-          "high": 0.23
-        }
-      },
-      "North Africa & Middle East": {
-        "birth_share": {
-          "value": 0.09,
-          "low": 0.07,
-          "high": 0.11
-        }
-      },
-      "Latin America & Caribbean": {
-        "birth_share": {
-          "value": 0.08,
-          "low": 0.06,
-          "high": 0.1
-        }
-      },
-      "Central Europe/Eastern Europe/Central Asia": {
-        "birth_share": {
-          "value": 0.06,
-          "low": 0.05,
-          "high": 0.08
-        }
-      },
-      "High-income": {
-        "birth_share": {
-          "value": 0.08,
-          "low": 0.06,
-          "high": 0.1
-        }
-      }
+    "def_b": {
+     "value": 10.4,
+     "low": 8.0,
+     "high": 13.0
     },
-    "source": {
-      "source": "UN WPP 2024 regional births; World Bank income classification FY24",
-      "doi": "https://population.un.org/wpp/",
-      "table_or_page": "regional live births 2023 (population-weighted)",
-      "retrieved": "2026-08-10",
-      "note": "Placeholder shares pending ingest/un_wpp.py per-country pull."
+    "def_c": {
+     "value": 12.0,
+     "low": 9.0,
+     "high": 15.0
+    },
+    "source": "Modell & Darlison 2008; March of Dimes Global Report on Birth Defects 2006",
+    "doi": "10.2471/BLT.06.036673",
+    "table_or_page": "Modell & Darlison 2008 Table 1; MoD 2006 Appendix tables",
+    "retrieved": "2026-08-10",
+    "note": "Serious single-gene disorders. def_b default of 10.4/1000 reproduces ~1.4M/yr at 135M births, matching the draft paper's monogenic figure.\n",
+    "epistemic_status": "cited"
+   },
+   "multifactorial_serious_per_1000": {
+    "value": 49.0,
+    "low": 40.0,
+    "high": 60.0,
+    "source": "GBD 2023 (Congenital birth defects: <1yr birth prevalence ~42/1000, incidence ~57/1000, Global) brackets this rate; March of Dimes 2006; WHO Congenital anomalies 2023",
+    "doi": "https://vizhub.healthdata.org/gbd-results/",
+    "table_or_page": "GBD 2023 Congenital birth defects, <1yr; MoD 2006 ~6% of births",
+    "retrieved": "2026-08-10",
+    "note": "49/1000 × 135M ≈ 6.6M/yr under the inclusive attribution stance, matching the draft paper.\n",
+    "epistemic_status": "cited"
+   }
+  },
+  "attribution": {
+   "inclusive": {
+    "value": 1.0,
+    "low": 1.0,
+    "high": 1.0,
+    "note": "Any disorder with substantial genetic/multifactorial contribution counted in full.",
+    "epistemic_status": "normative_choice"
+   },
+   "heritability_weighted": {
+    "value": 0.5,
+    "low": 0.35,
+    "high": 0.65,
+    "source": "Twin/heritability estimates for congenital anomalies (broad-sense h^2 ~0.3-0.6)",
+    "doi": "n/a",
+    "table_or_page": "reasoned central estimate; see ANALYSIS_LOG",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "normative_choice"
+   },
+   "exclusive": {
+    "value": 0.1,
+    "low": 0.05,
+    "high": 0.18,
+    "note": "Only high-penetrance familial subsets (e.g. familial hypercholesterolaemia within CVD).",
+    "epistemic_status": "normative_choice"
+   }
+  },
+  "prevention_full_coverage": {
+   "monogenic": {
+    "CS": {
+     "value": 0.85,
+     "low": 0.6,
+     "high": 0.95,
+     "outcome": "averted_birth",
+     "source": "Cyprus/Sardinia/Greece thalassaemia premarital+carrier programs",
+     "doi": "10.2471/BLT.06.036673",
+     "table_or_page": "Modell & Darlison 2008; Cao 1989; Kattamis 2020",
+     "epistemic_status": "cited"
+    },
+    "PGT": {
+     "value": 0.95,
+     "low": 0.85,
+     "high": 0.99,
+     "outcome": "averted_birth",
+     "source": "ESHRE PGT Consortium data collections",
+     "doi": "10.1093/humrep/deq231",
+     "table_or_page": "Harper et al. ESHRE PGT best-practice",
+     "epistemic_status": "cited"
+    },
+    "PND": {
+     "value": 0.7,
+     "low": 0.4,
+     "high": 0.9,
+     "outcome": "averted_birth",
+     "termination_dependent": true,
+     "source": "Denmark/Iceland/Netherlands trisomy-21 screening outcomes",
+     "doi": "n/a",
+     "table_or_page": "Wald 2018; national screening registries",
+     "epistemic_status": "cited"
+    },
+    "NBS": {
+     "value": 0.55,
+     "low": 0.3,
+     "high": 0.8,
+     "outcome": "averted_burden",
+     "source": "SMA presymptomatic treatment (NURTURE); metabolic NBS ICERs",
+     "doi": "n/a",
+     "table_or_page": "Kirby & Browne 2021; NURTURE cohort",
+     "treatable_fraction": {
+      "value": 0.25,
+      "low": 0.15,
+      "high": 0.4,
+      "note": "share of serious monogenic conditions with an effective early-life therapy"
+     },
+     "epistemic_status": "cited"
     }
+   },
+   "multifactorial": {
+    "CS": {
+     "value": 0.05,
+     "low": 0.01,
+     "high": 0.12,
+     "outcome": "averted_birth",
+     "source": "limited monogenic subsets within multifactorial bucket",
+     "doi": "n/a",
+     "table_or_page": "reasoned",
+     "epistemic_status": "modeling_assumption"
+    },
+    "PGT": {
+     "value": 0.05,
+     "low": 0.01,
+     "high": 0.12,
+     "outcome": "averted_birth",
+     "source": "PGT-A/-M applicable to small share",
+     "doi": "n/a",
+     "table_or_page": "reasoned",
+     "epistemic_status": "modeling_assumption"
+    },
+    "PND": {
+     "value": 0.45,
+     "low": 0.25,
+     "high": 0.65,
+     "outcome": "averted_birth",
+     "termination_dependent": true,
+     "source": "prenatal detection of major structural anomalies (CHD, NTD)",
+     "doi": "n/a",
+     "table_or_page": "reasoned",
+     "epistemic_status": "modeling_assumption"
+    },
+    "NBS": {
+     "value": 0.15,
+     "low": 0.05,
+     "high": 0.3,
+     "outcome": "averted_burden",
+     "source": "limited treatable multifactorial subset",
+     "doi": "n/a",
+     "table_or_page": "reasoned",
+     "epistemic_status": "modeling_assumption"
+    }
+   }
+  },
+  "coverage": {
+   "current": {
+    "CS": {
+     "value": 0.12,
+     "low": 0.05,
+     "high": 0.25,
+     "epistemic_status": "modeling_assumption"
+    },
+    "PGT": {
+     "value": 0.06,
+     "low": 0.02,
+     "high": 0.15,
+     "epistemic_status": "modeling_assumption"
+    },
+    "PND": {
+     "value": 0.35,
+     "low": 0.2,
+     "high": 0.55,
+     "epistemic_status": "modeling_assumption"
+    },
+    "NBS": {
+     "value": 0.3,
+     "low": 0.15,
+     "high": 0.5,
+     "epistemic_status": "modeling_assumption"
+    }
+   },
+   "achievable_2035": {
+    "CS": {
+     "value": 0.55,
+     "low": 0.35,
+     "high": 0.75,
+     "epistemic_status": "modeling_assumption"
+    },
+    "PGT": {
+     "value": 0.3,
+     "low": 0.15,
+     "high": 0.5,
+     "epistemic_status": "modeling_assumption"
+    },
+    "PND": {
+     "value": 0.65,
+     "low": 0.45,
+     "high": 0.85,
+     "epistemic_status": "modeling_assumption"
+    },
+    "NBS": {
+     "value": 0.7,
+     "low": 0.5,
+     "high": 0.9,
+     "epistemic_status": "modeling_assumption"
+    }
+   },
+   "ideal": {
+    "CS": {
+     "value": 0.98,
+     "low": 0.95,
+     "high": 1.0,
+     "epistemic_status": "modeling_assumption"
+    },
+    "PGT": {
+     "value": 0.98,
+     "low": 0.95,
+     "high": 1.0,
+     "epistemic_status": "modeling_assumption"
+    },
+    "PND": {
+     "value": 0.98,
+     "low": 0.95,
+     "high": 1.0,
+     "epistemic_status": "modeling_assumption"
+    },
+    "NBS": {
+     "value": 0.98,
+     "low": 0.95,
+     "high": 1.0,
+     "epistemic_status": "modeling_assumption"
+    }
+   },
+   "note": "'current' coverage is population-weighted global; ~94% of birth-defect births occur in LMICs with limited access (March of Dimes 2006), which pins current global coverage low.\n"
+  },
+  "s2": {
+   "fraction_of_multifactorial": {
+    "strict": {
+     "value": 0.0005,
+     "low": 0.0,
+     "high": 0.003
+    },
+    "permissive": {
+     "value": 0.02,
+     "low": 0.008,
+     "high": 0.035,
+     "note": "0.02 × 6.6M ≈ 132k, matching the draft paper's permissive figure"
+    }
+   },
+   "source": "Ference et al. 2017 (PCSK9); Savulescu et al. 2025 (heritable polygenic editing); reasoned netting",
+   "doi": "10.1038/s41586-024-08300-4",
+   "table_or_page": "see ANALYSIS_LOG §S2",
+   "retrieved": "2026-08-10",
+   "epistemic_status": "modeling_assumption"
+  },
+  "resistance": {
+   "hiv_vertical_infections_per_year": {
+    "value": 130000,
+    "low": 110000,
+    "high": 160000,
+    "source": "UNAIDS AIDSinfo 2023 (new vertical HIV infections)",
+    "doi": "https://www.unaids.org/en/resources/fact-sheet",
+    "table_or_page": "UNAIDS 2023 fact sheet",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "cited"
+   },
+   "pmtct_effectiveness": {
+    "value": 0.98,
+    "low": 0.9,
+    "high": 0.99,
+    "source": "WHO PMTCT (mother-to-child transmission prevention) where implemented",
+    "doi": "n/a",
+    "table_or_page": "WHO 2022 PMTCT guidance",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "cited"
+   },
+   "pmtct_coverage_global": {
+    "value": 0.82,
+    "low": 0.7,
+    "high": 0.9,
+    "source": "UNAIDS PMTCT coverage estimate",
+    "doi": "https://www.unaids.org/en/resources/fact-sheet",
+    "table_or_page": "UNAIDS 2023",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "cited"
+   },
+   "cardiovascular_note": "Statins + somatic PCSK9 inhibition deliver comparable LDL lowering cheaply for most at-risk individuals; unique germline benefit is small relative to the birth cohort. Computed as a residual over statin-eligible coverage in residual.py.\n",
+   "neurodegeneration_computable": false
+  },
+  "costs": {
+   "carrier_screening_per_couple": {
+    "value": 200,
+    "low": 60,
+    "high": 500,
+    "source": "expanded carrier-screening panel list prices (high-throughput)",
+    "doi": "n/a",
+    "table_or_page": "reasoned from commercial panel pricing",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "modeling_assumption"
+   },
+   "ivf_pgt_cycle": {
+    "value": 15000,
+    "low": 6000,
+    "high": 25000,
+    "source": "IVF + PGT-M cycle cost, region-dependent",
+    "doi": "n/a",
+    "table_or_page": "reasoned; ESHRE cost surveys",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "modeling_assumption"
+   },
+   "prenatal_screen_per_pregnancy": {
+    "value": 120,
+    "low": 40,
+    "high": 300,
+    "source": "cfDNA/NIPT + confirmatory dx program cost",
+    "doi": "n/a",
+    "table_or_page": "reasoned",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "modeling_assumption"
+   },
+   "newborn_screen_per_infant": {
+    "value": 25,
+    "low": 8,
+    "high": 60,
+    "source": "NBS panel cost per infant (excl. treatment)",
+    "doi": "n/a",
+    "table_or_page": "reasoned; Kirby & Browne 2021",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "modeling_assumption"
+   },
+   "haemoglobinopathy_program_per_birth_prevented": {
+    "value": 12000,
+    "low": 4000,
+    "high": 30000,
+    "source": "Cousens et al. 2010 β-thalassaemia carrier-screening cost-effectiveness",
+    "doi": "10.1038/ejhg.2010.90",
+    "table_or_page": "Cousens et al. 2010",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "cited"
+   },
+   "gene_therapy_list_price": {
+    "value": 2500000,
+    "low": 2100000,
+    "high": 4250000,
+    "source": "Approved one-time gene-therapy US list prices: Zolgensma ~$2.1M (SMA), Casgevy $2.2M (SCD), Hemgenix $3.5M (haemophilia B), Lenmeldy $4.25M (MLD, most expensive drug, 2024)",
+    "doi": "n/a",
+    "table_or_page": "manufacturer list prices 2019-2024 (Novartis, Vertex/CRISPR, CSL, Orchard)",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "cited"
+   },
+   "pmtct_cost_per_infection_averted": {
+    "value": 2000,
+    "low": 200,
+    "high": 15000,
+    "source": "PMTCT cost-effectiveness: single-dose nevirapine ~$150-300/infection averted; Option B+ ~$4,000-23,000 (Tanzania PMTCT-Plus $4,062)",
+    "doi": "10.2471/BLT.13.123646",
+    "table_or_page": "Option B+ cost-benefit (Bull WHO 2014); PMTCT-Plus Tanzania cost-effectiveness",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "cited"
+   },
+   "editing_program_per_birth_prevented": {
+    "value": 500000,
+    "low": 150000,
+    "high": 2000000,
+    "source": "reasoned germline-editing program overhead (IVF+PGT base + editing + oversight)",
+    "doi": "n/a",
+    "table_or_page": "wide interval; see ANALYSIS_LOG §costs",
+    "retrieved": "2026-08-10",
+    "placeholder": true,
+    "epistemic_status": "provisional"
+   },
+   "daly_per_severe_monogenic_case": {
+    "value": 20,
+    "low": 8,
+    "high": 40,
+    "source": "GBD 2023: congenital birth defects DALYs (54.8M) / <1yr incident cases (7.07M) ≈ 7.7 DALYs per congenital case (all severities); severe early-onset monogenic conditions carry more, hence a higher central value",
+    "doi": "https://vizhub.healthdata.org/gbd-results/",
+    "table_or_page": "GBD 2023 Results, Congenital birth defects, DALYs & Incidence, Global 2023",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "cited"
+   }
+  },
+  "embryo_accounting": {
+   "blastocysts_per_ivf_cycle": {
+    "value": 5.0,
+    "low": 3.0,
+    "high": 10.0,
+    "source": "usable blastocysts per stimulated IVF cycle (age-dependent)",
+    "doi": "n/a",
+    "table_or_page": "ESHRE/SART ART registries",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "cited"
+   },
+   "live_birth_rate_per_transfer": {
+    "value": 0.45,
+    "low": 0.3,
+    "high": 0.6,
+    "source": "live-birth rate per single euploid/unaffected blastocyst transfer",
+    "doi": "n/a",
+    "table_or_page": "SART/ESHRE single-embryo-transfer outcomes",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "cited"
+   },
+   "unaffected_embryo_fraction": {
+    "autosomal_recessive": {
+     "value": 0.75,
+     "low": 0.7,
+     "high": 0.78,
+     "note": "both carriers → 1/4 affected",
+     "epistemic_status": "derived"
+    },
+    "autosomal_dominant": {
+     "value": 0.5,
+     "low": 0.45,
+     "high": 0.55,
+     "note": "affected het × unaffected → 1/2 affected",
+     "epistemic_status": "derived"
+    },
+    "x_linked_recessive": {
+     "value": 0.75,
+     "low": 0.6,
+     "high": 0.8,
+     "note": "carrier mother; unaffected embryos selectable (may also select sex)",
+     "epistemic_status": "derived"
+    },
+    "x_linked_dominant": {
+     "value": 0.5,
+     "low": 0.4,
+     "high": 0.55,
+     "note": "affected parent → ~1/2 affected",
+     "epistemic_status": "derived"
+    },
+    "chromosomal": {
+     "value": 0.45,
+     "low": 0.2,
+     "high": 0.7,
+     "note": "euploid fraction (aneuploidy risk / translocation-carrier segregation), age-dependent",
+     "epistemic_status": "derived"
+    },
+    "multifactorial": {
+     "value": 0.5,
+     "low": 0.3,
+     "high": 0.7,
+     "note": "no single-locus target; selection is polygenic (see viability model)",
+     "epistemic_status": "derived"
+    }
+   }
+  },
+  "program_anchors": {
+   "thalassaemia_major_reduction": {
+    "value": 0.9,
+    "low": 0.7,
+    "high": 0.95,
+    "source": "Cyprus/Sardinia/Greece national thalassaemia programs",
+    "doi": "10.2471/BLT.06.036673",
+    "table_or_page": "Angastiniotis & Hadjiminas 1981; Cao 1989; Kattamis 2020",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "cited"
+   },
+   "down_syndrome_reduction_nordic": {
+    "value": 0.7,
+    "low": 0.55,
+    "high": 0.85,
+    "source": "Denmark/Iceland/Netherlands prenatal screening outcomes",
+    "doi": "n/a",
+    "table_or_page": "Wald 2018",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "cited"
+   }
   }
+ },
+ "conditions": {
+  "global_defaults": {
+   "consanguinity_F": {
+    "value": 0.01,
+    "low": 0.004,
+    "high": 0.02,
+    "source": "Bittles & Black 2010; consang.net. Consanguineous unions ~10.4% globally (2nd-cousin or closer); 20-50% across MENA/South Asia (Pakistan ~64%, Egypt 20-39%), <1% in most high-income settings. Population mean kinship F weighted accordingly.",
+    "doi": "10.1073/pnas.0906079106",
+    "table_or_page": "Bittles & Black PNAS 2010; consang.net global map",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "cited"
+   },
+   "translocation_no_viable_euploid_per_1000": {
+    "value": 0.02,
+    "low": 0.005,
+    "high": 0.05,
+    "source": "balanced-translocation carriers with no viable euploid embryo (rare configs)",
+    "doi": "n/a",
+    "table_or_page": "reasoned; cytogenetic literature",
+    "retrieved": "2026-08-10",
+    "epistemic_status": "modeling_assumption"
+   }
+  },
+  "conditions": [
+   {
+    "name": "Sickle cell disease",
+    "gene": "HBB (HbS)",
+    "inheritance": "recessive",
+    "allele_freq": {
+     "value": 0.018,
+     "low": 0.012,
+     "high": 0.025
+    },
+    "penetrance": {
+     "value": 1.0,
+     "low": 0.95,
+     "high": 1.0
+    },
+    "survival_to_repro": {
+     "value": 0.55,
+     "low": 0.3,
+     "high": 0.75
+    },
+    "assortative": {
+     "value": 0.2,
+     "low": 0.05,
+     "high": 0.45
+    },
+    "consanguinity_sensitive": true,
+    "source": "gnomAD HBB; Modell & Darlison 2008; Piel et al. sickle epidemiology",
+    "doi": "10.2471/BLT.06.036673"
+   },
+   {
+    "name": "Beta-thalassaemia",
+    "gene": "HBB",
+    "inheritance": "recessive",
+    "allele_freq": {
+     "value": 0.012,
+     "low": 0.007,
+     "high": 0.02
+    },
+    "penetrance": {
+     "value": 1.0,
+     "low": 0.95,
+     "high": 1.0
+    },
+    "survival_to_repro": {
+     "value": 0.3,
+     "low": 0.1,
+     "high": 0.55
+    },
+    "assortative": {
+     "value": 0.15,
+     "low": 0.03,
+     "high": 0.35
+    },
+    "consanguinity_sensitive": true,
+    "source": "gnomAD HBB; Modell & Darlison 2008",
+    "doi": "10.2471/BLT.06.036673"
+   },
+   {
+    "name": "Cystic fibrosis",
+    "gene": "CFTR",
+    "inheritance": "recessive",
+    "allele_freq": {
+     "value": 0.015,
+     "low": 0.01,
+     "high": 0.022
+    },
+    "penetrance": {
+     "value": 0.98,
+     "low": 0.9,
+     "high": 1.0
+    },
+    "survival_to_repro": {
+     "value": 0.25,
+     "low": 0.08,
+     "high": 0.45
+    },
+    "assortative": {
+     "value": 0.05,
+     "low": 0.0,
+     "high": 0.15
+    },
+    "consanguinity_sensitive": true,
+    "source": "gnomAD CFTR F508del + panel; CF Registry survival",
+    "doi": "n/a"
+   },
+   {
+    "name": "Congenital sensorineural deafness (GJB2)",
+    "gene": "GJB2 (connexin-26)",
+    "inheritance": "recessive",
+    "allele_freq": {
+     "value": 0.013,
+     "low": 0.008,
+     "high": 0.02
+    },
+    "penetrance": {
+     "value": 0.95,
+     "low": 0.85,
+     "high": 1.0
+    },
+    "survival_to_repro": {
+     "value": 0.98,
+     "low": 0.9,
+     "high": 1.0
+    },
+    "assortative": {
+     "value": 0.75,
+     "low": 0.55,
+     "high": 0.9
+    },
+    "locus_concordance": {
+     "value": 0.45,
+     "low": 0.3,
+     "high": 0.6
+    },
+    "consanguinity_sensitive": true,
+    "contested": true,
+    "contested_reason": "Congenital deafness is the single largest S1 contributor but its inclusion is contested: many Deaf people do not regard it as a disease, and Deaf×Deaf couples may actively seek Deaf children. Reported as an explicit in/out toggle rather than silently counted.\n",
+    "source": "gnomAD GJB2 35delG; assortative-mating studies in Deaf communities (Nance & Kearsey)",
+    "doi": "n/a",
+    "note": "Large per-couple S1 contributor via assortative mating + full survival, but tempered by locus_concordance: two Deaf partners produce all-affected embryos only when both are homozygous at the SAME locus (GJB2 explains ~half of congenital non-syndromic deafness).\n"
+   },
+   {
+    "name": "Spinal muscular atrophy (type I)",
+    "gene": "SMN1",
+    "inheritance": "recessive",
+    "allele_freq": {
+     "value": 0.01,
+     "low": 0.006,
+     "high": 0.015
+    },
+    "penetrance": {
+     "value": 1.0,
+     "low": 0.98,
+     "high": 1.0
+    },
+    "survival_to_repro": {
+     "value": 0.02,
+     "low": 0.0,
+     "high": 0.1
+    },
+    "assortative": {
+     "value": 0.02,
+     "low": 0.0,
+     "high": 0.08
+    },
+    "consanguinity_sensitive": true,
+    "source": "gnomAD SMN1; NURTURE natural history",
+    "doi": "n/a"
+   },
+   {
+    "name": "Tay-Sachs disease",
+    "gene": "HEXA",
+    "inheritance": "recessive",
+    "allele_freq": {
+     "value": 0.0015,
+     "low": 0.0005,
+     "high": 0.006
+    },
+    "penetrance": {
+     "value": 1.0,
+     "low": 0.98,
+     "high": 1.0
+    },
+    "survival_to_repro": {
+     "value": 0.0,
+     "low": 0.0,
+     "high": 0.02
+    },
+    "assortative": {
+     "value": 0.1,
+     "low": 0.0,
+     "high": 0.3
+    },
+    "consanguinity_sensitive": true,
+    "source": "gnomAD HEXA; Tay-Sachs screening programs (Kaback)",
+    "doi": "n/a"
+   },
+   {
+    "name": "Huntington's disease",
+    "gene": "HTT",
+    "inheritance": "dominant_viable_homozygote",
+    "allele_freq": {
+     "value": 5e-05,
+     "low": 2e-05,
+     "high": 0.0001
+    },
+    "penetrance": {
+     "value": 1.0,
+     "low": 0.95,
+     "high": 1.0
+    },
+    "survival_to_repro": {
+     "value": 0.85,
+     "low": 0.7,
+     "high": 0.95
+    },
+    "assortative": {
+     "value": 0.02,
+     "low": 0.0,
+     "high": 0.08
+    },
+    "homozygote_viable": true,
+    "consanguinity_sensitive": false,
+    "source": "HD prevalence; homozygotes viable and phenotypically similar to heterozygotes",
+    "doi": "n/a",
+    "note": "AA homozygote channel; numerically tiny but the canonical dominant-viable case."
+   }
+  ]
+ },
+ "regions": {
+  "income_groups": {
+   "High income": {
+    "birth_share": {
+     "value": 0.1,
+     "low": 0.08,
+     "high": 0.12,
+     "epistemic_status": "modeling_assumption"
+    },
+    "access_multiplier": {
+     "value": 1.0,
+     "low": 0.95,
+     "high": 1.0,
+     "epistemic_status": "modeling_assumption"
+    },
+    "consanguinity_F": {
+     "value": 0.002,
+     "low": 0.001,
+     "high": 0.005,
+     "epistemic_status": "modeling_assumption"
+    }
+   },
+   "Upper-middle income": {
+    "birth_share": {
+     "value": 0.32,
+     "low": 0.28,
+     "high": 0.36,
+     "epistemic_status": "modeling_assumption"
+    },
+    "access_multiplier": {
+     "value": 0.55,
+     "low": 0.35,
+     "high": 0.75,
+     "epistemic_status": "modeling_assumption"
+    },
+    "consanguinity_F": {
+     "value": 0.01,
+     "low": 0.004,
+     "high": 0.02,
+     "epistemic_status": "modeling_assumption"
+    }
+   },
+   "Lower-middle income": {
+    "birth_share": {
+     "value": 0.44,
+     "low": 0.4,
+     "high": 0.48,
+     "epistemic_status": "modeling_assumption"
+    },
+    "access_multiplier": {
+     "value": 0.2,
+     "low": 0.1,
+     "high": 0.35,
+     "epistemic_status": "modeling_assumption"
+    },
+    "consanguinity_F": {
+     "value": 0.02,
+     "low": 0.01,
+     "high": 0.035,
+     "epistemic_status": "modeling_assumption"
+    }
+   },
+   "Low income": {
+    "birth_share": {
+     "value": 0.14,
+     "low": 0.11,
+     "high": 0.17,
+     "epistemic_status": "modeling_assumption"
+    },
+    "access_multiplier": {
+     "value": 0.08,
+     "low": 0.03,
+     "high": 0.18,
+     "epistemic_status": "modeling_assumption"
+    },
+    "consanguinity_F": {
+     "value": 0.025,
+     "low": 0.012,
+     "high": 0.045,
+     "epistemic_status": "modeling_assumption"
+    }
+   }
+  },
+  "gbd_super_regions": {
+   "Sub-Saharan Africa": {
+    "birth_share": {
+     "value": 0.24,
+     "low": 0.21,
+     "high": 0.27,
+     "epistemic_status": "modeling_assumption"
+    }
+   },
+   "South Asia": {
+    "birth_share": {
+     "value": 0.25,
+     "low": 0.22,
+     "high": 0.28,
+     "epistemic_status": "modeling_assumption"
+    }
+   },
+   "Southeast/East Asia & Oceania": {
+    "birth_share": {
+     "value": 0.2,
+     "low": 0.17,
+     "high": 0.23,
+     "epistemic_status": "modeling_assumption"
+    }
+   },
+   "North Africa & Middle East": {
+    "birth_share": {
+     "value": 0.09,
+     "low": 0.07,
+     "high": 0.11,
+     "epistemic_status": "modeling_assumption"
+    }
+   },
+   "Latin America & Caribbean": {
+    "birth_share": {
+     "value": 0.08,
+     "low": 0.06,
+     "high": 0.1,
+     "epistemic_status": "modeling_assumption"
+    }
+   },
+   "Central Europe/Eastern Europe/Central Asia": {
+    "birth_share": {
+     "value": 0.06,
+     "low": 0.05,
+     "high": 0.08,
+     "epistemic_status": "modeling_assumption"
+    }
+   },
+   "High-income": {
+    "birth_share": {
+     "value": 0.08,
+     "low": 0.06,
+     "high": 0.1,
+     "epistemic_status": "modeling_assumption"
+    }
+   }
+  },
+  "source": {
+   "source": "UN WPP 2024 regional births; World Bank income classification FY24",
+   "doi": "https://population.un.org/wpp/",
+   "table_or_page": "regional live births 2023 (population-weighted)",
+   "retrieved": "2026-08-10",
+   "note": "Placeholder shares pending ingest/un_wpp.py per-country pull.",
+   "epistemic_status": "cited"
+  }
+ }
 }

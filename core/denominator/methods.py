@@ -19,8 +19,8 @@ def _m(node: dict) -> str:
 def _mci(node: dict, pct: bool = False) -> str:
     med, lo, hi = node["median"], node["ci95"][0], node["ci95"][1]
     if pct:
-        return f"{med*100:.2f}% (95% CrI {lo*100:.2f}–{hi*100:.2f}%)"
-    return f"{med:,.0f} (95% CrI {lo:,.0f}–{hi:,.0f})"
+        return f"{med*100:.2f}% (95% UI {lo*100:.2f}–{hi*100:.2f}%)"
+    return f"{med:,.0f} (95% UI {lo:,.0f}–{hi:,.0f})"
 
 
 def _flatten(obj, path, out):
@@ -67,7 +67,7 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
       "(a) the gene(s)/locus that cause it, (b) inheritance mode, (c) incidence at birth, and "
       "(d) which genetic-medicine interventions can address it. Aggregate burden and "
       "preventability are **derived bottom-up** by summing the library; a parametric "
-      "**Monte-Carlo model** provides the calibrated top-down denominator with credible intervals "
+      "**Monte-Carlo model** provides the calibrated top-down denominator with 95% uncertainty intervals "
       "and the editing-unique residual. Interventions considered:")
     A("")
     A("- **CS** — preconception carrier screening (identifies at-risk couples)")
@@ -136,7 +136,7 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     A("")
     A(f"Under the default set (severity=`{d['severity']}`, attribution=`{d['attribution']}`):")
     A("")
-    A(_row("Quantity", "Median (95% CrI)"))
+    A(_row("Quantity", "Median (95% UI)"))
     A(_row("---", "---:"))
     A(_row("Monogenic serious births/yr", _mci(b["monogenic"])))
     A(_row("Multifactorial serious births/yr", _mci(b["multifactorial"])))
@@ -231,7 +231,7 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
       "public-health alternatives, under strict vs permissive criteria: "
       f"strict ≈ {_m(res['s2']['strict'])}/yr, permissive ≈ {_m(res['s2']['permissive'])}/yr.")
     A("")
-    A(f"**Uniquely editable total (permissive): {_mci(res['uniquely_editable_total']['permissive'])}"
+    A(f"**Editing-relevant residual, optimistic scenario (S1 + permissive S2): {_mci(res['uniquely_editable_total']['permissive'])}"
       f"** — **{_mci(res['uniquely_editable_share_of_serious']['permissive'], pct=True)}** of serious "
       f"genetic disease; the complement, **"
       f"{_mci(res['addressable_share_of_serious']['permissive'], pct=True)}**, is not uniquely "
@@ -305,16 +305,16 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     A("Embryo **selection** (PGT) achieves an unaffected child by creating several embryos and not "
       "transferring the affected ones — an intrinsic embryo-loss cost that **editing** (repair one "
       "embryo, discard none for disease reasons) does not carry. If a fraction *u* of a couple's "
-      "embryos are unaffected, the disease-caused embryos discarded per unaffected child under "
+      "embryos are unaffected, the embryos not selected for transfer per unaffected child under "
       "selection is **(1−u)/u**, which diverges as *u*→0 — exactly the S1 \"no selectable unaffected "
-      "embryo\" case, where selection is impossible and editing is the only option.")
+      "embryo\" case, where selection is impossible and editing would be the only preventive option.")
     A("")
     A("```")
-    A("Selection: affected embryos discarded / child = (1 − u) / u ;  blastocysts / child ≈ 1/(u·LBR)")
-    A("Editing:   affected embryos discarded / child = 0            ;  blastocysts / child ≈ 1/LBR")
+    A("Selection: embryos not selected for transfer / child = (1 − u) / u ;  blastocysts / child ≈ 1/(u·LBR)")
+    A("Editing:   embryos not selected for transfer / child = 0 (idealized; failure/mosaicism not modeled) ;  blastocysts / child ≈ 1/LBR")
     A("```")
     A("")
-    A(_row("Inheritance (typical at-risk couple)", "Unaffected fraction u", "Affected embryos discarded / child (selection)"))
+    A(_row("Inheritance (typical at-risk couple)", "Unaffected fraction u", "Not selected for transfer / child (selection)"))
     A(_row("---", "---:", "---:"))
     for k, v in em["per_inheritance"].items():
         A(_row(k, f"{v['unaffected_embryo_fraction']:.2f}", f"{v['affected_embryos_discarded_per_child']:.2f}"))
@@ -323,7 +323,8 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     A(f"**Scale contrast (illustrative):** if every PGT-addressable affected birth in the catalogue "
       f"(~{agg['pgt_addressable_affected_births_per_year']:,.0f}/yr) were averted by *selection*, on "
       f"the order of **{agg['affected_embryos_discarded_selection_strategy']:,.0f} affected embryos "
-      f"would be discarded per year**, versus **~0 under an editing strategy**. This is the normative "
+      f"would not be selected for transfer per year**, versus **~0 under an idealized editing strategy** "
+      "(an illustrative counterfactual, not an estimate of actual embryo disposition). This is the normative "
       "axis on which editing can be preferable to the selection stack for conditions with few "
       "unaffected embryos. (Prenatal diagnosis is a separate moral category — termination of an "
       "affected fetus, not embryo discard — and is tracked separately.)")
@@ -335,8 +336,8 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     A(f"All quantities are propagated through a Monte-Carlo of **n={R['meta']['n_draws']:,} draws** "
       "(Beta for proportions matched by moments; Lognormal for rates and costs with the stated "
       "value as median and low/high as ~95% bounds). Ratios and shares are computed per draw, so "
-      "credible intervals are correct. A deterministic **tornado** swings each judgment call across "
-      "its range; the parameters that move the uniquely-editable share most, in order:")
+      "uncertainty intervals are correct. A deterministic **tornado** swings each judgment call across "
+      "its range; the parameters that move the editing-relevant share most, in order:")
     A("")
     A(_row("Parameter", "Editable share range"))
     A(_row("---", "---:"))

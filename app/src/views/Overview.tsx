@@ -3,7 +3,7 @@ import { AllData, DiseaseClass, fmtCompact, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
-import { Figure } from '../components/prose';
+import { Figure, EpistemicTag, EpistemicKind } from '../components/prose';
 
 interface Props {
   data: AllData;
@@ -63,20 +63,24 @@ export default function Overview({ data, update }: Props) {
 
         <Findings data={data} update={update} />
 
+        <KeyDefinitions />
+
         <section className="space-y-3">
           <H>How much serious genetic disease is there?</H>
           <Lead>
-            In each year&apos;s global birth cohort, an estimated{' '}
-            <Big><StatValue stat={burden.total_serious} kind="compact" /></Big> people —{' '}
-            {fmtPct(burden.serious_share_of_births.median, 0)} of roughly 135M births — either
-            have, or will go on to develop, a serious disease with a substantial genetic
-            contribution. The two parts of that total behave very differently: about{' '}
-            {fmtCompact(burden.monogenic.median)} have a single-gene (monogenic) condition,
-            usually apparent at or before birth, while about{' '}
-            {fmtCompact(burden.multifactorial.median)} carry a multifactorial risk — conditions
-            such as heart disease or diabetes that involve many genes together with environment
-            and often appear only decades later. Click any number for its 95% uncertainty
-            interval.
+            Using the paper&apos;s default definitions, the model attributes an estimated{' '}
+            <Big><StatValue stat={burden.total_serious} kind="compact" /></Big> cases per annual
+            global birth cohort ({fmtPct(burden.serious_share_of_births.median, 0)} of roughly{' '}
+            {fmtCompact(data.summary.births_per_year.median)} births) to serious disease with a
+            substantial genetic contribution. About {fmtCompact(burden.monogenic.median)} are
+            assigned to serious monogenic disease — conditions primarily caused by pathogenic
+            variation in a single gene, whose clinical onset ranges from congenital disease to
+            adulthood. The remaining {fmtCompact(burden.multifactorial.median)} represent the
+            model&apos;s inclusive attribution of serious multifactorial or partly genetic
+            disease. Because multifactorial disease reflects both genetic and non-genetic
+            causes, this second quantity depends strongly on how genetic attribution is defined;
+            readers can vary that assumption in the Disease map. Click any number for its 95%
+            uncertainty interval.
             <SourceNote source={monoSrc.source || 'Modell & Darlison 2008'} doi={monoSrc.doi} detail="serious monogenic rate" />
             <SourceNote source={multiSrc.source || 'March of Dimes; WHO congenital anomalies'} doi={multiSrc.doi} detail="serious multifactorial rate" />
             <SourceNote source={birthsSrc.source || 'UN World Population Prospects 2024'} doi={birthsSrc.doi} detail="annual births" />
@@ -86,14 +90,15 @@ export default function Overview({ data, update }: Props) {
         <section className="space-y-3">
           <H>Most of it is not uniquely dependent on germline editing</H>
           <Lead>
-            For nearly all of that burden, at least one existing genetic-medicine pathway
-            applies. But those pathways do different things, so we keep the questions separate:
-            how much disease could be <em>prevented before birth</em> (carrier screening with
-            reproductive planning, IVF with embryo selection, prenatal diagnosis followed by a
-            reproductive decision) — and, for a child born affected, how much can be{' '}
-            <em>treated after birth</em>, from cure through lifelong management to palliation.
-            Germline editing is none of these; it is counted only where no existing pathway
-            reaches.
+            For the great majority of the modeled burden, the analysis does not identify a
+            unique medical requirement for germline editing. Existing reproductive, diagnostic,
+            therapeutic, somatic, or public-health alternatives account for much of that
+            difference — but they do not all achieve the same outcome, so we keep the questions
+            separate: how much disease could be <em>prevented before birth</em> (carrier
+            screening with reproductive planning, IVF with embryo selection, prenatal diagnosis
+            followed by a reproductive decision) — and, for a child born affected, how much can
+            be <em>treated after birth</em>, from cure through lifelong management to
+            palliation.
           </Lead>
           <Figure
             label="Two separate questions: prevention, and treatment"
@@ -106,33 +111,31 @@ export default function Overview({ data, update }: Props) {
         </section>
 
         <section className="space-y-3">
-          <H>How large is the editing-only remainder? It depends what you credit</H>
-          <Lead>
-            The share of serious genetic disease reachable <em>only</em> by germline editing
-            depends on one modeling choice: how much future benefit to credit editing for
-            common complex diseases, where nothing is established today. We report both ends
-            rather than choosing silently.
-          </Lead>
+          <H>Where could editing matter? Two different answers, kept apart</H>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <MiniStat
               tone="emerald"
-              value={`~${fmtPct(editableShare.strict.median, 2)}`}
-              label="Current-evidence case"
-              sub={`about ${fmtCompact(editableTotal.strict.median)} births/yr — essentially the families for whom embryo selection cannot produce an unaffected embryo, with no established complex-disease role`}
+              value={`~${fmtCompact(data.summary.s1_total.median)}/yr`}
+              label="Editing-only prevention"
+              sub="births in modeled reproductive configurations where no unaffected embryo can be selected — the one population for which editing would be the only preventive option"
             />
             <MiniStat
               tone="violet"
-              value={`~${fmtPct(editableShare.permissive.median, 1)}`}
-              label="Optimistic upper bound"
-              sub={`about ${fmtCompact(editableTotal.permissive.median)} births/yr — additionally crediting editing with a future role in a few complex diseases where it could in principle outperform selection`}
+              value={`0 → ~${fmtCompact(data.residual.s2.permissive.median)}/yr`}
+              label="Potential complex-disease editing advantage"
+              sub="under current evidence the modeled contribution is approximately zero; under an optimistic modeled scenario, up to this many additional cases/yr in which editing might outperform modeled alternatives"
             />
           </div>
           <Lead>
-            Across these definitions the central conclusion is unchanged: germline editing is
-            relevant to a small minority of the modeled burden — but the size of that minority
-            depends strongly on how much future complex-disease editing is credited. The
-            remaining {'≈'}98–99.8% is not uniquely dependent on editing; how much of it
-            each pathway actually prevents or mitigates is worked through in{' '}
+            Together these bound a broader <strong>editing-relevant</strong> population — from ~
+            {fmtPct(editableShare.strict.median, 2)} of the modeled burden (about{' '}
+            {fmtCompact(editableTotal.strict.median)} births/yr, current evidence) to ~
+            {fmtPct(editableShare.permissive.median, 1)} (about{' '}
+            {fmtCompact(editableTotal.permissive.median)}/yr, optimistic scenario). The two
+            components have different evidentiary status and should not be interpreted as
+            equivalent: the first is an editing-only population within the model, the second a
+            hypothesized advantage. How much of the rest each existing pathway actually prevents
+            or mitigates is worked through in{' '}
             <NavInline onClick={() => update({ tab: 'prevention' })}>
               Existing options
             </NavInline>
@@ -150,12 +153,13 @@ export default function Overview({ data, update }: Props) {
           <Lead>
             Germline editing has entered public debate mainly through spectacle — announced
             “firsts” outside ordinary oversight, and disease-prevention claims stretched past
-            what the epidemiology supports. Both make responsible governance harder: regulators
-            respond with blanket prohibitions, while the largest real opportunity — extending
-            existing genetic medicine to the people it does not yet reach — goes underfunded.
-            This analysis is meant to put numbers under that debate: what existing medicine can
-            already do, where editing is genuinely unique, and why prevention, resistance, and
-            enhancement must be argued separately. What we think should follow, including a
+            what the epidemiology supports. Both risk making responsible governance harder:
+            highly visible failures can strengthen pressure for blanket prohibitions, while
+            disproportionate attention to frontier interventions can divert attention from the
+            much larger implementation challenge around existing genetic medicine. This analysis
+            is meant to put numbers under that debate: what existing medicine can already do,
+            where editing would add a unique or distinct option, and why prevention, resistance,
+            and enhancement must be argued separately. What we think should follow, including a
             proposed regulatory sequencing, is in{' '}
             <NavInline onClick={() => update({ tab: 'ethics' })}>Ethics &amp; policy</NavInline>.
           </Lead>
@@ -206,19 +210,25 @@ function Findings({
   const cur = data.prevention['Global']?.['current']?.['monogenic']?.['pnd_on'];
   const ideal = data.prevention['Global']?.['ideal']?.['monogenic']?.['pnd_on'];
 
-  const findings: { title: string; body: ReactNode; goLabel: string; go: () => void }[] = [
+  const findings: {
+    title: string;
+    body: ReactNode;
+    kinds: EpistemicKind[];
+    goLabel: string;
+    go: () => void;
+  }[] = [
     {
       title: 'Existing genetic medicine has enormous unrealized reach',
+      kinds: ['model', 'interpretation'],
       body: (
         <>
-          Most modeled serious genetic-disease burden is not uniquely dependent on germline
-          editing — existing screening, reproductive, diagnostic, and therapeutic pathways apply
-          to nearly all of it
+          Most modeled serious genetic-disease burden does not uniquely require germline
+          editing
           {cur && ideal ? (
             <>
-              , yet today&apos;s coverage prevents only about{' '}
+              — yet today&apos;s coverage prevents only about{' '}
               {fmtPct(cur.total_averted_birth_fraction.median, 0)} of preventable single-gene
-              births where full coverage could prevent{' '}
+              births where full modeled coverage could prevent{' '}
               {fmtPct(ideal.total_averted_birth_fraction.median, 0)}
             </>
           ) : null}
@@ -229,15 +239,16 @@ function Findings({
       go: () => update({ tab: 'prevention' }),
     },
     {
-      title: 'Germline editing nevertheless has a narrow, real medical role',
+      title: 'Germline editing nevertheless has a narrow, real potential role',
+      kinds: ['model', 'policy'],
       body: (
         <>
-          Between ~{fmtPct(editableShare.strict.median, 2)} and ~
-          {fmtPct(editableShare.permissive.median, 1)} of the burden — depending on how much
-          future complex-disease editing is credited — is reachable by no existing tool. For
-          some families, embryo selection cannot produce an unaffected embryo at all. These
-          cases are the strongest argument for a carefully governed research pathway, not for a
-          blanket ban.
+          A small monogenic population (~{fmtPct(editableShare.strict.median, 2)} of the
+          burden) may genuinely lack an unaffected embryo-selection option — for these families
+          editing would be the only preventive route. A larger role in complex disease (up to ~
+          {fmtPct(editableShare.permissive.median, 1)} under an optimistic modeled scenario) is
+          a possibility, not another “only option” population. Together they are the strongest
+          argument for a carefully governed research pathway rather than a blanket ban.
         </>
       ),
       goLabel: 'Where editing adds value',
@@ -245,6 +256,7 @@ function Findings({
     },
     {
       title: 'Prevention, resistance, and enhancement are separate questions',
+      kinds: ['interpretation'],
       body: (
         <>
           The medical justification for preventing catastrophic inherited disease does not
@@ -269,15 +281,57 @@ function Findings({
             {i + 1}. {f.title}
           </p>
           <p className="mt-1 text-[14px] leading-6 text-slate-700">{f.body}</p>
-          <button
-            type="button"
-            onClick={f.go}
-            className="mt-1.5 text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          >
-            {f.goLabel} →
-          </button>
+          <p className="mt-2 flex flex-wrap items-center gap-1">
+            {f.kinds.map((k) => (
+              <EpistemicTag key={k} kind={k} />
+            ))}
+            <button
+              type="button"
+              onClick={f.go}
+              className="ml-auto text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              {f.goLabel} →
+            </button>
+          </p>
         </div>
       ))}
+    </aside>
+  );
+}
+
+// Item-level definitions a reader needs before the numbers — deliberately short.
+function KeyDefinitions() {
+  const defs: { term: string; def: string }[] = [
+    {
+      term: 'Addressable',
+      def: 'a modeled pathway can alter the relevant outcome in principle; does not imply access, uptake, cure, or equivalence between pathways.',
+    },
+    {
+      term: 'Editing-only prevention',
+      def: 'no unaffected embryo can be selected under the modeled reproductive configuration.',
+    },
+    {
+      term: 'Editing advantage',
+      def: 'editing is modeled as potentially adding benefit beyond available alternatives; this is not the same as being the only option.',
+    },
+    {
+      term: 'In principle vs in practice',
+      def: 'technical applicability versus actual coverage and access.',
+    },
+  ];
+  return (
+    <aside className="rounded-lg border border-slate-200 bg-white p-4">
+      <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+        Key definitions
+      </h2>
+      <dl className="mt-2 space-y-1.5">
+        {defs.map((d) => (
+          <div key={d.term} className="text-[13px] leading-6 text-slate-700">
+            <dt className="inline font-semibold text-slate-900">{d.term}:</dt>{' '}
+            <dd className="inline">{d.def}</dd>
+          </div>
+        ))}
+      </dl>
     </aside>
   );
 }

@@ -32,17 +32,18 @@ export default function EthicsPolicy({ data, update }: Props) {
           Germline editing has so far entered public life mainly through spectacle: announced
           “firsts” conducted outside ordinary oversight, ventures locating themselves where
           regulation is weakest, and claims about preventing disease stretched well past what the
-          epidemiology supports. Each episode makes the environment worse for responsible work —
-          regulators respond to scandal with blanket prohibition, and the narrow cases where
-          editing could genuinely help are left with no lawful path at all.
+          epidemiology supports. Such episodes can make the environment for responsible research
+          more difficult — visible failures strengthen pressure for blanket prohibition, and the
+          narrow cases where editing could genuinely help risk being left with no lawful path at
+          all.
         </Lead>
         <Lead>
           Exaggerated disease-prevention claims do specific damage. If embryo editing is
           presented as the answer to genetic disease at large, it borrows an urgency the numbers
           do not support — most of that burden is already reachable by other means — and it
-          crowds out the unglamorous work of extending screening and treatment to the people who
-          lack them. A quantitative map of what medicine can already do is, among other things, a
-          defense against that kind of ethical arbitrage.
+          risks diverting attention from the unglamorous work of extending screening and
+          treatment to the people who lack them. A quantitative map of what medicine can already
+          do is, among other things, a defense against that kind of ethical arbitrage.
         </Lead>
       </section>
 
@@ -51,32 +52,35 @@ export default function EthicsPolicy({ data, update }: Props) {
         <Lead>The central chain of reasoning, with each link labeled:</Lead>
         <ClaimChain>
           <Claim kind="model">
-            Under the current-evidence definition of the editing-only population, roughly{' '}
+            Under current evidence, the editing-relevant residual is roughly{' '}
             {fmtPct(editableShare.strict.median, 1)} of modeled serious genetic disease (about{' '}
             {fmtCompact(editableTotal.strict.median)} births a year, dominated by the ~
-            {fmtCompact(s1.median)} families for whom no unaffected embryo can be selected) is
-            uniquely reachable by germline editing. Under the optimistic upper-bound definition,
-            which credits a future role in complex disease, that rises to about{' '}
-            {fmtPct(editableShare.permissive.median, 1)}.
+            {fmtCompact(s1.median)} families for whom no unaffected embryo can be selected — the
+            editing-only prevention population). Under the optimistic complex-disease scenario,
+            which additionally credits editing with a hypothesized advantage in a few complex
+            diseases, that rises to about {fmtPct(editableShare.permissive.median, 1)}.
           </Claim>
           <Claim kind="interpretation">
             Germline editing is therefore unlikely ever to be the principal population-level tool
-            against genetic disease — but the editing-only population, though narrow, is real,
-            identifiable, and poorly served by every existing option.
+            against genetic disease — but the editing-only prevention population, though narrow,
+            is real, identifiable, and poorly served by every existing option, and the
+            complex-disease term is a modeled possibility rather than a second “only option”
+            population.
           </Claim>
           <Claim kind="policy">
-            Public-health priority should go to widening access to existing genetic-medicine
-            pathways, which carry most of the achievable benefit. At the same time, the
-            editing-only cases are precisely where a tightly governed clinical research pathway
-            is best justified — which argues for replacing blanket moratorium logic with
-            regulation that distinguishes cases by their justification.
+            This supports giving public-health priority to widening access to existing
+            genetic-medicine pathways, which carry most of the achievable benefit. At the same
+            time, the editing-only prevention cases are where a tightly governed clinical
+            research pathway is best justified — which suggests replacing blanket moratorium
+            logic with regulation that distinguishes cases by their justification, subject to
+            the independent safety requirements below.
           </Claim>
         </ClaimChain>
         <Lead>
           To be explicit about what is <em>not</em> being argued: the conclusion is not “embryo
           editing is unnecessary because existing tools cover almost everything.” It is that
           existing medicine should carry the population-level burden, while the narrow situations
-          in which editing offers a genuinely unique benefit are exactly where a responsible
+          in which editing would be the only preventive option are exactly where a responsible
           regulatory pathway should begin.
         </Lead>
       </section>
@@ -87,13 +91,17 @@ export default function EthicsPolicy({ data, update }: Props) {
           The categories below are ordered by the strength of their ethical case, from strongest
           to weakest. This is a <strong>proposed order for regulatory consideration</strong> —
           each step requiring stronger evidence and justification than the last — not a
-          biological continuum, and not a prediction that later steps should ever be taken.
+          biological continuum, and not a prediction that later steps should ever be taken.{' '}
+          <strong>
+            The sequence ranks medical and ethical justification. It does not override
+            independent scientific-safety gates.
+          </strong>
         </Lead>
         <Sequence
           items={[
             {
               title: 'Catastrophic monogenic disease',
-              body: 'Conditions that are fatal or devastating in early life, in families where no unaffected embryo can be selected. The strongest case for first, tightly controlled clinical trials: an identifiable child spared a catastrophic disease, with no existing alternative.',
+              body: 'Conditions that are fatal or profoundly disabling, in families where no unaffected embryo can be selected. This is the strongest candidate class for first-in-human regulatory consideration because medical need is high and alternatives are absent. That does not by itself establish readiness for a trial: independent requirements for editing accuracy, mosaicism, off-target and on-target safety, developmental effects, preclinical evidence, consent, long-term and intergenerational follow-up, and regulatory oversight must also be satisfied.',
               go: () => update({ tab: 'residual' }),
               goLabel: 'The editing-only families',
             },

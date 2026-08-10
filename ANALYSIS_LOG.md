@@ -170,3 +170,47 @@ across its defensible range (see the app's Denominator and Sensitivity views).
 2. Births default 135M vs paper's 140M (interval covers both).
 3. Otherwise headline figures reproduce: serious ≈8.0M, monogenic ≈1.4M, multifactorial ≈6.6M,
    uniquely editable ≈153k (permissive), addressable ≈98.1%.
+
+### Precision / scientific-language pass (2026-08-10, reviewer round 2)
+No headline numbers changed. The pass corrected places where site language claimed more than
+the model establishes, and moved semantics into the pipeline where the frontend had been
+inferring them:
+- **Editing-only vs editing-advantage separated.** S1 is now publicly "editing-only
+  prevention: no unaffected embryo can be selected" — the only construct allowed to be called
+  an "only option." S2 is "potential editing advantage in complex disease" (strict =
+  current-evidence case, permissive = optimistic scenario, explicitly not a forecast). The sum
+  is the "editing-relevant residual," always shown with its two components; it is never called
+  "editing-only" or "uniquely editable" in user-facing copy. Internal names (S1/S2,
+  strict/permissive, `uniquely_editable_*` JSON keys) are unchanged — this is a semantic
+  relabeling, not an output redefinition.
+- **Prevention full-coverage remainder ≠ editing's domain.** The waterfall's dashed line is
+  now "remaining after full modeled coverage"; whether editing can address any of it is
+  explicitly deferred to the residual analysis.
+- **Denominator toggle honesty.** The page now states that burden totals respond to the
+  severity/attribution toggles while editing-residual figures are computed once at default
+  assumptions ("watch every number move" removed). Attribution options relabeled Broad /
+  Heritability-weighted / Narrow genetic attribution (the `exclusive` stance is a ~10%
+  familial subset, not zero).
+- **Terminology.** Public-facing "95% CrI"/"credible interval" → "95% uncertainty interval,"
+  with Methods stating the intervals are propagated input uncertainty, not Bayesian
+  posteriors (JSON key `ci95` unchanged). "Viable" → "meets model threshold" (earlier pass).
+- **Deafness default.** The contested congenital-deafness toggle now defaults to EXCLUDED,
+  matching the paper headline, and is labeled a normative classification decision.
+- **Epistemic status is pipeline data.** Every provenance leaf now carries
+  `epistemic_status ∈ {cited, derived, modeling_assumption, normative_choice, provisional}`,
+  assigned in `core/denominator/provenance.py` (explicit YAML override wins); the app reads
+  the field instead of inferring badges. `core/tests/test_provenance.py` enforces completeness
+  and adds a copy-semantics regression net over the app source (no "95% CrI", no "editing's
+  domain", no "editing-only total", deafness default, no hard-coded draw count).
+- **Hedged causal claims.** Spectacle/regulation language now says visible failures "can
+  strengthen pressure for" prohibition and "risk diverting attention," under
+  Interpretation/Policy labels; the regulatory sequence states it ranks justification and does
+  not override independent safety gates (accuracy, mosaicism, off-target effects,
+  developmental safety, consent, intergenerational follow-up).
+- **Embryo trade-off.** Per-child (1−u)/u analysis is primary; the aggregate annual count is
+  demoted to "illustrative population scaling — not an estimate of actual annual embryo
+  disposition" (no IVF uptake, cycles, attrition, cryopreservation, or disposition modeled);
+  editing's zero is "0 disease-genotype exclusions by construction," not an empirical count.
+- **Beyond page.** Resistance: alternatives exist, but no claim that they beat an edit on
+  reach/cost/risk without analysis; enhancement benefits may be absolute or positional; "no
+  denominator" corrected to "the inherited-disease denominator does not transfer directly."

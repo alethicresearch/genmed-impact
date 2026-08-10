@@ -81,18 +81,35 @@ const BADGE_META: Record<Badge, { label: string; cls: string; desc: string }> = 
   },
 };
 
-// Paths that encode the authors' judgment calls rather than measurements.
-const NORMATIVE_PREFIXES = ['constants.attribution', 'constants.severity', 'constants.judgment'];
+// Pipeline epistemic_status values → UI badge keys. The pipeline is the single source of
+// truth (core/denominator/provenance.py); the app only maps names.
+const STATUS_TO_BADGE: Record<string, Badge> = {
+  cited: 'cited',
+  derived: 'derived',
+  modeling_assumption: 'assumption',
+  normative_choice: 'normative',
+  provisional: 'provisional',
+};
 
-function badgeOf(path: string, leaf: ProvenanceLeaf): Badge {
+// Temporary backwards-compatibility fallback for data exported before epistemic_status
+// existed. Warns in development so a missing annotation is caught, not silently guessed.
+function legacyBadgeOf(path: string, leaf: ProvenanceLeaf): Badge {
+  if (import.meta.env.DEV) {
+    console.warn(`provenance leaf ${path} lacks epistemic_status — re-run the pipeline`);
+  }
   if ((leaf as Record<string, unknown>).placeholder) return 'provisional';
-  if (NORMATIVE_PREFIXES.some((p) => path.startsWith(p))) return 'normative';
+  if (path.startsWith('constants.attribution')) return 'normative';
   const txt = `${leaf.source || ''} ${leaf.table_or_page || ''}`.toLowerCase();
   if (txt.includes('derived')) return 'derived';
   if (txt.includes('reasoned') || txt.includes('assumption')) return 'assumption';
-  if (leaf.doi && leaf.doi !== 'n/a') return 'cited';
   if (leaf.source) return 'cited';
   return 'assumption';
+}
+
+function badgeOf(path: string, leaf: ProvenanceLeaf): Badge {
+  const status = (leaf as Record<string, unknown>).epistemic_status;
+  if (typeof status === 'string' && status in STATUS_TO_BADGE) return STATUS_TO_BADGE[status];
+  return legacyBadgeOf(path, leaf);
 }
 
 // Internal model vocabulary, kept here (and only here) for reproducibility.
@@ -105,12 +122,12 @@ const INTERNAL_TERMS: Array<{ internal: string; meaning: string }> = [
   { internal: 'pnd_on / pnd_off', meaning: 'Whether prenatal diagnosis followed by pregnancy termination is counted as reducing affected births.' },
 ];
 
-const PIPELINE_STEPS = [
+const pipelineSteps = (nDraws: number) => [
   { title: 'Define the burden', desc: 'How much serious genetic disease is in each birth cohort, under explicit severity and attribution choices.' },
   { title: 'Map conditions to interventions', desc: 'Which of the four existing pathways applies to each catalogued disease.' },
   { title: 'Model access & effectiveness', desc: 'How much each pathway prevents or mitigates at current, achievable, and full coverage.' },
-  { title: 'Identify what remains', desc: 'The population no existing pathway reaches — where editing would be the only option.' },
-  { title: 'Propagate uncertainty', desc: 'Every input sampled in a 20,000-draw Monte-Carlo, so each figure carries a uncertainty interval.' },
+  { title: 'Identify what remains', desc: 'The families for whom no unaffected embryo can be selected, and the separate complex-disease term where editing might add an advantage.' },
+  { title: 'Propagate uncertainty', desc: `Every input sampled in a ${nDraws.toLocaleString('en-US')}-draw Monte-Carlo, so each figure carries an uncertainty interval.` },
 ];
 
 export default function Methods({ data, state, update }: Props) {
@@ -172,7 +189,7 @@ export default function Methods({ data, state, update }: Props) {
           The analysis in five steps
         </h3>
         <ol className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
-          {PIPELINE_STEPS.map((s, i) => (
+          {pipelineSteps(m.n_draws).map((s, i) => (
             <li key={s.title} className="flex flex-col rounded border border-slate-200 bg-slate-50/60 p-3">
               <span className="text-xs font-semibold text-slate-400">{i + 1}</span>
               <span className="mt-0.5 text-sm font-semibold text-slate-900">{s.title}</span>
@@ -180,6 +197,27 @@ export default function Methods({ data, state, update }: Props) {
             </li>
           ))}
         </ol>
+      </Card>
+
+      {/* What this analysis does NOT show */}
+      <Card className="border-slate-300">
+        <h3 className="text-base font-semibold text-slate-900">
+          What this analysis does <em>not</em> show
+        </h3>
+        <ul className="mt-2 space-y-1.5 text-sm leading-6 text-slate-700">
+          {[
+            'It does not establish that germline editing is currently safe enough for clinical use.',
+            'It does not treat theoretical addressability as real-world access or uptake.',
+            'It does not treat detection, prevention, treatment, and cure as equivalent outcomes.',
+            'It does not assume that every condition classified as genetic should be prevented.',
+            'It does not claim that the optimistic complex-disease scenario is a forecast.',
+          ].map((s) => (
+            <li key={s} className="flex gap-2">
+              <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400" />
+              <span>{s}</span>
+            </li>
+          ))}
+        </ul>
       </Card>
 
       {/* What kind of number is each input? */}
@@ -214,8 +252,14 @@ export default function Methods({ data, state, update }: Props) {
           <ExportSvgButton onClick={() => exportContainerSvg(tornadoRef.current, 'sensitivity-tornado.svg')} />
         </div>
         <p className="mt-1 text-sm text-slate-600">
-          Each bar spans the low/high value of the editing-only share of serious disease as one
-          parameter is varied; the vertical line is the base case.
+          Each bar spans the low/high value of the editing-relevant share of serious disease as
+          one parameter is varied; the vertical line is the base case.
+        </p>
+        <p className="mt-1 text-xs text-slate-500">
+          Uncertainty intervals throughout this site reflect propagation of the specified
+          uncertainty ranges and distributions through the Monte-Carlo model; they should not be
+          interpreted as confidence intervals from repeated sampling or Bayesian posterior
+          credible intervals unless otherwise stated.
         </p>
         <div ref={tornadoRef}>
           <Tornado rows={data.sensitivity.tornado} />
