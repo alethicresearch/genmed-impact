@@ -92,6 +92,10 @@ def export_all(R: dict[str, Any]) -> None:
     # ---- results/tables.md -----------------------------------------------------------
     _write_tables_md(R)
 
+    # ---- results/methods.md (paper-ready) --------------------------------------------
+    from . import methods
+    methods.generate(R, R["provenance"]["constants"], R["provenance"]["conditions"])
+
 
 def _row(*cells) -> str:
     return "| " + " | ".join(str(c) for c in cells) + " |"
