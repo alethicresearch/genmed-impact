@@ -12,7 +12,7 @@ from typing import Any
 
 import yaml
 
-from . import config
+from . import config, embryos
 
 LIBRARY_YAML = config.PKG_DIR / "library" / "diseases.yaml"
 
@@ -111,6 +111,9 @@ def build_library(constants: dict) -> dict[str, Any]:
             "editing_note": d.get("editing_note"),
             "notes": d.get("notes"),
             "status": compute_status(d),
+            "embryos": embryos.per_disease(
+                d.get("inheritance", "autosomal_recessive"),
+                _tool_applicable(d, "PGT"), constants),
         })
 
     diseases_out.sort(key=lambda x: -x["affected_births_per_year"])

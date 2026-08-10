@@ -11,7 +11,7 @@ from typing import Any
 
 import numpy as np
 
-from . import (attribution, config, harmonize, library, model, montecarlo as mc,
+from . import (attribution, config, embryos, harmonize, library, model, montecarlo as mc,
                multifactorial, residual, sensitivity)
 
 
@@ -125,6 +125,9 @@ def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
     # ---- RQ6 tornado (deterministic) --------------------------------------------------
     tornado_rows = sensitivity.tornado(constants, conditions)
 
+    # library (built once; reused for embryo accounting)
+    _library_built = library.build_library(constants)
+
     # ---------------------------------------------------------------------------------
     # Assemble summarized results object
     # ---------------------------------------------------------------------------------
@@ -211,8 +214,9 @@ def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
             "budget_buys": buys,
         },
         "sensitivity": {"tornado": tornado_rows},
-        "library": library.build_library(constants),
+        "library": _library_built,
         "multifactorial": multifactorial.build_multifactorial(),
+        "embryos": embryos.build_embryos(constants, _library_built["diseases"]),
         "provenance": {
             "constants": constants,
             "conditions": conditions,

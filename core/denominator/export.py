@@ -38,6 +38,7 @@ def export_all(R: dict[str, Any]) -> None:
     _write_json(app / "provenance.json", R["provenance"])
     _write_json(app / "library.json", R["library"])
     _write_json(app / "multifactorial.json", R["multifactorial"])
+    _write_json(app / "embryos.json", R["embryos"])
 
     # compact summary the landing view can load first
     summary = {

@@ -1,6 +1,6 @@
 # Methods — Global Genetic-Disease Burden × Genetic-Medicine Impact
 
-_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `7ec6ac5` · model version 3.0._
+_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `18c696b` · model version 3.0._
 
 This document describes every input, assumption, formula, and parameter behind the analysis. All headline figures below are regenerated from the pipeline; the full parameter provenance and disease catalogue are in the appendices. Contestable judgment calls are implemented as explicit parameters and reported across their range.
 
@@ -130,7 +130,27 @@ _Caveats (stated in-app): selection RRR can look large for rare, highly-heritabl
 
 Cost per affected birth prevented: **screening program $11,913** vs **editing program $504,530**. Cost per DALY averted is derived from DALYs-per-case (pending the GBD pull). Budget scenarios ($1B/$5B/$10B per year) translate these into births prevented under each strategy; screening dominates editing by ~1–2 orders of magnitude. Cost anchors: Cousens et al. 2010 (haemoglobinopathy programs), IVF+PGT cycle costs, gene-therapy list prices, PMTCT program costs; the editing-program overhead is a wide-interval free parameter.
 
-## 12. Uncertainty and sensitivity
+## 12. Embryo accounting (created / destroyed)
+
+Embryo **selection** (PGT) achieves an unaffected child by creating several embryos and not transferring the affected ones — an intrinsic embryo-loss cost that **editing** (repair one embryo, discard none for disease reasons) does not carry. If a fraction *u* of a couple's embryos are unaffected, the disease-caused embryos discarded per unaffected child under selection is **(1−u)/u**, which diverges as *u*→0 — exactly the S1 "no selectable unaffected embryo" case, where selection is impossible and editing is the only option.
+
+```
+Selection: affected embryos discarded / child = (1 − u) / u ;  blastocysts / child ≈ 1/(u·LBR)
+Editing:   affected embryos discarded / child = 0            ;  blastocysts / child ≈ 1/LBR
+```
+
+| Inheritance (typical at-risk couple) | Unaffected fraction u | Affected embryos discarded / child (selection) |
+| --- | ---: | ---: |
+| autosomal_recessive | 0.75 | 0.33 |
+| autosomal_dominant | 0.50 | 1.00 |
+| x_linked_recessive | 0.75 | 0.33 |
+| x_linked_dominant | 0.50 | 1.00 |
+| chromosomal | 0.45 | 1.22 |
+| multifactorial | 0.50 | 1.00 |
+
+**Scale contrast (illustrative):** if every PGT-addressable affected birth in the catalogue (~3,224,880/yr) were averted by *selection*, on the order of **2,818,860 affected embryos would be discarded per year**, versus **~0 under an editing strategy**. This is the normative axis on which editing can be preferable to the selection stack for conditions with few unaffected embryos. (Prenatal diagnosis is a separate moral category — termination of an affected fetus, not embryo discard — and is tracked separately.)
+
+## 13. Uncertainty and sensitivity
 
 All quantities are propagated through a Monte-Carlo of **n=20,000 draws** (Beta for proportions matched by moments; Lognormal for rates and costs with the stated value as median and low/high as ~95% bounds). Ratios and shares are computed per draw, so credible intervals are correct. A deterministic **tornado** swings each judgment call across its range; the parameters that move the uniquely-editable share most, in order:
 
@@ -143,18 +163,18 @@ All quantities are propagated through a Monte-Carlo of **n=20,000 draws** (Beta 
 | Attribution stance | 1.84% – 1.96% |
 | Multifactorial rate /1000 | 1.95% – 1.96% |
 
-## 13. Key assumptions and judgment calls
+## 14. Key assumptions and judgment calls
 
 Each is an explicit parameter with a documented default (see `ANALYSIS_LOG.md` for dated rationale): severity threshold (§5); attribution stance (§5); penetrance floor for S1; S2 strict vs permissive criteria; tool ordering and whether PND counts as prevention; inclusion of congenital deafness in S1; GMI capability weights (§6); multifactorial technology scenarios and pleiotropy blocks (§9); editing-program cost (§11).
 
-## 14. Limitations
+## 15. Limitations
 
 - The disease library is a curated seed of the highest-burden conditions; bottom-up totals are a lower bound until the Orphanet/GBD ingest expands it.
 - Several incidence and cost values are `textbook_estimate`/`order_of_magnitude` anchors pending the GBD 2023 and PGS-Catalog pulls; these are flagged in Appendix A.
 - S1 allele frequencies are global/ancestry-averaged pending the gnomAD ancestry-weighted pull; regional S1 uses region-specific consanguinity but global allele exposure.
 - Multifactorial architecture parameters (h², PRS R², oligo-editable h²) are literature anchors; the viability model estimates genetic tractability, not clinical or ethical permissibility.
 
-## 15. Reproducibility
+## 16. Reproducibility
 
 `make install && make run && make test` regenerates every figure, this document, `results/paper_numbers.json`, and `results/tables.md` from the raw constants and library. `make ingest` pulls the Tier-A sources (see `DATA_NEEDED.md`). The webapp (`make app-build`) is a static, URL-shareable view of the same emitted data.
 
@@ -201,6 +221,14 @@ Each is an explicit parameter with a documented default (see `ANALYSIS_LOG.md` f
 | `costs.pmtct_cost_per_infection_averted` | 2000 | 200 | 15000 | PMTCT cost-effectiveness: single-dose nevirapine ~$150-300/infection a | 10.2471/BLT.13.123646 |
 | `costs.editing_program_per_birth_prevented` | 500000 | 150000 | 2000000 | reasoned germline-editing program overhead (IVF+PGT base + editing + o | wide interval; see ANALYSIS_LOG §costs |
 | `costs.daly_per_severe_monogenic_case` | 30 | 15 | 55 | GBD-style DALYs per severe early-onset monogenic case (undiscounted) | reasoned pending GBD 2023 pull (DATA_NEE |
+| `embryo_accounting.blastocysts_per_ivf_cycle` | 5.0 | 3.0 | 10.0 | usable blastocysts per stimulated IVF cycle (age-dependent) | ESHRE/SART ART registries |
+| `embryo_accounting.live_birth_rate_per_transfer` | 0.45 | 0.3 | 0.6 | live-birth rate per single euploid/unaffected blastocyst transfer | SART/ESHRE single-embryo-transfer outcom |
+| `embryo_accounting.unaffected_embryo_fraction.autosomal_recessive` | 0.75 | 0.7 | 0.78 |  |  |
+| `embryo_accounting.unaffected_embryo_fraction.autosomal_dominant` | 0.5 | 0.45 | 0.55 |  |  |
+| `embryo_accounting.unaffected_embryo_fraction.x_linked_recessive` | 0.75 | 0.6 | 0.8 |  |  |
+| `embryo_accounting.unaffected_embryo_fraction.x_linked_dominant` | 0.5 | 0.4 | 0.55 |  |  |
+| `embryo_accounting.unaffected_embryo_fraction.chromosomal` | 0.45 | 0.2 | 0.7 |  |  |
+| `embryo_accounting.unaffected_embryo_fraction.multifactorial` | 0.5 | 0.3 | 0.7 |  |  |
 | `program_anchors.thalassaemia_major_reduction` | 0.9 | 0.7 | 0.95 | Cyprus/Sardinia/Greece national thalassaemia programs | 10.2471/BLT.06.036673 |
 | `program_anchors.down_syndrome_reduction_nordic` | 0.7 | 0.55 | 0.85 | Denmark/Iceland/Netherlands prenatal screening outcomes | Wald 2018 |
 

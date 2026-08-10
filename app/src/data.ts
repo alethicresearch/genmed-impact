@@ -314,6 +314,30 @@ export interface Multifactorial {
 
 export type MfScenarioKey = 'present' | 'near_future';
 
+export interface EmbryoCurvePoint {
+  u: number;
+  selection_affected_discarded: number;
+  selection_blastocysts: number;
+  editing_affected_discarded: number;
+  editing_blastocysts: number;
+}
+
+export interface Embryos {
+  params: { blastocysts_per_ivf_cycle: number; live_birth_rate_per_transfer: number };
+  per_inheritance: Record<
+    string,
+    { unaffected_embryo_fraction: number; affected_embryos_discarded_per_child: number; note: string | null }
+  >;
+  curve: EmbryoCurvePoint[];
+  aggregate: {
+    pgt_addressable_affected_births_per_year: number;
+    affected_embryos_discarded_selection_strategy: number;
+    affected_embryos_discarded_editing_strategy: number;
+    note: string;
+  };
+  note: string;
+}
+
 export interface AllData {
   meta: Meta;
   summary: Summary;
@@ -326,6 +350,7 @@ export interface AllData {
   provenance: Provenance;
   library: Library;
   multifactorial: Multifactorial;
+  embryos: Embryos;
 }
 
 // BASE_URL is set by Vite; with base:'./' it resolves relative to the page.
@@ -356,6 +381,7 @@ export async function loadAll(): Promise<AllData> {
     provenance,
     library,
     multifactorial,
+    embryos,
   ] = await Promise.all([
     getJson<Meta>('meta'),
     getJson<Summary>('summary'),
@@ -368,6 +394,7 @@ export async function loadAll(): Promise<AllData> {
     getJson<Provenance>('provenance'),
     getJson<Library>('library'),
     getJson<Multifactorial>('multifactorial'),
+    getJson<Embryos>('embryos'),
   ]);
   return {
     meta,
@@ -381,6 +408,7 @@ export async function loadAll(): Promise<AllData> {
     provenance,
     library,
     multifactorial,
+    embryos,
   };
 }
 

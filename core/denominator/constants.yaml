@@ -276,6 +276,41 @@ costs:
     placeholder: true
 
 # ---------------------------------------------------------------------------
+# 8c. Embryo accounting.
+#     Embryo selection (PGT) works by creating several embryos and NOT transferring the
+#     affected ones — so it carries an intrinsic embryo-loss cost that editing (repair one
+#     embryo, discard none for disease reasons) does not. `u` is the fraction of a couple's
+#     embryos that are UNAFFECTED for the condition (depends on inheritance mode). The
+#     disease-caused embryos discarded per unaffected child under selection = (1−u)/u; this
+#     diverges as u→0 (the S1 "no selectable embryo" case), where editing is the only option.
+# ---------------------------------------------------------------------------
+embryo_accounting:
+  blastocysts_per_ivf_cycle:
+    value: 5.0
+    low: 3.0
+    high: 10.0
+    source: "usable blastocysts per stimulated IVF cycle (age-dependent)"
+    doi: "n/a"
+    table_or_page: "ESHRE/SART ART registries"
+    retrieved: "2026-08-10"
+  live_birth_rate_per_transfer:
+    value: 0.45
+    low: 0.30
+    high: 0.60
+    source: "live-birth rate per single euploid/unaffected blastocyst transfer"
+    doi: "n/a"
+    table_or_page: "SART/ESHRE single-embryo-transfer outcomes"
+    retrieved: "2026-08-10"
+  # Fraction of a typical at-risk couple's embryos that are UNAFFECTED, by inheritance mode.
+  unaffected_embryo_fraction:
+    autosomal_recessive: {value: 0.75, low: 0.70, high: 0.78, note: "both carriers → 1/4 affected"}
+    autosomal_dominant:  {value: 0.50, low: 0.45, high: 0.55, note: "affected het × unaffected → 1/2 affected"}
+    x_linked_recessive:  {value: 0.75, low: 0.60, high: 0.80, note: "carrier mother; unaffected embryos selectable (may also select sex)"}
+    x_linked_dominant:   {value: 0.50, low: 0.40, high: 0.55, note: "affected parent → ~1/2 affected"}
+    chromosomal:         {value: 0.45, low: 0.20, high: 0.70, note: "euploid fraction (aneuploidy risk / translocation-carrier segregation), age-dependent"}
+    multifactorial:      {value: 0.50, low: 0.30, high: 0.70, note: "no single-locus target; selection is polygenic (see viability model)"}
+
+# ---------------------------------------------------------------------------
 # 9. Program-anchor reproduction targets (Phase-3 acceptance tests).
 # ---------------------------------------------------------------------------
 program_anchors:

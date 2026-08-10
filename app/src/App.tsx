@@ -8,6 +8,7 @@ import Library from './views/Library';
 import Denominator from './views/Denominator';
 import Prevention from './views/Prevention';
 import Multifactorial from './views/Multifactorial';
+import Embryos from './views/Embryos';
 import Residual from './views/Residual';
 import Resistance from './views/Resistance';
 import Allocation from './views/Allocation';
@@ -20,6 +21,7 @@ const ALL_TABS: TabDef[] = [
   { id: 'prevention', label: 'Prevention' },
   { id: 'multifactorial', label: 'Multifactorial' },
   { id: 'residual', label: 'Residual' },
+  { id: 'embryos', label: 'Embryos' },
   { id: 'resistance', label: 'Resistance' },
   { id: 'allocation', label: 'Allocation' },
   { id: 'methods', label: 'Methods & Provenance' },
@@ -35,6 +37,7 @@ const MODE_TABS: Record<string, string[]> = {
     'prevention',
     'multifactorial',
     'residual',
+    'embryos',
     'resistance',
     'allocation',
     'methods',
@@ -124,6 +127,9 @@ export default function App() {
               )}
               {activeTab === 'residual' && (
                 <Residual data={data} state={state} update={update} />
+              )}
+              {activeTab === 'embryos' && (
+                <Embryos data={data} state={state} update={update} />
               )}
               {activeTab === 'resistance' && <Resistance data={data} />}
               {activeTab === 'allocation' && <Allocation data={data} />}

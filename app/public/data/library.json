@@ -57,6 +57,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": false,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -106,6 +119,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": false,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -157,6 +183,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -207,6 +246,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -257,6 +309,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -306,6 +371,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -356,6 +434,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -403,6 +494,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": false,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -450,6 +554,19 @@
         "treatable": false,
         "prenatal_detectable": false,
         "addressable": false
+      },
+      "embryos": {
+        "applicable": false,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -497,6 +614,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -544,6 +674,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": false,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -594,6 +737,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -644,6 +800,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -693,6 +862,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": false,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -740,6 +922,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": false,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -787,6 +982,19 @@
         "treatable": true,
         "prenatal_detectable": false,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": false,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -836,6 +1044,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -883,6 +1104,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -934,6 +1168,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -983,6 +1230,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -1030,6 +1290,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": false,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -1079,6 +1352,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -1126,6 +1412,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": false,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -1175,6 +1474,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -1224,6 +1536,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -1273,6 +1598,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -1322,6 +1660,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -1371,6 +1722,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -1418,6 +1782,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -1465,6 +1842,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -1515,6 +1905,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -1564,6 +1967,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -1611,6 +2027,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -1660,6 +2089,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -1709,6 +2151,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -1758,6 +2213,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -1807,6 +2275,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -1856,6 +2337,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -1905,6 +2399,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -1952,6 +2459,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -2001,6 +2521,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -2050,6 +2583,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -2099,6 +2645,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -2148,6 +2707,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -2197,6 +2769,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -2247,6 +2832,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -2294,6 +2892,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -2343,6 +2954,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -2392,6 +3016,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -2441,6 +3078,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -2490,6 +3140,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -2539,6 +3202,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -2589,6 +3265,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -2638,6 +3327,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -2687,6 +3389,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -2736,6 +3451,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -2783,6 +3511,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -2832,6 +3573,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -2881,6 +3635,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -2930,6 +3697,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -2979,6 +3759,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3028,6 +3821,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3077,6 +3883,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3126,6 +3945,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3175,6 +4007,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3224,6 +4069,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -3271,6 +4129,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.45,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.2222222222222223,
+          "blastocysts_created_per_child": 4.938271604938271
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.2222222222222223
       }
     },
     {
@@ -3320,6 +4191,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3369,6 +4253,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3418,6 +4315,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3467,6 +4377,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3516,6 +4439,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3565,6 +4501,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3614,6 +4563,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3663,6 +4625,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3713,6 +4688,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3762,6 +4750,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3811,6 +4812,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3860,6 +4874,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3909,6 +4936,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -3958,6 +4998,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.5,
+        "selection": {
+          "affected_embryos_discarded_per_child": 1.0,
+          "blastocysts_created_per_child": 4.444444444444445
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 1.0
       }
     },
     {
@@ -4007,6 +5060,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4056,6 +5122,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4105,6 +5184,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4154,6 +5246,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4205,6 +5310,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4254,6 +5372,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4303,6 +5434,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4352,6 +5496,19 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4401,6 +5558,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4450,6 +5620,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4499,6 +5682,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4548,6 +5744,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4597,6 +5806,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4646,6 +5868,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4695,6 +5930,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     },
     {
@@ -4744,6 +5992,19 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "embryos": {
+        "applicable": true,
+        "unaffected_embryo_fraction": 0.75,
+        "selection": {
+          "affected_embryos_discarded_per_child": 0.3333333333333333,
+          "blastocysts_created_per_child": 2.962962962962963
+        },
+        "editing": {
+          "affected_embryos_discarded_per_child": 0.0,
+          "blastocysts_created_per_child": 2.2222222222222223
+        },
+        "excess_embryos_discarded_vs_editing": 0.3333333333333333
       }
     }
   ],

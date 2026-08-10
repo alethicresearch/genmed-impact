@@ -291,8 +291,39 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
       "costs; the editing-program overhead is a wide-interval free parameter.")
     A("")
 
+    # 11b. Embryo accounting
+    em = R["embryos"]
+    A("## 12. Embryo accounting (created / destroyed)")
+    A("")
+    A("Embryo **selection** (PGT) achieves an unaffected child by creating several embryos and not "
+      "transferring the affected ones — an intrinsic embryo-loss cost that **editing** (repair one "
+      "embryo, discard none for disease reasons) does not carry. If a fraction *u* of a couple's "
+      "embryos are unaffected, the disease-caused embryos discarded per unaffected child under "
+      "selection is **(1−u)/u**, which diverges as *u*→0 — exactly the S1 \"no selectable unaffected "
+      "embryo\" case, where selection is impossible and editing is the only option.")
+    A("")
+    A("```")
+    A("Selection: affected embryos discarded / child = (1 − u) / u ;  blastocysts / child ≈ 1/(u·LBR)")
+    A("Editing:   affected embryos discarded / child = 0            ;  blastocysts / child ≈ 1/LBR")
+    A("```")
+    A("")
+    A(_row("Inheritance (typical at-risk couple)", "Unaffected fraction u", "Affected embryos discarded / child (selection)"))
+    A(_row("---", "---:", "---:"))
+    for k, v in em["per_inheritance"].items():
+        A(_row(k, f"{v['unaffected_embryo_fraction']:.2f}", f"{v['affected_embryos_discarded_per_child']:.2f}"))
+    A("")
+    agg = em["aggregate"]
+    A(f"**Scale contrast (illustrative):** if every PGT-addressable affected birth in the catalogue "
+      f"(~{agg['pgt_addressable_affected_births_per_year']:,.0f}/yr) were averted by *selection*, on "
+      f"the order of **{agg['affected_embryos_discarded_selection_strategy']:,.0f} affected embryos "
+      f"would be discarded per year**, versus **~0 under an editing strategy**. This is the normative "
+      "axis on which editing can be preferable to the selection stack for conditions with few "
+      "unaffected embryos. (Prenatal diagnosis is a separate moral category — termination of an "
+      "affected fetus, not embryo discard — and is tracked separately.)")
+    A("")
+
     # 11. Uncertainty
-    A("## 12. Uncertainty and sensitivity")
+    A("## 13. Uncertainty and sensitivity")
     A("")
     A(f"All quantities are propagated through a Monte-Carlo of **n={R['meta']['n_draws']:,} draws** "
       "(Beta for proportions matched by moments; Lognormal for rates and costs with the stated "
@@ -307,7 +338,7 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     A("")
 
     # 12. Assumptions
-    A("## 13. Key assumptions and judgment calls")
+    A("## 14. Key assumptions and judgment calls")
     A("")
     A("Each is an explicit parameter with a documented default (see `ANALYSIS_LOG.md` for dated "
       "rationale): severity threshold (§5); attribution stance (§5); penetrance floor for S1; "
@@ -317,7 +348,7 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     A("")
 
     # 13. Limitations
-    A("## 14. Limitations")
+    A("## 15. Limitations")
     A("")
     A("- The disease library is a curated seed of the highest-burden conditions; bottom-up totals "
       "are a lower bound until the Orphanet/GBD ingest expands it.")
@@ -331,7 +362,7 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     A("")
 
     # 14. Reproducibility
-    A("## 15. Reproducibility")
+    A("## 16. Reproducibility")
     A("")
     A("`make install && make run && make test` regenerates every figure, this document, "
       "`results/paper_numbers.json`, and `results/tables.md` from the raw constants and library. "

@@ -364,6 +364,64 @@
         "placeholder": true
       }
     },
+    "embryo_accounting": {
+      "blastocysts_per_ivf_cycle": {
+        "value": 5.0,
+        "low": 3.0,
+        "high": 10.0,
+        "source": "usable blastocysts per stimulated IVF cycle (age-dependent)",
+        "doi": "n/a",
+        "table_or_page": "ESHRE/SART ART registries",
+        "retrieved": "2026-08-10"
+      },
+      "live_birth_rate_per_transfer": {
+        "value": 0.45,
+        "low": 0.3,
+        "high": 0.6,
+        "source": "live-birth rate per single euploid/unaffected blastocyst transfer",
+        "doi": "n/a",
+        "table_or_page": "SART/ESHRE single-embryo-transfer outcomes",
+        "retrieved": "2026-08-10"
+      },
+      "unaffected_embryo_fraction": {
+        "autosomal_recessive": {
+          "value": 0.75,
+          "low": 0.7,
+          "high": 0.78,
+          "note": "both carriers → 1/4 affected"
+        },
+        "autosomal_dominant": {
+          "value": 0.5,
+          "low": 0.45,
+          "high": 0.55,
+          "note": "affected het × unaffected → 1/2 affected"
+        },
+        "x_linked_recessive": {
+          "value": 0.75,
+          "low": 0.6,
+          "high": 0.8,
+          "note": "carrier mother; unaffected embryos selectable (may also select sex)"
+        },
+        "x_linked_dominant": {
+          "value": 0.5,
+          "low": 0.4,
+          "high": 0.55,
+          "note": "affected parent → ~1/2 affected"
+        },
+        "chromosomal": {
+          "value": 0.45,
+          "low": 0.2,
+          "high": 0.7,
+          "note": "euploid fraction (aneuploidy risk / translocation-carrier segregation), age-dependent"
+        },
+        "multifactorial": {
+          "value": 0.5,
+          "low": 0.3,
+          "high": 0.7,
+          "note": "no single-locus target; selection is polygenic (see viability model)"
+        }
+      }
+    },
     "program_anchors": {
       "thalassaemia_major_reduction": {
         "value": 0.9,
