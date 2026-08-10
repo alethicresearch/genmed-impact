@@ -27,6 +27,13 @@ const ALL_TABS: TabDef[] = [
   { id: 'methods', label: 'Methods & Provenance' },
 ];
 
+// ---- Research-artifact masthead metadata ----
+const REPO_URL = 'https://github.com/alethicresearch/genmed-impact';
+const CITATION_URL = `${REPO_URL}/blob/main/CITATION.cff`;
+// Author order: SG, DAW, PS, JS. TODO: replace the first-author placeholder with the full name.
+const AUTHORS = ['S. G.', 'D. A. Wallach', 'Peter Singer', 'Julian Savulescu'];
+const AFFILIATION = 'Alethic Research';
+
 // Which tab ids are visible in each mode.
 const MODE_TABS: Record<string, string[]> = {
   simple: ['overview', 'library', 'prevention'],
@@ -62,18 +69,60 @@ export default function App() {
 
   return (
     <div className="mx-auto flex min-h-full max-w-6xl flex-col px-4 pb-16 pt-6">
-      <header className="mb-4">
+      <header className="mb-5 border-b border-slate-200 pb-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
-              Serious Genetic Disease at Birth
-            </h1>
-            <p className="mt-1 max-w-3xl text-sm text-slate-600">
-              An interactive look at how much serious genetic disease exists, which genes cause it,
-              and how far today's genetic-medicine tools — and germline editing — can go toward
-              preventing it. Explore the diseases, the interventions, and where each one reaches
-              its limits.
+          <div className="max-w-3xl">
+            <button
+              type="button"
+              onClick={() => update({ tab: 'overview' })}
+              title="Back to overview"
+              className="rounded text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <h1 className="text-2xl font-bold tracking-tight text-slate-900 hover:text-accent">
+                Genetic Disease and What Medicine Can Do
+              </h1>
+            </button>
+            <p className="mt-1 text-sm text-slate-600">
+              An interactive research artifact accompanying the manuscript. Across the whole
+              landscape of serious genetic disease, it maps which genes cause it, how far today's
+              genetic-medicine tools reach, and the narrow residual left only for germline editing —
+              every figure shown with its uncertainty and its source.
             </p>
+            {/* author line + affiliation */}
+            <p className="mt-2 text-sm text-slate-700">
+              {AUTHORS.map((a, i) => (
+                <span key={a}>
+                  {i > 0 && <span className="text-slate-400"> · </span>}
+                  {a}
+                </span>
+              ))}
+              <span className="text-slate-400"> — {AFFILIATION}</span>
+            </p>
+            {/* artifact link row */}
+            <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+              <span
+                className="inline-flex items-center gap-1 rounded border border-slate-300 bg-slate-50 px-2 py-1 text-slate-500"
+                title="Manuscript in preparation"
+              >
+                📄 Paper — in preparation
+              </span>
+              <a
+                href={REPO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 rounded border border-slate-300 bg-white px-2 py-1 text-slate-700 hover:border-accent hover:text-accent"
+              >
+                ⌥ Code &amp; data (GitHub)
+              </a>
+              <a
+                href={CITATION_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 rounded border border-slate-300 bg-white px-2 py-1 text-slate-700 hover:border-accent hover:text-accent"
+              >
+                ❝ Cite
+              </a>
+            </div>
           </div>
           <Segmented
             label="Mode"
@@ -148,14 +197,22 @@ export default function App() {
 
 function Footer({ commit }: { commit: string }) {
   return (
-    <footer className="mt-10 border-t border-slate-200 pt-3 text-xs text-slate-500">
-      <span>
+    <footer className="mt-10 space-y-1 border-t border-slate-200 pt-3 text-xs text-slate-500">
+      <p>
         Figures are model estimates shown with their uncertainty — see Methods &amp; Sources for
         where each number comes from.
-      </span>
-      <span className="ml-2 text-slate-400">
-        Build <code className="font-mono">{commit}</code>
-      </span>
+      </p>
+      <p className="text-slate-400">
+        {AUTHORS.join(', ')} — {AFFILIATION}. Code Apache-2.0; curated data CC-BY-4.0.{' '}
+        <a href={CITATION_URL} target="_blank" rel="noopener noreferrer" className="hover:text-accent">
+          How to cite
+        </a>{' '}
+        ·{' '}
+        <a href={REPO_URL} target="_blank" rel="noopener noreferrer" className="hover:text-accent">
+          Source &amp; data
+        </a>{' '}
+        · Build <code className="font-mono">{commit}</code>
+      </p>
     </footer>
   );
 }

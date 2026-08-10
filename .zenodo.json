@@ -16,11 +16,12 @@
     "Monte Carlo"
   ],
   "creators": [
-    { "name": "Savulescu, Julian" },
+    { "name": "G., S.", "affiliation": "Alethic Research" },
+    { "name": "Wallach, D. A." },
     { "name": "Singer, Peter" },
-    { "name": "Alethic Research" }
+    { "name": "Savulescu, Julian" }
   ],
-  "notes": "TODO(authors) before deposit: (1) confirm full author list, order, affiliations and ORCIDs; (2) add the paper DOI under related_identifiers once available; (3) the CC-BY-4.0 curated data are covered by this deposit, but IHME GBD 2023 raw inputs are non-redistributable and are referenced by access instructions in core/data/README.md rather than included.",
+  "notes": "Author order: SG, DAW, PS, JS. TODO(authors) before deposit: (1) replace the first-author placeholder 'G., S.' with the full name, and add affiliations + ORCIDs for all authors; (2) add the paper DOI under related_identifiers once available; (3) the CC-BY-4.0 curated data are covered by this deposit, but IHME GBD 2023 raw inputs are non-redistributable and are referenced by access instructions in core/data/README.md rather than included.",
   "related_identifiers": [
     {
       "relation": "isSupplementTo",
