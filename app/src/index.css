@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #f8fafc;
+  color: #0f172a;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+}
+
+/* Tabular numerals for aligned data. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Print-friendly: hide interactive chrome, expand tables. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+}
