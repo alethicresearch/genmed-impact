@@ -110,12 +110,13 @@ def build_embryos(constants: dict, library_diseases: list[dict]) -> dict[str, An
         "affected_embryos_discarded_editing_strategy": 0.0,
         "note": (
             "Illustrative upper-bound contrast: if every PGT-addressable affected birth in the "
-            "catalogue were averted by embryo SELECTION, roughly this many affected embryos would be "
-            "discarded per year (each unaffected child costs (1−u)/u affected embryos). Under an "
-            "EDITING strategy the disease-caused discard is ~0 (the affected embryo is repaired). Real "
-            "programs use a mix and coverage is far below 100%, so treat this as a scale contrast, not "
-            "a forecast. PND (prenatal diagnosis) is a separate moral category — termination of an "
-            "affected fetus, not embryo discard — and is tracked separately in the prevention model."
+            "catalogue were averted by embryo SELECTION, roughly this many affected embryos would not "
+            "be selected for transfer per year (each unaffected child implies (1−u)/u affected "
+            "embryos set aside). Under an idealized EDITING strategy that figure is ~0 (the corrected "
+            "embryo remains a transfer candidate). Real programs use a mix and coverage is far below "
+            "100%, so treat this as a scale contrast, not a forecast. PND (prenatal diagnosis) is a "
+            "separate moral category — termination of an affected fetus, not embryo non-selection — "
+            "and is tracked separately in the prevention model."
         ),
     }
 
@@ -128,9 +129,11 @@ def build_embryos(constants: dict, library_diseases: list[dict]) -> dict[str, An
         "curve": curve,
         "aggregate": aggregate,
         "note": (
-            "Embryo cost is an explicit outcome tracked across the analysis. Selection discards "
-            "(1−u)/u affected embryos per unaffected child and diverges as u→0 (the S1 case); editing "
-            "discards none. This is the normative basis on which editing can be preferable to the "
-            "selection stack for conditions with few unaffected embryos."
+            "Embryo cost is an explicit outcome tracked across the analysis. Selection sets aside "
+            "(1−u)/u affected embryos per unaffected child (not selected for transfer) and diverges "
+            "as u→0 — the case where no unaffected embryo exists; idealized correction sets aside "
+            "none, though editing failure, mosaicism, and safety-related loss are not modeled. This "
+            "is the basis on which editing can be preferable to selection for conditions with few "
+            "unaffected embryos."
         ),
     }

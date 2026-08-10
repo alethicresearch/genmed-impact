@@ -20,21 +20,30 @@ export default function Embryos({ data }: Props) {
     <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
-        title="Embryo accounting"
-        subtitle="How many embryos each pathway creates and discards — the normative axis on which editing can be preferable to selection."
+        title="The embryo trade-off"
+        subtitle="What each strategy asks of the embryos involved — the one axis on which editing can be ethically preferable to selection."
       />
       <Explainer
-        whatThisShows="The embryo cost of preventing an affected birth. Embryo selection (PGT) works by creating several embryos and not transferring the affected ones; editing repairs one embryo and discards none for disease reasons."
+        whatThisShows="An idealized comparison of what preventing an affected birth asks of the embryos involved. Embryo selection (PGT) creates several embryos and avoids transferring those with the targeted genotype; successful correction would instead retain that embryo as a candidate for transfer."
         howToRead={
           <>
-            The curve shows affected embryos discarded per unaffected child as the fraction of{' '}
-            <Term k="embryo selection">unaffected embryos</Term> (u) falls. Selection cost is (1−u)/u
-            and rises without bound as u→0; editing stays at zero.
+            The curve shows embryos not selected for transfer per unaffected child as the fraction
+            of <Term k="embryo selection">unaffected embryos</Term> (u) falls. The selection figure
+            is (1−u)/u and rises without bound as u→0; idealized correction stays at zero.
           </>
         }
-        whatItDetermines="Where editing becomes preferable — or, at u→0 (no selectable unaffected embryo), the only option — on embryo-loss grounds."
+        whatItDetermines="Where editing could become preferable — or, at u→0 (no selectable unaffected embryo), the only option — on embryo-loss grounds."
         defaultOpen
       />
+      <div className="rounded-lg border border-amber-300 bg-amber-50/60 p-4 text-sm leading-6 text-slate-700">
+        <strong>This is an idealized comparison.</strong> In the strategy modeled here, PGT avoids
+        transfer of embryos with the targeted genotype, whereas successful correction would retain
+        that embryo as a candidate for transfer. The comparison does not model editing failure,
+        mosaicism, safety-related embryo loss, or the additional embryos a real clinical program
+        might require — all of which would raise the editing side above zero. “Not selected for
+        transfer” is used as the analytic term because it describes the modeled decision, not the
+        eventual disposition of any embryo.
+      </div>
 
       {/* Scale contrast */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -56,7 +65,7 @@ export default function Embryos({ data }: Props) {
         </Card>
         <Card className="border-rose-200 bg-rose-50/50">
           <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            Affected embryos discarded / yr — <strong>selection</strong> strategy
+            Affected embryos not selected for transfer / yr — <strong>selection</strong> strategy
           </p>
           <p className="tnum mt-1 text-2xl font-bold text-rose-700">
             {fmtCompact(agg.affected_embryos_discarded_selection_strategy)}
@@ -71,13 +80,15 @@ export default function Embryos({ data }: Props) {
         </Card>
         <Card className="border-emerald-200 bg-emerald-50/50">
           <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            Affected embryos discarded / yr — <strong>correction</strong> (editing) strategy
+            Affected embryos not selected for transfer / yr — <strong>correction</strong> (editing)
+            strategy
           </p>
           <p className="tnum mt-1 text-2xl font-bold text-emerald-700">
             {fmtInt(agg.affected_embryos_discarded_editing_strategy)}
           </p>
           <p className="text-xs text-slate-500">
-            zero by construction — editing repairs the embryo instead of discarding affected ones
+            zero by construction in this idealized model — a successfully corrected embryo remains
+            a transfer candidate (editing failure and safety-related loss are not modeled)
           </p>
         </Card>
       </div>
@@ -86,11 +97,12 @@ export default function Embryos({ data }: Props) {
       {/* Curve */}
       <Card>
         <h3 className="text-base font-semibold text-slate-900">
-          Selection embryo cost vs. the unaffected-embryo fraction
+          How many embryos does selection set aside as unaffected embryos become rarer?
         </h3>
         <p className="mt-1 text-sm text-slate-600">
-          Affected embryos discarded per unaffected child. As unaffected embryos get rarer (moving
-          right), selection cost climbs steeply and diverges at the S1 limit; editing stays at zero.
+          Affected embryos not selected for transfer, per unaffected child. As unaffected embryos
+          get rarer (moving right), the selection figure climbs steeply and diverges at the limit
+          where no unaffected embryo exists; idealized correction stays at zero.
         </p>
         <CurveChart e={data.embryos} />
       </Card>
@@ -106,7 +118,7 @@ export default function Embryos({ data }: Props) {
                 <th scope="col" className="px-3 py-2 font-medium">Inheritance (typical at-risk couple)</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">Unaffected fraction u</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">
-                  Affected embryos discarded / child (selection)
+                  Not selected for transfer / child (selection)
                 </th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">Editing</th>
               </tr>
@@ -131,7 +143,7 @@ export default function Embryos({ data }: Props) {
         <p className="mt-2 text-xs leading-relaxed text-slate-500">
           The unaffected-embryo fraction <em>u</em> is the Mendelian expectation for a typical
           at-risk couple of each inheritance mode (e.g. ¾ for a recessive carrier × carrier cross);
-          discarded-per-child is (1−u)/u.
+          not-selected-per-child is (1−u)/u.
         </p>
         <p className="mt-2 text-xs leading-relaxed text-slate-600">{e.note}</p>
       </Card>
@@ -167,7 +179,7 @@ function CurveChart({ e }: { e: AllData['embryos'] }) {
         {/* editing line (flat at 0) */}
         <line x1={padL} y1={editY} x2={W - padR} y2={editY} stroke="#059669" strokeWidth={2} />
         <text x={W - padR} y={editY - 6} fontSize={11} textAnchor="end" fill="#059669">
-          Editing = 0 (repair, no disease-discard)
+          Idealized correction = 0
         </text>
         {/* selection curve */}
         <path d={selPath} fill="none" stroke="#e11d48" strokeWidth={2.5} />
@@ -180,7 +192,7 @@ function CurveChart({ e }: { e: AllData['embryos'] }) {
           </g>
         ))}
         <text x={x(n - 1)} y={y(pts[n - 1].selection_affected_discarded) - 8} fontSize={11} textAnchor="end" fill="#e11d48">
-          Selection = (1−u)/u → ∞ at the S1 limit
+          Selection = (1−u)/u → ∞ when no unaffected embryo exists
         </text>
         {/* y ticks */}
         {[0, Math.round(maxY / 2), Math.round(maxY)].map((v) => (
@@ -192,7 +204,7 @@ function CurveChart({ e }: { e: AllData['embryos'] }) {
           Fraction of embryos unaffected (u) — rarer →
         </text>
         <text x={14} y={(padT + H - padB) / 2} fontSize={11} textAnchor="middle" fill="#334155" transform={`rotate(-90 14 ${(padT + H - padB) / 2})`}>
-          Affected embryos discarded / child
+          Not selected for transfer / child
         </text>
       </svg>
     </div>

@@ -39,13 +39,25 @@ export default function Allocation({ data }: Props) {
   return (
     <div className="space-y-6">
       <SectionHeading
-        title="Allocation"
-        subtitle="Cost-effectiveness on a log scale, with 95% CrI whiskers. Screening dominates editing on both cost per birth prevented and cost per DALY averted."
+        title="Scale versus frontier R&D: what different investments accomplish"
+        subtitle="An exploratory comparison of what funding buys as scaled screening programs versus a germline-editing program."
       />
+      <div className="rounded-lg border border-amber-400 bg-amber-50 p-4 text-sm leading-6 text-amber-900">
+        <p className="font-semibold">Exploratory cost scenario — not yet a paper result.</p>
+        <p className="mt-1">
+          The editing-program cost basis and several other cost anchors here are provisional and
+          await stronger sourcing, so the numbers below indicate rough orders of magnitude only.
+          Note also a conceptual limit: broad screening infrastructure and frontier editing R&amp;D
+          do not compete to prevent the same cases — screening scales across the preventable
+          majority, while an editing program would serve the narrow population no other tool
+          reaches. Read this as “what different investments accomplish,” not as a ranking of
+          substitutes.
+        </p>
+      </div>
       <Explainer
         whatThisShows="What a dollar buys under each strategy: the cost to prevent one affected birth, and the cost to avert one DALY (a year of healthy life lost), for scaled screening versus an editing program."
         howToRead="Bars are on a log scale — each step is 10× — so further left is far cheaper; the whiskers are 95% credible intervals. The budget panel translates this into what $1B, $5B, or $10B a year would buy each way."
-        whatItDetermines="Where limited funding averts the most disease — the practical core of the paper's allocation argument."
+        whatItDetermines="A first-pass sense of how the two kinds of investment differ in scale — to be firmed up when the provisional cost inputs are replaced with sourced anchors."
       />
 
       <Card>
