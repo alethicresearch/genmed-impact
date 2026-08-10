@@ -30,8 +30,8 @@ export default function Embryos({ data, update }: Props) {
     <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
-        title="Selection vs editing: what happens to affected-genotype embryos?"
-        subtitle="PGT-M prevents an affected birth by selecting an embryo without the targeted genotype. Successful editing could instead correct an embryo that would otherwise not be selected for transfer."
+        title="Selection vs correction: what happens when unaffected embryos are rare?"
+        subtitle="Embryo selection and successful correction can reach the same disease-prevention goal in some cases, but they do so through different reproductive routes. As unaffected embryos become rarer, the burden of obtaining the desired outcome through selection increases."
       />
       <p className="text-sm leading-relaxed text-slate-700">
         The comparison between selection and correction is not simply binary. Selection may be
@@ -66,12 +66,13 @@ export default function Embryos({ data, update }: Props) {
       {/* Curve */}
       <Card>
         <h3 className="text-base font-semibold text-slate-900">
-          As unaffected embryos become rarer, selection requires more genotype-based non-selection
+          The burden of selection rises as unaffected embryos become rarer
         </h3>
         <p className="mt-1 text-sm text-slate-600">
-          Affected embryos not selected for transfer, per unaffected child. As unaffected embryos
-          get rarer (moving right), the selection figure climbs steeply and diverges at the limit
-          where no unaffected embryo exists; idealized correction stays at zero.
+          If <em>u</em> is the expected fraction of embryos unaffected by the targeted
+          genotype, selection entails an expected (1−u)/u affected-genotype embryos not
+          selected for transfer per unaffected embryo obtained. The quantity rises sharply as{' '}
+          <em>u</em> falls and diverges when no unaffected embryo exists.
         </p>
         <CurveChart e={data.embryos} />
       </Card>

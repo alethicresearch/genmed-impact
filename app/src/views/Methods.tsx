@@ -113,8 +113,8 @@ function badgeOf(path: string, leaf: ProvenanceLeaf): Badge {
 
 // Internal model vocabulary, kept here (and only here) for reproducibility.
 const INTERNAL_TERMS: Array<{ internal: string; meaning: string }> = [
-  { internal: 'S1', meaning: 'No unaffected embryo can be selected — the families for whom editing would be the only preventive option.' },
-  { internal: 'S2', meaning: 'Complex-disease cases where editing might outperform every alternative.' },
+  { internal: 'S1', meaning: 'Reproductive configurations in which no unaffected embryo can be selected; editing would provide a preventive route unavailable through embryo selection.' },
+  { internal: 'S2', meaning: 'Exploratory complex-disease population-scaling term in which editing is assumed to provide meaningful incremental advantage over modeled alternatives.' },
   { internal: 'strict / permissive', meaning: 'Internal identifiers for the current-evidence and future-capacity exploratory complex-disease scaling scenarios.' },
   { internal: 'def_a / def_b / def_c', meaning: 'Narrow / Main / Broad definition of serious disease (severity threshold).' },
   { internal: 'attribution (inclusive / heritability_weighted / exclusive)', meaning: 'How much multifactorial disease to count as genetically attributable: all of it / weighted by heritability / only a small, strongly genetic-familial component (~10% — narrow attribution, not zero).' },
@@ -190,7 +190,7 @@ export default function Methods({ data, state, update }: Props) {
     <div className="space-y-6">
       <SectionHeading
         title="Methods & data"
-        subtitle="How the disease catalogue, burden estimates, intervention model, editing residual, uncertainty analysis, and source provenance are constructed."
+        subtitle="How the disease catalogue, burden and access models, selection-versus-correction analysis, germline-editing frontier, polygenic analysis, uncertainty, and source provenance are constructed."
       />
       <p className="text-sm leading-relaxed text-slate-700">
         The study combines a disease-level catalogue with population, intervention, access,

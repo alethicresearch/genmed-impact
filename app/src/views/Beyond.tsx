@@ -157,9 +157,10 @@ export default function Beyond({ data, update }: Props) {
           <Lead>
             Most proposed enhancement traits are highly polygenic and strongly influenced by
             environment. Their genetic effects are spread across many variants, and polygenic
-            predictions often perform differently across ancestries. The same genetic
-            architecture that limits editing for complex disease therefore constrains
-            enhancement even more strongly.
+            predictions often perform differently across ancestries. The same problems of
+            polygenicity, causal uncertainty, pleiotropy, ancestry portability, and
+            environmental influence make complex-trait enhancement technically demanding as
+            well.
           </Lead>
           <div className="flex flex-wrap gap-2 text-xs">
             <button
@@ -167,7 +168,7 @@ export default function Beyond({ data, update }: Props) {
               onClick={() => update({ tab: 'multifactorial' })}
               className="rounded border border-slate-300 bg-white px-2.5 py-1 font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              See the polygenicity ceiling →
+              Explore the polygenic frontier →
             </button>
           </div>
           <Caption>

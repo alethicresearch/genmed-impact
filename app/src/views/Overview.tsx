@@ -102,7 +102,7 @@ export default function Overview({ data, update }: Props) {
             />
             <HorizonCard
               title="Translational frontier"
-              body="Germline editing becomes medically distinctive where it provides a medically distinct or substantially less burdensome route — most clearly when no unaffected embryo can be selected for a severe monogenic disease, and more cautiously when selection remains possible but unusually burdensome."
+              body="Germline editing enters the translational frontier when it can achieve an important reproductive outcome that existing medicine cannot, or when it could provide a substantially less burdensome route to that outcome. The strongest present case is severe monogenic disease in which no unaffected embryo can be selected; a second, more conditional case arises when unaffected embryos are possible but unusually rare."
             />
             <HorizonCard
               title="Future impact"

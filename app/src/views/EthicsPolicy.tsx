@@ -30,9 +30,11 @@ export default function EthicsPolicy({ data, update }: Props) {
         that impact remains unrealized because access and implementation are incomplete.
       </p>
       <p className="text-[15px] leading-7 text-slate-600">
-        Second, a much smaller group of severe monogenic cases may already provide a strong
-        medical rationale for developing germline editing because embryo selection cannot
-        achieve the desired outcome.
+        Second, a much smaller group of severe monogenic cases may provide a strong medical
+        rationale for developing germline editing because embryo selection cannot achieve the
+        desired outcome, or can do so only with unusually high reproductive burden. The
+        no-selectable-embryo cases provide the strongest present example; poor-selection cases
+        require a more conditional comparison of burden, benefit, and risk.
       </p>
       <p className="text-[15px] leading-7 text-slate-600">
         Third, the future role of editing may expand substantially if polygenic causal
@@ -130,35 +132,39 @@ export default function EthicsPolicy({ data, update }: Props) {
         <PH>From the evidence to a policy position</PH>
         <ClaimChain>
           <Claim kind="model">
-            Under current-evidence assumptions, only about{' '}
+            Under current-evidence assumptions, the combined editing-relevant scenario
+            represents approximately{' '}
             <InlineLink onClick={() => update({ tab: 'residual' })}>
-              {fmtPct(editableShare.strict.median, 1)} of the modeled serious-disease burden
-            </InlineLink>{' '}
-            falls within the editing-relevant residual (about{' '}
-            {fmtCompact(editableTotal.strict.median)} births a year), dominated by approximately{' '}
+              {fmtPct(editableShare.strict.median, 1)} of the broad default modeled
+              serious-disease burden
+            </InlineLink>
+            , or about {fmtCompact(editableTotal.strict.median)} cases per year. Its
+            best-defined component is the{' '}
             <InlineLink onClick={() => update({ tab: 'residual' })}>
-              {fmtCompact(s1.median)} births/year
+              population in which no unaffected embryo can be selected
             </InlineLink>{' '}
-            in reproductive configurations where no unaffected embryo can be selected.
+            (approximately {fmtCompact(s1.median)} births/year). Under the future-capacity
+            exploratory scenario, the editing-relevant share increases as a larger potential
+            role for complex-disease editing is assumed.
           </Claim>
           <Claim kind="interpretation">
-            Germline editing therefore does not appear necessary as a broad population strategy
-            for serious genetic disease. Its clearest potential medical role lies instead in the
-            narrow situations where existing reproductive prevention cannot produce the same
-            outcome.
+            Under present conditions, germline editing does not appear necessary as a broad
+            population strategy for serious genetic disease. The largest immediately achievable
+            population gains lie in expanding access to genetic medicine that already exists.
+            At the same time, germline editing can have unusually strong individual value where
+            embryo selection fails or becomes highly burdensome, and its population impact
+            could expand substantially if polygenic editing matures.
           </Claim>
           <Claim kind="policy">
-            We propose three parallel priorities. <strong>1. Scale present impact:</strong>{' '}
-            expand access to{' '}
+            We therefore propose three parallel priorities.{' '}
+            <strong>1. Scale present impact:</strong> expand access to{' '}
             <InlineLink onClick={() => update({ tab: 'prevention' })}>
               established screening, reproductive, diagnostic, and therapeutic pathways
-            </InlineLink>{' '}
-            where they already provide substantial benefit.{' '}
-            <strong>2. Develop the justified frontier:</strong> create a transparent, tightly
+            </InlineLink>
+            . <strong>2. Develop the justified frontier:</strong> create a transparent, tightly
             governed research pathway for{' '}
             <InlineLink onClick={() => update({ tab: 'residual' })}>
-              severe germline-editing indications in which existing reproductive options cannot
-              achieve the same medically important outcome
+              severe germline-editing indications with strong incremental medical value
             </InlineLink>
             , subject to independent safety and evidence requirements.{' '}
             <strong>3. Prepare for future impact:</strong> support rigorous research into{' '}
@@ -196,13 +202,13 @@ export default function EthicsPolicy({ data, update }: Props) {
               title: 'Severe monogenic disease with poor embryo-selection prospects',
               body: 'An unaffected embryo may be possible but difficult to obtain. Editing would need to demonstrate meaningful advantage over additional IVF/PGT cycles and other reproductive options.',
               go: () => update({ tab: 'embryos' }),
-              goLabel: 'Selection vs editing',
+              goLabel: 'Selection vs correction',
             },
             {
               title: 'Complex and polygenic disease',
               body: 'A potentially important future domain rather than a current clinical indication. Its justification strengthens as causal confidence, multiplex-editing capacity, effect predictability, and safety improve, and where editing can demonstrate substantial benefit beyond embryo selection, prevention, treatment, and somatic approaches. Research into this frontier is justified before clinical readiness; clinical use is not.',
               go: () => update({ tab: 'multifactorial' }),
-              goLabel: 'Complex disease',
+              goLabel: 'Polygenic frontier',
             },
             {
               title: 'Resistance to common risks',

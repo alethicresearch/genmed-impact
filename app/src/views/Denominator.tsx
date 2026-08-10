@@ -168,6 +168,17 @@ export default function Denominator({ data, state, update }: Props) {
             uePermissive={uePermissive.median}
           />
         </div>
+        <p className="mt-2 text-xs leading-5 text-slate-600">
+          These final rows are <strong>comparative scenarios, not additional disease
+          categories</strong>. They show the portion of the modeled burden for which germline
+          editing may provide unique or incremental medical value under the specified
+          technology assumptions.
+        </p>
+        <p className="mt-1 text-xs leading-5 text-slate-500">
+          Editing-relevant scenario estimates use the paper&apos;s default disease-severity and
+          multifactorial-attribution assumptions and therefore do not change with the controls
+          above.
+        </p>
 
         <IconArray seriousShare={seriousShare} monoShare={monoShare} />
 
@@ -221,7 +232,10 @@ export default function Denominator({ data, state, update }: Props) {
         </MetricCard>
         <MetricCard label="Serious genetic disease / year">
           <StatValue stat={cell.total_serious} kind="compact" showCi />
-          <SourceNote source={monoSrc.source || 'Modell & Darlison 2008'} doi={monoSrc.doi} detail="serious single-gene rate" />
+          <SourceNote
+            source="Derived: sum of the modeled monogenic (Modell & Darlison 2008) and multifactorial (GBD 2023; March of Dimes 2006) components at the selected severity and attribution assumptions"
+            doi={null}
+          />
         </MetricCard>
         <MetricCard label="Serious share of births">
           <StatValue stat={cell.serious_share_of_births} kind="pct" decimals={2} showCi />
@@ -231,7 +245,10 @@ export default function Denominator({ data, state, update }: Props) {
           <span className="tnum text-lg font-semibold">
             {fmtCompact(monogenic)} / {fmtCompact(multifactorial)}
           </span>
-          <SourceNote source={multiSrc.source || 'March of Dimes 2006; WHO congenital anomalies'} doi={multiSrc.doi} detail="multifactorial serious rate" />
+          <SourceNote
+            source={`${monoSrc.source || 'Modell & Darlison 2008'} (monogenic rate); ${multiSrc.source || 'March of Dimes 2006; WHO congenital anomalies'} (multifactorial rate)`}
+            doi={multiSrc.doi}
+          />
         </MetricCard>
       </div>
 
@@ -288,7 +305,8 @@ function Cascade(p: CascadeProps) {
       count: p.totalSerious,
     },
   ];
-  const H = 5 * (rowH + gap) + 10;
+  const dividerH = 30; // space for the "comparative editing scenarios" separator
+  const H = 5 * (rowH + gap) + dividerH + 10;
 
   // Serious split row (monogenic vs multifactorial) drawn at full serious width.
   const seriousW = barW * p.seriousShare;
@@ -368,12 +386,23 @@ function Cascade(p: CascadeProps) {
         );
       })()}
 
-      {/* Editable residual rows */}
+      {/* Comparative editing scenarios — visually separated from the burden cascade */}
+      {(() => {
+        const base = 3 * (rowH + gap);
+        return (
+          <g>
+            <line x1={0} x2={W} y1={base + 2} y2={base + 2} stroke="#cbd5e1" strokeDasharray="4 4" />
+            <text x={0} y={base + 20} fontSize={11} fontWeight={700} fill="#92400e" letterSpacing="0.06em">
+              COMPARATIVE EDITING SCENARIOS
+            </text>
+          </g>
+        );
+      })()}
       {[
-        { label: 'Editing-relevant (future-capacity scaling)', frac: permFracOfSerious, color: '#f59e0b', count: p.uePermissive },
-        { label: 'Editing-relevant (current evidence)', frac: strictFracOfSerious, color: '#b45309', count: p.ueStrict },
+        { label: 'Editing-relevant — current evidence', frac: strictFracOfSerious, color: '#b45309', count: p.ueStrict },
+        { label: 'Editing-relevant — future-capacity exploratory', frac: permFracOfSerious, color: '#f59e0b', count: p.uePermissive },
       ].map((r, idx) => {
-        const y = (3 + idx) * (rowH + gap);
+        const y = (3 + idx) * (rowH + gap) + dividerH;
         const w = Math.max(seriousW * r.frac, 2);
         return (
           <g key={r.label}>

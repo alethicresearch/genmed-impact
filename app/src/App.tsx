@@ -48,7 +48,8 @@ const SECTIONS: SectionDef[] = [
     label: 'Role of editing',
     views: [
       { id: 'residual', label: 'When embryo selection is not enough' },
-      { id: 'multifactorial', label: 'Complex disease' },
+      { id: 'embryos', label: 'Selection vs correction' },
+      { id: 'multifactorial', label: 'Polygenic frontier' },
     ],
   },
   {
@@ -56,7 +57,6 @@ const SECTIONS: SectionDef[] = [
     label: 'Ethics & policy',
     views: [
       { id: 'ethics', label: 'Policy implications' },
-      { id: 'embryos', label: 'Selection vs editing' },
       { id: 'beyond', label: 'Resistance & enhancement' },
       { id: 'allocation', label: 'Exploratory costs' },
     ],

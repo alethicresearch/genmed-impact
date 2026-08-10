@@ -313,14 +313,17 @@ export default function Residual({ data, state, update }: Props) {
           </span>
         </h3>
         <p className="mb-3 text-sm text-slate-600">
-          For summary purposes, we combine the no-selectable-embryo population with the{' '}
+          To compare the scale of germline editing&apos;s modeled role with the wider
+          genetic-disease burden, we combine the no-selectable-embryo population with the{' '}
           <InlineLink onClick={() => update({ tab: 'multifactorial' })}>
-            potential complex-disease advantage
+            exploratory complex-disease advantage
           </InlineLink>{' '}
-          into an <strong>editing-relevant residual</strong>. They should not be interpreted as
-          equivalent. The first describes cases in which editing supplies a preventive route
-          unavailable through embryo selection; the second is a hypothetical additional
-          advantage whose size depends strongly on modeling assumptions.
+          into an <strong>editing-relevant residual</strong>. The components describe different
+          forms of medical value: the first is a reproductive configuration in which editing
+          provides a route unavailable through embryo selection; the second is a possible
+          incremental advantage whose size depends strongly on assumptions about future
+          complex-disease editing. Combining them allows comparison of scale; reporting them
+          separately preserves their clinical and ethical meaning.
         </p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Mini label="Editing-only prevention" stat={s1Total} kind="int" />

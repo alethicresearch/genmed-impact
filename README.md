@@ -32,10 +32,10 @@ Disease prevention, disease resistance, and enhancement are treated as **separat
 
 ## What the study contains
 
-1. **Disease map** — a structured catalogue of serious genetic conditions (331 in total: a 97-condition curated analytic core plus an Orphanet-derived rare-disease tier) linked to causal genes or loci, inheritance, incidence or prevalence, severity and onset, reproductive pathways, newborn screening, postnatal treatment and intent, and source provenance.
+1. **Disease burden and disease map** — population-level burden estimates alongside a structured catalogue of serious genetic conditions (331 in total: a 97-condition curated analytic core plus an Orphanet-derived rare-disease tier) linked to causal genes or loci, inheritance, incidence or prevalence, severity and onset, reproductive pathways, newborn screening, postnatal treatment and intent, and source provenance.
 2. **Existing genetic medicine** — carrier screening + reproductive planning, IVF + PGT-M embryo selection, prenatal diagnosis + reproductive decision, newborn screening + early treatment, and postnatal therapies, with **affected-birth avoidance** and **burden mitigation** reported separately throughout. Prenatal diagnosis reduces affected births in the model only when followed by a reproductive decision not to continue an affected pregnancy; newborn screening prevents no births — it enables earlier treatment.
 3. **Population model** — a bottom-up disease catalogue and a top-down population model built around an annual global birth cohort. For adult-onset and multifactorial disease this is an attribution framework: it does **not** mean every modeled case is clinically present at birth.
-4. **Germline-editing frontier** — an explicit reproductive analysis of **editing-only prevention** (no unaffected embryo can be selected), an exploratory complex-disease population-scaling term, and a disease-specific liability-threshold model of how the polygenic frontier moves with technical capacity.
+4. **Germline-editing frontier** — an explicit analysis of reproductive configurations in which no unaffected embryo can be selected (**editing-only prevention**), a selection-versus-correction analysis showing how reproductive burden changes as unaffected embryos become rare, exploratory complex-disease population scaling, and a disease-specific model of how the polygenic frontier changes with technical capacity.
 5. **Ethical and policy analysis** — proportionality across severity, alternatives, incremental benefit, uncertainty, safety, intergenerational effects, and access, with prevention, resistance, and enhancement evaluated separately.
 
 ## Data sources
@@ -76,7 +76,7 @@ These cases define **editing-only prevention** in the model. They are a small po
 
 PGT-M chooses among embryos; it does not alter them. If *u* is the expected fraction of embryos unaffected by a targeted genotype, the expected number of affected-genotype embryos not selected per unaffected embryo is **(1−u)/u**. The ratio is modest when unaffected embryos are common, rises rapidly as they become rare, and diverges when no unaffected embryo exists.
 
-This does not establish that editing is preferable. Correction introduces its own risks and embryo attrition. The comparison is included because **reproductive burden is one dimension of impact**, and because it distinguishes ordinary PGT-M cases from cases in which selection is technically possible but unusually burdensome. See the research page's [Selection vs editing view](https://alethicresearch.github.io/genmed-impact/?tab=embryos) for the full analysis.
+This does not establish that editing is preferable. Correction introduces its own risks and embryo attrition. The comparison is included because **reproductive burden is one dimension of impact**, and because it distinguishes ordinary PGT-M cases from cases in which selection is technically possible but unusually burdensome. See the research page's [Selection vs correction view](https://alethicresearch.github.io/genmed-impact/?tab=embryos) for the full analysis.
 
 ### Future polygenic frontier
 
@@ -108,7 +108,7 @@ The [interactive research page](https://alethicresearch.github.io/genmed-impact/
 - **Overview** — impact framework, three time horizons, and main findings
 - **Disease burden** — how much disease is modeled and which diseases are represented
 - **Existing medicine** — present intervention capability, outcomes, and access
-- **Role of editing** — the near-term no-selectable-embryo frontier and future polygenic frontier
+- **Role of editing** — no-selectable-embryo cases, selection versus correction when unaffected embryos are rare, and the future polygenic frontier.
 - **Ethics & policy** — proportionality, regulatory sequencing, resistance, enhancement, and exploratory costs
 - **Methods & data** — model structure, uncertainty, sensitivity, evidence status, provenance, and reproducibility
 

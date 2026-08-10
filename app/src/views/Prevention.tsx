@@ -197,10 +197,11 @@ export default function Prevention({ data, state, update }: Props) {
         <ToolLegend tools={tools} />
         {floorFrac !== undefined && scenario !== 'ideal' && (
           <p className="mt-1 text-xs text-slate-600">
-            Dashed line: what remains ({fmtPct(floorFrac, 1)}) even if the modeled existing
-            pathways reached everyone eligible. The gap above the line is primarily an access
-            gap; the portion below it remains beyond these modeled pathways. The next section
-            asks whether germline editing could address any part of that remainder.
+            Dashed line: the modeled remainder ({fmtPct(floorFrac, 1)}) under idealized full
+            coverage. Within this model, the gap between current coverage and the dashed line
+            reflects the additional impact obtainable by expanding coverage of technically
+            applicable pathways. The portion below the line remains beyond those modeled
+            pathways and is examined separately in the germline-editing analysis.
           </p>
         )}
         <div className="mt-2">
@@ -209,7 +210,7 @@ export default function Prevention({ data, state, update }: Props) {
             onClick={() => update({ tab: 'residual' })}
             className="rounded border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
-            Next: where does germline editing provide something existing reproductive medicine cannot? →
+            Next: where can editing provide a distinct or substantially less burdensome route? →
           </button>
         </div>
 
