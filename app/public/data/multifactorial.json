@@ -1,0 +1,524 @@
+{
+  "meta": {
+    "liability_note": "Risk reductions are computed on the liability-threshold model: liability ~ N(0,1), affected if liability > T = Φ⁻¹(1−K). An intervention that lowers expected liability by δ SDs changes risk from K to 1−Φ(T+δ). See multifactorial.py.\n",
+    "retrieved": "2026-08-10"
+  },
+  "n_diseases": 10,
+  "tech_scenarios": {
+    "present": {
+      "label": "Present (IVF today)"
+    },
+    "near_future": {
+      "label": "Near-future (IVM/IVG + multiplex editing)"
+    }
+  },
+  "viability_thresholds": {
+    "viable": 0.3,
+    "marginal": 0.1
+  },
+  "diseases": [
+    {
+      "id": "type_1_diabetes",
+      "name": "Type 1 diabetes",
+      "polygenicity_class": "oligogenic",
+      "heritability": 0.85,
+      "lifetime_prevalence": 0.004,
+      "prs_r2": 0.18,
+      "oligo_editable_h2": 0.08,
+      "effective_loci": 50,
+      "pleiotropy_caution": true,
+      "notes": "Most oligogenic here (HLA), yet editing HLA is not safely tractable — architecture is necessary, not sufficient.",
+      "sources": {
+        "heritability": "twin h2; strong HLA",
+        "prs_r2": "HLA-dominated PRS explains a large share",
+        "oligo_editable_h2": "HLA region concentrates risk, but HLA editing is immunologically fraught"
+      },
+      "scenarios": {
+        "present": {
+          "label": "Present (IVF today)",
+          "n_embryos": 5,
+          "n_edits": 1,
+          "selection": {
+            "delta": 0.3539283352835583,
+            "rrr": 0.6691117322257791,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.15059048825904264,
+            "rrr": 0.36646221451055916,
+            "verdict": "not_recommended_pleiotropy"
+          }
+        },
+        "near_future": {
+          "label": "Near-future (IVM/IVG + multiplex editing)",
+          "n_embryos": 200,
+          "n_edits": 10,
+          "selection": {
+            "delta": 0.8204340127383916,
+            "rrr": 0.9355465408889532,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.2777518326352138,
+            "rrr": 0.5760542342504995,
+            "verdict": "not_recommended_pleiotropy"
+          }
+        }
+      }
+    },
+    {
+      "id": "coronary_artery_disease",
+      "name": "Coronary artery disease",
+      "polygenicity_class": "intermediate",
+      "heritability": 0.5,
+      "lifetime_prevalence": 0.3,
+      "prs_r2": 0.12,
+      "oligo_editable_h2": 0.1,
+      "effective_loci": 300,
+      "pleiotropy_caution": false,
+      "notes": "The clearest case where oligo-locus editing (LDL pathway) is genuinely potent.",
+      "sources": {
+        "heritability": "twin/SNP-h2 estimates",
+        "prs_r2": "Khera et al. 2018; PGS Catalog",
+        "oligo_editable_h2": "LDL pathway (PCSK9/LDLR/APOB) concentrates a large, causal, editable share (Ference et al. 2017)"
+      },
+      "scenarios": {
+        "present": {
+          "label": "Present (IVF today)",
+          "n_embryos": 5,
+          "n_edits": 1,
+          "selection": {
+            "delta": 0.28898127565246723,
+            "rrr": 0.3066680041867015,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.16836528425605166,
+            "rrr": 0.1859057668154923,
+            "verdict": "marginal"
+          }
+        },
+        "near_future": {
+          "label": "Near-future (IVM/IVG + multiplex editing)",
+          "n_embryos": 200,
+          "n_edits": 10,
+          "selection": {
+            "delta": 0.6698815662777111,
+            "rrr": 0.6127205910141529,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.31053598932374127,
+            "rrr": 0.32707756457830617,
+            "verdict": "viable"
+          }
+        }
+      }
+    },
+    {
+      "id": "alzheimers_disease",
+      "name": "Alzheimer's disease (late-onset)",
+      "polygenicity_class": "intermediate",
+      "heritability": 0.7,
+      "lifetime_prevalence": 0.1,
+      "prs_r2": 0.1,
+      "oligo_editable_h2": 0.06,
+      "effective_loci": 100,
+      "pleiotropy_caution": true,
+      "notes": "Architecture is concentrated (APOE) but pleiotropy_caution blocks a naive edit recommendation (RQ4).",
+      "sources": {
+        "heritability": "twin h2 ~0.6-0.8",
+        "prs_r2": "much of it from APOE (Belloy et al. 2019)",
+        "oligo_editable_h2": "APOE concentrates risk — but developmental pleiotropy makes it a poor edit target"
+      },
+      "scenarios": {
+        "present": {
+          "label": "Present (IVF today)",
+          "n_embryos": 5,
+          "n_edits": 1,
+          "selection": {
+            "delta": 0.2638026056191246,
+            "rrr": 0.3886969047411839,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.13041518840063315,
+            "rrr": 0.21020124728095801,
+            "verdict": "not_recommended_pleiotropy"
+          }
+        },
+        "near_future": {
+          "label": "Near-future (IVM/IVG + multiplex editing)",
+          "n_embryos": 200,
+          "n_edits": 10,
+          "selection": {
+            "delta": 0.611515407845324,
+            "rrr": 0.708255182262242,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.24054014300977883,
+            "rrr": 0.36006948369809355,
+            "verdict": "not_recommended_pleiotropy"
+          }
+        }
+      }
+    },
+    {
+      "id": "breast_cancer",
+      "name": "Breast cancer",
+      "polygenicity_class": "intermediate",
+      "heritability": 0.31,
+      "lifetime_prevalence": 0.12,
+      "prs_r2": 0.12,
+      "oligo_editable_h2": 0.05,
+      "effective_loci": 300,
+      "pleiotropy_caution": false,
+      "notes": "High-penetrance familial subset (BRCA) is already Mendelian-addressable by CS/PGT.",
+      "sources": {
+        "heritability": "twin h2",
+        "prs_r2": "313-SNP PRS + rare high-penetrance",
+        "oligo_editable_h2": "BRCA1/2 large effect but rare; PRS otherwise polygenic"
+      },
+      "scenarios": {
+        "present": {
+          "label": "Present (IVF today)",
+          "n_embryos": 5,
+          "n_edits": 1,
+          "selection": {
+            "delta": 0.28898127565246723,
+            "rrr": 0.40332219406065595,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.11905223421385479,
+            "rrr": 0.1847835796052114,
+            "verdict": "marginal"
+          }
+        },
+        "near_future": {
+          "label": "Near-future (IVM/IVG + multiplex editing)",
+          "n_embryos": 200,
+          "n_edits": 10,
+          "selection": {
+            "delta": 0.6698815662777111,
+            "rrr": 0.7289304562667474,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.21958210385329077,
+            "rrr": 0.320225499503049,
+            "verdict": "viable"
+          }
+        }
+      }
+    },
+    {
+      "id": "type_2_diabetes",
+      "name": "Type 2 diabetes",
+      "polygenicity_class": "highly_polygenic",
+      "heritability": 0.55,
+      "lifetime_prevalence": 0.25,
+      "prs_r2": 0.1,
+      "oligo_editable_h2": 0.02,
+      "effective_loci": 500,
+      "pleiotropy_caution": false,
+      "notes": null,
+      "sources": {
+        "heritability": "twin/SNP-h2",
+        "prs_r2": "PGS Catalog T2D",
+        "oligo_editable_h2": "TCF7L2 largest common effect but modest; risk is diffuse"
+      },
+      "scenarios": {
+        "present": {
+          "label": "Present (IVF today)",
+          "n_embryos": 5,
+          "n_edits": 1,
+          "selection": {
+            "delta": 0.2638026056191246,
+            "rrr": 0.303811625867743,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.07529524412952132,
+            "rrr": 0.09323158458543501,
+            "verdict": "not_viable"
+          }
+        },
+        "near_future": {
+          "label": "Near-future (IVM/IVG + multiplex editing)",
+          "n_embryos": 200,
+          "n_edits": 10,
+          "selection": {
+            "delta": 0.611515407845324,
+            "rrr": 0.6031174769211658,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.1388759163176069,
+            "rrr": 0.16798312403258286,
+            "verdict": "marginal"
+          }
+        }
+      }
+    },
+    {
+      "id": "inflammatory_bowel_disease",
+      "name": "Inflammatory bowel disease",
+      "polygenicity_class": "highly_polygenic",
+      "heritability": 0.5,
+      "lifetime_prevalence": 0.005,
+      "prs_r2": 0.08,
+      "oligo_editable_h2": 0.02,
+      "effective_loci": 400,
+      "pleiotropy_caution": false,
+      "notes": null,
+      "sources": {
+        "heritability": "twin/SNP-h2",
+        "prs_r2": "IBD PRS",
+        "oligo_editable_h2": "NOD2 among larger effects (Crohn's)"
+      },
+      "scenarios": {
+        "present": {
+          "label": "Present (IVF today)",
+          "n_embryos": 5,
+          "n_edits": 1,
+          "selection": {
+            "delta": 0.23595222352237225,
+            "rrr": 0.5073204536601308,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.07529524412952132,
+            "rrr": 0.1977574799834283,
+            "verdict": "marginal"
+          }
+        },
+        "near_future": {
+          "label": "Near-future (IVM/IVG + multiplex editing)",
+          "n_embryos": 200,
+          "n_edits": 10,
+          "selection": {
+            "delta": 0.5469560084922611,
+            "rrr": 0.8208516264708301,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.1388759163176069,
+            "rrr": 0.33665213387119497,
+            "verdict": "viable"
+          }
+        }
+      }
+    },
+    {
+      "id": "hypertension",
+      "name": "Essential hypertension",
+      "polygenicity_class": "highly_polygenic",
+      "heritability": 0.4,
+      "lifetime_prevalence": 0.45,
+      "prs_r2": 0.07,
+      "oligo_editable_h2": 0.01,
+      "effective_loci": 1000,
+      "pleiotropy_caution": false,
+      "notes": null,
+      "sources": {
+        "heritability": "twin/SNP-h2",
+        "prs_r2": "BP PRS",
+        "oligo_editable_h2": "diffuse; few large-effect loci"
+      },
+      "scenarios": {
+        "present": {
+          "label": "Present (IVF today)",
+          "n_embryos": 5,
+          "n_edits": 1,
+          "selection": {
+            "delta": 0.22071309501705508,
+            "rrr": 0.18993185540457713,
+            "verdict": "marginal"
+          },
+          "editing": {
+            "delta": 0.05324177771508111,
+            "rrr": 0.04665136742444309,
+            "verdict": "not_viable"
+          }
+        },
+        "near_future": {
+          "label": "Near-future (IVM/IVG + multiplex editing)",
+          "n_embryos": 200,
+          "n_edits": 10,
+          "selection": {
+            "delta": 0.5116304973538649,
+            "rrr": 0.4178502639941739,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.09820010217167535,
+            "rrr": 0.08570542925623104,
+            "verdict": "not_viable"
+          }
+        }
+      }
+    },
+    {
+      "id": "asthma",
+      "name": "Asthma",
+      "polygenicity_class": "highly_polygenic",
+      "heritability": 0.5,
+      "lifetime_prevalence": 0.12,
+      "prs_r2": 0.05,
+      "oligo_editable_h2": 0.01,
+      "effective_loci": 800,
+      "pleiotropy_caution": false,
+      "notes": null,
+      "sources": {
+        "heritability": "twin h2",
+        "prs_r2": "asthma PRS",
+        "oligo_editable_h2": "17q12-21 among stronger, still modest"
+      },
+      "scenarios": {
+        "present": {
+          "label": "Present (IVF today)",
+          "n_embryos": 5,
+          "n_edits": 1,
+          "selection": {
+            "delta": 0.18653661132796343,
+            "rrr": 0.27771523848233814,
+            "verdict": "marginal"
+          },
+          "editing": {
+            "delta": 0.05324177771508111,
+            "rrr": 0.0859950972642326,
+            "verdict": "not_viable"
+          }
+        },
+        "near_future": {
+          "label": "Near-future (IVM/IVG + multiplex editing)",
+          "n_embryos": 200,
+          "n_edits": 10,
+          "selection": {
+            "delta": 0.4324066916874859,
+            "rrr": 0.5501330057405903,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.09820010217167535,
+            "rrr": 0.15436779148467472,
+            "verdict": "marginal"
+          }
+        }
+      }
+    },
+    {
+      "id": "schizophrenia",
+      "name": "Schizophrenia",
+      "polygenicity_class": "massively_polygenic",
+      "heritability": 0.75,
+      "lifetime_prevalence": 0.01,
+      "prs_r2": 0.08,
+      "oligo_editable_h2": 0.005,
+      "effective_loci": 5000,
+      "pleiotropy_caution": true,
+      "notes": "Highly heritable yet not editing-tractable: heritability is spread across thousands of loci.",
+      "sources": {
+        "heritability": "twin h2 ~0.7-0.8",
+        "prs_r2": "PGC3 schizophrenia PRS",
+        "oligo_editable_h2": "no large-effect common editable locus; rare CNVs aside"
+      },
+      "scenarios": {
+        "present": {
+          "label": "Present (IVF today)",
+          "n_embryos": 5,
+          "n_edits": 1,
+          "selection": {
+            "delta": 0.23595222352237225,
+            "rrr": 0.4800928612396329,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.03764762206476066,
+            "rrr": 0.09604838132550775,
+            "verdict": "not_viable"
+          }
+        },
+        "near_future": {
+          "label": "Near-future (IVM/IVG + multiplex editing)",
+          "n_embryos": 200,
+          "n_edits": 10,
+          "selection": {
+            "delta": 0.5469560084922611,
+            "rrr": 0.7968984049682151,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.06943795815880345,
+            "rrr": 0.17076111843380337,
+            "verdict": "not_recommended_pleiotropy"
+          }
+        }
+      }
+    },
+    {
+      "id": "major_depression",
+      "name": "Major depressive disorder",
+      "polygenicity_class": "massively_polygenic",
+      "heritability": 0.37,
+      "lifetime_prevalence": 0.18,
+      "prs_r2": 0.03,
+      "oligo_editable_h2": 0.001,
+      "effective_loci": 8000,
+      "pleiotropy_caution": true,
+      "notes": null,
+      "sources": {
+        "heritability": "twin h2 ~0.35-0.40",
+        "prs_r2": "PGC MDD PRS",
+        "oligo_editable_h2": "extremely diffuse architecture"
+      },
+      "scenarios": {
+        "present": {
+          "label": "Present (IVF today)",
+          "n_embryos": 5,
+          "n_edits": 1,
+          "selection": {
+            "delta": 0.14449063782623361,
+            "rrr": 0.19663822109776719,
+            "verdict": "marginal"
+          },
+          "editing": {
+            "delta": 0.016836528425605166,
+            "rrr": 0.02435461012966178,
+            "verdict": "not_viable"
+          }
+        },
+        "near_future": {
+          "label": "Near-future (IVM/IVG + multiplex editing)",
+          "n_embryos": 200,
+          "n_edits": 10,
+          "selection": {
+            "delta": 0.33494078313885556,
+            "rrr": 0.41336712615896964,
+            "verdict": "viable"
+          },
+          "editing": {
+            "delta": 0.031053598932374128,
+            "rrr": 0.044624783515097466,
+            "verdict": "not_viable"
+          }
+        }
+      }
+    }
+  ],
+  "frontier": {
+    "present": {
+      "selection_viable": 7,
+      "selection_viable_or_marginal": 10,
+      "editing_viable": 0
+    },
+    "near_future": {
+      "selection_viable": 10,
+      "selection_viable_or_marginal": 10,
+      "editing_viable": 3
+    }
+  },
+  "note": "Intervention viability along the polygenicity spectrum, computed on the liability-threshold model. Selection power grows with embryo number; editing power depends on how concentrated risk is in editable large-effect loci. The frontier moves outward from present to near-future tech — but architecture caps editing for massively polygenic traits regardless of tech, and pleiotropy blocks otherwise-concentrated targets (e.g. APOE)."
+}

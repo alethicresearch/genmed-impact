@@ -1,0 +1,172 @@
+# ============================================================================
+# MULTIFACTORIAL DISEASE SPECTRUM × INTERVENTION VIABILITY
+# ============================================================================
+# Multifactorial disease is not one thing: it ranges from OLIGOGENIC (a few
+# large-effect loci — tractable to edit/select on today) to MASSIVELY POLYGENIC
+# (thousands of tiny-effect loci — not tractable). This file positions common
+# complex diseases along that spectrum and carries the genetic-architecture
+# parameters that determine whether embryo selection (PGT-P) or oligo-locus
+# germline editing can meaningfully reduce risk — and how that viability
+# "ranges ahead" as technology advances (more embryos via IVM/IVG; multiplex
+# editing). The viability itself is COMPUTED (see multifactorial.py), not asserted.
+#
+# Architecture fields (liability-scale, population):
+#   heritability h2          : narrow/broad-sense heritability of liability
+#   lifetime_prevalence K    : population lifetime risk (sets the liability threshold)
+#   prs_r2                   : fraction of liability variance explained by current PRS
+#                              (governs embryo-SELECTION power)
+#   oligo_editable_h2        : fraction of liability variance concentrated in a small
+#                              number of large-effect, editable loci (governs EDITING power).
+#                              ~0 for massively polygenic traits; meaningful only where a
+#                              pathway concentrates risk (e.g. LDL via PCSK9/LDLR/APOB).
+#   effective_loci           : order-of-magnitude number of contributing loci
+#   pleiotropy_caution       : true where editing a top locus carries known pleiotropic risk
+#                              (e.g. APOE) — flagged so the model does not recommend it.
+#
+# basis ∈ {literature_estimate, order_of_magnitude}. These are representative values from
+# the GWAS/PGS literature (PGS Catalog, Khera et al. 2018, Ference et al. 2017, PGC
+# schizophrenia, etc.), curated as anchors; refine via a systematic PGS-Catalog pull.
+# ============================================================================
+
+meta:
+  liability_note: >
+    Risk reductions are computed on the liability-threshold model: liability ~ N(0,1),
+    affected if liability > T = Φ⁻¹(1−K). An intervention that lowers expected liability by δ
+    SDs changes risk from K to 1−Φ(T+δ). See multifactorial.py.
+  retrieved: "2026-08-10"
+
+# Technology scenarios that move the viability frontier outward.
+tech_scenarios:
+  present:
+    label: "Present (IVF today)"
+    n_embryos: {value: 5, low: 3, high: 10, note: "typical usable blastocysts per cycle"}
+    n_edits: {value: 1, low: 1, high: 2, note: "single reliable germline edit"}
+  near_future:
+    label: "Near-future (IVM/IVG + multiplex editing)"
+    n_embryos: {value: 200, low: 50, high: 1000, note: "in-vitro maturation / gametogenesis"}
+    n_edits: {value: 10, low: 5, high: 20, note: "multiplex germline editing"}
+
+# Within-sibship PRS variance as a fraction of population PRS variance (embryo selection acts
+# within a sibship). ~0.5 under additive polygenic inheritance.
+sibling_variance_fraction: {value: 0.5, low: 0.4, high: 0.6}
+
+# How much of oligo_editable_h2 is realizable with n_edits edits (saturating).
+edit_saturation_loci: {value: 3.0, low: 1.5, high: 6.0,
+  note: "editable variance ≈ oligo_editable_h2 × (1 − exp(−n_edits/this))"}
+
+# Viability verdict thresholds on relative risk reduction (RRR).
+viability_thresholds:
+  viable: {value: 0.30, low: 0.20, high: 0.40}
+  marginal: {value: 0.10, low: 0.05, high: 0.15}
+
+diseases:
+  - id: coronary_artery_disease
+    name: Coronary artery disease
+    polygenicity_class: intermediate
+    heritability: {value: 0.50, basis: literature_estimate, source: "twin/SNP-h2 estimates"}
+    lifetime_prevalence: {value: 0.30, basis: literature_estimate, source: "lifetime CAD risk"}
+    prs_r2: {value: 0.12, basis: literature_estimate, source: "Khera et al. 2018; PGS Catalog"}
+    oligo_editable_h2: {value: 0.10, basis: literature_estimate,
+      source: "LDL pathway (PCSK9/LDLR/APOB) concentrates a large, causal, editable share (Ference et al. 2017)"}
+    effective_loci: 300
+    pleiotropy_caution: false
+    notes: "The clearest case where oligo-locus editing (LDL pathway) is genuinely potent."
+
+  - id: type_2_diabetes
+    name: Type 2 diabetes
+    polygenicity_class: highly_polygenic
+    heritability: {value: 0.55, basis: literature_estimate, source: "twin/SNP-h2"}
+    lifetime_prevalence: {value: 0.25, basis: literature_estimate, source: "lifetime T2D risk"}
+    prs_r2: {value: 0.10, basis: literature_estimate, source: "PGS Catalog T2D"}
+    oligo_editable_h2: {value: 0.02, basis: order_of_magnitude,
+      source: "TCF7L2 largest common effect but modest; risk is diffuse"}
+    effective_loci: 500
+    pleiotropy_caution: false
+
+  - id: schizophrenia
+    name: Schizophrenia
+    polygenicity_class: massively_polygenic
+    heritability: {value: 0.75, basis: literature_estimate, source: "twin h2 ~0.7-0.8"}
+    lifetime_prevalence: {value: 0.01, basis: literature_estimate, source: "~1% lifetime"}
+    prs_r2: {value: 0.08, basis: literature_estimate, source: "PGC3 schizophrenia PRS"}
+    oligo_editable_h2: {value: 0.005, basis: order_of_magnitude,
+      source: "no large-effect common editable locus; rare CNVs aside"}
+    effective_loci: 5000
+    pleiotropy_caution: true
+    notes: "Highly heritable yet not editing-tractable: heritability is spread across thousands of loci."
+
+  - id: major_depression
+    name: Major depressive disorder
+    polygenicity_class: massively_polygenic
+    heritability: {value: 0.37, basis: literature_estimate, source: "twin h2 ~0.35-0.40"}
+    lifetime_prevalence: {value: 0.18, basis: literature_estimate, source: "lifetime MDD"}
+    prs_r2: {value: 0.03, basis: literature_estimate, source: "PGC MDD PRS"}
+    oligo_editable_h2: {value: 0.001, basis: order_of_magnitude, source: "extremely diffuse architecture"}
+    effective_loci: 8000
+    pleiotropy_caution: true
+
+  - id: hypertension
+    name: Essential hypertension
+    polygenicity_class: highly_polygenic
+    heritability: {value: 0.40, basis: literature_estimate, source: "twin/SNP-h2"}
+    lifetime_prevalence: {value: 0.45, basis: literature_estimate, source: "lifetime hypertension"}
+    prs_r2: {value: 0.07, basis: literature_estimate, source: "BP PRS"}
+    oligo_editable_h2: {value: 0.01, basis: order_of_magnitude, source: "diffuse; few large-effect loci"}
+    effective_loci: 1000
+    pleiotropy_caution: false
+
+  - id: asthma
+    name: Asthma
+    polygenicity_class: highly_polygenic
+    heritability: {value: 0.50, basis: literature_estimate, source: "twin h2"}
+    lifetime_prevalence: {value: 0.12, basis: literature_estimate, source: "childhood/lifetime asthma"}
+    prs_r2: {value: 0.05, basis: literature_estimate, source: "asthma PRS"}
+    oligo_editable_h2: {value: 0.01, basis: order_of_magnitude, source: "17q12-21 among stronger, still modest"}
+    effective_loci: 800
+    pleiotropy_caution: false
+
+  - id: alzheimers_disease
+    name: Alzheimer's disease (late-onset)
+    polygenicity_class: intermediate
+    heritability: {value: 0.70, basis: literature_estimate, source: "twin h2 ~0.6-0.8"}
+    lifetime_prevalence: {value: 0.10, basis: literature_estimate, source: "lifetime LOAD risk"}
+    prs_r2: {value: 0.10, basis: literature_estimate, source: "much of it from APOE (Belloy et al. 2019)"}
+    oligo_editable_h2: {value: 0.06, basis: literature_estimate,
+      source: "APOE concentrates risk — but developmental pleiotropy makes it a poor edit target"}
+    effective_loci: 100
+    pleiotropy_caution: true
+    notes: "Architecture is concentrated (APOE) but pleiotropy_caution blocks a naive edit recommendation (RQ4)."
+
+  - id: inflammatory_bowel_disease
+    name: Inflammatory bowel disease
+    polygenicity_class: highly_polygenic
+    heritability: {value: 0.50, basis: literature_estimate, source: "twin/SNP-h2"}
+    lifetime_prevalence: {value: 0.005, basis: literature_estimate, source: "lifetime IBD"}
+    prs_r2: {value: 0.08, basis: literature_estimate, source: "IBD PRS"}
+    oligo_editable_h2: {value: 0.02, basis: order_of_magnitude, source: "NOD2 among larger effects (Crohn's)"}
+    effective_loci: 400
+    pleiotropy_caution: false
+
+  - id: breast_cancer
+    name: Breast cancer
+    polygenicity_class: intermediate
+    heritability: {value: 0.31, basis: literature_estimate, source: "twin h2"}
+    lifetime_prevalence: {value: 0.12, basis: literature_estimate, source: "lifetime female breast cancer"}
+    prs_r2: {value: 0.12, basis: literature_estimate, source: "313-SNP PRS + rare high-penetrance"}
+    oligo_editable_h2: {value: 0.05, basis: literature_estimate,
+      source: "BRCA1/2 large effect but rare; PRS otherwise polygenic"}
+    effective_loci: 300
+    pleiotropy_caution: false
+    notes: "High-penetrance familial subset (BRCA) is already Mendelian-addressable by CS/PGT."
+
+  - id: type_1_diabetes
+    name: Type 1 diabetes
+    polygenicity_class: oligogenic
+    heritability: {value: 0.85, basis: literature_estimate, source: "twin h2; strong HLA"}
+    lifetime_prevalence: {value: 0.004, basis: literature_estimate, source: "childhood-onset T1D"}
+    prs_r2: {value: 0.18, basis: literature_estimate, source: "HLA-dominated PRS explains a large share"}
+    oligo_editable_h2: {value: 0.08, basis: order_of_magnitude,
+      source: "HLA region concentrates risk, but HLA editing is immunologically fraught"}
+    effective_loci: 50
+    pleiotropy_caution: true
+    notes: "Most oligogenic here (HLA), yet editing HLA is not safely tractable — architecture is necessary, not sufficient."

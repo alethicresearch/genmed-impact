@@ -11,7 +11,8 @@ from typing import Any
 
 import numpy as np
 
-from . import attribution, config, harmonize, library, model, montecarlo as mc, residual, sensitivity
+from . import (attribution, config, harmonize, library, model, montecarlo as mc,
+               multifactorial, residual, sensitivity)
 
 
 def _git_commit() -> str:
@@ -208,6 +209,7 @@ def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
         },
         "sensitivity": {"tornado": tornado_rows},
         "library": library.build_library(constants),
+        "multifactorial": multifactorial.build_multifactorial(),
         "provenance": {
             "constants": constants,
             "conditions": conditions,
