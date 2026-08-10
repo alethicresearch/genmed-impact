@@ -87,8 +87,8 @@ export default function Denominator({ data, state, update }: Props) {
     <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
-        title="The denominator, defined"
-        subtitle="From all births to the sliver uniquely reachable only by germline editing. Change the severity definition or attribution stance to see every number move."
+        title="How big is the burden — and how much do the definitions matter?"
+        subtitle="From all births down to the sliver reachable only by germline editing. Change what counts as 'serious' or how disease is attributed to genetics, and watch every number move."
       />
       <Explainer
         whatThisShows="The funnel from all births worldwide down to the small share of serious genetic disease for which germline editing would be the only option."
@@ -157,7 +157,7 @@ export default function Denominator({ data, state, update }: Props) {
         <IconArray seriousShare={seriousShare} monoShare={monoShare} />
 
         <ShowDataToggle
-          caption="Denominator cascade values"
+          caption="Burden cascade values"
           columns={[
             { key: 'stage', header: 'Stage' },
             { key: 'count', header: 'Count / yr (median)', align: 'right' },

@@ -145,7 +145,7 @@ export default function Overview({ data, state, update }: Props) {
                 over the core) is a floor that rises as the catalogue grows toward the modelled total
                 ({fmtCompact(data.summary.burden_default.total_serious.median)}/yr). Two judgment
                 calls — what counts as “serious” and how disease is attributed to genetics —
-                are adjustable on the Denominator tab; every number responds.
+                are adjustable on the Burden &amp; definitions tab; every number responds.
               </p>
               <button
                 type="button"

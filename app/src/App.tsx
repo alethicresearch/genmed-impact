@@ -17,7 +17,7 @@ import Methods from './views/Methods';
 const ALL_TABS: TabDef[] = [
   { id: 'overview', label: 'Overview' },
   { id: 'library', label: 'Disease Library' },
-  { id: 'denominator', label: 'Denominator' },
+  { id: 'denominator', label: 'Burden & definitions' },
   { id: 'prevention', label: 'Prevention' },
   { id: 'multifactorial', label: 'Multifactorial' },
   { id: 'residual', label: 'Residual' },
