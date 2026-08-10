@@ -11,8 +11,10 @@ export function PH({ children }: { children: ReactNode }) {
   return <h2 className="text-xl font-semibold tracking-tight text-slate-900">{children}</h2>;
 }
 
+// Prose paragraphs are capped at a readable measure; figures, cards, and tables keep the
+// full container width.
 export function Lead({ children }: { children: ReactNode }) {
-  return <p className="text-[15px] leading-7 text-slate-700">{children}</p>;
+  return <p className="max-w-[72ch] text-[15px] leading-7 text-slate-700">{children}</p>;
 }
 
 export function Caption({ children }: { children: ReactNode }) {
@@ -47,7 +49,7 @@ export function EpistemicTag({ kind }: { kind: EpistemicKind }) {
 /** A short claim prefixed with its epistemic status — data, model result, interpretation, or policy. */
 export function Claim({ kind, children }: { kind: EpistemicKind; children: ReactNode }) {
   return (
-    <p className="text-[15px] leading-7 text-slate-700">
+    <p className="max-w-[72ch] text-[15px] leading-7 text-slate-700">
       <EpistemicTag kind={kind} />
       {children}
     </p>

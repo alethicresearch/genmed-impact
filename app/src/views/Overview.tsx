@@ -45,21 +45,31 @@ export default function Overview({ data, update }: Props) {
   return (
     <SourcesProvider>
       <article className="space-y-10 pb-4">
-        {/* The research question, first. */}
+        {/* 1. The research question, then the problem statement — before any findings. */}
         <section className="space-y-3">
           <p className="text-xl font-semibold leading-8 tracking-tight text-slate-900">
-            Which genetic diseases actually require embryo editing — and which can already be
-            addressed in other ways?
+            Where does germline embryo editing add medical value that existing genetic medicine
+            cannot?
           </p>
-          <p className="text-[15px] leading-7 text-slate-600">
-            This project maps serious genetic disease to the tools medicine already has,
-            estimates where those tools fall short, and asks where germline embryo editing could
-            add a genuinely unique medical benefit. It then examines what that means for access,
-            research priorities, and regulation. Everything on this page is backed by a
-            reproducible model; every number carries its source and uncertainty, and the deeper
-            sections let you inspect and change the assumptions.
-          </p>
+          <Lead>
+            Debate over human germline genome editing is often framed at the level of the
+            technology itself: whether heritable editing should be prohibited, permitted, or
+            developed as a means of preventing genetic disease. But the medical case for editing
+            depends on a prior empirical question: which serious genetic diseases can already be
+            prevented, detected, or treated using existing medicine, and which leave a residual
+            need that germline editing could uniquely or substantially address?
+          </Lead>
+          <Lead>
+            This study investigates that question by combining disease-level genetic data,
+            global disease-burden evidence, intervention mapping, and population modeling.
+          </Lead>
         </section>
+
+        <WhatWeBuilt data={data} update={update} />
+
+        <HowAnalysisWorks />
+
+        <HowToUse update={update} />
 
         <Findings data={data} update={update} />
 
@@ -195,6 +205,190 @@ export default function Overview({ data, update }: Props) {
         </details>
       </article>
     </SourcesProvider>
+  );
+}
+
+// 2. What the project actually built, with the catalogue size and source families visible
+// up front — dynamic from the data wherever possible.
+function WhatWeBuilt({
+  data,
+  update,
+}: {
+  data: AllData;
+  update: (patch: UrlState) => void;
+}) {
+  const r = data.library.rollup;
+  return (
+    <section className="space-y-3">
+      <H>What we built</H>
+      <Lead>
+        We constructed a structured disease-by-intervention dataset linking{' '}
+        {fmtInt(r.n_diseases_all)} serious genetic conditions to their causal genes or loci,
+        inheritance patterns, incidence or prevalence, and the medical interventions that can
+        address them. The catalogue combines a hand-curated high-burden core (
+        {fmtInt(r.n_diseases)} conditions) with a growing rare-disease tier (
+        {fmtInt(r.tiers.rare.n_diseases)} conditions) derived from Orphanet and other
+        genetic-disease sources.
+      </Lead>
+      <Lead>
+        We then connect this disease map to population-level and epidemiological evidence.
+        Two complementary analyses run in parallel: a <strong>bottom-up disease catalogue</strong>,
+        which sums burden disease by disease, and a <strong>top-down population model</strong>,
+        which estimates the broader burden of serious monogenic and multifactorial disease and
+        propagates uncertainty across the assumptions that matter most.
+      </Lead>
+      <Lead>
+        For each disease or disease class, we ask what different forms of genetic medicine can
+        actually achieve: carrier screening and reproductive planning, IVF with PGT-M embryo
+        selection, prenatal diagnosis and reproductive decision-making, newborn screening and
+        early treatment, and postnatal therapies including somatic genetic medicine. We keep{' '}
+        <strong>affected-birth avoidance</strong> separate from <strong>burden mitigation</strong>{' '}
+        after birth, because these interventions do not produce the same medical or ethical
+        outcome.
+      </Lead>
+      <Lead>
+        The final step is to ask what remains. We distinguish{' '}
+        <strong>editing-only prevention</strong> — reproductive situations in which no
+        selectable unaffected embryo exists — from the separate and more uncertain possibility
+        that germline editing could eventually provide a distinct advantage in some complex
+        diseases (<strong>potential complex-disease editing advantage</strong>).
+      </Lead>
+
+      {/* Source families, compact — each row links into Methods. */}
+      <div className="space-y-1 rounded-lg border border-slate-200 bg-slate-50/60 p-3 text-[13px] leading-6">
+        <SourceRow label="Population & burden" items="GBD 2023 · UN WPP 2024 · WHO" onGo={() => update({ tab: 'methods' })} />
+        <SourceRow label="Genetics & disease" items="Orphanet · gnomAD · published literature" onGo={() => update({ tab: 'methods' })} />
+        <SourceRow label="Access & geography" items="World Bank · UNAIDS · national program evidence" onGo={() => update({ tab: 'methods' })} />
+      </div>
+
+      {/* The three research layers, kept explicit — the ethical analysis is not part of the model. */}
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+        <LayerCard
+          title="Disease map"
+          body="What diseases exist, how common they are, how they are inherited, and what interventions apply."
+        />
+        <LayerCard
+          title="Population model"
+          body="How those disease-level observations translate into a global burden and residual under uncertainty."
+        />
+        <LayerCard
+          title="Ethical analysis"
+          body="What the empirical results imply — or do not imply — for research priorities, regulation, resistance, and enhancement."
+        />
+      </div>
+    </section>
+  );
+}
+
+function SourceRow({
+  label,
+  items,
+  onGo,
+}: {
+  label: string;
+  items: string;
+  onGo: () => void;
+}) {
+  return (
+    <p className="text-slate-600">
+      <span className="font-semibold text-slate-800">{label}:</span> {items}{' '}
+      <button
+        type="button"
+        onClick={onGo}
+        className="ml-1 text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      >
+        sources →
+      </button>
+    </p>
+  );
+}
+
+function LayerCard({ title, body }: { title: string; body: string }) {
+  return (
+    <div className="rounded-lg border border-slate-200 bg-white p-3">
+      <p className="text-sm font-semibold text-slate-900">{title}</p>
+      <p className="mt-1 text-xs leading-5 text-slate-600">{body}</p>
+    </div>
+  );
+}
+
+// 3. The five-step research workflow — a lightweight explanatory figure, not navigation.
+// Step titles align with the Methods pipeline where the two overlap.
+const WORKFLOW_STEPS = [
+  { title: 'Define the burden', desc: 'Estimate serious monogenic and multifactorial disease across the global birth cohort.' },
+  { title: 'Build the disease map', desc: 'Link diseases to genes, inheritance, incidence, and interventions.' },
+  { title: 'Map what existing medicine can do', desc: 'Separate affected-birth avoidance from postnatal treatment and mitigation.' },
+  { title: 'Identify what remains', desc: 'Estimate editing-only prevention and potential complex-disease editing advantage.' },
+  { title: 'Interpret the implications', desc: 'Examine access, research priorities, and ethical/regulatory consequences.' },
+];
+
+function HowAnalysisWorks() {
+  return (
+    <section className="space-y-3">
+      <H>How the analysis works</H>
+      <ol className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
+        {WORKFLOW_STEPS.map((s, i) => (
+          <li key={s.title} className="flex flex-col rounded-lg border border-slate-200 bg-slate-50/60 p-3">
+            <span className="text-xs font-semibold text-slate-400">{i + 1}</span>
+            <span className="mt-0.5 text-sm font-semibold text-slate-900">{s.title}</span>
+            <span className="mt-1 text-xs leading-5 text-slate-600">{s.desc}</span>
+          </li>
+        ))}
+      </ol>
+      <p className="text-xs leading-5 text-slate-500">
+        The project moves from disease burden and intervention mapping to the residual medical
+        role of germline editing. Empirical results are kept separate from ethical and policy
+        interpretation.
+      </p>
+    </section>
+  );
+}
+
+// 4. What the interactive page adds beyond the paper.
+function HowToUse({ update }: { update: (patch: UrlState) => void }) {
+  return (
+    <section className="space-y-3">
+      <H>How to use this research page</H>
+      <Lead>
+        This research page is the interactive companion to the paper. It exposes the analysis
+        behind the headline results rather than presenting only the final estimates. Readers can
+        inspect the disease catalogue, vary assumptions about disease severity and genetic
+        attribution, compare current and idealized access to existing interventions, examine the
+        reproductive configurations that generate the editing-only residual, explore alternative
+        assumptions about complex disease, and trace model inputs back to their underlying
+        sources.
+      </Lead>
+      <Lead>
+        The purpose of the page is to make the empirical assumptions behind the argument visible
+        and contestable. The paper presents the central analysis and normative argument; this
+        page allows readers to inspect the underlying data, assumptions, uncertainty, and
+        alternative scenarios in greater detail.
+      </Lead>
+      <div className="flex flex-wrap gap-2 text-sm">
+        <button
+          type="button"
+          onClick={() => update({ tab: 'denominator' })}
+          className="rounded border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          Explore the disease map →
+        </button>
+        <button
+          type="button"
+          onClick={() => update({ tab: 'methods' })}
+          className="rounded border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          Inspect assumptions &amp; methods →
+        </button>
+        <a
+          href="https://github.com/alethicresearch/genmed-impact"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          View code &amp; data →
+        </a>
+      </div>
+    </section>
   );
 }
 
@@ -348,8 +542,9 @@ function H({ children }: { children: ReactNode }) {
     <h2 className="text-xl font-semibold tracking-tight text-slate-900">{children}</h2>
   );
 }
+// Prose capped at a readable measure; figures and stat cards keep the full width.
 function Lead({ children }: { children: ReactNode }) {
-  return <p className="text-[15px] leading-7 text-slate-700">{children}</p>;
+  return <p className="max-w-[72ch] text-[15px] leading-7 text-slate-700">{children}</p>;
 }
 function Big({ children }: { children: ReactNode }) {
   return <span className="text-2xl font-bold text-slate-900">{children}</span>;

@@ -133,6 +133,12 @@ export default function App() {
             Genetic Disease and What Medicine Can Do
           </h1>
         </button>
+        {/* Author names only — manuscript affiliations are finalised in the paper, not here. */}
+        <p className="mt-1 text-sm text-slate-600">
+          Sankalpa Ghose <span className="text-slate-400">·</span> D. A. Wallach{' '}
+          <span className="text-slate-400">·</span> Peter Singer{' '}
+          <span className="text-slate-400">·</span> Julian Savulescu
+        </p>
         <p className="mt-2">
           <span
             className="inline-flex items-center gap-1 rounded border border-amber-300 bg-amber-50 px-2 py-1 text-xs text-amber-800"
@@ -155,7 +161,7 @@ export default function App() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 rounded border border-slate-300 bg-white px-3 py-1.5 text-slate-700 hover:border-accent hover:text-accent"
           >
-            ↗ Data archive
+            ↗ Results &amp; data
           </a>
           <a
             href={REPO_URL}
