@@ -31,14 +31,14 @@ const CLASS_TERM: Record<string, string> = {
   massively_polygenic: 'polygenicity',
 };
 
-// "Meets model threshold" deliberately avoids "viable": these verdicts are thresholds inside
-// the liability model, not clinical conclusions about safety or effectiveness.
+// Labels state the modeled risk-reduction band directly (thresholds 30% / 10% in the data),
+// so the reader knows what each colour means without looking elsewhere. Not clinical verdicts.
 const VERDICT_META: Record<Verdict, { label: string; fill: string; text: string; hatch?: boolean }> = {
-  viable: { label: 'Meets model threshold', fill: '#059669', text: 'text-emerald-800' },
-  marginal: { label: 'Marginal', fill: '#f59e0b', text: 'text-amber-800' },
-  not_viable: { label: 'Below threshold', fill: '#94a3b8', text: 'text-slate-600' },
+  viable: { label: '≥30% modeled risk reduction', fill: '#059669', text: 'text-emerald-800' },
+  marginal: { label: '10–30% modeled risk reduction', fill: '#f59e0b', text: 'text-amber-800' },
+  not_viable: { label: '<10% modeled risk reduction', fill: '#94a3b8', text: 'text-slate-600' },
   not_recommended_pleiotropy: {
-    label: 'Blocked (pleiotropy)',
+    label: 'Pleiotropy caution',
     fill: '#dc2626',
     text: 'text-red-700',
     hatch: true,
@@ -46,8 +46,8 @@ const VERDICT_META: Record<Verdict, { label: string; fill: string; text: string;
 };
 
 const SCEN_OPTS = [
-  { value: 'present', label: 'Current-style scenario' },
-  { value: 'near_future', label: 'Hypothetical high-capacity scenario' },
+  { value: 'present', label: 'Current-capacity assumption set' },
+  { value: 'near_future', label: 'Hypothetical high-capacity assumption set' },
   { value: 'both', label: 'Both' },
 ];
 
@@ -65,17 +65,25 @@ export default function Multifactorial({ data, state, update }: Props) {
     <SourcesProvider>
       <div className="space-y-6">
         <SectionHeading
-          title="Could editing help with common complex diseases?"
-          subtitle="How far embryo selection and gene editing could move risk for common, many-gene diseases — arranged along the polygenicity spectrum. Verdicts are model thresholds, not clinical conclusions."
+          title="Why complex disease is a harder target for embryo editing"
+          subtitle="Common diseases arise from many genetic variants together with non-genetic influences. This exploratory model asks how much risk embryo selection or editing a limited number of larger-effect loci could change."
         />
 
         <p className="text-sm leading-relaxed text-slate-700">
-          For complex diseases, germline editing would rarely be the only available
-          intervention. This exploratory analysis instead asks whether editing a limited number
-          of higher-effect loci could reduce risk more than embryo selection, under specified
-          assumptions about genetic architecture and technology. Bars show the modeled relative
-          risk reduction for embryo selection and germline editing; colour marks whether each
-          meets the model threshold.
+          For a monogenic disorder, one pathogenic variant may account for most of the disease
+          risk. For common complex disease, risk is usually distributed across many variants,
+          often with each contributing only a small amount.
+        </p>
+        <p className="text-sm leading-relaxed text-slate-700">
+          We model each disease as a continuous underlying liability to disease. Embryo
+          selection can choose among embryos with different polygenic risk; germline editing
+          can change only the loci specified for editing. The potential benefit of either
+          strategy therefore depends on the disease&apos;s genetic architecture, the number of
+          embryos available for selection, and the number of loci that could be edited.
+        </p>
+        <p className="text-xs text-slate-500">
+          The chart reports the resulting modeled relative risk reduction, not clinical
+          efficacy.
         </p>
 
         <Card>
@@ -101,11 +109,11 @@ export default function Multifactorial({ data, state, update }: Props) {
             onChange={(v) => update({ scen: v })}
           />
           <p className="max-w-md text-xs text-slate-500">
-            <span className="font-medium text-slate-700">Current-style</span> = embryo numbers
-            and single edits comparable to present IVF practice.{' '}
-            <span className="font-medium text-slate-700">Hypothetical high-capacity</span> =
-            many more embryos (via IVM/IVG) and multiplex editing. Both are assumption sets, not
-            forecasts.
+            <span className="font-medium text-slate-700">Current-capacity</span>: approximately
+            five embryos available for selection and one modeled edit.{' '}
+            <span className="font-medium text-slate-700">High-capacity</span>: approximately 200
+            embryos and up to ten modeled edits, representing hypothetical IVM/IVG and
+            multiplex-editing capabilities. This is not a forecast.
           </p>
         </div>
 
@@ -121,9 +129,9 @@ export default function Multifactorial({ data, state, update }: Props) {
             The polygenicity spectrum
           </h3>
           <p className="mt-1 text-sm text-slate-600">
-            Ordered from a few big-effect genes (top) to thousands of tiny effects (bottom). Read
-            each row across: architecture on the left, then what selection and editing can each
-            achieve.
+            Diseases near the top have more genetic risk concentrated in fewer loci; those
+            toward the bottom distribute risk across many more variants. Each row compares the
+            modeled effect of embryo selection with the modeled effect of editing.
           </p>
           <div className="mt-4 space-y-3">
             {mf.diseases.map((d) => (
@@ -134,15 +142,14 @@ export default function Multifactorial({ data, state, update }: Props) {
 
         {/* Required caveat */}
         <Card className="border-amber-300 bg-amber-50/60">
-          <h3 className="text-sm font-semibold text-slate-900">Reading these bars</h3>
+          <h3 className="text-sm font-semibold text-slate-900">
+            What these estimates do — and do not — mean
+          </h3>
           <p className="mt-1 text-sm leading-relaxed text-slate-700">
-            A selection <Term k="RRR">RRR</Term> can look large for a rare, highly heritable trait —
-            that is a property of the <Term k="liability threshold">liability-threshold model</Term>,
-            not a promise. It is <strong>not</strong> the same as an achievable population-level
-            intervention: it describes one couple choosing among their own embryos, conditional on
-            doing IVF at all. Editing viability, meanwhile, needs more than genetic tractability — a
-            locus can be concentrated and still be a poor or unsafe edit target, so a green editing
-            bar is a <em>necessary</em>, not sufficient, condition.
+            These values describe modeled changes in relative risk for a couple already using
+            IVF. They are not estimates of population-wide disease prevention. A large modeled
+            effect also does not establish that an edit is safe, clinically useful, ethically
+            justified, or free of harmful pleiotropic effects.
           </p>
         </Card>
 
@@ -167,37 +174,38 @@ function FrontierSummary({ mf }: { mf: AllData['multifactorial'] }) {
   return (
     <Card className="border-accent/40 bg-accent-soft/40">
       <h3 className="text-base font-semibold text-slate-900">
-        How many diseases clear the model threshold under each scenario?
+        What changes when more embryos and edits are assumed?
       </h3>
       <p className="mt-1 text-sm text-slate-600">
-        Counts are across the <strong>{n} diseases listed below</strong>. More clear the
-        threshold under the hypothetical high-capacity assumptions, but for highly polygenic
-        traits editing a few loci produces only small modeled risk reductions under any
-        assumption. High-capacity members are named under each count.
+        Greater technical capacity increases the modeled risk reduction for some diseases,
+        especially where a larger share of genetic risk is concentrated in relatively few loci.
+        For highly polygenic diseases, changing only a small number of loci continues to move
+        overall risk much less. Counts are across the <strong>{n} diseases listed below</strong>;
+        high-capacity members are named under each count.
       </p>
       <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <FrontierStat
-          label="Germline editing meets threshold"
+          label="Germline editing ≥30% modeled reduction"
           from={p.editing_viable}
           to={f.editing_viable}
           n={n}
-          note="editing a few loci clears the model threshold"
+          note="editing a few loci reaches a ≥30% modeled risk reduction"
           members={editNF}
         />
         <FrontierStat
-          label="Embryo selection meets threshold"
+          label="Embryo selection ≥30% modeled reduction"
           from={p.selection_viable}
           to={f.selection_viable}
           n={n}
-          note="PRS-based embryo selection clears the model threshold"
+          note="PRS-based embryo selection reaches a ≥30% modeled risk reduction"
           members={selNF}
         />
         <FrontierStat
-          label="Embryo selection meets threshold + marginal"
+          label="Embryo selection ≥10% modeled reduction"
           from={p.selection_viable_or_marginal}
           to={f.selection_viable_or_marginal}
           n={n}
-          note="selection at least marginally useful in the model"
+          note="selection reaches at least a 10% modeled risk reduction"
           members={selMargNF}
         />
       </div>
@@ -224,7 +232,7 @@ function FrontierStat({
     <div className="rounded border border-slate-200 bg-white p-3">
       <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
       <p className="tnum mt-1 text-xl font-bold text-slate-900">
-        {from} <span className="text-sm font-normal text-slate-400">current-style</span> →{' '}
+        {from} <span className="text-sm font-normal text-slate-400">current-capacity</span> →{' '}
         {to}{' '}
         <span className="text-sm font-normal text-slate-400">high-capacity (hypothetical)</span>
       </p>
@@ -266,7 +274,8 @@ function Legend({ vThresh, mThresh }: { vThresh: number; mThresh: number }) {
         );
       })}
       <span className="text-slate-400">
-        Meets model threshold ≥ {fmtPct(vThresh, 0)} RRR · marginal ≥ {fmtPct(mThresh, 0)} RRR
+        Bands use thresholds of {fmtPct(vThresh, 0)} and {fmtPct(mThresh, 0)} modeled relative
+        risk reduction
       </span>
     </div>
   );

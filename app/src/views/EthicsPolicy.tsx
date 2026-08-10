@@ -19,62 +19,65 @@ export default function EthicsPolicy({ data, update }: Props) {
   return (
     <Reading>
       <p className="text-[15px] leading-7 text-slate-600">
-        The empirical model does not determine policy. We interpret the results using a
-        principle of proportionality: the case for a heritable intervention is strongest when
-        the condition is serious, expected benefit is substantial, and reasonable alternatives
-        cannot achieve the same medically important outcome with lower risk or burden.
+        The results point in two directions at once. At the population level, most modeled
+        serious genetic-disease burden does not require germline editing, and the larger
+        immediate opportunity is to expand access to screening, reproductive care, diagnosis,
+        and treatment that already exist.
+      </p>
+      <p className="text-[15px] leading-7 text-slate-600">
+        At the same time, a much smaller group of families may have no unaffected embryo
+        available for selection. For them, germline editing could in principle offer something
+        medically different rather than merely another route to the same outcome.
+      </p>
+      <p className="text-[15px] leading-7 text-slate-600">
+        The ethical question is therefore not simply whether germline editing is “for” or
+        “against” disease prevention. It is when the additional benefit is large enough, and
+        the alternatives poor enough, to justify considering the additional risks of a
+        heritable intervention.
       </p>
 
       <section className="space-y-3">
-        <PH>Why the framing matters</PH>
+        <PH>A principle of proportionality</PH>
         <Lead>
-          Debate over germline editing has often been organized around high-profile
-          technological firsts or general claims about preventing genetic disease. Our analysis
-          suggests a more discriminating approach: compare medical need, available alternatives,
-          incremental benefit, and safety for each proposed use.
+          We use a proportionality approach: the stronger the medical need and the weaker the
+          reasonable alternatives, the stronger the case for considering germline-editing
+          research. As effective alternatives become available — or as the goal moves away from
+          treating serious disease — the burden of justification increases.
+        </Lead>
+        <Lead>
+          This does not answer the independent safety question. A strong medical justification
+          does not make an intervention ready for clinical use.
         </Lead>
       </section>
 
       <section className="space-y-3">
-        <PH>What the numbers do and do not say</PH>
-        <Lead>The central chain of reasoning, with each link labeled:</Lead>
+        <PH>From the evidence to a policy position</PH>
         <ClaimChain>
           <Claim kind="model">
-            Under current evidence, the editing-relevant residual is roughly{' '}
-            {fmtPct(editableShare.strict.median, 1)} of modeled serious genetic disease (about{' '}
-            {fmtCompact(editableTotal.strict.median)} births a year, dominated by the ~
-            {fmtCompact(s1.median)} families for whom no unaffected embryo can be selected — the
-            editing-only prevention population). Under the optimistic complex-disease scenario,
-            which additionally credits editing with a hypothesized advantage in a few complex
-            diseases, that rises to about {fmtPct(editableShare.permissive.median, 1)}.
+            Under current-evidence assumptions, only about{' '}
+            {fmtPct(editableShare.strict.median, 1)} of the modeled serious-disease burden falls
+            within the editing-relevant residual (about{' '}
+            {fmtCompact(editableTotal.strict.median)} births a year), dominated by approximately{' '}
+            {fmtCompact(s1.median)} births/year in reproductive configurations where no
+            unaffected embryo can be selected.
           </Claim>
           <Claim kind="interpretation">
-            Under the modeled scenarios, germline editing is not the principal population-level
-            tool for reducing serious genetic-disease burden — but the editing-only prevention
-            population, though narrow, is real, identifiable, and poorly served by every
-            existing option, and the complex-disease term is a modeled possibility rather than a
-            second “only option” population.
+            Germline editing therefore does not appear necessary as a broad population strategy
+            for serious genetic disease. Its clearest potential medical role lies instead in the
+            narrow situations where existing reproductive prevention cannot produce the same
+            outcome.
           </Claim>
           <Claim kind="policy">
-            This supports giving public-health priority to widening access to existing
-            genetic-medicine pathways, which carry most of the achievable benefit. At the same
-            time, the editing-only prevention cases are where a tightly governed clinical
-            research pathway is best justified — which suggests replacing blanket moratorium
-            logic with regulation that distinguishes cases by their justification, subject to
-            the independent safety requirements below.
+            We therefore propose two parallel priorities: expand access to existing genetic
+            medicine at population scale, while maintaining a tightly governed pathway for
+            research on severe no-alternative cases if independent requirements for safety,
+            evidence, consent, oversight, and long-term follow-up can be satisfied.
           </Claim>
         </ClaimChain>
-        <Lead>
-          To be explicit about what is <em>not</em> being argued: the conclusion is not “embryo
-          editing is unnecessary because existing tools cover almost everything.” It is that
-          existing medicine should carry the population-level burden, while the narrow situations
-          in which editing would be the only preventive option are exactly where a responsible
-          regulatory pathway should begin.
-        </Lead>
       </section>
 
       <section className="space-y-3">
-        <PH>A proposed sequencing for research and regulation</PH>
+        <PH>A proportional hierarchy for regulatory consideration</PH>
         <Lead>
           The categories below are ordered by the strength of their ethical case, from strongest
           to weakest. This is a <strong>proposed order for regulatory consideration</strong> —
@@ -88,34 +91,34 @@ export default function EthicsPolicy({ data, update }: Props) {
         <Sequence
           items={[
             {
-              title: 'Catastrophic monogenic disease',
-              body: 'Conditions that are fatal or profoundly disabling, in families where no unaffected embryo can be selected. This is the strongest candidate class for first-in-human regulatory consideration because medical need is high and alternatives are absent. That does not by itself establish readiness for a trial: independent requirements for editing accuracy, mosaicism, off-target and on-target safety, developmental effects, preclinical evidence, consent, long-term and intergenerational follow-up, and regulatory oversight must also be satisfied.',
+              title: 'Severe monogenic disease with no unaffected embryo available',
+              body: 'The strongest medical case. The condition is serious and embryo selection cannot achieve the desired preventive outcome. Consideration still depends on independent evidence of technical safety and clinical readiness.',
               go: () => update({ tab: 'residual' }),
-              goLabel: 'The editing-only families',
+              goLabel: 'When embryo selection is not enough',
             },
             {
-              title: 'Severe monogenic disease',
-              body: 'Serious but survivable single-gene conditions. Here selection is usually available, so editing must additionally justify itself against a working alternative — for example on the embryo-loss grounds examined in the trade-offs section.',
+              title: 'Severe monogenic disease with poor embryo-selection prospects',
+              body: 'An unaffected embryo may be possible but difficult to obtain. Editing would need to demonstrate meaningful advantage over additional IVF/PGT cycles and other reproductive options.',
               go: () => update({ tab: 'embryos' }),
-              goLabel: 'The embryo trade-off',
+              goLabel: 'Selection vs editing',
             },
             {
-              title: 'Complex (multifactorial) disease',
-              body: 'A potential future role only, contingent on genetic architecture and on evidence that editing outperforms selection, drugs, and prevention. On current evidence no complex disease clears the bar; a small number could under optimistic assumptions.',
+              title: 'Complex disease',
+              body: 'Editing is not an only-option intervention. Any future case would require evidence that it provides substantial benefit beyond selection, prevention, treatment, and somatic approaches.',
               go: () => update({ tab: 'multifactorial' }),
-              goLabel: 'Could editing help complex disease?',
+              goLabel: 'Complex disease',
             },
             {
               title: 'Resistance to common risks',
-              body: 'Editing healthy genomes to blunt infection or cardiovascular risk. Alternatives already exist and are not exhausted; the disease-prevention justification does not apply.',
+              body: 'Editing an otherwise healthy embryo to reduce future infection or disease risk requires its own comparison with existing preventive and therapeutic options.',
               go: () => update({ tab: 'beyond' }),
-              goLabel: 'Beyond disease prevention',
+              goLabel: 'Resistance & enhancement',
             },
             {
               title: 'Enhancement',
-              body: 'Raising traits beyond the typical range. Outside the disease-prevention question analyzed here; to be argued on its own terms in a separate debate about advantage and fairness.',
+              body: 'Altering traits beyond the disease-prevention framework raises a different set of questions about benefit, autonomy, fairness, distribution, and social effects.',
               go: () => update({ tab: 'beyond' }),
-              goLabel: 'Beyond disease prevention',
+              goLabel: 'Resistance & enhancement',
             },
           ]}
         />

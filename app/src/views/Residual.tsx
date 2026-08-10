@@ -34,15 +34,24 @@ export default function Residual({ data, state, update }: Props) {
     <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
-        title="When does embryo editing add a unique option?"
-        subtitle="Two distinct questions: when is germline editing the only preventive option because no unaffected embryo can be selected, and when might editing provide an additional advantage for complex disease?"
+        title="When embryo selection is not enough"
+        subtitle="For most monogenic conditions, IVF with PGT-M can select an unaffected embryo. A small number of reproductive situations are different: no unaffected embryo is expected to exist."
       />
       <p className="text-sm leading-relaxed text-slate-700">
-        There are two different reasons germline editing might matter. In some monogenic
-        reproductive configurations, no unaffected embryo can be selected; editing would
-        therefore provide a preventive option that embryo selection cannot. For complex disease,
-        the question is different: whether editing might eventually offer additional risk
-        reduction beyond existing alternatives.
+        PGT-M can choose among embryos, but it cannot change the genotype of an embryo. If a
+        couple is expected to produce some affected and some unaffected embryos, selection can
+        usually identify an unaffected embryo for transfer.
+      </p>
+      <p className="text-sm leading-relaxed text-slate-700">
+        The situation changes when the parental genetic combination means every embryo is
+        expected to inherit the targeted disease-causing genotype. In that case, PGT-M can
+        identify the genotype but cannot provide an unaffected embryo. A successful germline
+        edit could, in principle, create a preventive option that selection cannot.
+      </p>
+      <p className="text-sm leading-relaxed text-slate-700">
+        We call this <strong>editing-only prevention</strong>. The estimate below asks how often
+        these no-selectable-unaffected-embryo reproductive configurations are expected to occur
+        worldwide.
       </p>
 
       {/* Contested toggle + its effect on the headline */}
@@ -50,26 +59,34 @@ export default function Residual({ data, state, update }: Props) {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <Toggle
-              label="Include congenital deafness among the no-selectable-embryo conditions? (contested)"
+              label="Include congenital deafness in this prevention category"
               checked={includeContested}
               onChange={(v) => update({ deaf: v ? '1' : '0' })}
             />
+            <p className="mt-1">
+              <span className="rounded bg-amber-200 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-900">
+                Ethically contested classification
+              </span>
+            </p>
             <p className="mt-1 text-xs text-slate-600">
-              Whether congenital deafness should be included as a condition to prevent is
-              ethically contested. The primary analysis excludes it (
-              <span className="tnum">{fmtInt(s1Excl.median)}</span> births/yr); use the toggle to
-              see how its inclusion changes the estimate (
+              One classification has a large effect on this estimate. Whether congenital
+              deafness should be treated as a condition that ought to be prevented is ethically
+              contested. The primary analysis therefore excludes it (
+              <span className="tnum">{fmtInt(s1Excl.median)}</span> births/yr); the toggle shows
+              how the estimate changes if it is included (
               <span className="tnum">{fmtInt(s1Incl.median)}</span>).
             </p>
           </div>
           <div className="text-right">
             <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-              Editing-only prevention, total ({includeContested ? 'incl.' : 'excl.'} deafness)
+              Estimated births each year in reproductive configurations with no selectable
+              unaffected embryo ({includeContested ? 'incl.' : 'excl.'} deafness)
             </p>
             <p className="text-2xl font-semibold text-slate-900">
               <StatValue stat={s1Total} kind="int" showCi />
               <span className="tnum text-base font-normal text-slate-500"> / yr</span>
             </p>
+            <p className="text-[11px] text-slate-400">Canonical term: editing-only prevention</p>
             <SourceNote
               source="Derived: Σ over S1 conditions of couples with no selectable unaffected embryo, from allele frequencies, penetrance, survival, assortative mating and consanguinity (see the by-condition table)"
               doi={null}
@@ -81,7 +98,7 @@ export default function Residual({ data, state, update }: Props) {
       {/* S1 by condition */}
       <Card>
         <h3 className="text-base font-semibold text-slate-900">
-          Editing-only prevention: which conditions leave families without a selectable embryo?
+          Which conditions contribute to this estimate?
         </h3>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full border-collapse text-sm">
@@ -125,11 +142,12 @@ export default function Residual({ data, state, update }: Props) {
       {/* S1 by income group */}
       <Card>
         <h3 className="text-base font-semibold text-slate-900">
-          Where do these families live? — by World Bank income group
+          Where are these reproductive situations expected to occur?
         </h3>
         <p className="mt-1 text-xs text-slate-600">
-          Regional totals apply region-specific consanguinity to each region&apos;s births;
-          allele frequencies are currently global, so the regional split is approximate.
+          Regional estimates use regional birth totals and consanguinity assumptions, but
+          currently apply global allele-frequency estimates. The geographic distribution should
+          therefore be interpreted as approximate.
         </p>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full border-collapse text-sm">
@@ -161,25 +179,31 @@ export default function Residual({ data, state, update }: Props) {
         </div>
       </Card>
 
-      {/* S2: potential editing advantage, current evidence vs optimistic scenario */}
+      {/* Complex disease: a different question, not another only-option population */}
       <div>
         <h3 className="text-base font-semibold text-slate-900">
-          Potential editing advantage in complex disease
+          Complex disease poses a different question
         </h3>
         <p className="mt-1 text-sm text-slate-600">
-          Unlike the editing-only population above, this term does <em>not</em> mean no
-          alternative exists. It asks whether editing could provide a meaningful advantage over
-          selection, treatment, or prevention for common complex diseases — a modeled
-          possibility, not another “only option” population.
+          The situation above is unusual because embryo selection genuinely runs out of
+          options. Common complex diseases are different. There is usually no single
+          disease-causing variant to correct, and other preventive or therapeutic approaches
+          remain available.
+        </p>
+        <p className="mt-1 text-sm text-slate-600">
+          Here the question is therefore not whether editing is the only option. It is whether
+          changing a limited number of higher-effect variants could someday reduce disease risk
+          more than the modeled alternatives.
         </p>
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Card>
           <h3 className="text-base font-semibold text-slate-900">
-            Current-evidence complex-disease case
+            Current evidence: little additional population-level role identified
           </h3>
           <p className="mt-1 text-sm text-slate-600">
-            Crediting only what is established today.
+            Under the current-evidence assumptions, the estimated contribution is small and
+            highly uncertain.
           </p>
           {strictEmpty ? (
             <div className="mt-4">
@@ -202,11 +226,12 @@ export default function Residual({ data, state, update }: Props) {
 
         <Card>
           <h3 className="text-base font-semibold text-slate-900">
-            Optimistic complex-disease scenario
+            Optimistic modeled scenario: a larger, assumption-dependent role
           </h3>
           <p className="mt-1 text-sm text-slate-600">
-            A modeled scenario crediting editing with an advantage in a few
-            architecture-concentrated complex diseases. Not a forecast.
+            This scenario assumes that a small number of editable loci account for enough risk
+            in selected complex diseases for editing to outperform modeled alternatives. It is
+            an exploratory scenario, not a forecast of clinical feasibility.
           </p>
           <p className="mt-4 text-2xl">
             <StatValue stat={r.s2.permissive} kind="int" showCi />
@@ -218,13 +243,18 @@ export default function Residual({ data, state, update }: Props) {
       {/* Uniquely-editable summary (reacts to the contested toggle) */}
       <Card>
         <h3 className="mb-1 text-base font-semibold text-slate-900">
-          Editing-relevant residual{' '}
+          Putting the two pieces together{' '}
           <span className="text-sm font-normal text-slate-500">
             ({includeContested ? 'incl.' : 'excl.'} deafness)
           </span>
         </h3>
         <p className="mb-3 text-sm text-slate-600">
-          The two components have different evidentiary status and are reported separately.
+          For summary purposes, we combine the no-selectable-embryo population with the
+          potential complex-disease advantage into an <strong>editing-relevant residual</strong>.
+          They should not be interpreted as equivalent. The first describes cases in which
+          editing supplies a preventive route unavailable through embryo selection; the second
+          is a hypothetical additional advantage whose size depends strongly on modeling
+          assumptions.
         </p>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Mini label="Editing-only prevention" stat={s1Total} kind="int" />

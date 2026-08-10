@@ -94,18 +94,28 @@ export default function Denominator({ data, state, update }: Props) {
     <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
-        title="How much serious genetic disease is included in the analysis?"
-        subtitle="The estimated burden depends on two important choices: how severe a condition must be to enter the analysis, and how much multifactorial disease is attributed to genetics."
+        title="How much serious genetic disease are we trying to explain?"
+        subtitle="Before comparing medical options, we first need an estimate of the disease burden. That estimate depends on what counts as 'serious' and on how much multifactorial disease is attributed to genetics."
       />
       <p className="text-sm leading-relaxed text-slate-700">
-        Change either assumption below to see how the estimated denominator changes. The
-        editing-residual figures shown at the end of the cascade are computed under the
-        paper&apos;s default assumptions and do not respond to these choices.
+        The model starts from the annual global birth cohort and estimates two broad sources of
+        serious genetic disease. Monogenic disease is primarily caused by pathogenic variation
+        in a single gene. Multifactorial disease reflects genetic susceptibility together with
+        environmental, developmental, behavioral, and other influences.
+      </p>
+      <p className="text-sm leading-relaxed text-slate-700">
+        The monogenic estimate is relatively straightforward conceptually. The multifactorial
+        estimate is not: there is no single theory-neutral answer to how many cases of
+        diabetes, cardiovascular disease, cancer, or other common conditions should be called
+        “genetic.” We therefore show several attribution assumptions rather than treating one
+        number as definitive. (The editing-residual comparison at the end of the chart is
+        computed under the paper&apos;s default assumptions and does not respond to these
+        choices.)
       </p>
 
       <div className="flex flex-wrap gap-6">
         <Segmented
-          label="How serious must a condition be to count?"
+          label="Which conditions count as serious?"
           ariaLabel="Definition of serious disease"
           value={severity}
           options={SEVERITY_OPTS}
@@ -113,7 +123,7 @@ export default function Denominator({ data, state, update }: Props) {
         />
         <div>
           <Segmented
-            label="How much multifactorial disease counts as genetic?"
+            label="How much multifactorial disease should be attributed to genetics?"
             ariaLabel="Genetic attribution of multifactorial disease"
             value={attribution}
             options={ATTR_OPTS}
@@ -131,7 +141,7 @@ export default function Denominator({ data, state, update }: Props) {
       <Card>
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold text-slate-900">
-            From annual births to the editing-relevant residual
+            From the global birth cohort to the modeled disease burden
           </h3>
           <ExportSvgButton
             onClick={() => exportContainerSvg(svgRef.current, 'denominator-cascade.svg')}
@@ -215,6 +225,16 @@ export default function Denominator({ data, state, update }: Props) {
           </span>
           <SourceNote source={multiSrc.source || 'March of Dimes 2006; WHO congenital anomalies'} doi={multiSrc.doi} detail="multifactorial serious rate" />
         </MetricCard>
+      </div>
+
+      <div>
+        <button
+          type="button"
+          onClick={() => update({ tab: 'prevention' })}
+          className="rounded border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          Next: what can existing medicine do about this burden? →
+        </button>
       </div>
 
       <SourcesList />

@@ -56,27 +56,27 @@ const BADGE_META: Record<Badge, { label: string; cls: string; desc: string }> = 
   cited: {
     label: 'Cited data',
     cls: 'bg-emerald-100 text-emerald-800',
-    desc: 'Taken from a published source, with the citation attached.',
+    desc: 'Directly taken from an identified empirical source.',
   },
   derived: {
     label: 'Derived',
     cls: 'bg-sky-100 text-sky-800',
-    desc: 'Computed from other inputs; carries no independent evidence of its own.',
+    desc: 'Calculated from other inputs in the analysis.',
   },
   assumption: {
     label: 'Modeling assumption',
     cls: 'bg-amber-100 text-amber-800',
-    desc: 'A reasoned central estimate where no direct measurement exists; varied in the Monte-Carlo.',
+    desc: 'An explicit value or range used where no adequate direct empirical estimate exists.',
   },
   normative: {
     label: 'Normative choice',
     cls: 'bg-violet-100 text-violet-800',
-    desc: 'A judgment call (what counts as serious, how to attribute, whether PND counts) exposed as a toggle, not a fact.',
+    desc: 'A definitional or value-sensitive decision that changes what is counted or how an outcome is classified.',
   },
   provisional: {
     label: 'Provisional',
     cls: 'bg-rose-100 text-rose-800',
-    desc: 'A placeholder awaiting stronger sourcing; flagged in DATA_NEEDED.md.',
+    desc: 'An input retained for exploratory analysis but awaiting stronger empirical support.',
   },
 };
 
@@ -124,12 +124,12 @@ const INTERNAL_TERMS: Array<{ internal: string; meaning: string }> = [
 // The one canonical research workflow — identical to the Overview's and the paper's Figure 2.
 // Uncertainty is not a step: it is propagated through every quantitative step.
 export const WORKFLOW_STEPS = [
-  { title: 'Define the burden', desc: 'Estimate serious monogenic and multifactorial disease across the global birth cohort, under explicit severity and attribution choices.' },
-  { title: 'Build the disease map', desc: 'Link diseases to genes, inheritance, incidence, and interventions.' },
-  { title: 'Map intervention outcomes', desc: 'Separate affected-birth avoidance from postnatal burden mitigation for each pathway.' },
-  { title: 'Model access', desc: 'Separate technical applicability from actual access under current, achievable-2035, and idealized coverage.' },
-  { title: 'Identify the editing-relevant residual', desc: 'Separate editing-only prevention from potential complex-disease editing advantage.' },
-  { title: 'Interpret the implications', desc: 'Examine access, research priorities, and ethical/regulatory consequences — kept apart from the model results.' },
+  { title: 'Estimate the disease burden', desc: 'How much serious monogenic and multifactorial disease is attributed to the annual birth cohort?' },
+  { title: 'Build the disease catalogue', desc: 'Which diseases, genes, inheritance patterns, frequencies, and interventions are represented?' },
+  { title: 'Map what each intervention changes', desc: 'Does it avoid an affected birth, detect disease, or mitigate disease after birth?' },
+  { title: 'Model access', desc: 'How much of the technically applicable benefit is reached under current, expanded-access, and idealized coverage?' },
+  { title: 'Estimate what remains for editing', desc: 'How often can no unaffected embryo be selected, and could editing add additional benefit in complex disease?' },
+  { title: 'Interpret the result separately from the model', desc: 'What do the empirical results imply — and what requires additional ethical and policy premises?' },
 ];
 
 export default function Methods({ data, state, update }: Props) {
@@ -177,15 +177,22 @@ export default function Methods({ data, state, update }: Props) {
     <div className="space-y-6">
       <SectionHeading
         title="Methods & data"
-        subtitle="Data sources, model structure, uncertainty, sensitivity analyses, and reproducibility details for the estimates used throughout this study."
+        subtitle="How the disease catalogue, burden estimates, intervention model, editing residual, uncertainty analysis, and source provenance are constructed."
       />
       <p className="text-sm leading-relaxed text-slate-700">
-        The analysis combines a disease-level catalogue with a population model. Each
-        quantitative input records its empirical source or is explicitly classified as derived,
-        a modeling assumption, a normative choice, or provisional. Uncertainty in quantitative
-        inputs is propagated through {m.n_draws.toLocaleString('en-US')} Monte-Carlo draws,
-        while major definitional choices are exposed separately through scenario and
-        sensitivity analyses.
+        The study has three linked empirical components. First, we estimate the burden of
+        serious monogenic and multifactorial disease in an annual global birth cohort. Second,
+        we map diseases to existing reproductive, screening, and treatment pathways and
+        estimate outcomes under different levels of access. Third, we estimate the reproductive
+        situations left without an unaffected embryo for selection and separately explore
+        whether editing could provide additional risk reduction for complex disease.
+      </p>
+      <p className="text-sm leading-relaxed text-slate-700">
+        Quantitative uncertainty is propagated through {m.n_draws.toLocaleString('en-US')}{' '}
+        Monte-Carlo draws. Definitional and ethical choices — such as what counts as serious
+        disease, how multifactorial disease is attributed to genetics, and whether prenatal
+        diagnosis followed by pregnancy termination counts toward affected-birth avoidance —
+        are exposed separately rather than hidden inside the uncertainty interval.
       </p>
 
       {/* The canonical six-step workflow (same as the Overview and the paper's Figure 2) */}
@@ -216,11 +223,12 @@ export default function Methods({ data, state, update }: Props) {
         </h3>
         <ul className="mt-2 space-y-1.5 text-sm leading-6 text-slate-700">
           {[
-            'It does not establish that germline editing is currently safe enough for clinical use.',
-            'It does not treat theoretical addressability as real-world access or uptake.',
-            'It does not treat detection, prevention, treatment, and cure as equivalent outcomes.',
-            'It does not assume that every condition classified as genetic should be prevented.',
-            'It does not claim that the optimistic complex-disease scenario is a forecast.',
+            'It does not establish that germline editing is currently safe or clinically ready.',
+            'It does not equate technical applicability with access, uptake, affordability, or effectiveness in practice.',
+            'It does not treat affected-birth avoidance, diagnosis, treatment, cure, and palliation as equivalent outcomes.',
+            'It does not assume that every genetic condition should be prevented.',
+            'It does not treat the hypothetical high-capacity complex-disease scenario as a forecast.',
+            'It does not derive an ethical or regulatory conclusion from the quantitative model alone.',
           ].map((s) => (
             <li key={s} className="flex gap-2">
               <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400" />
@@ -233,7 +241,7 @@ export default function Methods({ data, state, update }: Props) {
       {/* What kind of number is each input? */}
       <Card>
         <h3 className="text-base font-semibold text-slate-900">
-          What kind of number is each input?
+          What is the evidentiary basis for each input?
         </h3>
         <p className="mt-1 text-sm text-slate-600">
           Each parameter is classified by evidentiary status so empirical inputs, derived
@@ -262,8 +270,10 @@ export default function Methods({ data, state, update }: Props) {
           <ExportSvgButton onClick={() => exportContainerSvg(tornadoRef.current, 'sensitivity-tornado.svg')} />
         </div>
         <p className="mt-1 text-sm text-slate-600">
-          Each bar spans the low/high value of the editing-relevant share of serious disease as
-          one parameter is varied; the vertical line is the base case.
+          This analysis varies one major input at a time to show which assumptions most change
+          the estimated share of serious disease for which germline editing might add a
+          distinct role. Each bar spans the low/high value as one parameter is varied; the
+          vertical line is the base case.
         </p>
         <p className="mt-1 text-xs text-slate-500">
           Uncertainty intervals throughout this site reflect propagation of the specified
@@ -293,8 +303,8 @@ export default function Methods({ data, state, update }: Props) {
           </label>
         </div>
         <p className="mt-1 text-xs text-slate-500">
-          {filtered.length} of {leaves.length} inputs shown. Each input records either an
-          empirical source or an explicit status as derived, assumed, normative, or provisional.
+          {filtered.length} of {leaves.length} inputs shown. Search any model parameter to see
+          its value, uncertainty range, evidentiary status, source, DOI, and source location.
         </p>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full border-collapse text-sm">

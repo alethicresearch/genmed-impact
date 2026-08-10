@@ -38,19 +38,20 @@ export default function Allocation({ data }: Props) {
   return (
     <div className="space-y-6">
       <SectionHeading
-        title="Scale versus frontier R&D: what different investments accomplish"
-        subtitle="An exploratory comparison of what funding buys as scaled screening programs versus a germline-editing program."
+        title="Exploratory cost assumptions"
+        subtitle="This analysis is not part of the paper's core results. It illustrates the consequences of provisional assumptions about the costs of scaling established genetic medicine versus developing germline-editing programmes."
       />
       <div className="rounded-lg border border-amber-400 bg-amber-50 p-4 text-sm leading-6 text-amber-900">
-        <p className="font-semibold">Exploratory cost scenario — not yet a paper result.</p>
+        <p className="font-semibold">Exploratory only.</p>
         <p className="mt-1">
-          The editing-program cost basis and several other cost anchors here are provisional and
-          await stronger sourcing, so the numbers below indicate rough orders of magnitude only.
-          Note also a conceptual limit: broad screening infrastructure and frontier editing R&amp;D
-          do not compete to prevent the same cases — screening scales across the preventable
-          majority, while an editing program would serve the narrow population no other tool
-          reaches. Read this as “what different investments accomplish,” not as a ranking of
-          substitutes.
+          Several cost inputs, particularly those for a future germline-editing programme,
+          remain provisional. The estimates below should therefore be read as
+          order-of-magnitude illustrations rather than comparative cost-effectiveness results.
+        </p>
+        <p className="mt-1">
+          The two investments are also not interchangeable: screening and reproductive
+          programmes can serve broad populations, whereas a germline-editing programme would
+          initially target a much smaller population with different needs.
         </p>
       </div>
       <Card>
@@ -103,10 +104,10 @@ export default function Allocation({ data }: Props) {
         </Card>
       </div>
 
-      <Card>
-        <h3 className="mb-3 text-base font-semibold text-slate-900">
-          What an annual budget buys — births prevented / year
-        </h3>
+      <details className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <summary className="cursor-pointer text-base font-semibold text-slate-900">
+          Illustrative outcomes under fixed annual budgets (advanced)
+        </summary>
         <BudgetBars budgets={budgets} />
         <div className="mt-4 overflow-x-auto">
           <table className="w-full border-collapse text-sm">
@@ -133,7 +134,7 @@ export default function Allocation({ data }: Props) {
             </tbody>
           </table>
         </div>
-      </Card>
+      </details>
     </div>
   );
 }

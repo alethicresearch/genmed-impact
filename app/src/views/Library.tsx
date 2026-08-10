@@ -193,19 +193,24 @@ export default function Library({ data, state, update }: Props) {
     <SourcesProvider>
       <div className="space-y-6">
         <SectionHeading
-          title="The disease catalogue"
-          subtitle="A growing curated catalogue — not an exhaustive universe — of serious genetic diseases mapped to their causal genes and to the interventions that can address them. Sorted by affected births per year."
+          title="Which diseases are included, and what can medicine do for each?"
+          subtitle="The disease catalogue is the condition-level evidence beneath the population estimates: genetic cause, inheritance, frequency, reproductive options, screening, and treatment."
         />
         <p className="text-sm leading-relaxed text-slate-700">
-          The catalogue links each condition to its genetic basis, inheritance pattern,
-          estimated frequency, reproductive pathways, and available treatment. The curated core
-          is used for the bottom-up burden analysis; the Orphanet-derived tier broadens disease
-          coverage but has undergone less manual review.
+          The analysis includes a curated core used for the bottom-up burden estimates and an
+          additional Orphanet-derived rare-disease tier that broadens coverage. For each
+          condition, the catalogue records the available evidence about its genetic basis and
+          the medical pathways that can alter the relevant outcome.
+        </p>
+        <p className="text-sm leading-relaxed text-slate-700">
+          The rare-disease tier has undergone less manual review than the curated core. It
+          should therefore be read as an expanding research catalogue rather than a complete or
+          equally curated census of serious genetic disease.
         </p>
 
         {/* Rollup strip */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <RollupTile label="Catalogue affected births / yr">
+          <RollupTile label="Affected births represented in curated core / yr">
             <span className="tnum text-2xl font-bold text-slate-900">
               {fmtCompact(rollup.total_affected_births_per_year)}
             </span>
@@ -222,7 +227,7 @@ export default function Library({ data, state, update }: Props) {
               {fmtCompact(rollup.births_addressable_by_reproductive_tool)}/yr
             </span>
           </RollupTile>
-          <RollupTile label="Births eligible for newborn screening + early treatment / yr">
+          <RollupTile label="Eligible for newborn screening + early treatment / yr">
             <span className="tnum text-2xl font-bold text-slate-900">
               {fmtCompact(rollup.births_nbs_mitigable)}
             </span>
@@ -639,8 +644,8 @@ function TierSegment({
   onChange: (v: string) => void;
 }) {
   const opts: { key: string; label: string; n: number; sub: string }[] = [
-    { key: 'core', label: 'Core', n: tiers.core.n_diseases, sub: 'curated · high-burden' },
-    { key: 'rare', label: 'Rare-disease tier', n: tiers.rare.n_diseases, sub: 'Orphanet-derived' },
+    { key: 'core', label: 'Curated core', n: tiers.core.n_diseases, sub: 'manually reviewed' },
+    { key: 'rare', label: 'Rare-disease tier', n: tiers.rare.n_diseases, sub: 'Orphanet-derived · expanding' },
     { key: 'all', label: 'All', n: tiers.all.n_diseases, sub: 'full catalogue' },
   ];
   const citedAll = tiers.all.cited_incidence_share_by_count;

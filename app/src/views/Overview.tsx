@@ -1,10 +1,8 @@
 import { ReactNode } from 'react';
 import { AllData, DiseaseClass, fmtCompact, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
-import StatValue from '../components/StatValue';
-import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
+import { SourcesProvider, SourcesList } from '../components/SourceNote';
 import { Figure, EpistemicTag, EpistemicKind } from '../components/prose';
-import { WORKFLOW_STEPS } from './Methods';
 
 interface Props {
   data: AllData;
@@ -12,169 +10,108 @@ interface Props {
   update: (patch: UrlState) => void;
 }
 
-// Safely read a {source, doi} leaf from the provenance constants tree.
-function provSource(
-  data: AllData,
-  path: string[]
-): { source: string; doi: string | null } {
-  let node: unknown = data.provenance.constants;
-  for (const k of path) {
-    if (node && typeof node === 'object' && k in (node as Record<string, unknown>)) {
-      node = (node as Record<string, unknown>)[k];
-    } else {
-      node = undefined;
-      break;
-    }
-  }
-  const rec = (node && typeof node === 'object' ? node : {}) as Record<string, unknown>;
-  return {
-    source: typeof rec.source === 'string' ? rec.source : '',
-    doi: typeof rec.doi === 'string' ? rec.doi : null,
-  };
-}
-
 export default function Overview({ data, update }: Props) {
   const rollup = data.library.rollup;
-  const monoSrc = provSource(data, ['burden', 'monogenic_serious_per_1000']);
-  const multiSrc = provSource(data, ['burden', 'multifactorial_serious_per_1000']);
-  const birthsSrc = provSource(data, ['births', 'global_per_year']);
-
-  const editableShare = data.summary.uniquely_editable_share_of_serious;
-  const editableTotal = data.summary.uniquely_editable_total;
   const burden = data.summary.burden_default;
+  const editableTotal = data.summary.uniquely_editable_total;
+  const editableShare = data.summary.uniquely_editable_share_of_serious;
 
   return (
     <SourcesProvider>
       <article className="space-y-10 pb-4">
-        {/* 1. The research question, then the problem statement — before any findings. */}
+        {/* The research question, then the medical context that motivates it. */}
         <section className="space-y-3">
           <p className="text-xl font-semibold leading-8 tracking-tight text-slate-900">
-            Where does germline embryo editing add medical value that existing genetic medicine
-            cannot?
+            Where, if anywhere, does germline embryo editing provide a medical option that
+            existing genetic medicine cannot?
           </p>
           <Lead>
-            Debate over human germline genome editing is often framed at the level of the
-            technology itself: whether heritable editing should be prohibited, permitted, or
-            developed as a means of preventing genetic disease. But the medical case for editing
-            depends on a prior empirical question: which serious genetic diseases can already be
-            prevented, detected, or treated using existing medicine, and which leave a residual
-            need that germline editing could uniquely or substantially address?
+            Genetic medicine already includes carrier screening, embryo testing, prenatal
+            diagnosis, newborn screening, and increasingly effective treatments after birth.
+            Germline embryo editing is often discussed as another way to prevent genetic
+            disease. But whether editing is medically needed depends first on what these
+            existing approaches can already accomplish.
           </Lead>
           <Lead>
-            This study investigates that question by combining disease-level genetic data,
-            global disease-burden evidence, intervention mapping, and population modeling.
+            We therefore ask a comparative question: across serious genetic disease, what can
+            existing medicine prevent, detect, or treat; where is access rather than technology
+            the main limitation; and what remains for which germline editing could provide
+            something medically distinct?
           </Lead>
+          <Lead>
+            To answer this, we assembled a disease-by-intervention catalogue linking{' '}
+            {fmtInt(rollup.n_diseases_all)} genetic conditions to their genes or loci,
+            inheritance, frequency, reproductive options, screening pathways, and treatments.
+            We combine this disease-level evidence with global population and disease-burden
+            data to estimate the scale of serious monogenic and multifactorial disease and to
+            model how different medical pathways change that burden.
+          </Lead>
+          <Lead>
+            The analysis proceeds in three stages. First, we estimate how much serious genetic
+            disease there is. Second, we ask what existing medicine can already do and how much
+            of its potential is limited by access. Third, we examine what remains,
+            distinguishing the small set of reproductive situations in which embryo selection
+            cannot produce an unaffected embryo from the much more speculative possibility of
+            editing common complex disease.
+          </Lead>
+
+          {/* Source families, compact — each row links into Methods. */}
+          <div className="space-y-1 rounded-lg border border-slate-200 bg-slate-50/60 p-3 text-[13px] leading-6">
+            <SourceRow label="Population & burden" items="GBD 2023 · UN WPP 2024 · WHO" onGo={() => update({ tab: 'methods' })} />
+            <SourceRow label="Genetics & disease" items="Orphanet · gnomAD · published literature" onGo={() => update({ tab: 'methods' })} />
+            <SourceRow label="Access & geography" items="World Bank · UNAIDS · national program evidence" onGo={() => update({ tab: 'methods' })} />
+          </div>
         </section>
-
-        <WhatWeBuilt data={data} update={update} />
-
-        <HowAnalysisWorks />
-
-        <HowToUse update={update} />
 
         <Findings data={data} update={update} />
 
-        <KeyDefinitions />
-
+        {/* Overall synthesis — combines non-equivalent components, and says so */}
         <section className="space-y-3">
-          <H>How much serious genetic disease is there?</H>
+          <H>Overall</H>
           <Lead>
-            Using the paper&apos;s default definitions, the model attributes an estimated{' '}
-            <Big><StatValue stat={burden.total_serious} kind="compact" /></Big> cases per annual
-            global birth cohort ({fmtPct(burden.serious_share_of_births.median, 0)} of roughly{' '}
-            {fmtCompact(data.summary.births_per_year.median)} births) to serious disease with a
-            substantial genetic contribution. About {fmtCompact(burden.monogenic.median)} are
-            assigned to serious monogenic disease — conditions primarily caused by pathogenic
-            variation in a single gene, whose clinical onset ranges from congenital disease to
-            adulthood. The remaining {fmtCompact(burden.multifactorial.median)} represent the
-            model&apos;s inclusive attribution of serious multifactorial or partly genetic
-            disease. Because multifactorial disease reflects both genetic and non-genetic
-            causes, this second quantity depends strongly on how genetic attribution is defined;
-            readers can vary that assumption in the Disease map. Click any number for its 95%
-            uncertainty interval.
-            <SourceNote source={monoSrc.source || 'Modell & Darlison 2008'} doi={monoSrc.doi} detail="serious monogenic rate" />
-            <SourceNote source={multiSrc.source || 'March of Dimes; WHO congenital anomalies'} doi={multiSrc.doi} detail="serious multifactorial rate" />
-            <SourceNote source={birthsSrc.source || 'UN World Population Prospects 2024'} doi={birthsSrc.doi} detail="annual births" />
+            Across the full modeled burden, the current-evidence analysis identifies an
+            editing-relevant residual of approximately{' '}
+            {fmtCompact(editableTotal.strict.median)} cases per year, or{' '}
+            {fmtPct(editableShare.strict.median, 2)} of modeled serious genetic disease. Under
+            the optimistic complex-disease scenario, this rises to approximately{' '}
+            {fmtCompact(editableTotal.permissive.median)} cases per year, or{' '}
+            {fmtPct(editableShare.permissive.median, 1)}.
           </Lead>
-        </section>
-
-        <section className="space-y-3">
-          <H>Most of it is not uniquely dependent on germline editing</H>
           <Lead>
-            For the great majority of the modeled burden, the analysis does not identify a
-            unique medical requirement for germline editing. Existing reproductive, diagnostic,
-            therapeutic, somatic, or public-health alternatives account for much of that
-            difference — but they do not all achieve the same outcome, so we keep the questions
-            separate: how much disease could be <em>prevented before birth</em> (carrier
-            screening with reproductive planning, IVF with embryo selection, prenatal diagnosis
-            followed by a reproductive decision) — and, for a child born affected, how much can
-            be <em>treated after birth</em>, from cure through lifelong management to
-            palliation.
+            These totals combine two fundamentally different quantities: a small editing-only
+            prevention population within monogenic disease and a separate potential editing
+            advantage in complex disease. They are combined for scale, but should never be
+            interpreted as the same type of medical need.
           </Lead>
-          <Figure
-            label="Two separate questions: prevention, and treatment"
-            caption="Which pathways could prevent an affected birth, and what treatment achieves for a child born affected. Click any band to open those diseases in the catalogue. Bars are by affected births in the curated core catalogue."
-            moreLabel="Open the disease catalogue"
-            onMore={() => update({ tab: 'library' })}
-          >
-            <CapabilitySplit data={data} update={update} />
-          </Figure>
-        </section>
-
-        <section className="space-y-3">
-          <H>Where could editing matter? Two different answers, kept apart</H>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <MiniStat
-              tone="emerald"
-              value={`~${fmtCompact(data.summary.s1_total.median)}/yr`}
-              label="Editing-only prevention"
-              sub="births in modeled reproductive configurations where no unaffected embryo can be selected — the one population for which editing would be the only preventive option"
-            />
-            <MiniStat
-              tone="violet"
-              value={`0 → ~${fmtCompact(data.residual.s2.permissive.median)}/yr`}
-              label="Potential complex-disease editing advantage"
-              sub="under current evidence the modeled contribution is approximately zero; under an optimistic modeled scenario, up to this many additional cases/yr in which editing might outperform modeled alternatives"
-            />
-          </div>
           <Lead>
-            Together these bound a broader <strong>editing-relevant</strong> population — from ~
-            {fmtPct(editableShare.strict.median, 2)} of the modeled burden (about{' '}
-            {fmtCompact(editableTotal.strict.median)} births/yr, current evidence) to ~
-            {fmtPct(editableShare.permissive.median, 1)} (about{' '}
-            {fmtCompact(editableTotal.permissive.median)}/yr, optimistic scenario). The two
-            components have different evidentiary status and should not be interpreted as
-            equivalent: the first is an editing-only population within the model, the second a
-            hypothesized advantage. How much of the rest each existing pathway actually prevents
-            or mitigates is worked through in{' '}
-            <NavInline onClick={() => update({ tab: 'prevention' })}>
-              Existing options
-            </NavInline>
-            .
+            Conversely, saying that most modeled serious genetic disease is not uniquely
+            dependent on germline editing does not mean that the same proportion is preventable
+            by existing medicine. Existing pathways prevent, detect, treat, or mitigate
+            different outcomes, and their real-world reach depends heavily on access.
           </Lead>
-        </section>
-
-        <section className="space-y-3">
-          <H>What could be reached in principle is not what is reached today</H>
           <AccessGap data={data} update={update} />
         </section>
 
         <section className="space-y-3">
-          <H>Why this matters</H>
+          <H>Why this comparison matters</H>
           <Lead>
-            Germline editing has entered public debate mainly through spectacle — announced
-            “firsts” outside ordinary oversight, and disease-prevention claims stretched past
-            what the epidemiology supports. Both risk making responsible governance harder:
-            highly visible failures can strengthen pressure for blanket prohibitions, while
-            disproportionate attention to frontier interventions can divert attention from the
-            much larger implementation challenge around existing genetic medicine. This analysis
-            is meant to put numbers under that debate: what existing medicine can already do,
-            where editing would add a unique or distinct option, and why prevention, resistance,
-            and enhancement must be argued separately. What we think should follow, including a
-            proposed regulatory sequencing, is in{' '}
+            Claims about germline editing are often made at the level of “preventing genetic
+            disease” as a whole. But the medical justification for a new heritable intervention
+            depends on the alternative available in the particular case. If an established
+            pathway can achieve the same medically important outcome with lower risk, that
+            matters. If no such pathway exists, that matters too.
+          </Lead>
+          <Lead>
+            The purpose of this project is therefore not to argue that germline editing is
+            either broadly necessary or broadly unnecessary. It is to identify where its
+            incremental medical value is strongest, where it is weak, and which apparent gaps
+            are actually problems of access to medicine that already exists. What we think
+            follows for research and regulation is in{' '}
             <NavInline onClick={() => update({ tab: 'ethics' })}>Ethics &amp; policy</NavInline>.
           </Lead>
         </section>
+
+        <KeyDefinitions />
 
         <details className="rounded-lg border border-slate-200 bg-slate-50 p-4">
           <summary className="cursor-pointer text-sm font-medium text-slate-700">
@@ -190,7 +127,7 @@ export default function Overview({ data, update }: Props) {
               ({fmtCompact(rollup.total_affected_births_per_year)}/yr over the core) is a floor
               that rises toward the modelled total ({fmtCompact(burden.total_serious.median)}/yr).
               What counts as “serious” and how much multifactorial disease is attributed to
-              genetics are adjustable in the Disease map section; every number responds.
+              genetics are adjustable in the Disease burden section; the burden totals respond.
             </p>
             <button
               type="button"
@@ -209,126 +146,7 @@ export default function Overview({ data, update }: Props) {
   );
 }
 
-// 2. What the project actually built, with the catalogue size and source families visible
-// up front — dynamic from the data wherever possible.
-function WhatWeBuilt({
-  data,
-  update,
-}: {
-  data: AllData;
-  update: (patch: UrlState) => void;
-}) {
-  const r = data.library.rollup;
-  return (
-    <section className="space-y-3">
-      <H>What we built</H>
-      <Lead>
-        We assembled a disease-by-intervention dataset linking {fmtInt(r.n_diseases_all)}{' '}
-        serious genetic conditions to genes or loci, inheritance, incidence or prevalence,
-        reproductive options, screening, and postnatal treatment. The curated high-burden core
-        ({fmtInt(r.n_diseases)} conditions) is supplemented by an Orphanet-derived rare-disease
-        tier and linked to evidence from GBD, UN World Population Prospects, WHO, gnomAD,
-        World Bank, UNAIDS, and disease-specific literature.
-      </Lead>
-      <Lead>
-        We use this evidence in two complementary analyses: a bottom-up disease catalogue and a
-        top-down population model. We then compare what existing genetic medicine can achieve —
-        keeping affected-birth avoidance separate from burden mitigation after birth — with the
-        narrower situations in which germline embryo editing could provide either the only
-        modeled preventive option or a potential additional advantage.
-      </Lead>
-
-      {/* Source families, compact — each row links into Methods. */}
-      <div className="space-y-1 rounded-lg border border-slate-200 bg-slate-50/60 p-3 text-[13px] leading-6">
-        <SourceRow label="Population & burden" items="GBD 2023 · UN WPP 2024 · WHO" onGo={() => update({ tab: 'methods' })} />
-        <SourceRow label="Genetics & disease" items="Orphanet · gnomAD · published literature" onGo={() => update({ tab: 'methods' })} />
-        <SourceRow label="Access & geography" items="World Bank · UNAIDS · national program evidence" onGo={() => update({ tab: 'methods' })} />
-      </div>
-    </section>
-  );
-}
-
-function SourceRow({
-  label,
-  items,
-  onGo,
-}: {
-  label: string;
-  items: string;
-  onGo: () => void;
-}) {
-  return (
-    <p className="text-slate-600">
-      <span className="font-semibold text-slate-800">{label}:</span> {items}{' '}
-      <button
-        type="button"
-        onClick={onGo}
-        className="ml-1 text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-      >
-        sources →
-      </button>
-    </p>
-  );
-}
-
-// 3. The canonical workflow, compact — the full version with step descriptions lives in
-// Methods. This is one line of orientation, not navigation.
-function HowAnalysisWorks() {
-  return (
-    <section className="space-y-2">
-      <H>How the analysis works</H>
-      <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[13px] text-slate-700">
-        {WORKFLOW_STEPS.map((s, i) => (
-          <li key={s.title} className="flex items-center gap-1.5">
-            {i > 0 && <span aria-hidden="true" className="text-slate-300">→</span>}
-            <span className="rounded border border-slate-200 bg-slate-50/60 px-2 py-0.5">
-              {s.title}
-            </span>
-          </li>
-        ))}
-      </ol>
-      <p className="text-xs leading-5 text-slate-500">
-        Uncertainty is propagated through all quantitative steps; empirical results are kept
-        separate from ethical and policy interpretation.
-      </p>
-    </section>
-  );
-}
-
-// 4. Entry points into the analysis.
-function HowToUse({ update }: { update: (patch: UrlState) => void }) {
-  return (
-    <section className="space-y-2">
-      <Lead>Explore the evidence, assumptions, and underlying disease data below.</Lead>
-      <div className="flex flex-wrap gap-2 text-sm">
-        <button
-          type="button"
-          onClick={() => update({ tab: 'denominator' })}
-          className="rounded border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-        >
-          Explore the disease map →
-        </button>
-        <button
-          type="button"
-          onClick={() => update({ tab: 'methods' })}
-          className="rounded border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-        >
-          Inspect assumptions &amp; methods →
-        </button>
-        <a
-          href="https://github.com/alethicresearch/genmed-impact"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-        >
-          View code &amp; data →
-        </a>
-      </div>
-    </section>
-  );
-}
-
-// The three findings of the paper, given equal weight up front.
+// The three findings, each teaching the situation before naming the estimate.
 function Findings({
   data,
   update,
@@ -336,10 +154,8 @@ function Findings({
   data: AllData;
   update: (patch: UrlState) => void;
 }) {
-  const editableShare = data.summary.uniquely_editable_share_of_serious;
   const s1Total = data.summary.s1_total;
-  // Display-only ratio of precomputed medians: the no-selectable-embryo share of serious.
-  const s1Share = s1Total.median / data.summary.burden_default.total_serious.median;
+  const burden = data.summary.burden_default;
   const cur = data.prevention['Global']?.['current']?.['monogenic']?.['pnd_on'];
   const ideal = data.prevention['Global']?.['ideal']?.['monogenic']?.['pnd_on'];
 
@@ -351,58 +167,89 @@ function Findings({
     go: () => void;
   }[] = [
     {
-      title: 'Existing genetic medicine has substantial unrealized reach',
-      kinds: ['model', 'interpretation'],
+      title: 'Serious genetic disease is not one homogeneous category',
+      kinds: ['model'],
       body: (
         <>
-          Most modeled serious genetic-disease burden does not uniquely require germline
-          editing
-          {cur && ideal ? (
-            <>
-              — yet today&apos;s coverage prevents only about{' '}
-              {fmtPct(cur.total_averted_birth_fraction.median, 0)} of preventable single-gene
-              births where full modeled coverage could prevent{' '}
-              {fmtPct(ideal.total_averted_birth_fraction.median, 0)}
-            </>
-          ) : null}
-          . The largest immediate opportunity is expanding access to what already works.
+          Under the default analysis, approximately{' '}
+          {fmtCompact(burden.total_serious.median)} cases of serious disease with a substantial
+          genetic contribution are attributed to each annual global birth cohort. About{' '}
+          {fmtCompact(burden.monogenic.median)} are monogenic, while approximately{' '}
+          {fmtCompact(burden.multifactorial.median)} are multifactorial or partly genetic under
+          the broad attribution assumption. These two categories should not be interpreted in
+          the same way: monogenic disease is primarily attributable to pathogenic variation in a
+          single gene, whereas multifactorial disease reflects genetic susceptibility together
+          with environmental and other influences — so the multifactorial estimate changes
+          substantially when the genetic-attribution assumption changes.
         </>
       ),
-      goLabel: 'What current medicine can do',
+      goLabel: 'Explore the disease burden',
+      go: () => update({ tab: 'denominator' }),
+    },
+    {
+      title:
+        'For monogenic disease, existing reproductive medicine has broad technical reach — but current access is incomplete',
+      kinds: ['model'],
+      body: (
+        <>
+          For many monogenic disorders, carrier screening and reproductive planning, IVF with
+          PGT-M, and prenatal diagnosis followed by a reproductive decision can reduce affected
+          births.
+          {cur && ideal ? (
+            <>
+              {' '}
+              Under the model&apos;s current coverage assumptions, about{' '}
+              {fmtPct(cur.total_averted_birth_fraction.median, 0)} of monogenic affected births
+              are avoided; under idealized full coverage, this rises to approximately{' '}
+              {fmtPct(ideal.total_averted_birth_fraction.median, 1)}.
+            </>
+          ) : null}{' '}
+          This is a result about monogenic affected-birth avoidance, not about all serious
+          genetic disease. Newborn screening and postnatal treatment are evaluated separately
+          because they mitigate disease after birth rather than preventing an affected birth.
+        </>
+      ),
+      goLabel: 'See what existing medicine can do',
       go: () => update({ tab: 'prevention' }),
     },
     {
       title:
-        'Germline editing may have a narrow medical role where embryo selection cannot produce an unaffected embryo',
+        'A small monogenic population remains where embryo selection cannot produce an unaffected embryo',
       kinds: ['model'],
       body: (
         <>
-          A small monogenic population (~{fmtPct(s1Share, 2)} of the burden, about{' '}
-          {fmtCompact(s1Total.median)} births/yr) may genuinely lack an unaffected
-          embryo-selection option — for these families editing would be the only preventive
-          route. A separate current-evidence complex-disease term adds approximately nothing
-          (combined editing-relevant residual ~{fmtPct(editableShare.strict.median, 2)}), and a
-          larger role in complex disease (up to ~
-          {fmtPct(editableShare.permissive.median, 1)} under an optimistic modeled scenario) is
-          a possibility, not another “only option” population.
+          Broad technical reach does not mean embryo selection works in every reproductive
+          configuration. For some parental genetic combinations, every embryo is expected to
+          inherit the targeted disease-causing genotype. PGT-M can identify those embryos, but
+          it cannot select an unaffected embryo if none exists. Under the primary analysis, we
+          estimate approximately {fmtCompact(s1Total.median)} births per year in these
+          no-selectable-unaffected-embryo configurations. This is the study&apos;s
+          editing-only prevention population: cases in which successful germline editing could
+          provide a preventive option that embryo selection cannot.
         </>
       ),
-      goLabel: 'Where editing adds value',
+      goLabel: 'See when embryo selection is not enough',
       go: () => update({ tab: 'residual' }),
     },
     {
-      title: 'Prevention, resistance, and enhancement are separate questions',
-      kinds: ['interpretation'],
+      title:
+        'Multifactorial disease presents a different — and much more uncertain — case for editing',
+      kinds: ['model'],
       body: (
         <>
-          The medical justification for preventing catastrophic inherited disease does not
-          automatically extend to editing healthy embryos for resistance to common risks, or for
-          enhancement. These applications therefore require separate scientific and ethical
-          justification.
+          Common complex diseases do not usually present a situation in which germline editing
+          is the only available option. Their risk is distributed across many genetic variants
+          and non-genetic influences, while prevention and treatment may act through entirely
+          different pathways. The relevant question is therefore whether editing could provide
+          additional risk reduction beyond existing alternatives. Under current-evidence
+          assumptions, the model identifies little additional population-level contribution. A
+          substantially larger contribution appears only under an optimistic modeled scenario
+          that assumes favorable genetic architecture and much greater technical capacity. That
+          scenario is a possibility explored by the model, not a forecast.
         </>
       ),
-      goLabel: 'Beyond disease prevention',
-      go: () => update({ tab: 'beyond' }),
+      goLabel: 'Explore complex disease',
+      go: () => update({ tab: 'multifactorial' }),
     },
   ];
 
@@ -474,18 +321,14 @@ function KeyDefinitions() {
   );
 }
 
-// ---- interactive-paper typographic primitives ----
+// ---- typographic primitives ----
 function H({ children }: { children: ReactNode }) {
   return (
     <h2 className="text-xl font-semibold tracking-tight text-slate-900">{children}</h2>
   );
 }
-// Prose capped at a readable measure; figures and stat cards keep the full width.
 function Lead({ children }: { children: ReactNode }) {
   return <p className="text-[15px] leading-7 text-slate-700">{children}</p>;
-}
-function Big({ children }: { children: ReactNode }) {
-  return <span className="text-2xl font-bold text-slate-900">{children}</span>;
 }
 function NavInline({ onClick, children }: { onClick: () => void; children: ReactNode }) {
   return (
@@ -499,113 +342,30 @@ function NavInline({ onClick, children }: { onClick: () => void; children: React
   );
 }
 
-const PREVENTION_COLORS: Record<string, string> = {
-  preventable: '#059669', // emerald
-  detectable_only: '#d97706', // amber
-  not_preventable: '#94a3b8', // slate
-};
-const INTENT_COLORS: Record<string, string> = {
-  curative: '#059669', // emerald
-  disease_modifying: '#0284c7', // sky
-  palliative: '#d97706', // amber
-  none: '#94a3b8', // slate
-};
-
-// The two "by what" axes, each a clickable stacked bar that filters the library.
-function CapabilitySplit({
-  data,
-  update,
+function SourceRow({
+  label,
+  items,
+  onGo,
 }: {
-  data: AllData;
-  update: (patch: UrlState) => void;
+  label: string;
+  items: string;
+  onGo: () => void;
 }) {
-  const r = data.library.rollup;
   return (
-    <div className="space-y-4">
-      <AxisBar
-        title="Prevention — could an affected birth be avoided, and by which pathway"
-        order={r.prevention.order}
-        dist={r.prevention.distribution}
-        colors={PREVENTION_COLORS}
-        onPick={(k) => update({ tab: 'library', prev: k, libsort: 'births' })}
-      />
-      <AxisBar
-        title="Treatment — for a child born affected, to what end"
-        order={r.treatment_intent.order}
-        dist={r.treatment_intent.distribution}
-        colors={INTENT_COLORS}
-        onPick={(k) => update({ tab: 'library', intent: k, libsort: 'births' })}
-      />
-    </div>
-  );
-}
-
-function AxisBar({
-  title,
-  order,
-  dist,
-  colors,
-  onPick,
-}: {
-  title: string;
-  order: string[];
-  dist: Record<string, { label: string; n_diseases: number; births: number }>;
-  colors: Record<string, string>;
-  onPick: (k: string) => void;
-}) {
-  const totalB = order.reduce((a, k) => a + dist[k].births, 0) || 1;
-  return (
-    <div>
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{title}</p>
-      <div
-        className="mt-1 flex h-8 w-full overflow-hidden rounded"
-        role="img"
-        aria-label={`${title} — distribution by affected births`}
+    <p className="text-slate-600">
+      <span className="font-semibold text-slate-800">{label}:</span> {items}{' '}
+      <button
+        type="button"
+        onClick={onGo}
+        className="ml-1 text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       >
-        {order.map((k) => {
-          const w = (dist[k].births / totalB) * 100;
-          return w > 0 ? (
-            <button
-              key={k}
-              type="button"
-              onClick={() => onPick(k)}
-              title={`${dist[k].label}: ${fmtInt(dist[k].births)} births/yr (${fmtPct(
-                dist[k].births / totalB,
-                0
-              )}) · ${dist[k].n_diseases} diseases`}
-              style={{ width: `${w}%`, backgroundColor: colors[k] }}
-              className="h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-slate-900"
-            />
-          ) : null;
-        })}
-      </div>
-      <div className="mt-1.5 grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-2">
-        {order.map((k) =>
-          dist[k].n_diseases > 0 ? (
-            <button
-              key={k}
-              type="button"
-              onClick={() => onPick(k)}
-              className="flex items-center gap-2 text-left text-xs hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              <span
-                aria-hidden="true"
-                className="inline-block h-3 w-3 shrink-0 rounded-sm"
-                style={{ backgroundColor: colors[k] }}
-              />
-              <span className="text-slate-700">{dist[k].label}</span>
-              <span className="tnum ml-auto text-slate-500">
-                {fmtCompact(dist[k].births)} · {dist[k].n_diseases}
-              </span>
-            </button>
-          ) : null
-        )}
-      </div>
-    </div>
+        sources →
+      </button>
+    </p>
   );
 }
 
-// Reachable-in-principle vs reached-in-practice, for the clearest case (monogenic, global).
+// What could be reached in principle vs what is reached today (monogenic, global).
 function AccessGap({
   data,
   update,
@@ -617,56 +377,21 @@ function AccessGap({
   const cur = data.prevention['Global']?.['current']?.[cls]?.['pnd_on'];
   const ideal = data.prevention['Global']?.['ideal']?.[cls]?.['pnd_on'];
   if (!cur || !ideal) return null;
-  const inPrinciple = ideal.total_averted_birth_fraction.median; // what full coverage reaches
-  const inPractice = cur.total_averted_birth_fraction.median; // what today's coverage reaches
-  const gap = Math.max(0, inPrinciple - inPractice);
+  const inPrinciple = ideal.total_averted_birth_fraction.median;
+  const inPractice = cur.total_averted_birth_fraction.median;
 
   return (
-    <div className="space-y-3">
-      <Lead>Take single-gene disease, globally:</Lead>
-      <Bullets
-        items={[
-          <>
-            At <strong>full coverage</strong>, existing pathways could prevent about{' '}
-            <strong>{fmtPct(inPrinciple, 0)}</strong> of affected births.
-          </>,
-          <>
-            At <strong>today&apos;s coverage</strong>, they actually prevent about{' '}
-            <strong>{fmtPct(inPractice, 0)}</strong>.
-          </>,
-          <>
-            The difference — <strong>{fmtPct(gap, 0)}</strong> — is cases missed because access
-            is incomplete, not because the biology is out of reach. It closes by scaling the
-            same tools, not by editing.
-          </>,
-        ]}
-      />
-      <Figure
-        label="How much prevention is lost to incomplete access?"
-        caption="Single-gene disease, global. Multifactorial disease has a lower biological ceiling; both classes, all regions, and the pathway-by-pathway breakdown are in Existing options."
-        moreLabel="Open Existing options"
-        onMore={() => update({ tab: 'prevention' })}
-      >
-        <div className="space-y-2">
-          <GapBar label="Preventable in principle (full coverage)" frac={inPrinciple} color="#059669" />
-          <GapBar label="Prevented in practice (today's coverage)" frac={inPractice} color="#0284c7" />
-        </div>
-      </Figure>
-    </div>
-  );
-}
-
-// Bulleted list for breaking up longer explanations.
-function Bullets({ items }: { items: ReactNode[] }) {
-  return (
-    <ul className="space-y-1.5">
-      {items.map((it, i) => (
-        <li key={i} className="flex gap-2.5 text-[15px] leading-6 text-slate-700">
-          <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-300" />
-          <span>{it}</span>
-        </li>
-      ))}
-    </ul>
+    <Figure
+      label="How much prevention is lost to incomplete access?"
+      caption="Single-gene disease, global. At full modeled coverage the existing pathways could prevent the upper share of affected births; today's coverage prevents the lower share. The difference is cases missed because access is incomplete, not because the biology is out of reach."
+      moreLabel="See what existing medicine can do"
+      onMore={() => update({ tab: 'prevention' })}
+    >
+      <div className="space-y-2">
+        <GapBar label="Preventable in principle (full coverage)" frac={inPrinciple} color="#059669" />
+        <GapBar label="Prevented in practice (today's coverage)" frac={inPractice} color="#0284c7" />
+      </div>
+    </Figure>
   );
 }
 
@@ -680,30 +405,6 @@ function GapBar({ label, frac, color }: { label: string; frac: number; color: st
       <div className="mt-0.5 h-4 w-full overflow-hidden rounded bg-slate-100">
         <div className="h-full" style={{ width: `${frac * 100}%`, backgroundColor: color }} />
       </div>
-    </div>
-  );
-}
-
-function MiniStat({
-  tone,
-  value,
-  label,
-  sub,
-}: {
-  tone: 'emerald' | 'violet';
-  value: string;
-  label: string;
-  sub: string;
-}) {
-  const cls =
-    tone === 'emerald'
-      ? 'border-emerald-200 bg-emerald-50/50'
-      : 'border-violet-200 bg-violet-50/50';
-  return (
-    <div className={`rounded border p-3 ${cls}`}>
-      <p className="tnum text-2xl font-bold text-slate-900">{value}</p>
-      <p className="text-sm font-medium text-slate-800">{label}</p>
-      <p className="mt-0.5 text-xs text-slate-600">{sub}</p>
     </div>
   );
 }

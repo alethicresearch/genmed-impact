@@ -21,30 +21,38 @@ export default function Beyond({ data, update }: Props) {
     <SourcesProvider>
       <Reading>
         <p className="text-[15px] leading-7 text-slate-600">
-          The analysis so far concerns preventing or treating serious inherited disease. Two
-          further uses of germline editing are often discussed alongside it:{' '}
-          <em>resistance</em> — editing a healthy genome to blunt a common risk such as infection
-          or cardiovascular disease — and <em>enhancement</em> — pushing a trait beyond the
-          typical range. This section examines both. Its conclusion is structural: these are
-          different questions with different justifications, and the case for preventing
-          catastrophic disease does not transfer to them. That is why the paper treats
-          prevention, resistance, and enhancement as separate categories rather than points on
-          one path.
+          The medical argument for correcting a severe inherited disorder does not automatically
+          apply to every possible use of germline editing.
+        </p>
+        <p className="text-[15px] leading-7 text-slate-600">
+          Resistance would alter an otherwise healthy embryo to reduce a future risk such as HIV
+          infection or cardiovascular disease. Enhancement would alter traits beyond the
+          prevention of disease. In both cases, the relevant alternatives, expected benefits,
+          and ethical questions differ from the no-alternative monogenic cases identified in the
+          main analysis.
         </p>
 
         <section className="space-y-3">
-          <PH>Resistance: does an edit add anything existing medicine does not?</PH>
+          <PH>Resistance: what would editing add beyond existing prevention?</PH>
           <Lead>
-            For each proposed resistance edit, the relevant comparison is with the drugs and
-            public-health tools that already target the same risk. Of the three most-discussed
-            candidates, only HIV reduces to a residual birth count; for the others no comparable
-            single number exists, and the panels below say so rather than estimating one.
+            A resistance edit should be compared with the interventions that already reduce the
+            same risk. If effective prevention or treatment exists, a germline intervention
+            requires evidence of an additional benefit large enough to justify its additional
+            uncertainty and heritability.
           </Lead>
 
           <div className="grid grid-cols-1 gap-4">
             {/* HIV */}
             <Card>
               <h3 className="text-base font-semibold text-slate-900">HIV (CCR5)</h3>
+              <p className="mt-2 text-sm text-slate-600">
+                CCR5 is often discussed because some naturally occurring variants reduce
+                susceptibility to HIV. But mother-to-child transmission can already be prevented
+                at very high rates where prevention programmes are fully implemented. The
+                relevant question is therefore not whether HIV can be prevented, but whether
+                germline editing adds meaningful benefit beyond closing the remaining
+                prevention and treatment gap.
+              </p>
               <dl className="mt-3 space-y-3">
                 <div>
                   <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">
@@ -75,12 +83,6 @@ export default function Beyond({ data, update }: Props) {
                   </dd>
                 </div>
               </dl>
-              <p className="mt-3 text-sm text-slate-600">
-                The modeled residual after PMTCT identifies infections not prevented under the
-                assumed coverage and effectiveness. It does not by itself establish a
-                germline-editing indication; editing would still need to show added value over
-                prevention, treatment, and future somatic approaches.
-              </p>
             </Card>
 
             {/* Cardiovascular */}
@@ -92,9 +94,10 @@ export default function Beyond({ data, update }: Props) {
                 No comparable population estimate in this model
               </p>
               <p className="mt-3 text-sm text-slate-600">
-                PCSK9 illustrates a biologically plausible risk-modification target, but existing
-                pharmacological and potential somatic approaches act on the same pathway. We
-                therefore do not estimate a distinct germline-editing population.
+                PCSK9 illustrates a genetically validated pathway for reducing LDL cholesterol
+                and cardiovascular risk. But drugs and somatic interventions can target the same
+                pathway. This analysis therefore does not identify a distinct population for
+                whom germline PCSK9 editing is medically necessary.
               </p>
             </Card>
 
@@ -105,8 +108,9 @@ export default function Beyond({ data, update }: Props) {
               </h3>
               <p className="mt-3 text-2xl font-semibold text-amber-800">Not estimated</p>
               <p className="mt-3 text-sm text-slate-700">
-                APOE illustrates the problem of pleiotropy: a large genetic association does not
-                necessarily identify a suitable germline-editing target.
+                APOE illustrates a different problem: a strong genetic association does not
+                imply a simple beneficial edit. The gene has multiple biological effects, so
+                changing one risk relationship may create others.
               </p>
             </Card>
           </div>
@@ -121,50 +125,34 @@ export default function Beyond({ data, update }: Props) {
         </section>
 
         <section className="space-y-3">
-          <PH>Enhancement: a different question, not a further step</PH>
+          <PH>Enhancement asks a different question</PH>
           <Claim kind="interpretation">
-            Enhancement targets traits outside the disease-prevention framework — cognition,
-            height, longevity — rather than preventing or curing disease. Its possible benefits
-            may be absolute, positional, or both, and it raises questions about distribution,
-            fairness, autonomy, and social effects that are not captured by the serious-disease
-            burden denominator used here. The justification developed in this project for
-            preventing severe inherited disease therefore cannot simply be transferred to
-            enhancement; enhancement must be assessed on its own terms.
+            Enhancement concerns traits such as cognition, height, athletic ability, or
+            longevity rather than preventing a serious inherited disorder. Its potential
+            benefits may be absolute, positional, or both, and its evaluation requires questions
+            about autonomy, fairness, distribution, social pressure, and effects on future
+            generations that are not captured by the disease-burden model used here.
           </Claim>
         </section>
 
         <section className="space-y-3">
-          <PH>Does biological continuity imply ethical continuity?</PH>
+          <PH>Biological continuity does not settle the ethical question</PH>
           <Lead>
-            There is a genuine biological continuum from disease to trait. On the{' '}
-            <button
-              type="button"
-              onClick={() => update({ tab: 'multifactorial' })}
-              className="font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              liability-threshold model
-            </button>{' '}
-            everyone carries a continuous genetic load, and “disease” is the far tail past a
-            threshold. From this some argue that if medicine already acts to lower risk along
-            that continuum, shifting the whole distribution — enhancing everyone — is more of the
-            same. We argue that it does not: a continuum in biology is not a continuum in
-            justification. Below the threshold the goal is preventing serious illness in an
-            identifiable future person; beyond it, changing a population's traits is a contested
-            social project that medicine's mandate does not settle.
+            Disease risk and many human traits exist on biological continua. That does not mean
+            the justification for intervention is continuous as well. We argue that preventing
+            serious disease in an identifiable future person and deliberately shifting traits
+            beyond a disease threshold require different ethical arguments.
           </Lead>
         </section>
 
         <section className="space-y-3">
-          <PH>Feasibility is a separate constraint</PH>
+          <PH>Complex-trait enhancement is also technically constrained</PH>
           <Lead>
-            Independently of whether it is desirable, enhancement of complex traits is largely
-            out of reach on current science. The traits usually proposed are{' '}
-            <strong>massively polygenic</strong> — thousands of variants of tiny effect —
-            strongly environment-dependent, and predicted by scores whose accuracy does not
-            transfer well across ancestries. Editing a handful of loci cannot move such a trait
-            far, and embryo selection is bounded by the number of embryos an IVF cycle yields.
-            The same architecture ceiling that limits editing for common <em>disease</em> limits
-            it further for enhancement.
+            Most proposed enhancement traits are highly polygenic and strongly influenced by
+            environment. Their genetic effects are spread across many variants, and polygenic
+            predictions often perform differently across ancestries. The same genetic
+            architecture that limits editing for complex disease therefore constrains
+            enhancement even more strongly.
           </Lead>
           <div className="flex flex-wrap gap-2 text-xs">
             <button
@@ -181,27 +169,6 @@ export default function Beyond({ data, update }: Props) {
           </Caption>
         </section>
 
-        <section className="space-y-3">
-          <PH>The inherited-disease denominator does not transfer directly</PH>
-          <div className="rounded-lg border border-amber-300 bg-amber-50/60 p-4">
-            <p className="text-sm leading-7 text-slate-700">
-              Resistance interventions can in principle avert future disease burden, but they do
-              not map onto the inherited-disease birth denominator used for the core analysis in
-              the same way. Enhancement has no analogous disease denominator at all. These
-              applications therefore require different outcome measures and different ethical
-              comparisons — assessed there, not carried by the case for preventing inherited
-              disease. What this separation implies for regulation is taken up in{' '}
-              <button
-                type="button"
-                onClick={() => update({ tab: 'ethics' })}
-                className="font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              >
-                What should follow
-              </button>
-              .
-            </p>
-          </div>
-        </section>
 
         <SourcesList title="Sources" />
       </Reading>

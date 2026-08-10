@@ -32,33 +32,33 @@ const SECTIONS: SectionDef[] = [
   { id: 'sec-overview', label: 'Overview', views: [{ id: 'overview', label: 'Overview' }] },
   {
     id: 'sec-map',
-    label: 'Disease map',
+    label: 'Disease burden',
     views: [
-      { id: 'denominator', label: 'How much serious genetic disease is there?' },
-      { id: 'library', label: 'The disease catalogue' },
+      { id: 'denominator', label: 'How much disease?' },
+      { id: 'library', label: 'Which diseases?' },
     ],
   },
   {
     id: 'sec-existing',
-    label: 'Existing options',
-    views: [{ id: 'prevention', label: 'What current medicine can do' }],
+    label: 'Existing medicine',
+    views: [{ id: 'prevention', label: 'What can medicine already do?' }],
   },
   {
     id: 'sec-editing',
-    label: 'Where editing adds value',
+    label: 'Role of editing',
     views: [
-      { id: 'residual', label: 'When editing adds a unique option' },
-      { id: 'multifactorial', label: 'Could editing help complex disease?' },
+      { id: 'residual', label: 'When embryo selection is not enough' },
+      { id: 'multifactorial', label: 'Complex disease' },
     ],
   },
   {
     id: 'sec-ethics',
     label: 'Ethics & policy',
     views: [
-      { id: 'ethics', label: 'What should follow' },
-      { id: 'embryos', label: 'The embryo trade-off' },
-      { id: 'beyond', label: 'Beyond disease prevention' },
-      { id: 'allocation', label: 'Exploratory analyses' },
+      { id: 'ethics', label: 'Policy implications' },
+      { id: 'embryos', label: 'Selection vs editing' },
+      { id: 'beyond', label: 'Resistance & enhancement' },
+      { id: 'allocation', label: 'Exploratory costs' },
     ],
   },
   {
@@ -144,6 +144,11 @@ export default function App() {
           Sankalpa Ghose <span className="text-slate-400">·</span> D. A. Wallach{' '}
           <span className="text-slate-400">·</span> Peter Singer{' '}
           <span className="text-slate-400">·</span> Julian Savulescu
+        </p>
+        <p className="mt-1.5 text-sm leading-6 text-slate-600">
+          An empirical study of serious genetic disease, what existing genetic medicine can
+          already achieve, and where human germline embryo editing might provide a distinct
+          medical option.
         </p>
         <p className="mt-2">
           <span

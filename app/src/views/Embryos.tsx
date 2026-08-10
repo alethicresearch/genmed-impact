@@ -29,35 +29,37 @@ export default function Embryos({ data }: Props) {
     <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
-        title="The embryo trade-off"
-        subtitle="An idealized comparison of embryo selection and successful correction on one ethically relevant dimension: how many embryos with the targeted genotype remain candidates for transfer."
+        title="Selection vs editing: what happens to affected-genotype embryos?"
+        subtitle="PGT-M prevents an affected birth by selecting an embryo without the targeted genotype. Successful editing could instead correct an embryo that would otherwise not be selected for transfer."
       />
       <p className="text-sm leading-relaxed text-slate-700">
-        Embryo selection and successful editing differ in what happens to embryos carrying the
-        targeted genotype. This idealized comparison estimates the number of affected-genotype
-        embryos not selected for transfer per unaffected child as unaffected embryos become
-        rarer.
+        This creates one potentially important difference between the two strategies. When many
+        unaffected embryos are available, embryo selection requires relatively little
+        genotype-based non-selection. As unaffected embryos become rarer, more affected-genotype
+        embryos must be set aside to obtain one unaffected embryo. If no unaffected embryo
+        exists, selection cannot achieve the desired outcome at all.
+      </p>
+      <p className="text-sm leading-relaxed text-slate-700">
+        The comparison below isolates this one dimension only. It does not assume that editing
+        is safe, successful, or ethically preferable overall.
       </p>
       <div className="rounded-lg border border-amber-300 bg-amber-50/60 p-4 text-sm leading-6 text-slate-700">
-        <strong>This is an idealized comparison.</strong> In the strategy modeled here, PGT avoids
-        transfer of embryos with the targeted genotype, whereas successful correction would retain
-        that embryo as a candidate for transfer. The comparison does not model editing failure,
-        mosaicism, safety-related embryo loss, or the additional embryos a real clinical program
-        might require — all of which would raise the editing side above zero. “Not selected for
-        transfer” is used as the analytic term because it describes the modeled decision, not the
-        eventual disposition of any embryo.
+        <strong>Idealized comparison.</strong> Successful editing is modeled as retaining the
+        corrected embryo as a transfer candidate. Editing failure, mosaicism, developmental
+        effects, safety-related embryo loss, additional IVF cycles, and other clinical attrition
+        are not included. The editing value of zero therefore means zero genotype-based
+        exclusions by construction, not zero embryo loss in practice.
       </div>
       <Claim kind="interpretation">
-        On this one dimension, successful correction can compare favorably with selection — and
-        increasingly so as unaffected embryos become rarer. Whether that makes editing ethically
-        preferable overall is a separate judgment that also depends on safety, feasibility, and
-        the considerations in Ethics &amp; policy.
+        The potential embryo-selection advantage of editing becomes greatest precisely when
+        unaffected embryos are rare or absent. Whether that advantage outweighs the additional
+        risks and uncertainties of germline editing is a separate ethical and clinical question.
       </Claim>
 
       {/* Curve */}
       <Card>
         <h3 className="text-base font-semibold text-slate-900">
-          How embryo selection changes as unaffected embryos become rarer
+          As unaffected embryos become rarer, selection requires more genotype-based non-selection
         </h3>
         <p className="mt-1 text-sm text-slate-600">
           Affected embryos not selected for transfer, per unaffected child. As unaffected embryos
@@ -69,7 +71,7 @@ export default function Embryos({ data }: Props) {
 
       {/* Per-inheritance table */}
       <Card>
-        <h3 className="text-base font-semibold text-slate-900">By inheritance mode</h3>
+        <h3 className="text-base font-semibold text-slate-900">How inheritance changes the chance of finding an unaffected embryo</h3>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full border-collapse text-sm">
             <caption className="sr-only">Embryo selection cost by inheritance mode</caption>

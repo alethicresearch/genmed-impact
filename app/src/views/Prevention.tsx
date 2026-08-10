@@ -97,15 +97,20 @@ export default function Prevention({ data, state, update }: Props) {
   return (
     <div className="space-y-6">
       <SectionHeading
-        title="What current medicine can do"
-        subtitle="The four existing pathways applied one after another, under a chosen real-world coverage scenario."
+        title="How much can existing genetic medicine already change?"
+        subtitle="Four pathways act at different points — from identifying reproductive risk before conception to detecting and treating disease after birth. They must be compared by the outcome they actually change."
       />
       <p className="text-sm leading-relaxed text-slate-700">
-        Existing genetic medicine affects two different outcomes. Carrier screening, PGT-M, and
-        — under a specified reproductive-decision assumption — prenatal diagnosis can reduce
-        affected births. Newborn screening acts after birth by enabling earlier treatment. The
-        model therefore reports affected-birth avoidance and postnatal burden mitigation
-        separately.
+        Carrier screening + reproductive planning can identify couples at risk before
+        pregnancy. IVF with PGT-M can allow selection of an embryo without the targeted disease
+        genotype. Prenatal diagnosis can identify an affected pregnancy, but it changes the
+        number of affected births only if followed by a reproductive decision not to continue
+        that pregnancy. Newborn screening acts after birth by enabling earlier treatment.
+      </p>
+      <p className="text-sm leading-relaxed text-slate-700">
+        Because these outcomes are not equivalent, the model reports them on two separate
+        tracks: <strong>affected births avoided</strong> and{' '}
+        <strong>disease burden mitigated after birth</strong>.
       </p>
 
       <div className="flex flex-wrap items-end gap-5">
@@ -146,9 +151,10 @@ export default function Prevention({ data, state, update }: Props) {
           onChange={(v) => update({ pnd: v ? 'on' : 'off' })}
         />
         <p className="mt-1 pl-6 text-xs leading-5 text-slate-600">
-          An ethically significant modeling choice, so it is exposed rather than fixed: prenatal
-          diagnosis identifies an affected pregnancy, and whether that reduces affected births
-          depends on the reproductive decision that follows. Both settings are computed throughout.
+          Prenatal diagnosis is a diagnostic test, not itself a preventive intervention. In the
+          affected-birth analysis it is counted only when an affected diagnosis is followed by
+          pregnancy termination. Because that assumption is ethically consequential, results can
+          be viewed with it included or excluded.
         </p>
       </div>
 
@@ -173,10 +179,10 @@ export default function Prevention({ data, state, update }: Props) {
         <ToolLegend tools={tools} />
         {floorFrac !== undefined && scenario !== 'ideal' && (
           <p className="mt-1 text-xs text-slate-600">
-            Dashed line: share remaining after full modeled coverage ({fmtPct(floorFrac, 1)}).
-            Above the line, cases missed because access is incomplete; below it, cases beyond
-            the modeled pathways — whether germline editing can address any of that remainder is
-            analyzed in “Where editing adds value.”
+            Dashed line: what remains ({fmtPct(floorFrac, 1)}) even if the modeled existing
+            pathways reached everyone eligible. The gap above the line is primarily an access
+            gap; the portion below it remains beyond these modeled pathways. The next section
+            asks whether germline editing could address any part of that remainder.
           </p>
         )}
         <div className="mt-2">
@@ -185,7 +191,7 @@ export default function Prevention({ data, state, update }: Props) {
             onClick={() => update({ tab: 'residual' })}
             className="rounded border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
-            Which part of this remainder could editing actually address? →
+            Next: when do existing reproductive options run out? →
           </button>
         </div>
 
