@@ -39,7 +39,7 @@ export default function Enhancement({ update }: Props) {
           There is a real continuum from disease to trait. On the{' '}
           <button
             type="button"
-            onClick={() => update({ mode: 'detailed', tab: 'multifactorial' })}
+            onClick={() => update({ tab: 'multifactorial' })}
             className="font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             liability-threshold model
@@ -67,14 +67,14 @@ export default function Enhancement({ update }: Props) {
         <div className="flex flex-wrap gap-2 text-xs">
           <button
             type="button"
-            onClick={() => update({ mode: 'detailed', tab: 'multifactorial' })}
+            onClick={() => update({ tab: 'multifactorial' })}
             className="rounded border border-slate-300 bg-white px-2.5 py-1 font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             See the polygenicity ceiling →
           </button>
           <button
             type="button"
-            onClick={() => update({ mode: 'detailed', tab: 'resistance' })}
+            onClick={() => update({ tab: 'resistance' })}
             className="rounded border border-slate-300 bg-white px-2.5 py-1 font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             ← Back to resistance

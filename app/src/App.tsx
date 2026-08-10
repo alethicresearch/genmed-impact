@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { AllData, loadAll } from './data';
 import { useUrlState } from './urlState';
 import Tabs, { TabDef } from './components/Tabs';
-import { Segmented } from './components/ui';
 import Overview from './views/Overview';
 import Library from './views/Library';
 import Denominator from './views/Denominator';
@@ -33,28 +32,11 @@ const ALL_TABS: TabDef[] = [
 // ---- Research-artifact masthead metadata ----
 const REPO_URL = 'https://github.com/alethicresearch/genmed-impact';
 const CITATION_URL = `${REPO_URL}/blob/main/CITATION.cff`;
-// Which tab ids are visible in each mode (same reading order in both).
-const MODE_TABS: Record<string, string[]> = {
-  simple: ['overview', 'library', 'prevention'],
-  detailed: [
-    'overview',
-    'library',
-    'denominator',
-    'prevention',
-    'residual',
-    'embryos',
-    'multifactorial',
-    'resistance',
-    'enhancement',
-    'allocation',
-    'methods',
-  ],
-};
 
 export default function App() {
   const [data, setData] = useState<AllData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [state, update] = useUrlState({ tab: 'overview', mode: 'simple' });
+  const [state, update] = useUrlState({ tab: 'overview' });
 
   useEffect(() => {
     loadAll()
@@ -62,10 +44,8 @@ export default function App() {
       .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)));
   }, []);
 
-  const mode = state.mode === 'detailed' ? 'detailed' : 'simple';
-  const visibleIds = MODE_TABS[mode];
-  const tabs = ALL_TABS.filter((t) => visibleIds.includes(t.id));
-  const activeTab = visibleIds.includes(state.tab) ? state.tab : 'overview';
+  const tabs = ALL_TABS;
+  const activeTab = tabs.some((t) => t.id === state.tab) ? state.tab : 'overview';
   // Number the tabs so the bar reads as an ordered table of contents.
   const numberedTabs = tabs.map((t, i) => ({ ...t, label: `${i + 1}. ${t.label}` }));
   const activeIdx = tabs.findIndex((t) => t.id === activeTab);
@@ -113,16 +93,6 @@ export default function App() {
               </a>
             </div>
           </div>
-          <Segmented
-            label="Read"
-            ariaLabel="Reading length"
-            value={mode}
-            options={[
-              { value: 'simple', label: 'Short' },
-              { value: 'detailed', label: 'Full' },
-            ]}
-            onChange={(v) => update({ mode: v })}
-          />
         </div>
       </header>
 

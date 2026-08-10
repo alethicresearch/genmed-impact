@@ -3,6 +3,7 @@ import { AllData, DiseaseClass, fmtCompact, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
+import { Figure } from '../components/prose';
 
 interface Props {
   data: AllData;
@@ -31,8 +32,7 @@ function provSource(
   };
 }
 
-export default function Overview({ data, state, update }: Props) {
-  const mode = state.mode === 'detailed' ? 'detailed' : 'simple';
+export default function Overview({ data, update }: Props) {
   const rollup = data.library.rollup;
   const monoSrc = provSource(data, ['burden', 'monogenic_serious_per_1000']);
   const multiSrc = provSource(data, ['burden', 'multifactorial_serious_per_1000']);
@@ -52,6 +52,8 @@ export default function Overview({ data, state, update }: Props) {
           medicine can already do about it, and isolates the narrow place where germline editing
           does something no existing tool can.
         </p>
+
+        <KeyTakeaways data={data} update={update} />
 
         <section className="space-y-3">
           <H>Serious genetic disease is common at birth</H>
@@ -76,11 +78,14 @@ export default function Overview({ data, state, update }: Props) {
             met <em>after birth by treatment</em> — and treatment ranges from a cure, to lifelong
             management, to palliation, which are worlds apart. Germline editing is none of these.
           </Lead>
-          <CapabilitySplit data={data} update={update} />
-          <Caption>
-            Each disease on two axes — prevention (by which tool) and treatment (to what end). Click
-            a band to see those diseases. Bars are by affected births in the core catalogue.
-          </Caption>
+          <Figure
+            label="Two axes: prevention, and treatment"
+            caption="Click any band to open those diseases in the library. Bars are by affected births in the core catalogue."
+            moreLabel="Open the disease library"
+            onMore={() => update({ tab: 'library' })}
+          >
+            <CapabilitySplit data={data} update={update} />
+          </Figure>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <MiniStat
               tone="emerald"
@@ -114,7 +119,7 @@ export default function Overview({ data, state, update }: Props) {
           <div className="flex flex-wrap gap-2 text-xs">
             <NavChip onClick={() => update({ tab: 'library' })}>Browse the disease library →</NavChip>
             <NavChip onClick={() => update({ tab: 'prevention' })}>Prevention, by tool →</NavChip>
-            <NavChip onClick={() => update({ mode: 'detailed', tab: 'residual' })}>
+            <NavChip onClick={() => update({ tab: 'residual' })}>
               The editing residual →
             </NavChip>
           </div>
@@ -150,20 +155,114 @@ export default function Overview({ data, state, update }: Props) {
             </p>
             <button
               type="button"
-              onClick={() => update({ mode: 'detailed', tab: 'methods' })}
+              onClick={() => update({ tab: 'methods' })}
               className="font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               Full methods &amp; sources →
             </button>
-            {mode === 'detailed' && (
-              <span className="sr-only">
-                <SourcesList />
-              </span>
-            )}
+            <span className="sr-only">
+              <SourcesList />
+            </span>
           </div>
         </details>
       </article>
     </SourcesProvider>
+  );
+}
+
+// The findings up front, each linking to the section that establishes it.
+function KeyTakeaways({
+  data,
+  update,
+}: {
+  data: AllData;
+  update: (patch: UrlState) => void;
+}) {
+  const burden = data.summary.burden_default;
+  const addressable = data.summary.addressable_share_of_serious.permissive;
+  const editableTotal = data.summary.uniquely_editable_total.permissive;
+  const editableShare = data.summary.uniquely_editable_share_of_serious.permissive;
+  const cur = data.prevention['Global']?.['current']?.['monogenic']?.['pnd_on'];
+  const ideal = data.prevention['Global']?.['ideal']?.['monogenic']?.['pnd_on'];
+
+  const items: { text: ReactNode; go?: () => void }[] = [
+    {
+      text: (
+        <>
+          <strong>{fmtCompact(burden.total_serious.median)} children a year</strong> are born with a
+          serious genetic disease — {fmtPct(burden.serious_share_of_births.median, 0)} of all births.
+        </>
+      ),
+      go: () => update({ tab: 'denominator' }),
+    },
+    {
+      text: (
+        <>
+          <strong>{fmtPct(addressable.median, 0)}</strong> of it is addressable by tools that already
+          exist — prevented before birth, or treated after it.
+        </>
+      ),
+      go: () => update({ tab: 'library' }),
+    },
+    {
+      text: (
+        <>
+          Only <strong>~{fmtPct(editableShare.median, 1)}</strong> (about{' '}
+          {fmtCompact(editableTotal.median)} births a year) is reachable by no existing tool — the
+          narrow place where germline editing is the only genetic-medicine option.
+        </>
+      ),
+      go: () => update({ tab: 'residual' }),
+    },
+    cur && ideal
+      ? {
+          text: (
+            <>
+              The real gap is <strong>access, not biology</strong>: for single-gene disease, full
+              coverage would prevent {fmtPct(ideal.total_averted_birth_fraction.median, 0)} of
+              affected births but today&apos;s coverage prevents{' '}
+              {fmtPct(cur.total_averted_birth_fraction.median, 0)}.
+            </>
+          ),
+          go: () => update({ tab: 'prevention' }),
+        }
+      : { text: <>The real gap is access, not biology.</>, go: () => update({ tab: 'prevention' }) },
+    {
+      text: (
+        <>
+          Beyond preventing disease, <strong>resistance and enhancement</strong> are different
+          questions — and cannot borrow the case for prevention.
+        </>
+      ),
+      go: () => update({ tab: 'enhancement' }),
+    },
+  ];
+
+  return (
+    <aside className="rounded-lg border border-slate-300 bg-slate-50 p-5">
+      <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+        Key takeaways
+      </h2>
+      <ul className="mt-3 space-y-2.5">
+        {items.map((it, i) => (
+          <li key={i} className="flex gap-2.5 text-[15px] leading-6 text-slate-700">
+            <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+            <span>
+              {it.text}
+              {it.go && (
+                <button
+                  type="button"
+                  onClick={it.go}
+                  className="ml-1 whitespace-nowrap text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  see →
+                </button>
+              )}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </aside>
   );
 }
 
@@ -175,9 +274,6 @@ function H({ children }: { children: ReactNode }) {
 }
 function Lead({ children }: { children: ReactNode }) {
   return <p className="text-[15px] leading-7 text-slate-700">{children}</p>;
-}
-function Caption({ children }: { children: ReactNode }) {
-  return <p className="text-xs leading-5 text-slate-500">{children}</p>;
 }
 function Big({ children }: { children: ReactNode }) {
   return <span className="text-2xl font-bold text-slate-900">{children}</span>;
@@ -205,7 +301,7 @@ function CapabilitySplit({
 }) {
   const r = data.library.rollup;
   return (
-    <div className="mt-3 space-y-4">
+    <div className="space-y-4">
       <AxisBar
         title="Prevention — before birth, by which tool"
         order={r.prevention.order}
@@ -306,32 +402,50 @@ function AccessGap({
   const gap = Math.max(0, inPrinciple - inPractice);
 
   return (
-    <div>
-      <p className="text-sm leading-relaxed text-slate-700">
-        Take single-gene disease, globally. At <strong>full coverage</strong> the existing tools
-        would prevent about <strong>{fmtPct(inPrinciple, 0)}</strong> of affected births. At{' '}
-        <strong>today's coverage</strong> they actually prevent about{' '}
-        <strong>{fmtPct(inPractice, 0)}</strong>. The difference —{' '}
-        <strong>{fmtPct(gap, 0)}</strong> — is not a limit of biology; it is unmet{' '}
-        <strong>access</strong>, closed by scaling the same tools, not by editing.
-      </p>
-
-      <div className="mt-3 space-y-2">
-        <GapBar label="Preventable in principle (full coverage)" frac={inPrinciple} color="#059669" />
-        <GapBar label="Prevented in practice (today's coverage)" frac={inPractice} color="#0284c7" />
-      </div>
-      <p className="mt-2 text-xs text-slate-500">
-        Multifactorial disease has a lower biological ceiling; both classes, all regions, and the
-        step-by-step tool breakdown are in the next section.{' '}
-        <button
-          type="button"
-          onClick={() => update({ tab: 'prevention' })}
-          className="font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-        >
-          Open Prevention →
-        </button>
-      </p>
+    <div className="space-y-3">
+      <Lead>Take single-gene disease, globally:</Lead>
+      <Bullets
+        items={[
+          <>
+            At <strong>full coverage</strong>, the existing tools would prevent about{' '}
+            <strong>{fmtPct(inPrinciple, 0)}</strong> of affected births.
+          </>,
+          <>
+            At <strong>today&apos;s coverage</strong>, they actually prevent about{' '}
+            <strong>{fmtPct(inPractice, 0)}</strong>.
+          </>,
+          <>
+            The difference — <strong>{fmtPct(gap, 0)}</strong> — is not a limit of biology. It is
+            unmet <strong>access</strong>, closed by scaling the same tools, not by editing.
+          </>,
+        ]}
+      />
+      <Figure
+        label="Preventable in principle vs prevented in practice"
+        caption="Single-gene disease, global. Multifactorial disease has a lower biological ceiling; both classes, all regions, and the step-by-step tool breakdown are in the next section."
+        moreLabel="Open prevention"
+        onMore={() => update({ tab: 'prevention' })}
+      >
+        <div className="space-y-2">
+          <GapBar label="Preventable in principle (full coverage)" frac={inPrinciple} color="#059669" />
+          <GapBar label="Prevented in practice (today's coverage)" frac={inPractice} color="#0284c7" />
+        </div>
+      </Figure>
     </div>
+  );
+}
+
+// Bulleted list for breaking up longer explanations.
+function Bullets({ items }: { items: ReactNode[] }) {
+  return (
+    <ul className="space-y-1.5">
+      {items.map((it, i) => (
+        <li key={i} className="flex gap-2.5 text-[15px] leading-6 text-slate-700">
+          <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-300" />
+          <span>{it}</span>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -364,14 +478,14 @@ function Trajectory({ update }: { update: (patch: UrlState) => void }) {
       purpose: 'Resistance',
       mech: 'Correction',
       desc: 'Blunt a common risk (infection, cardiovascular, ageing). Usually already met by drugs or public-health tools.',
-      go: () => update({ mode: 'detailed', tab: 'resistance' }),
+      go: () => update({ tab: 'resistance' }),
       tone: 'sky' as const,
     },
     {
       purpose: 'Enhancement',
       mech: 'Augmentation',
       desc: 'Push a trait beyond the typical range — and, some argue, toward “perfection.” A different question from disease.',
-      go: () => update({ mode: 'detailed', tab: 'enhancement' }),
+      go: () => update({ tab: 'enhancement' }),
       tone: 'violet' as const,
     },
   ];

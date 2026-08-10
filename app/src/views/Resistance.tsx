@@ -91,7 +91,7 @@ export default function Resistance({ data, update }: Props) {
         <div>
           <button
             type="button"
-            onClick={() => update({ mode: 'detailed', tab: 'enhancement' })}
+            onClick={() => update({ tab: 'enhancement' })}
             className="rounded border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             On to enhancement →
