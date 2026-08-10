@@ -15,11 +15,19 @@ interface FlatLeaf {
   leaf: ProvenanceLeaf;
 }
 
-// Flatten every provenance leaf that carries a `value` or a `source`.
+// A node is a provenance leaf only when it carries a PRIMITIVE `value` or a STRING `source`.
+// (A container like `regions` has a `source` child that is itself an object — treating it as a
+// leaf would render that object into a table cell and crash React, error #31.)
+function isLeaf(rec: Record<string, unknown>): boolean {
+  const hasPrimitiveValue = 'value' in rec && typeof rec.value !== 'object';
+  const hasStringSource = typeof rec.source === 'string';
+  return hasPrimitiveValue || hasStringSource;
+}
+
 function flatten(obj: unknown, path: string[], out: FlatLeaf[]): void {
   if (obj && typeof obj === 'object' && !Array.isArray(obj)) {
     const rec = obj as Record<string, unknown>;
-    if ('value' in rec || 'source' in rec) {
+    if (isLeaf(rec)) {
       out.push({ path: path.join('.'), leaf: rec as ProvenanceLeaf });
       return;
     }
@@ -29,9 +37,11 @@ function flatten(obj: unknown, path: string[], out: FlatLeaf[]): void {
   }
 }
 
+// Always coerce to a string so an unexpected object can never reach a React child.
 function leafStr(v: unknown): string {
   if (v === undefined || v === null) return '';
   if (typeof v === 'number') return v.toLocaleString('en-US');
+  if (typeof v === 'object') return '';
   return String(v);
 }
 
@@ -143,7 +153,7 @@ export default function Methods({ data, state, update }: Props) {
                   <td className="tnum px-3 py-1.5 text-right">{leafStr(f.leaf.value)}</td>
                   <td className="tnum px-3 py-1.5 text-right text-slate-500">{leafStr(f.leaf.low)}</td>
                   <td className="tnum px-3 py-1.5 text-right text-slate-500">{leafStr(f.leaf.high)}</td>
-                  <td className="px-3 py-1.5 text-slate-700">{f.leaf.source || '—'}</td>
+                  <td className="px-3 py-1.5 text-slate-700">{leafStr(f.leaf.source) || '—'}</td>
                   <td className="px-3 py-1.5 text-slate-500">
                     {f.leaf.doi && f.leaf.doi !== 'n/a' ? (
                       f.leaf.doi.startsWith('http') ? (
@@ -157,7 +167,7 @@ export default function Methods({ data, state, update }: Props) {
                       '—'
                     )}
                   </td>
-                  <td className="px-3 py-1.5 text-slate-500">{f.leaf.table_or_page || '—'}</td>
+                  <td className="px-3 py-1.5 text-slate-500">{leafStr(f.leaf.table_or_page) || '—'}</td>
                 </tr>
               ))}
             </tbody>
