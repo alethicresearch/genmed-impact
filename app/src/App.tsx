@@ -14,23 +14,24 @@ import Resistance from './views/Resistance';
 import Allocation from './views/Allocation';
 import Methods from './views/Methods';
 
+// The views in the order they read as a paper — the user journey follows the argument.
 const ALL_TABS: TabDef[] = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'library', label: 'Disease Library' },
-  { id: 'denominator', label: 'Burden & definitions' },
-  { id: 'prevention', label: 'Prevention' },
-  { id: 'multifactorial', label: 'Multifactorial' },
-  { id: 'residual', label: 'Residual' },
-  { id: 'embryos', label: 'Embryos' },
+  { id: 'overview', label: 'The argument' },
+  { id: 'library', label: 'The disease library' },
+  { id: 'denominator', label: 'The burden' },
+  { id: 'prevention', label: 'What medicine prevents' },
+  { id: 'residual', label: "Where editing is unique" },
+  { id: 'embryos', label: 'The embryo trade-off' },
+  { id: 'multifactorial', label: 'Complex disease' },
   { id: 'resistance', label: 'Resistance' },
-  { id: 'allocation', label: 'Allocation' },
-  { id: 'methods', label: 'Methods & Provenance' },
+  { id: 'allocation', label: 'Where to invest' },
+  { id: 'methods', label: 'Methods & sources' },
 ];
 
 // ---- Research-artifact masthead metadata ----
 const REPO_URL = 'https://github.com/alethicresearch/genmed-impact';
 const CITATION_URL = `${REPO_URL}/blob/main/CITATION.cff`;
-// Which tab ids are visible in each mode.
+// Which tab ids are visible in each mode (same reading order in both).
 const MODE_TABS: Record<string, string[]> = {
   simple: ['overview', 'library', 'prevention'],
   detailed: [
@@ -38,9 +39,9 @@ const MODE_TABS: Record<string, string[]> = {
     'library',
     'denominator',
     'prevention',
-    'multifactorial',
     'residual',
     'embryos',
+    'multifactorial',
     'resistance',
     'allocation',
     'methods',
@@ -62,6 +63,11 @@ export default function App() {
   const visibleIds = MODE_TABS[mode];
   const tabs = ALL_TABS.filter((t) => visibleIds.includes(t.id));
   const activeTab = visibleIds.includes(state.tab) ? state.tab : 'overview';
+  // Number the tabs so the bar reads as an ordered table of contents.
+  const numberedTabs = tabs.map((t, i) => ({ ...t, label: `${i + 1}. ${t.label}` }));
+  const activeIdx = tabs.findIndex((t) => t.id === activeTab);
+  const prevTab = activeIdx > 0 ? tabs[activeIdx - 1] : null;
+  const nextTab = activeIdx >= 0 && activeIdx < tabs.length - 1 ? tabs[activeIdx + 1] : null;
 
   return (
     <div className="mx-auto flex min-h-full max-w-6xl flex-col px-4 pb-16 pt-6">
@@ -105,12 +111,12 @@ export default function App() {
             </div>
           </div>
           <Segmented
-            label="Mode"
-            ariaLabel="Detail mode"
+            label="Read"
+            ariaLabel="Reading length"
             value={mode}
             options={[
-              { value: 'simple', label: 'Simple' },
-              { value: 'detailed', label: 'Detailed' },
+              { value: 'simple', label: 'Short' },
+              { value: 'detailed', label: 'Full' },
             ]}
             onChange={(v) => update({ mode: v })}
           />
@@ -132,7 +138,7 @@ export default function App() {
 
       {data && (
         <>
-          <Tabs tabs={tabs} active={activeTab} onChange={(id) => update({ tab: id })} />
+          <Tabs tabs={numberedTabs} active={activeTab} onChange={(id) => update({ tab: id })} />
           <main className="mt-5 flex-1">
             <div
               role="tabpanel"
@@ -168,10 +174,56 @@ export default function App() {
             </div>
           </main>
 
+          <PrevNext prev={prevTab} next={nextTab} onGo={(id) => update({ tab: id })} />
           <Footer commit={data.meta.commit} />
         </>
       )}
     </div>
+  );
+}
+
+// Journey navigation — move through the argument in order, like turning pages.
+function PrevNext({
+  prev,
+  next,
+  onGo,
+}: {
+  prev: TabDef | null;
+  next: TabDef | null;
+  onGo: (id: string) => void;
+}) {
+  if (!prev && !next) return null;
+  return (
+    <nav className="mt-8 flex items-stretch justify-between gap-3 border-t border-slate-200 pt-4">
+      {prev ? (
+        <button
+          type="button"
+          onClick={() => onGo(prev.id)}
+          className="group flex max-w-[48%] flex-col items-start rounded-lg border border-slate-300 bg-white px-4 py-2 text-left hover:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          <span className="text-xs text-slate-400">← Previous</span>
+          <span className="text-sm font-medium text-slate-700 group-hover:text-accent">
+            {prev.label}
+          </span>
+        </button>
+      ) : (
+        <span />
+      )}
+      {next ? (
+        <button
+          type="button"
+          onClick={() => onGo(next.id)}
+          className="group flex max-w-[48%] flex-col items-end rounded-lg border border-slate-300 bg-white px-4 py-2 text-right hover:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          <span className="text-xs text-slate-400">Next →</span>
+          <span className="text-sm font-medium text-slate-700 group-hover:text-accent">
+            {next.label}
+          </span>
+        </button>
+      ) : (
+        <span />
+      )}
+    </nav>
   );
 }
 

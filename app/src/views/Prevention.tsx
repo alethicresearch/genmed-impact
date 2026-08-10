@@ -13,7 +13,6 @@ import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
 import { Card, SectionHeading, Select, Segmented, Toggle, ExportSvgButton } from '../components/ui';
 import { ShowDataToggle } from '../components/DataTable';
-import Explainer from '../components/Explainer';
 import { exportContainerSvg } from '../svgExport';
 
 interface Props {
@@ -89,16 +88,16 @@ export default function Prevention({ data, state, update }: Props) {
   return (
     <div className="space-y-6">
       <SectionHeading
-        title="Prevention waterfall"
-        subtitle="From a 100% baseline, each tool averts a share of the selected class. Fractions already encode coverage × effectiveness for the chosen scenario."
+        title="What the existing tools prevent"
+        subtitle="Applied one after another — carrier screening, embryo testing, prenatal diagnosis, newborn screening — under a chosen real-world coverage scenario."
       />
-      <Explainer
-        whatThisShows="How much of a disease class's affected births the four existing tools prevent under a given real-world coverage scenario, applied one after another: carrier screening, then embryo testing, then prenatal diagnosis, then newborn screening."
-        howToRead="Start at 100%. Each step removes a share of what is still left, so the bar shrinks toward what is still not prevented. Change the region, coverage scenario, and disease class. The 'averted births' and 'averted burden' tracks differ because newborn screening treats disease rather than preventing the birth."
-        whatItDetermines="How far the existing toolkit actually gets under today's access — and therefore how much headroom there is to prevent more by SCALING the same tools."
-      />
-
-      <TwoResidualsCallout data={data} update={update} region={region!} cls={cls} scenario={scenario!} />
+      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
+        Each tool removes a share of a disease class's affected births; the bar shrinks toward what
+        is still not prevented. Most of that remainder is a <strong>coverage gap</strong> — cases
+        the tools would reach but don't, today — which closes as coverage improves. Only the thin
+        slice below the dashed <strong>full-coverage floor</strong> is beyond every existing tool,
+        and so is germline editing's domain.
+      </p>
 
       <div className="flex flex-wrap items-end gap-5">
         <Select
@@ -275,68 +274,6 @@ export default function Prevention({ data, state, update }: Props) {
         baked into the fractions; the app does not recompute them.
       </p>
     </div>
-  );
-}
-
-// Names the two very different "residuals" so the ~65% coverage gap here is never read as the
-// ~1.7% editing-only residual on the Overview/Residual tabs.
-function TwoResidualsCallout({
-  data,
-  update,
-  region,
-  cls,
-  scenario,
-}: {
-  data: AllData;
-  update: (patch: UrlState) => void;
-  region: string;
-  cls: DiseaseClass;
-  scenario: string;
-}) {
-  const leaf = data.prevention[region]?.[scenario]?.[cls]?.['pnd_on'];
-  const coverageGap = leaf ? leaf.residual_birth_fraction.median : undefined;
-  const editingShare = data.summary.uniquely_editable_share_of_serious.permissive.median;
-
-  return (
-    <Card className="border-amber-300 bg-amber-50/50">
-      <h3 className="text-sm font-semibold text-slate-900">
-        Two different “residuals” — don't confuse them
-      </h3>
-      <div className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div className="rounded border border-amber-200 bg-white p-3">
-          <p className="text-xs font-medium uppercase tracking-wide text-amber-800">
-            Not yet prevented at this coverage
-          </p>
-          <p className="tnum mt-1 text-2xl font-bold text-slate-900">
-            {coverageGap !== undefined ? fmtPct(coverageGap, 0) : '—'}
-          </p>
-          <p className="mt-1 text-xs text-slate-600">
-            The <strong>coverage / access gap</strong> — affected births the existing tools would
-            prevent but don't reach today ({scenario} coverage, {region}, {cls}). This is unmet
-            <em> access</em>, not unmet biology: it closes by <strong>scaling the same four
-            tools</strong>, and shrinks toward the floor on the right as coverage improves.
-          </p>
-        </div>
-        <div className="rounded border border-violet-200 bg-white p-3">
-          <p className="text-xs font-medium uppercase tracking-wide text-violet-800">
-            Uniquely needs germline editing
-          </p>
-          <p className="tnum mt-1 text-2xl font-bold text-slate-900">~{fmtPct(editingShare, 1)}</p>
-          <p className="mt-1 text-xs text-slate-600">
-            The <strong>in-principle</strong> residual — what no existing tool could reach even at
-            full coverage. This is the “narrow” number on the Overview, and it does not move
-            when coverage changes.{' '}
-            <button
-              type="button"
-              onClick={() => update({ mode: 'detailed', tab: 'residual' })}
-              className="font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            >
-              See the Residual tab →
-            </button>
-          </p>
-        </div>
-      </div>
-    </Card>
   );
 }
 

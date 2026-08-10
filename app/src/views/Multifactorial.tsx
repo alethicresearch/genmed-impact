@@ -155,7 +155,7 @@ export default function Multifactorial({ data, state, update }: Props) {
 
         {/* Required caveat */}
         <Card className="border-amber-300 bg-amber-50/60">
-          <h3 className="text-sm font-semibold text-slate-900">How to read these numbers honestly</h3>
+          <h3 className="text-sm font-semibold text-slate-900">Reading these bars</h3>
           <p className="mt-1 text-sm leading-relaxed text-slate-700">
             A selection <Term k="RRR">RRR</Term> can look large for a rare, highly heritable trait —
             that is a property of the <Term k="liability threshold">liability-threshold model</Term>,

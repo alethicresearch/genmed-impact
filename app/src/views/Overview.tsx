@@ -148,7 +148,7 @@ export default function Overview({ data, state, update }: Props) {
                 over the core) is a floor that rises as the catalogue grows toward the modelled total
                 ({fmtCompact(data.summary.burden_default.total_serious.median)}/yr). Two judgment
                 calls — what counts as “serious” and how disease is attributed to genetics —
-                are adjustable on the Burden &amp; definitions tab; every number responds.
+                are adjustable in “The burden” section; every number responds.
               </p>
               <button
                 type="button"
@@ -279,7 +279,7 @@ function AccessGap({
       </div>
       <p className="mt-2 text-xs text-slate-500">
         Multifactorial disease has a lower biological ceiling; both classes, all regions, and the
-        step-by-step tool breakdown are on the Prevention tab.{' '}
+        step-by-step tool breakdown are in the next section.{' '}
         <button
           type="button"
           onClick={() => update({ tab: 'prevention' })}
