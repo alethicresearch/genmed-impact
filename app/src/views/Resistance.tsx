@@ -1,6 +1,7 @@
 import { AllData } from '../data';
 import StatValue from '../components/StatValue';
 import { Card, SectionHeading } from '../components/ui';
+import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 import Explainer from '../components/Explainer';
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 export default function Resistance({ data }: Props) {
   const r = data.resistance;
   return (
+    <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
         title="Resistance analysis"
@@ -32,6 +34,7 @@ export default function Resistance({ data }: Props) {
               </dt>
               <dd className="mt-0.5 text-lg">
                 <StatValue stat={r.hiv.vertical_infections_per_year} kind="int" showCi />
+                <SourceNote source="UNAIDS 2023 — new vertical (mother-to-child) HIV infections" doi={null} />
               </dd>
             </div>
             <div>
@@ -40,6 +43,11 @@ export default function Resistance({ data }: Props) {
               </dt>
               <dd className="mt-0.5 text-lg">
                 <StatValue stat={r.hiv.residual_after_pmtct} kind="int" showCi />
+                <span className="block text-xs font-normal text-slate-500">
+                  after prevention of mother-to-child transmission (PMTCT), which stops &gt;98% of
+                  cases where implemented
+                </span>
+                <SourceNote source="WHO — PMTCT prevents >98% of vertical HIV transmission where implemented" doi={null} />
               </dd>
             </div>
           </dl>
@@ -62,6 +70,9 @@ export default function Resistance({ data }: Props) {
           <p className="mt-3 text-sm text-slate-700">{r.neurodegeneration.note}</p>
         </Card>
       </div>
+
+      <SourcesList title="Sources" />
     </div>
+    </SourcesProvider>
   );
 }

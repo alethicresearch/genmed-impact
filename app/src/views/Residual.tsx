@@ -2,6 +2,7 @@ import { AllData, ContestedKey, Stat, fmtInt } from '../data';
 import { UrlState } from '../urlState';
 import StatValue from '../components/StatValue';
 import { Card, SectionHeading, Toggle } from '../components/ui';
+import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 import Explainer from '../components/Explainer';
 
 interface Props {
@@ -25,9 +26,12 @@ export default function Residual({ data, state, update }: Props) {
     .sort((a, b) => b[1].median - a[1].median);
 
   const s1Total = variant.s1_total;
+  const s1Incl = r.by_contested.with_contested.s1_total;
+  const s1Excl = r.by_contested.without_contested.s1_total;
   const strictEmpty = r.s2.strict.median < 1;
 
   return (
+    <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
         title="Residual explorer"
@@ -52,8 +56,10 @@ export default function Residual({ data, state, update }: Props) {
               Congenital deafness is the largest single S1 contributor, but many in the Deaf
               community do not regard it as a disease to prevent. Toggling it changes S1 by a
               median of{' '}
-              <strong className="tnum">{fmtInt(r.s1_contested_delta.median)}</strong> births/yr.
-              The draft paper's 14,000 sits between the two variants.
+              <strong className="tnum">{fmtInt(r.s1_contested_delta.median)}</strong> births/yr:
+              about <strong className="tnum">{fmtInt(s1Excl.median)}</strong> excluding it vs{' '}
+              <strong className="tnum">{fmtInt(s1Incl.median)}</strong> including it. The headline
+              uses the excluding-deafness figure.
             </p>
           </div>
           <div className="text-right">
@@ -64,6 +70,10 @@ export default function Residual({ data, state, update }: Props) {
               <StatValue stat={s1Total} kind="int" showCi />
               <span className="tnum text-base font-normal text-slate-500"> / yr</span>
             </p>
+            <SourceNote
+              source="Derived: Σ over S1 conditions of couples with no selectable unaffected embryo, from allele frequencies, penetrance, survival, assortative mating and consanguinity (see the by-condition table)"
+              doi={null}
+            />
           </div>
         </div>
       </Card>
@@ -197,8 +207,17 @@ export default function Residual({ data, state, update }: Props) {
           <Mini label="UE share of serious — permissive" stat={variant.uniquely_editable_share_of_serious.permissive} kind="pct" decimals={2} />
           <Mini label="Addressable share (strict)" stat={variant.addressable_share_of_serious.strict} kind="pct" decimals={2} />
         </div>
+        <p className="mt-3 text-xs leading-relaxed text-slate-500">
+          These are <strong>derived ratios</strong>, not new inputs. “Uniquely editable” = S1 +
+          S2 (above). “UE share” divides that by the serious-disease total; “addressable share” is
+          1 − UE share. Strict and permissive differ only in how generously the S2 term is credited
+          to editing.
+        </p>
       </Card>
+
+      <SourcesList title="Derivations" />
     </div>
+    </SourcesProvider>
   );
 }
 

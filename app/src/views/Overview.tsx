@@ -129,6 +129,9 @@ export default function Overview({ data, state, update }: Props) {
           </div>
         </ArgumentStep>
 
+        {/* Follow the argument along the paper's three axes */}
+        <ArgumentAxes update={update} />
+
         {/* About the numbers — quiet, at the bottom */}
         <Card className="bg-slate-50">
           <details>
@@ -298,6 +301,97 @@ function GapBar({ label, frac, color }: { label: string; frac: number; color: st
       </div>
       <div className="mt-0.5 h-4 w-full overflow-hidden rounded bg-slate-100">
         <div className="h-full" style={{ width: `${frac * 100}%`, backgroundColor: color }} />
+      </div>
+    </div>
+  );
+}
+
+// The paper sorts the whole question along three axes. This is the app's map to them.
+function ArgumentAxes({ update }: { update: (patch: UrlState) => void }) {
+  const go = (patch: UrlState) => () => update(patch);
+  return (
+    <Card>
+      <h3 className="text-base font-semibold text-slate-900">Follow the argument</h3>
+      <p className="mt-1 text-sm text-slate-600">
+        The paper sorts every case along three axes. Use them to navigate — each chip opens the
+        view that covers it.
+      </p>
+
+      <div className="mt-4 space-y-4">
+        <Axis
+          label="1 · Genetic architecture"
+          desc="How many genes drive the disease — this sets what any intervention can reach."
+          items={[
+            { name: 'Monogenic', sub: 'one gene', onClick: go({ tab: 'library', cat: 'all' }) },
+            { name: 'Oligogenic', sub: 'a few genes', onClick: go({ mode: 'detailed', tab: 'multifactorial' }) },
+            { name: 'Highly polygenic', sub: 'many genes', onClick: go({ mode: 'detailed', tab: 'multifactorial' }) },
+            { name: 'Massively polygenic', sub: 'thousands', onClick: go({ mode: 'detailed', tab: 'multifactorial' }) },
+          ]}
+        />
+        <Axis
+          label="2 · Purpose"
+          desc="What the intervention is for — the paper keeps these three separate and does not let one borrow another's justification."
+          items={[
+            { name: 'Prevention', sub: 'avoid serious disease', onClick: go({ tab: 'prevention' }) },
+            { name: 'Resistance', sub: 'blunt infection / ageing', onClick: go({ mode: 'detailed', tab: 'resistance' }) },
+            { name: 'Enhancement', sub: 'boost normal traits — out of scope here', tone: 'muted' },
+          ]}
+        />
+        <Axis
+          label="3 · Mechanism"
+          desc="How the change is made — only correction and augmentation involve germline editing."
+          items={[
+            { name: 'Selection', sub: 'choose an embryo (PGT) — no editing', onClick: go({ mode: 'detailed', tab: 'embryos' }) },
+            { name: 'Correction', sub: 'edit a disease variant to normal', onClick: go({ mode: 'detailed', tab: 'residual' }) },
+            { name: 'Augmentation', sub: 'edit beyond normal — enhancement', tone: 'muted' },
+          ]}
+        />
+      </div>
+    </Card>
+  );
+}
+
+function Axis({
+  label,
+  desc,
+  items,
+}: {
+  label: string;
+  desc: string;
+  items: { name: string; sub: string; onClick?: () => void; tone?: 'muted' }[];
+}) {
+  return (
+    <div>
+      <p className="text-sm font-semibold text-slate-800">{label}</p>
+      <p className="text-xs text-slate-500">{desc}</p>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {items.map((it) => {
+          const base =
+            'rounded border px-2.5 py-1 text-left text-xs transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent';
+          if (!it.onClick) {
+            return (
+              <span
+                key={it.name}
+                className={`${base} border-dashed border-slate-200 bg-slate-50 text-slate-400`}
+                title={it.sub}
+              >
+                <span className="font-medium">{it.name}</span>
+                <span className="ml-1">· {it.sub}</span>
+              </span>
+            );
+          }
+          return (
+            <button
+              key={it.name}
+              type="button"
+              onClick={it.onClick}
+              className={`${base} border-slate-300 bg-white text-slate-700 hover:border-accent hover:text-accent`}
+            >
+              <span className="font-medium">{it.name}</span>
+              <span className="ml-1 text-slate-400">· {it.sub}</span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

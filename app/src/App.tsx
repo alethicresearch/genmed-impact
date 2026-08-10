@@ -30,15 +30,6 @@ const ALL_TABS: TabDef[] = [
 // ---- Research-artifact masthead metadata ----
 const REPO_URL = 'https://github.com/alethicresearch/genmed-impact';
 const CITATION_URL = `${REPO_URL}/blob/main/CITATION.cff`;
-// Author order: SG, DAW, PS, JS.
-const AUTHORS: { name: string }[] = [
-  { name: 'Sankalpa Ghose' },
-  { name: 'D. A. Wallach' },
-  { name: 'Peter Singer' },
-  { name: 'Julian Savulescu' },
-];
-const AUTHOR_NAMES = AUTHORS.map((a) => a.name);
-
 // Which tab ids are visible in each mode.
 const MODE_TABS: Record<string, string[]> = {
   simple: ['overview', 'library', 'prevention'],
@@ -87,21 +78,6 @@ export default function App() {
                 Genetic Disease and What Medicine Can Do
               </h1>
             </button>
-            <p className="mt-1 text-sm text-slate-600">
-              An interactive research artifact accompanying the manuscript. Across the whole
-              landscape of serious genetic disease, it maps which genes cause it, how far today's
-              genetic-medicine tools reach, and the narrow residual left only for germline editing —
-              every figure shown with its uncertainty and its source.
-            </p>
-            {/* author line */}
-            <p className="mt-2 text-sm text-slate-700">
-              {AUTHORS.map((a, i) => (
-                <span key={a.name}>
-                  {i > 0 && <span className="text-slate-400"> · </span>}
-                  {a.name}
-                </span>
-              ))}
-            </p>
             {/* artifact link row */}
             <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
               <span
@@ -207,7 +183,7 @@ function Footer({ commit }: { commit: string }) {
         where each number comes from.
       </p>
       <p className="text-slate-400">
-        {AUTHOR_NAMES.join(', ')}. Code Apache-2.0; curated data CC-BY-4.0.{' '}
+        Code Apache-2.0; curated data CC-BY-4.0.{' '}
         <a href={CITATION_URL} target="_blank" rel="noopener noreferrer" className="hover:text-accent">
           How to cite
         </a>{' '}

@@ -111,7 +111,13 @@ export default function Allocation({ data }: Props) {
                 <th scope="col" className="px-3 py-2 text-left font-medium">Budget / yr</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">Screening births prevented</th>
                 <th scope="col" className="px-3 py-2 text-right font-medium">Editing births prevented</th>
-                <th scope="col" className="px-3 py-2 text-right font-medium">Ratio</th>
+                <th
+                  scope="col"
+                  className="px-3 py-2 text-right font-medium"
+                  title="How many times more affected births the same budget prevents via screening than via editing"
+                >
+                  Screening ÷ editing
+                </th>
               </tr>
             </thead>
             <tbody>

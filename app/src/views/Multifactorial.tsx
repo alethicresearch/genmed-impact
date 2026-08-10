@@ -81,8 +81,10 @@ export default function Multifactorial({ data, state, update }: Props) {
           }
           howToRead={
             <>
-              Each disease has two bars: <strong>selection</strong> and <strong>editing</strong>,
-              showing the <Term k="RRR">relative risk reduction</Term> each achieves. Colour is the
+              Each disease has two bars for the paper's two mechanisms:{' '}
+              <strong>selection</strong> (choose among embryos) and <strong>correction</strong>{' '}
+              (edit a few large-effect loci), showing the{' '}
+              <Term k="RRR">relative risk reduction</Term> each achieves. Colour is the
               verdict — <span className="font-medium text-emerald-700">green = viable</span>,{' '}
               <span className="font-medium text-amber-700">amber = marginal</span>, grey = not
               viable, <span className="font-medium text-red-700">red = blocked by pleiotropy</span>.
@@ -179,27 +181,38 @@ function FrontierSummary({ mf }: { mf: AllData['multifactorial'] }) {
   const p = mf.frontier.present;
   const f = mf.frontier.near_future;
   const n = mf.n_diseases;
+
+  // Identify WHICH diseases each count refers to, so a bare "3 of 10" names its members.
+  const names = (pred: (d: MfDisease) => boolean) => mf.diseases.filter(pred).map((d) => str(d.name));
+  const editNF = names((d) => d.scenarios.near_future.editing.verdict === 'viable');
+  const selNF = names((d) => d.scenarios.near_future.selection.verdict === 'viable');
+  const selMargNF = names((d) =>
+    ['viable', 'marginal'].includes(d.scenarios.near_future.selection.verdict));
+
   return (
     <Card className="border-accent/40 bg-accent-soft/40">
       <h3 className="text-base font-semibold text-slate-900">The moving frontier</h3>
       <p className="mt-1 text-sm text-slate-600">
-        As technology advances, more diseases fall inside reach — but architecture caps how far
-        editing can ever go.
+        Counts are across the <strong>{n} diseases listed below</strong> (each named row in the
+        spectrum). As technology advances more fall inside reach — but architecture caps how far
+        correction can ever go. Near-future members are named under each count.
       </p>
       <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <FrontierStat
-          label="Editing viable"
+          label="Correction (editing) viable"
           from={p.editing_viable}
           to={f.editing_viable}
           n={n}
-          note="diseases where editing a few loci clears the viability bar"
+          note="editing a few loci clears the viability bar"
+          members={editNF}
         />
         <FrontierStat
           label="Selection viable"
           from={p.selection_viable}
           to={f.selection_viable}
           n={n}
-          note="diseases where PRS-based embryo selection clears the bar"
+          note="PRS-based embryo selection clears the bar"
+          members={selNF}
         />
         <FrontierStat
           label="Selection viable + marginal"
@@ -207,6 +220,7 @@ function FrontierSummary({ mf }: { mf: AllData['multifactorial'] }) {
           to={f.selection_viable_or_marginal}
           n={n}
           note="selection at least marginally useful"
+          members={selMargNF}
         />
       </div>
     </Card>
@@ -219,12 +233,14 @@ function FrontierStat({
   to,
   n,
   note,
+  members,
 }: {
   label: string;
   from: number;
   to: number;
   n: number;
   note: string;
+  members: string[];
 }) {
   return (
     <div className="rounded border border-slate-200 bg-white p-3">
@@ -235,6 +251,10 @@ function FrontierStat({
       </p>
       <p className="text-xs text-slate-500">
         of {n} diseases · {note}
+      </p>
+      <p className="mt-1 text-[11px] leading-snug text-slate-600">
+        <span className="text-slate-400">Near-future: </span>
+        {members.length ? members.join(', ') : 'none'}
       </p>
     </div>
   );
@@ -338,7 +358,7 @@ function DiseaseRow({
                   mThresh={mThresh}
                 />
                 <TrackBar
-                  label="Editing"
+                  label="Correction"
                   result={sc.editing}
                   scenario={sc}
                   kind="editing"

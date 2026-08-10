@@ -1,6 +1,7 @@
 import { AllData, fmtCompact, fmtInt } from '../data';
 import { UrlState } from '../urlState';
 import { Card, SectionHeading } from '../components/ui';
+import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 import Explainer from '../components/Explainer';
 import Term from '../components/Term';
 
@@ -13,8 +14,10 @@ interface Props {
 export default function Embryos({ data }: Props) {
   const e = data.embryos;
   const agg = e.aggregate;
+  const bl = e.params.blastocysts_per_ivf_cycle;
 
   return (
+    <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
         title="Embryo accounting"
@@ -37,26 +40,44 @@ export default function Embryos({ data }: Props) {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Card>
           <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            PGT-addressable affected births / yr
+            Affected births addressable by embryo selection / yr
           </p>
           <p className="tnum mt-1 text-2xl font-bold text-slate-900">
             {fmtCompact(agg.pgt_addressable_affected_births_per_year)}
           </p>
+          <p className="text-xs text-slate-500">
+            summed over the monogenic core-catalogue diseases where PGT applies — the population this
+            whole comparison is about
+          </p>
+          <SourceNote
+            source="Derived: Σ (affected births × PGT-applicable) over the monogenic core catalogue"
+            doi={null}
+          />
         </Card>
         <Card className="border-rose-200 bg-rose-50/50">
           <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            Affected embryos discarded / yr — selection strategy
+            Affected embryos discarded / yr — <strong>selection</strong> strategy
           </p>
           <p className="tnum mt-1 text-2xl font-bold text-rose-700">
             {fmtCompact(agg.affected_embryos_discarded_selection_strategy)}
           </p>
+          <p className="text-xs text-slate-500">
+            to reach those births by choosing unaffected embryos: Σ (1−u)/u × addressable births
+          </p>
+          <SourceNote
+            source={`Derived from the per-inheritance unaffected-embryo fraction u and ~${bl} blastocysts per IVF cycle (table below)`}
+            doi={null}
+          />
         </Card>
         <Card className="border-emerald-200 bg-emerald-50/50">
           <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            Affected embryos discarded / yr — editing strategy
+            Affected embryos discarded / yr — <strong>correction</strong> (editing) strategy
           </p>
           <p className="tnum mt-1 text-2xl font-bold text-emerald-700">
             {fmtInt(agg.affected_embryos_discarded_editing_strategy)}
+          </p>
+          <p className="text-xs text-slate-500">
+            zero by construction — editing repairs the embryo instead of discarding affected ones
           </p>
         </Card>
       </div>
@@ -107,9 +128,17 @@ export default function Embryos({ data }: Props) {
             </tbody>
           </table>
         </div>
-        <p className="mt-3 text-xs leading-relaxed text-slate-600">{e.note}</p>
+        <p className="mt-2 text-xs leading-relaxed text-slate-500">
+          The unaffected-embryo fraction <em>u</em> is the Mendelian expectation for a typical
+          at-risk couple of each inheritance mode (e.g. ¾ for a recessive carrier × carrier cross);
+          discarded-per-child is (1−u)/u.
+        </p>
+        <p className="mt-2 text-xs leading-relaxed text-slate-600">{e.note}</p>
       </Card>
+
+      <SourcesList title="Derivations" />
     </div>
+    </SourcesProvider>
   );
 }
 
