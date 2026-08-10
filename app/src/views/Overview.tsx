@@ -207,6 +207,9 @@ function Findings({
   update: (patch: UrlState) => void;
 }) {
   const editableShare = data.summary.uniquely_editable_share_of_serious;
+  const s1Total = data.summary.s1_total;
+  // Display-only ratio of precomputed medians: the no-selectable-embryo share of serious.
+  const s1Share = s1Total.median / data.summary.burden_default.total_serious.median;
   const cur = data.prevention['Global']?.['current']?.['monogenic']?.['pnd_on'];
   const ideal = data.prevention['Global']?.['ideal']?.['monogenic']?.['pnd_on'];
 
@@ -243,9 +246,12 @@ function Findings({
       kinds: ['model', 'policy'],
       body: (
         <>
-          A small monogenic population (~{fmtPct(editableShare.strict.median, 2)} of the
-          burden) may genuinely lack an unaffected embryo-selection option — for these families
-          editing would be the only preventive route. A larger role in complex disease (up to ~
+          A small monogenic population (~{fmtPct(s1Share, 2)} of the burden, about{' '}
+          {fmtCompact(s1Total.median)} births/yr) may genuinely lack an unaffected
+          embryo-selection option — for these families editing would be the only preventive
+          route. A separate current-evidence complex-disease term adds approximately nothing
+          (combined editing-relevant residual ~{fmtPct(editableShare.strict.median, 2)}), and a
+          larger role in complex disease (up to ~
           {fmtPct(editableShare.permissive.median, 1)} under an optimistic modeled scenario) is
           a possibility, not another “only option” population. Together they are the strongest
           argument for a carefully governed research pathway rather than a blanket ban.

@@ -120,12 +120,17 @@ versions used to generate the committed results are in [`core/requirements.txt`]
 
 ## Webapp
 
-A static, URL-serializable page with a simple/detailed toggle. **Overview** leads with the
-existing-tools-vs-germline-editing split; **Library** is the browsable catalogue with a
-core/rare/all tier switch, gene/inheritance/intervention filters, and treatment-modality
-breakdown; plus **Prevention** waterfall, **Denominator** cascade, **Multifactorial** viability,
-**Residual** explorer (S1/S2), **Embryos** accounting, **Resistance**, **Allocation**, and
-**Methods & provenance**. Every number carries its source, vintage, and 95% uncertainty interval.
+A static, URL-serializable page organized as six argument-first sections: **Overview**
+(research question, the three findings, key definitions), **Disease map** (the burden funnel
+with severity/attribution toggles + the browsable catalogue with core/rare tier switch and
+gene/inheritance/intervention filters), **Existing options** (the four-pathway prevention
+waterfall under coverage scenarios), **Where editing adds value** (editing-only prevention and
+the separate complex-disease advantage term; the liability-threshold complex-disease model),
+**Ethics & policy** (proposed regulatory sequencing, the embryo trade-off, the combined
+resistance-and-enhancement "Beyond disease prevention" analysis, and the exploratory cost
+scenario), and **Methods & data** (the five-step pipeline, per-input epistemic-status badges,
+sensitivity, sources, glossary, and the reproducibility record). Every number carries its
+source, vintage, and 95% uncertainty interval.
 
 ## License & citation
 
