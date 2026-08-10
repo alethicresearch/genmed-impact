@@ -15,6 +15,7 @@ import yaml
 from . import config, embryos
 
 LIBRARY_YAML = config.PKG_DIR / "library" / "diseases.yaml"
+RARE_YAML = config.PKG_DIR / "library" / "rare_orphanet.yaml"
 
 # Reproductive tools that prevent an affected birth (NBS mitigates, it doesn't prevent).
 REPRO_TOOLS = ["CS", "PGT", "PND"]
@@ -102,8 +103,28 @@ def compute_status(disease: dict) -> dict:
 
 
 def load_library() -> dict:
+    """Load the curated core catalogue plus, if present, the auto-generated rare Orphanet tier.
+
+    Every disease is tagged with ``tier`` ("core" for the hand-curated high-burden catalogue,
+    "rare" for the segmented Orphanet long tail). The rare tier completes the catalogue for
+    disease-count questions without moving the burden-weighted headline, which is computed over
+    the core tier alone (see build_library).
+    """
     with open(LIBRARY_YAML, "r", encoding="utf-8") as fh:
-        return yaml.safe_load(fh)
+        lib = yaml.safe_load(fh)
+    for d in lib["diseases"]:
+        d.setdefault("tier", "core")
+        d.setdefault("confidence", "curated")
+
+    if RARE_YAML.exists():
+        with open(RARE_YAML, "r", encoding="utf-8") as fh:
+            rare = yaml.safe_load(fh) or {}
+        for d in rare.get("diseases", []):
+            d.setdefault("tier", "rare")
+            d.setdefault("confidence", "automated")
+        lib["diseases"] = lib["diseases"] + rare.get("diseases", [])
+        lib["rare_meta"] = rare.get("meta", {})
+    return lib
 
 
 def _tool_applicable(disease: dict, tool: str) -> bool:
@@ -125,6 +146,8 @@ def build_library(constants: dict) -> dict[str, Any]:
         diseases_out.append({
             "id": d["id"],
             "name": d["name"],
+            "tier": d.get("tier", "core"),
+            "confidence": d.get("confidence", "curated"),
             "category": d["category"],
             "genes": d.get("genes", []),
             "inheritance": d.get("inheritance"),
@@ -159,16 +182,21 @@ def build_library(constants: dict) -> dict[str, Any]:
     diseases_out.sort(key=lambda x: -x["affected_births_per_year"])
 
     # ---- roll-ups (bottom-up point sums) ----
-    total = sum(x["affected_births_per_year"] for x in diseases_out)
+    # The headline is computed over the CURATED CORE tier only, so the burden-weighted numbers
+    # stay stable and high-confidence. The auto-generated rare Orphanet tier completes the
+    # catalogue for disease-count questions and is summarised separately in `tiers` below.
+    core_out = [x for x in diseases_out if x["tier"] == "core"]
+    rare_out = [x for x in diseases_out if x["tier"] == "rare"]
+    total = sum(x["affected_births_per_year"] for x in core_out)
 
     def _sum_where(pred) -> float:
-        return sum(x["affected_births_per_year"] for x in diseases_out if pred(x))
+        return sum(x["affected_births_per_year"] for x in core_out if pred(x))
 
     by_category: dict[str, float] = {}
-    for x in diseases_out:
+    for x in core_out:
         by_category[x["category"]] = by_category.get(x["category"], 0.0) + x["affected_births_per_year"]
     by_severity: dict[str, float] = {}
-    for x in diseases_out:
+    for x in core_out:
         by_severity[x["severity"]] = by_severity.get(x["severity"], 0.0) + x["affected_births_per_year"]
 
     addressable = _sum_where(lambda x: x["addressable_by_reproductive_tool"])
@@ -185,7 +213,7 @@ def build_library(constants: dict) -> dict[str, Any]:
     status_distribution = {
         s: {
             "label": STATUS_LABEL[s],
-            "n_diseases": sum(1 for x in diseases_out if x["status"]["status"] == s),
+            "n_diseases": sum(1 for x in core_out if x["status"]["status"] == s),
             "births": _sum_where(lambda x, s=s: x["status"]["status"] == s),
         }
         for s in STATUS_ORDER
@@ -195,7 +223,7 @@ def build_library(constants: dict) -> dict[str, Any]:
         m: {
             "label": TREATMENT_LABEL[m],
             "disease_modifying": m in DISEASE_MODIFYING,
-            "n_diseases": sum(1 for x in diseases_out if x["treatment"]["modality"] == m),
+            "n_diseases": sum(1 for x in core_out if x["treatment"]["modality"] == m),
             "births": _sum_where(lambda x, m=m: x["treatment"]["modality"] == m),
         }
         for m in TREATMENT_ORDER
@@ -227,8 +255,41 @@ def build_library(constants: dict) -> dict[str, Any]:
         ),
     }
 
+    def _tier_summary(subset: list[dict]) -> dict:
+        b = sum(x["affected_births_per_year"] for x in subset)
+        cited_b = sum(x["affected_births_per_year"] for x in subset if x["incidence_basis"] == "cited")
+        n_cited = sum(1 for x in subset if x["incidence_basis"] == "cited")
+        status_counts = {s: sum(1 for x in subset if x["status"]["status"] == s) for s in STATUS_ORDER}
+        addressable_n = sum(1 for x in subset if x["status"]["addressable"])
+        return {
+            "n_diseases": len(subset),
+            "affected_births_per_year": b,
+            "n_cited_incidence": n_cited,
+            "cited_incidence_share_by_count": (n_cited / len(subset)) if subset else 0.0,
+            "cited_incidence_share_by_births": (cited_b / b) if b else 0.0,
+            "status_counts": status_counts,
+            "n_addressable_by_existing_tools": addressable_n,
+        }
+
+    tiers = {
+        "core": _tier_summary(core_out),
+        "rare": _tier_summary(rare_out),
+        "all": _tier_summary(diseases_out),
+        "note": (
+            "The headline rollup (total, status split, by_category, treatment modalities) is over "
+            "the CURATED CORE tier — the ~97 highest-burden conditions that drive the global "
+            "numbers. The RARE tier is the Orphanet-derived long tail: individually rare, "
+            "collectively a catalogue-completing set, assigned interventions by transparent rule "
+            "(carrier screening for recessive/X-linked; PGT & prenatal diagnosis for any monogenic "
+            "with a known gene; newborn treatment left uncredited pending curation). It is shown "
+            "segmented so it completes the disease count without inflating the burden headline."
+        ),
+    }
+
     rollup = {
-        "n_diseases": len(diseases_out),
+        "n_diseases": len(core_out),
+        "n_diseases_all": len(diseases_out),
+        "tiers": tiers,
         "total_affected_births_per_year": total,
         "by_category": by_category,
         "by_severity": by_severity,
@@ -241,11 +302,12 @@ def build_library(constants: dict) -> dict[str, Any]:
         "treatment_modalities": treatment_summary,
         "cited_incidence_share": (cited / total) if total else 0.0,
         "note": (
-            "Bottom-up point sums over the curated catalogue. Coverage is partial (a seed catalogue "
-            "of the highest-burden serious conditions), so totals are a LOWER BOUND on the full "
-            "genetic-disease denominator and will rise as the Orphanet/GBD ingest expands the library. "
-            "The parametric Monte-Carlo model provides the calibrated top-down denominator with "
-            "credible intervals."
+            "Bottom-up point sums over the curated CORE tier (the highest-burden serious "
+            f"conditions). The catalogue also carries {len(rare_out)} rare Orphanet-derived "
+            "conditions (see rollup.tiers) that complete the disease count without inflating this "
+            "burden headline. The core total is a LOWER BOUND on the full genetic-disease "
+            "denominator; the parametric Monte-Carlo model provides the calibrated top-down "
+            "denominator with credible intervals."
         ),
     }
 

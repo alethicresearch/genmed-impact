@@ -167,9 +167,13 @@ export interface Intervention {
   note: string;
 }
 
+export type Tier = 'core' | 'rare';
+
 export interface Disease {
   id: string;
   name: string;
+  tier: Tier;
+  confidence: 'curated' | 'automated';
   category: string;
   genes: string[];
   inheritance: string;
@@ -242,8 +246,27 @@ export interface GeneticMedicineStatus {
   definition: string;
 }
 
+export interface TierSummary {
+  n_diseases: number;
+  affected_births_per_year: number;
+  n_cited_incidence: number;
+  cited_incidence_share_by_count: number;
+  cited_incidence_share_by_births: number;
+  status_counts: Record<StatusKey, number>;
+  n_addressable_by_existing_tools: number;
+}
+
+export interface Tiers {
+  core: TierSummary;
+  rare: TierSummary;
+  all: TierSummary;
+  note: string;
+}
+
 export interface LibraryRollup {
   n_diseases: number;
+  n_diseases_all: number;
+  tiers: Tiers;
   total_affected_births_per_year: number;
   by_category: Record<string, number>;
   by_severity: Record<string, number>;

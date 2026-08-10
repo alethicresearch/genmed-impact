@@ -101,8 +101,8 @@
     }
   ],
   "aggregate": {
-    "pgt_addressable_affected_births_per_year": 3405996.0,
-    "affected_embryos_discarded_selection_strategy": 2781699.0,
+    "pgt_addressable_affected_births_per_year": 5866535.700000001,
+    "affected_embryos_discarded_selection_strategy": 4022474.099999999,
     "affected_embryos_discarded_editing_strategy": 0.0,
     "note": "Illustrative upper-bound contrast: if every PGT-addressable affected birth in the catalogue were averted by embryo SELECTION, roughly this many affected embryos would be discarded per year (each unaffected child costs (1−u)/u affected embryos). Under an EDITING strategy the disease-caused discard is ~0 (the affected embryo is repaired). Real programs use a mix and coverage is far below 100%, so treat this as a scale contrast, not a forecast. PND (prenatal diagnosis) is a separate moral category — termination of an affected fetus, not embryo discard — and is tracked separately in the prevention model."
   },

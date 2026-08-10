@@ -69,6 +69,8 @@ export default function Library({ data, state, update }: Props) {
     state.libsort === 'name' || state.libsort === 'status' ? state.libsort : 'births';
   const statusFilter = state.status || 'all';
   const txFilter = state.tx || 'all';
+  // Default to the curated core so the long tail doesn't overwhelm the first interaction.
+  const tierFilter = state.tier === 'rare' || state.tier === 'all' ? state.tier : 'core';
 
   const inheritances = useMemo(
     () => Array.from(new Set(lib.diseases.map((d) => d.inheritance))).sort(),
@@ -82,6 +84,7 @@ export default function Library({ data, state, update }: Props) {
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
     let rows = lib.diseases.filter((d) => {
+      if (tierFilter !== 'all' && d.tier !== tierFilter) return false;
       if (cat !== 'all' && d.category !== cat) return false;
       if (inh !== 'all' && d.inheritance !== inh) return false;
       if (sev !== 'all' && d.severity !== sev) return false;
@@ -116,7 +119,7 @@ export default function Library({ data, state, update }: Props) {
       return b.affected_births_per_year - a.affected_births_per_year;
     });
     return rows;
-  }, [lib.diseases, q, cat, inh, sev, tool, statusFilter, txFilter, sort]);
+  }, [lib.diseases, q, cat, inh, sev, tool, statusFilter, txFilter, tierFilter, sort]);
 
   const catOptions = [
     { value: 'all', label: 'All categories' },
@@ -161,8 +164,8 @@ export default function Library({ data, state, update }: Props) {
           subtitle="The catalogue at the centre of the model: genetic diseases mapped to their causal genes and to the interventions that can address them. Sorted by affected births per year."
         />
         <Explainer
-          whatThisShows="Every serious genetic disease in the catalogue — the gene(s) that cause it, how it is inherited, how common it is at birth, the type of existing treatment, and which reproductive tools apply."
-          howToRead="Each row is one disease. Status is the best thing existing genetic medicine can do; Treatment type is the kind of existing post-birth therapy (surgery, drug, enzyme replacement, gene/cell therapy, diet…); the four right-hand columns (CS · PGT · PND · NBS) flag applicable reproductive/newborn tools. Germline editing is deliberately not a treatment type here — it is a categorically different intervention, tracked as the residual (see the Residual and Embryos tabs). Filter by treatment type to separate diseases already handled by an existing modality from those that aren't."
+          whatThisShows="Every serious genetic disease in the catalogue — the gene(s) that cause it, how it is inherited, how common it is at birth, the type of existing treatment, and which reproductive tools apply. The catalogue has two tiers: a hand-curated CORE of the highest-burden conditions that drive the global numbers, and an Orphanet-derived RARE tail (individually rare, each with a cited birth prevalence) that completes the disease count."
+          howToRead="Use the tier switch first: Core is the default so the long tail doesn't overwhelm; Rare adds the Orphanet-derived conditions; All merges both. Each row is one disease. Status is the best thing existing genetic medicine can do; Treatment type is the kind of existing post-birth therapy; the four right-hand columns (CS · PGT · PND · NBS) flag applicable reproductive/newborn tools. Rare-tier rows carry an 'auto' badge — their interventions are assigned by rule, not curation (carrier screening for recessive/X-linked; PGT & prenatal diagnosis for any monogenic with a known gene; newborn treatment left uncredited pending curation). Germline editing is deliberately not a treatment type here — it is a categorically different intervention, tracked as the residual (see the Residual and Embryos tabs)."
           whatItDetermines="How each disease is addressed today — and, by keeping editing distinct, where editing would add something existing modalities can't."
         />
 
@@ -173,7 +176,8 @@ export default function Library({ data, state, update }: Props) {
               {fmtCompact(rollup.total_affected_births_per_year)}
             </span>
             <span className="block text-xs text-slate-500">
-              over {rollup.n_diseases} diseases (lower bound)
+              over {rollup.n_diseases} core diseases (lower bound) · {rollup.n_diseases_all} in
+              catalogue incl. rare tier
             </span>
           </RollupTile>
           <RollupTile label="Addressable by ≥1 reproductive tool">
@@ -199,6 +203,13 @@ export default function Library({ data, state, update }: Props) {
             />
           </RollupTile>
         </div>
+
+        {/* Tier segment — curated core vs Orphanet-derived rare tail */}
+        <TierSegment
+          tiers={rollup.tiers}
+          value={tierFilter}
+          onChange={(v) => update({ tier: v })}
+        />
 
         {/* Filters */}
         <Card>
@@ -259,8 +270,13 @@ export default function Library({ data, state, update }: Props) {
           </div>
           <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
             <p className="text-sm text-slate-600">
-              <span className="font-semibold text-slate-900">{filtered.length}</span> of{' '}
-              {lib.diseases.length} diseases
+              <span className="font-semibold text-slate-900">{filtered.length}</span> shown ·{' '}
+              tier: <span className="font-medium">{tierFilter}</span> ({tierFilter === 'core'
+                ? rollup.tiers.core.n_diseases
+                : tierFilter === 'rare'
+                ? rollup.tiers.rare.n_diseases
+                : rollup.tiers.all.n_diseases}{' '}
+              diseases)
             </p>
             <Select
               id="libsort"
@@ -397,6 +413,14 @@ function DiseaseRow({
             </span>
             <span>{d.name}</span>
           </button>
+          {d.tier === 'rare' && (
+            <span
+              className="ml-1.5 inline-block rounded bg-slate-100 px-1 py-0.5 align-middle text-[10px] font-medium uppercase tracking-wide text-slate-500"
+              title="Rare tier: Orphanet-derived, interventions assigned by rule (not hand-curated)."
+            >
+              auto
+            </span>
+          )}
         </td>
         <td className="px-3 py-2">
           {d.genes.length > 0 ? (
@@ -548,6 +572,59 @@ function DiseaseDetail({ d }: { d: Disease }) {
         )}
       </div>
     </div>
+  );
+}
+
+function TierSegment({
+  tiers,
+  value,
+  onChange,
+}: {
+  tiers: AllData['library']['rollup']['tiers'];
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  const opts: { key: string; label: string; n: number; sub: string }[] = [
+    { key: 'core', label: 'Core', n: tiers.core.n_diseases, sub: 'curated · high-burden' },
+    { key: 'rare', label: 'Rare tail', n: tiers.rare.n_diseases, sub: 'Orphanet-derived' },
+    { key: 'all', label: 'All', n: tiers.all.n_diseases, sub: 'full catalogue' },
+  ];
+  const citedAll = tiers.all.cited_incidence_share_by_count;
+  return (
+    <Card>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="text-sm font-semibold text-slate-900">Catalogue tier</p>
+          <p className="text-xs text-slate-500">
+            The core drives the burden headline; the rare tail completes the disease count without
+            inflating it. {fmtPct(citedAll, 0)} of the full catalogue rests on a cited incidence.
+          </p>
+        </div>
+        <div className="inline-flex overflow-hidden rounded-lg border border-slate-300">
+          {opts.map((o) => {
+            const active = value === o.key;
+            return (
+              <button
+                key={o.key}
+                type="button"
+                onClick={() => onChange(o.key)}
+                className={`flex flex-col items-center px-3 py-1.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                  active ? 'bg-accent text-white' : 'bg-white text-slate-700 hover:bg-slate-50'
+                }`}
+                title={o.sub}
+              >
+                <span className="font-medium">
+                  {o.label} <span className="tnum opacity-80">· {o.n}</span>
+                </span>
+                <span className={`text-[10px] ${active ? 'text-white/80' : 'text-slate-400'}`}>
+                  {o.sub}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </Card>
   );
 }
 

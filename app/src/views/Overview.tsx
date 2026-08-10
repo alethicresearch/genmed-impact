@@ -131,14 +131,14 @@ export default function Overview({ data, state, update }: Props) {
 
           <StatTile label="Library coverage">
             <span className="tnum text-lg font-semibold text-slate-900">
-              {fmtInt(rollup.n_diseases)} diseases
+              {fmtInt(rollup.n_diseases_all)} diseases
             </span>
             <span className="ml-1 text-sm text-slate-500">
-              · {fmtCompact(rollup.total_affected_births_per_year)}/yr
+              · {fmtInt(rollup.n_diseases)} core + {fmtInt(rollup.tiers.rare.n_diseases)} rare
             </span>
             <SourceNote
-              source="Seed disease library (this project), curated from OMIM/Orphanet"
-              doi={data.provenance.constants ? null : null}
+              source={`Disease library (this project): a curated core of the highest-burden conditions plus an Orphanet-derived rare tail. ${fmtPct(rollup.tiers.all.cited_incidence_share_by_count, 0)} of the catalogue rests on a cited incidence.`}
+              doi={null}
               detail={data.library.meta.incidence_unit}
             />
           </StatTile>
@@ -248,72 +248,115 @@ function StatusSplit({
   });
   const editable = data.summary.uniquely_editable_total.permissive.median;
 
+  const existingShare = s.addressable_by_existing_tools_share;
+  const editingShare = editable / (data.summary.burden_default.total_serious.median || 1);
+
   return (
     <Card>
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h3 className="text-base font-semibold text-slate-900">
-          What genetic medicine can already do
-        </h3>
-        <p className="text-sm text-slate-600">
-          <strong className="text-slate-900">{fmtPct(s.addressable_by_existing_tools_share, 0)}</strong>{' '}
-          of serious genetic disease (by affected births in the catalogue) sits in a status that
-          existing tools already address.
-        </p>
-      </div>
+      <h3 className="text-base font-semibold text-slate-900">
+        Existing genetic medicine vs. germline editing
+      </h3>
+      <p className="mt-1 text-sm text-slate-600">
+        The whole argument turns on keeping two things apart: what the{' '}
+        <strong className="text-slate-900">existing four tools</strong> (carrier screening, embryo
+        testing, prenatal diagnosis, newborn screening — plus today's somatic therapies) already
+        address, and the narrow residual that{' '}
+        <strong className="text-slate-900">germline editing alone</strong> could reach. They are not
+        the same kind of thing, so they are shown as two separate blocks.
+      </p>
 
-      {/* stacked bar by births */}
-      <div
-        className="mt-3 flex h-9 w-full overflow-hidden rounded"
-        role="img"
-        aria-label="Genetic-medicine status distribution by affected births"
-      >
-        {segs.map((seg) =>
-          seg.w > 0 ? (
+      {/* BLOCK 1 — existing tools */}
+      <div className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50/40 p-3">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <p className="text-sm font-semibold text-emerald-900">
+            Addressable by existing tools today
+          </p>
+          <p className="text-sm text-emerald-900">
+            <strong>{fmtPct(existingShare, 0)}</strong> of serious genetic disease (by affected
+            births in the core catalogue)
+          </p>
+        </div>
+        {/* stacked bar by births */}
+        <div
+          className="mt-2 flex h-9 w-full overflow-hidden rounded"
+          role="img"
+          aria-label="Genetic-medicine status distribution by affected births (existing tools)"
+        >
+          {segs.map((seg) =>
+            seg.w > 0 ? (
+              <button
+                key={seg.k}
+                type="button"
+                onClick={() => update({ tab: 'library', status: seg.k, libsort: 'status' })}
+                title={`${seg.label}: ${fmtInt(seg.births)} births/yr (${fmtPct(
+                  seg.births / totalB,
+                  0
+                )}) · ${seg.n_diseases} diseases — click to filter the library`}
+                style={{ width: `${seg.w}%`, backgroundColor: STATUS_COLORS[seg.k] }}
+                className="h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-slate-900"
+              />
+            ) : null
+          )}
+        </div>
+        {/* legend */}
+        <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1.5 sm:grid-cols-2 lg:grid-cols-3">
+          {segs.map((seg) => (
             <button
               key={seg.k}
               type="button"
               onClick={() => update({ tab: 'library', status: seg.k, libsort: 'status' })}
-              title={`${seg.label}: ${fmtInt(seg.births)} births/yr (${fmtPct(
-                seg.births / totalB,
-                0
-              )}) · ${seg.n_diseases} diseases — click to filter the library`}
-              style={{ width: `${seg.w}%`, backgroundColor: STATUS_COLORS[seg.k] }}
-              className="h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-slate-900"
-            />
-          ) : null
-        )}
+              className="flex items-center gap-2 text-left text-sm hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <span
+                aria-hidden="true"
+                className="inline-block h-3 w-3 shrink-0 rounded-sm"
+                style={{ backgroundColor: STATUS_COLORS[seg.k] }}
+              />
+              <span className="text-slate-700">{seg.label}</span>
+              <span className="tnum ml-auto text-slate-500">
+                {fmtCompact(seg.births)} · {seg.n_diseases}
+              </span>
+            </button>
+          ))}
+        </div>
+        <p className="mt-2 text-xs text-emerald-900/70">
+          These statuses are all reached with <strong>existing</strong> interventions. The treatment
+          breakdown (Prevention tab) further splits “treatable” by modality — surgery, drug, enzyme
+          replacement, somatic gene/cell therapy — none of which is germline editing.
+        </p>
       </div>
 
-      {/* legend */}
-      <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1.5 sm:grid-cols-2 lg:grid-cols-3">
-        {segs.map((seg) => (
-          <button
-            key={seg.k}
-            type="button"
-            onClick={() => update({ tab: 'library', status: seg.k, libsort: 'status' })}
-            className="flex items-center gap-2 text-left text-sm hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          >
-            <span
-              aria-hidden="true"
-              className="inline-block h-3 w-3 shrink-0 rounded-sm"
-              style={{ backgroundColor: STATUS_COLORS[seg.k] }}
-            />
-            <span className="text-slate-700">{seg.label}</span>
-            <span className="tnum ml-auto text-slate-500">
-              {fmtCompact(seg.births)} · {seg.n_diseases}
-            </span>
-          </button>
-        ))}
+      {/* BLOCK 2 — germline editing, isolated */}
+      <div className="mt-3 rounded-lg border border-violet-300 bg-violet-50/50 p-3">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <p className="text-sm font-semibold text-violet-900">
+            Uniquely needs germline editing
+          </p>
+          <p className="text-sm text-violet-900">
+            <strong>~{fmtPct(editingShare, 1)}</strong> of serious genetic disease ·{' '}
+            <strong>{fmtCompact(editable)}</strong> births / yr
+          </p>
+        </div>
+        {/* a lone sliver, drawn to scale against the block-1 bar */}
+        <div
+          className="mt-2 h-9 w-full overflow-hidden rounded bg-violet-100"
+          role="img"
+          aria-label="Germline-editing-only residual, to scale"
+        >
+          <div
+            className="h-full bg-violet-500"
+            style={{ width: `${Math.max(editingShare * 100, 0.4)}%` }}
+            title={`Germline-editing-only residual ≈ ${fmtPct(editingShare, 1)} of serious disease`}
+          />
+        </div>
+        <p className="mt-2 text-xs text-violet-900/80">
+          This is a sliver of <em>couples within</em> diseases — those for whom no unaffected embryo
+          can be selected — not a disease category. It is the only place germline editing does
+          something the existing tools cannot. Explored on the Residual and Embryos tabs.
+        </p>
       </div>
 
-      <p className="mt-3 border-t border-slate-100 pt-3 text-sm text-slate-700">
-        Set against that, the residual for which germline editing is the{' '}
-        <strong>only</strong> option is a sliver of couples <em>within</em> diseases (no selectable
-        unaffected embryo), on the order of{' '}
-        <strong className="text-slate-900">{fmtCompact(editable)}</strong> births / yr — explored on
-        the Residual tab, not a disease category here.
-      </p>
-      <p className="mt-1 text-xs text-slate-500">{s.definition}</p>
+      <p className="mt-3 text-xs text-slate-500">{s.definition}</p>
     </Card>
   );
 }

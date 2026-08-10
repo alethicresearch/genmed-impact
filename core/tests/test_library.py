@@ -16,7 +16,22 @@ def built():
 
 def test_library_nonempty(built):
     assert built["rollup"]["n_diseases"] >= 7
-    assert len(built["diseases"]) == built["rollup"]["n_diseases"]
+    # `n_diseases` is the curated core (headline); `diseases` includes the rare tier too.
+    assert len(built["diseases"]) == built["rollup"]["n_diseases_all"]
+    assert built["rollup"]["n_diseases_all"] >= built["rollup"]["n_diseases"]
+
+
+def test_tiers_reconcile(built):
+    r = built["rollup"]
+    t = r["tiers"]
+    assert t["core"]["n_diseases"] == r["n_diseases"]
+    assert t["core"]["n_diseases"] + t["rare"]["n_diseases"] == t["all"]["n_diseases"]
+    assert t["all"]["n_diseases"] == r["n_diseases_all"]
+    # headline burden is the core tier only
+    assert abs(t["core"]["affected_births_per_year"] - r["total_affected_births_per_year"]) < 1.0
+    # rare tier is genuinely present and near-fully cited (Orphanet birth prevalence)
+    assert t["rare"]["n_diseases"] > 0
+    assert t["rare"]["cited_incidence_share_by_count"] > 0.9
 
 
 SINGLE_GENE = {"monogenic_recessive", "monogenic_dominant", "x_linked"}
