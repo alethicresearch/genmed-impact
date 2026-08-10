@@ -1,7 +1,7 @@
 {
   "n_draws": 20000,
   "seed": 20260810,
-  "commit": "ea8f2ed",
+  "commit": "229c641",
   "spec_version": "3.0",
   "default_assumptions": {
     "severity": "def_b",

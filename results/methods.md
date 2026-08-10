@@ -1,6 +1,6 @@
 # Methods — Global Genetic-Disease Burden × Genetic-Medicine Impact
 
-_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `ea8f2ed` · model version 3.0._
+_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `229c641` · model version 3.0._
 
 This document describes every input, assumption, formula, and parameter behind the analysis. All headline figures below are regenerated from the pipeline; the full parameter provenance and disease catalogue are in the appendices. Contestable judgment calls are implemented as explicit parameters and reported across their range.
 

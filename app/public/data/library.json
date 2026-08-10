@@ -58,6 +58,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "surgical/catheter repair"
+      },
       "embryos": {
         "applicable": false,
         "unaffected_embryo_fraction": 0.5,
@@ -120,6 +126,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "somatic_gene_cell_therapy",
+        "label": "Somatic gene/cell therapy",
+        "disease_modifying": true,
+        "note": "gene therapy (Casgevy); also hydroxyurea"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -181,6 +193,12 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "avoid oxidant triggers; manage jaundice"
       },
       "embryos": {
         "applicable": false,
@@ -246,6 +264,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "statins (+/- PCSK9 inhibitors)"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -308,6 +332,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "surveillance; risk-reducing surgery"
       },
       "embryos": {
         "applicable": true,
@@ -372,6 +402,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "risk-reducing surgery; surveillance"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -435,6 +471,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "beta-blockers; mavacamten; ICD"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -494,6 +536,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "surgical repair"
       },
       "embryos": {
         "applicable": false,
@@ -555,6 +603,12 @@
         "prenatal_detectable": false,
         "addressable": false
       },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "pyloromyotomy (curative)"
+      },
       "embryos": {
         "applicable": false,
         "unaffected_embryo_fraction": 0.5,
@@ -614,6 +668,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "surgical repair"
       },
       "embryos": {
         "applicable": false,
@@ -678,6 +738,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "transfusion; HbH supportive care"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -741,6 +807,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "tolvaptan slows progression"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -801,6 +873,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "Ponseti casting +/- tenotomy"
+      },
       "embryos": {
         "applicable": false,
         "unaffected_embryo_fraction": 0.5,
@@ -860,6 +938,12 @@
         "treatable": true,
         "prenatal_detectable": false,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "Pavlik harness; surgery if late"
       },
       "embryos": {
         "applicable": false,
@@ -923,6 +1007,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "surgical closure (postnatal/fetal)"
+      },
       "embryos": {
         "applicable": false,
         "unaffected_embryo_fraction": 0.5,
@@ -985,6 +1075,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "transplant",
+        "label": "Transplant",
+        "disease_modifying": true,
+        "note": "HSCT; gene therapy (Casgevy) emerging"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -1044,6 +1140,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "testosterone replacement"
       },
       "embryos": {
         "applicable": true,
@@ -1109,6 +1211,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "beta-blockers; ICD"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -1171,6 +1279,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "splenectomy; transfusion/phototherapy"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -1231,6 +1345,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive; manage associated conditions"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.45,
@@ -1290,6 +1410,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "surgical repair (+/- fetal therapy)"
       },
       "embryos": {
         "applicable": false,
@@ -1353,6 +1479,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "surveillance; selumetinib for plexiform neurofibromas"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -1412,6 +1544,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "surgical closure"
       },
       "embryos": {
         "applicable": false,
@@ -1475,6 +1613,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "CFTR modulators (e.g. elexacaftor)"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -1536,6 +1680,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive; cardiac surgery; manage hypocalcaemia"
       },
       "embryos": {
         "applicable": true,
@@ -1599,6 +1749,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "cochlear implant"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -1660,6 +1816,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive/educational management"
       },
       "embryos": {
         "applicable": true,
@@ -1723,6 +1885,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "beta-blockers/losartan; prophylactic aortic surgery"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -1783,6 +1951,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive; usually lethal in infancy"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.45,
@@ -1842,6 +2016,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "growth hormone; estrogen replacement"
       },
       "embryos": {
         "applicable": true,
@@ -1906,6 +2086,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "mTOR inhibitors (everolimus)"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -1968,6 +2154,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "symptomatic management"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -2027,6 +2219,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive; seizure management"
       },
       "embryos": {
         "applicable": true,
@@ -2090,6 +2288,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "somatic_gene_cell_therapy",
+        "label": "Somatic gene/cell therapy",
+        "disease_modifying": true,
+        "note": "gene therapy (Zolgensma); also nusinersen"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -2151,6 +2355,12 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "corticosteroids; exon-skipping; gene therapy emerging"
       },
       "embryos": {
         "applicable": true,
@@ -2214,6 +2424,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "factor VIII/emicizumab; gene therapy emerging"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -2275,6 +2491,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "prophylactic colectomy"
       },
       "embryos": {
         "applicable": true,
@@ -2338,6 +2560,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive; manage cardiovascular disease"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.45,
@@ -2400,6 +2628,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "dietary",
+        "label": "Dietary/metabolic",
+        "disease_modifying": true,
+        "note": "phenylalanine-restricted diet"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -2459,6 +2693,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive; usually lethal in infancy"
       },
       "embryos": {
         "applicable": true,
@@ -2522,6 +2762,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "dietary",
+        "label": "Dietary/metabolic",
+        "disease_modifying": true,
+        "note": "avoid fasting; emergency regimen"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -2583,6 +2829,12 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "glucocorticoid/mineralocorticoid replacement"
       },
       "embryos": {
         "applicable": true,
@@ -2646,6 +2898,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "symptomatic management; no disease-modifying therapy"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -2708,6 +2966,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "airway clearance; manage infections"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -2769,6 +3033,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "cochlear implant/hearing aids"
       },
       "embryos": {
         "applicable": true,
@@ -2833,6 +3103,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "bisphosphonates; orthopaedic care"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -2892,6 +3168,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "growth hormone; supportive"
       },
       "embryos": {
         "applicable": true,
@@ -2955,6 +3237,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive; seizure management"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.45,
@@ -3016,6 +3304,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "surgical",
+        "label": "Surgical",
+        "disease_modifying": true,
+        "note": "enucleation/local therapy; chemotherapy"
       },
       "embryos": {
         "applicable": true,
@@ -3079,6 +3373,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "intensive cancer surveillance"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -3141,6 +3441,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "trofinetide (Daybue); supportive"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -3202,6 +3508,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "vosoritide"
       },
       "embryos": {
         "applicable": true,
@@ -3266,6 +3578,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "cochlear implant; no retinal therapy"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -3327,6 +3645,12 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "copper chelation (penicillamine)/zinc"
       },
       "embryos": {
         "applicable": true,
@@ -3390,6 +3714,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "transplant",
+        "label": "Transplant",
+        "disease_modifying": true,
+        "note": "HSCT; gene therapy (Skysona)"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -3452,6 +3782,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "belzutifan; surgical resection"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -3511,6 +3847,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive management"
       },
       "embryos": {
         "applicable": true,
@@ -3574,6 +3916,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "enzyme_replacement",
+        "label": "Enzyme replacement",
+        "disease_modifying": true,
+        "note": "ERT (alglucosidase alfa)"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -3635,6 +3983,12 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "enzyme_replacement",
+        "label": "Enzyme replacement",
+        "disease_modifying": true,
+        "note": "ERT (imiglucerase); substrate-reduction therapy"
       },
       "embryos": {
         "applicable": true,
@@ -3698,6 +4052,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "omaveloxolone (Skyclarys)"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -3759,6 +4119,12 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "dietary",
+        "label": "Dietary/metabolic",
+        "disease_modifying": true,
+        "note": "galactose-free diet"
       },
       "embryos": {
         "applicable": true,
@@ -3822,6 +4188,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "factor IX; gene therapy (Hemgenix)"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -3883,6 +4255,12 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "enzyme_replacement",
+        "label": "Enzyme replacement",
+        "disease_modifying": true,
+        "note": "ERT (agalsidase); chaperone migalastat"
       },
       "embryos": {
         "applicable": true,
@@ -3946,6 +4324,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "dietary",
+        "label": "Dietary/metabolic",
+        "disease_modifying": true,
+        "note": "protein restriction; B12/carnitine"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -4007,6 +4391,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "none",
+        "label": "No disease-modifying treatment",
+        "disease_modifying": false,
+        "note": "no effective therapy; usually fatal"
       },
       "embryos": {
         "applicable": true,
@@ -4070,6 +4460,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "ACE inhibitors/ARBs slow progression"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.5,
@@ -4129,6 +4525,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive; seizure management"
       },
       "embryos": {
         "applicable": true,
@@ -4192,6 +4594,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "cofactor",
+        "label": "Cofactor/vitamin",
+        "disease_modifying": true,
+        "note": "oral biotin"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -4253,6 +4661,12 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "somatic_gene_cell_therapy",
+        "label": "Somatic gene/cell therapy",
+        "disease_modifying": true,
+        "note": "gene therapy (Lenmeldy/atidarsagene)"
       },
       "embryos": {
         "applicable": true,
@@ -4316,6 +4730,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "no proven disease-modifying therapy"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -4377,6 +4797,12 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "dietary",
+        "label": "Dietary/metabolic",
+        "disease_modifying": true,
+        "note": "protein restriction; nitrogen scavengers"
       },
       "embryos": {
         "applicable": true,
@@ -4440,6 +4866,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "enzyme_replacement",
+        "label": "Enzyme replacement",
+        "disease_modifying": true,
+        "note": "ERT (laronidase); HSCT for Hurler"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -4501,6 +4933,12 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "transplant",
+        "label": "Transplant",
+        "disease_modifying": true,
+        "note": "presymptomatic HSCT"
       },
       "embryos": {
         "applicable": true,
@@ -4564,6 +5002,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive; no therapy for CLN3"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -4625,6 +5069,12 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "nitisinone (NTBC) + diet"
       },
       "embryos": {
         "applicable": true,
@@ -4689,6 +5139,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "dietary",
+        "label": "Dietary/metabolic",
+        "disease_modifying": true,
+        "note": "protein restriction; carnitine"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -4750,6 +5206,12 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "dietary",
+        "label": "Dietary/metabolic",
+        "disease_modifying": true,
+        "note": "lysine-restricted diet; carnitine"
       },
       "embryos": {
         "applicable": true,
@@ -4813,6 +5275,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "dietary",
+        "label": "Dietary/metabolic",
+        "disease_modifying": true,
+        "note": "cornstarch regimen; avoid hypoglycaemia"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -4874,6 +5342,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive; infection/cancer surveillance"
       },
       "embryos": {
         "applicable": true,
@@ -4937,6 +5411,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "transplant",
+        "label": "Transplant",
+        "disease_modifying": true,
+        "note": "nephrectomy/dialysis then kidney transplant"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -4998,6 +5478,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "pharmacologic",
+        "label": "Pharmacologic (drug)",
+        "disease_modifying": true,
+        "note": "celiprolol reduces vascular events"
       },
       "embryos": {
         "applicable": true,
@@ -5061,6 +5547,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "somatic_gene_cell_therapy",
+        "label": "Somatic gene/cell therapy",
+        "disease_modifying": true,
+        "note": "gene therapy; HSCT"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -5122,6 +5614,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "no approved therapy; low-vision support"
       },
       "embryos": {
         "applicable": true,
@@ -5185,6 +5683,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "dietary",
+        "label": "Dietary/metabolic",
+        "disease_modifying": true,
+        "note": "leucine restriction; glycine/carnitine"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -5246,6 +5750,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "setmelanotide for obesity; supportive"
       },
       "embryos": {
         "applicable": true,
@@ -5311,6 +5821,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "dietary",
+        "label": "Dietary/metabolic",
+        "disease_modifying": true,
+        "note": "branched-chain-restricted diet"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -5372,6 +5888,12 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "enzyme_replacement",
+        "label": "Enzyme replacement",
+        "disease_modifying": true,
+        "note": "ERT (idursulfase)"
       },
       "embryos": {
         "applicable": true,
@@ -5435,6 +5957,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "enzyme_replacement",
+        "label": "Enzyme replacement",
+        "disease_modifying": true,
+        "note": "ERT (elosulfase alfa)"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -5496,6 +6024,12 @@
         "treatable": true,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "cofactor",
+        "label": "Cofactor/vitamin",
+        "disease_modifying": true,
+        "note": "B6-responsive; betaine; Met-restricted diet"
       },
       "embryos": {
         "applicable": true,
@@ -5559,6 +6093,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "transplant",
+        "label": "Transplant",
+        "disease_modifying": true,
+        "note": "HSCT; surveillance"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -5620,6 +6160,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "transplant",
+        "label": "Transplant",
+        "disease_modifying": true,
+        "note": "HSCT; gene therapy emerging"
       },
       "embryos": {
         "applicable": true,
@@ -5683,6 +6229,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "cofactor",
+        "label": "Cofactor/vitamin",
+        "disease_modifying": true,
+        "note": "early copper-histidine (some genotypes)"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -5744,6 +6296,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "none",
+        "label": "No disease-modifying treatment",
+        "disease_modifying": false,
+        "note": "no disease-modifying therapy; uniformly fatal"
       },
       "embryos": {
         "applicable": true,
@@ -5807,6 +6365,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "none",
+        "label": "No disease-modifying treatment",
+        "disease_modifying": false,
+        "note": "no effective therapy; fatal"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -5868,6 +6432,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "none",
+        "label": "No disease-modifying treatment",
+        "disease_modifying": false,
+        "note": "no effective therapy; progressive"
       },
       "embryos": {
         "applicable": true,
@@ -5931,6 +6501,12 @@
         "prenatal_detectable": true,
         "addressable": true
       },
+      "treatment": {
+        "modality": "none",
+        "label": "No disease-modifying treatment",
+        "disease_modifying": false,
+        "note": "no effective therapy for type A"
+      },
       "embryos": {
         "applicable": true,
         "unaffected_embryo_fraction": 0.75,
@@ -5992,6 +6568,12 @@
         "treatable": false,
         "prenatal_detectable": true,
         "addressable": true
+      },
+      "treatment": {
+        "modality": "supportive",
+        "label": "Supportive only",
+        "disease_modifying": false,
+        "note": "supportive; cancer surveillance"
       },
       "embryos": {
         "applicable": true,
@@ -6072,6 +6654,77 @@
       "addressable_by_existing_tools_births": 6221880.0,
       "addressable_by_existing_tools_share": 0.9584095824322076,
       "definition": "Each disease is placed in one status from its intervention flags (no weights): Preventable & treatable, Preventable (an unaffected child achievable via screening/selection), Treatable (effective early therapy), Detectable only (prenatal detection without selection), or No current option. The distribution across statuses — by disease count and by affected births — is the headline picture of what existing genetic medicine can already do."
+    },
+    "treatment_modalities": {
+      "order": [
+        "somatic_gene_cell_therapy",
+        "enzyme_replacement",
+        "pharmacologic",
+        "transplant",
+        "dietary",
+        "cofactor",
+        "surgical",
+        "supportive",
+        "none",
+        "unknown"
+      ],
+      "distribution": {
+        "somatic_gene_cell_therapy": {
+          "label": "Somatic gene/cell therapy",
+          "disease_modifying": true,
+          "n_diseases": 4,
+          "births": 600075.0
+        },
+        "enzyme_replacement": {
+          "label": "Enzyme replacement",
+          "disease_modifying": true,
+          "n_diseases": 6,
+          "births": 11475.0
+        },
+        "pharmacologic": {
+          "label": "Pharmacologic (drug)",
+          "disease_modifying": true,
+          "n_diseases": 23,
+          "births": 1308150.0
+        },
+        "transplant": {
+          "label": "Transplant",
+          "disease_modifying": true,
+          "n_diseases": 6,
+          "births": 116100.0
+        },
+        "dietary": {
+          "label": "Dietary/metabolic",
+          "disease_modifying": true,
+          "n_diseases": 10,
+          "births": 33345.0
+        },
+        "cofactor": {
+          "label": "Cofactor/vitamin",
+          "disease_modifying": true,
+          "n_diseases": 3,
+          "births": 3645.0
+        },
+        "surgical": {
+          "label": "Surgical",
+          "disease_modifying": true,
+          "n_diseases": 16,
+          "births": 3431700.0
+        },
+        "supportive": {
+          "label": "Supportive only",
+          "disease_modifying": false,
+          "n_diseases": 24,
+          "births": 983205.0
+        },
+        "none": {
+          "label": "No disease-modifying treatment",
+          "disease_modifying": false,
+          "n_diseases": 5,
+          "births": 4185.0
+        }
+      },
+      "note": "The TYPE of existing post-birth treatment for the born child. Germline editing is not a modality here — it is a categorically different kind of intervention, tracked as the editing-unique residual. This breakdown keeps that distinction explicit rather than collapsing everything into 'treatable'."
     },
     "cited_incidence_share": 0.393029446015638,
     "note": "Bottom-up point sums over the curated catalogue. Coverage is partial (a seed catalogue of the highest-burden serious conditions), so totals are a LOWER BOUND on the full genetic-disease denominator and will rise as the Orphanet/GBD ingest expands the library. The parametric Monte-Carlo model provides the calibrated top-down denominator with credible intervals."

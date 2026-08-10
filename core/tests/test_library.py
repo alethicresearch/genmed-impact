@@ -79,6 +79,25 @@ def test_status_logic():
     assert library.compute_status(dz(0, 0, 0, 0))["status"] == "none"
 
 
+def test_every_disease_has_treatment_modality(built):
+    valid = set(library.TREATMENT_ORDER)
+    for d in built["diseases"]:
+        assert d["treatment"]["modality"] in valid
+        assert d["treatment"]["disease_modifying"] == (
+            d["treatment"]["modality"] in library.DISEASE_MODIFYING)
+
+
+def test_editing_is_not_a_treatment_modality():
+    # the whole point: germline editing must never be one of the existing treatment modalities
+    assert "editing" not in library.TREATMENT_ORDER
+    assert "germline_editing" not in library.TREATMENT_ORDER
+
+
+def test_treatment_distribution_reconciles(built):
+    dist = built["rollup"]["treatment_modalities"]["distribution"]
+    assert sum(v["n_diseases"] for v in dist.values()) == built["rollup"]["n_diseases"]
+
+
 def test_rollup_shares_in_unit_interval(built):
     r = built["rollup"]
     assert 0.0 <= r["share_addressable_by_reproductive_tool"] <= 1.0

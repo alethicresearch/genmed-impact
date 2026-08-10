@@ -58,6 +58,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variants"}
       PND: {applicable: true,  note: "CVS/amniocentesis"}
       NBS: {applicable: true,  note: "NBS + CFTR modulators / early care"}
+    treatment: {modality: pharmacologic, note: "CFTR modulators (e.g. elexacaftor)"}
     editing_unique: false
     editing_note: "Selection-addressable (both-carrier couples have unaffected embryos)."
 
@@ -76,6 +77,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "widely used in high-prevalence settings"}
       NBS: {applicable: true,  note: "NBS + penicillin prophylaxis/hydroxyurea; gene therapy emerging"}
+    treatment: {modality: somatic_gene_cell_therapy, note: "gene therapy (Casgevy); also hydroxyurea"}
     editing_unique: false
     editing_note: "Selection-addressable; affected×affected couples fall to the S1 residual."
 
@@ -94,6 +96,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "CVS + termination reduced births ~90%"}
       NBS: {applicable: false, note: "no early-life cure prevents transfusion dependence broadly"}
+    treatment: {modality: transplant, note: "HSCT; gene therapy (Casgevy) emerging"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -112,6 +115,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "enzyme/DNA testing"}
       NBS: {applicable: false, note: "no effective therapy; uniformly fatal in infancy"}
+    treatment: {modality: none, note: "no disease-modifying therapy; uniformly fatal"}
     editing_unique: false
     editing_note: "Selection-addressable; affected individuals do not reproduce (S1 ~0)."
 
@@ -130,6 +134,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal SMN1 testing"}
       NBS: {applicable: true,  note: "presymptomatic gene therapy / nusinersen transforms outcome (NBS)"}
+    treatment: {modality: somatic_gene_cell_therapy, note: "gene therapy (Zolgensma); also nusinersen"}
     editing_unique: false
     editing_note: "Selection- and NBS-addressable; a leading NBS success story."
 
@@ -148,6 +153,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal testing"}
       NBS: {applicable: true,  note: "classic NBS success: dietary Phe restriction prevents disability"}
+    treatment: {modality: dietary, note: "phenylalanine-restricted diet"}
     editing_unique: false
     editing_note: "NBS + diet essentially prevents the disease phenotype."
 
@@ -166,6 +172,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental deletions"}
       PND: {applicable: true,  note: "Hb Bart's hydrops detectable; CVS/DNA"}
       NBS: {applicable: false, note: "Hb Bart's lethal in utero; HbH managed but no early-life cure"}
+    treatment: {modality: supportive, note: "transfusion; HbH supportive care"}
     editing_unique: false
     editing_note: "Selection-addressable (both-carrier couples have unaffected embryos)."
 
@@ -184,6 +191,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "enzyme/DNA testing"}
       NBS: {applicable: true,  note: "type 1 responds to enzyme replacement; early Rx mitigates"}
+    treatment: {modality: enzyme_replacement, note: "ERT (imiglucerase); substrate-reduction therapy"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -202,6 +210,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: true,  note: "highly treatable early (chelation/zinc) prevents organ damage"}
+    treatment: {modality: pharmacologic, note: "copper chelation (penicillamine)/zinc"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -220,6 +229,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal repeat sizing"}
       NBS: {applicable: false, note: "no early-life therapy that meaningfully alters course"}
+    treatment: {modality: pharmacologic, note: "omaveloxolone (Skyclarys)"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -238,6 +248,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: true,  note: "newborn hearing screen + cochlear implant/early intervention transforms outcome"}
+    treatment: {modality: surgical, note: "cochlear implant"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -256,6 +267,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: true,  note: "classic NBS success: avoid fasting prevents metabolic crises/death"}
+    treatment: {modality: dietary, note: "avoid fasting; emergency regimen"}
     editing_unique: false
     editing_note: "NBS + fasting-avoidance largely prevents the phenotype; selection-addressable."
 
@@ -274,6 +286,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal DNA/enzyme testing"}
       NBS: {applicable: true,  note: "NBS + branched-chain-restricted diet prevents encephalopathy"}
+    treatment: {modality: dietary, note: "branched-chain-restricted diet"}
     editing_unique: false
     editing_note: "NBS + diet mitigates; selection-addressable."
 
@@ -292,6 +305,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
       NBS: {applicable: true,  note: "NBS + galactose-free diet prevents neonatal sepsis/death"}
+    treatment: {modality: dietary, note: "galactose-free diet"}
     editing_unique: false
     editing_note: "NBS + diet mitigates; selection-addressable."
 
@@ -310,6 +324,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
       NBS: {applicable: true,  note: "presymptomatic HSCT/ERT improves outcome; on some NBS panels"}
+    treatment: {modality: enzyme_replacement, note: "ERT (laronidase); HSCT for Hurler"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -328,6 +343,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
       NBS: {applicable: true,  note: "presymptomatic gene therapy (atidarsagene) transforms early-onset outcome"}
+    treatment: {modality: somatic_gene_cell_therapy, note: "gene therapy (Lenmeldy/atidarsagene)"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -346,6 +362,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "no effective therapy; progressive and fatal"}
+    treatment: {modality: none, note: "no effective therapy; progressive"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -364,6 +381,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal diagnosis; prenatal dexamethasone historically"}
       NBS: {applicable: true,  note: "NBS + glucocorticoid replacement prevents fatal salt-wasting crisis"}
+    treatment: {modality: pharmacologic, note: "glucocorticoid/mineralocorticoid replacement"}
     editing_unique: false
     editing_note: "NBS mitigates; selection-addressable."
 
@@ -382,6 +400,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
       NBS: {applicable: false, note: "no effective therapy for type A; fatal in early childhood"}
+    treatment: {modality: none, note: "no effective therapy for type A"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -401,6 +420,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M / sexing for known maternal variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: true,  note: "some NBS pilots; early steroids/exon-skipping partially mitigate"}
+    treatment: {modality: pharmacologic, note: "corticosteroids; exon-skipping; gene therapy emerging"}
     editing_unique: false
     editing_note: "Selection-addressable when maternal variant known."
 
@@ -419,6 +439,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M (repeat instability complicates)"}
       PND: {applicable: true,  note: "prenatal CGG repeat sizing"}
       NBS: {applicable: false, note: "no disease-modifying early therapy"}
+    treatment: {modality: supportive, note: "supportive/educational management"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -437,6 +458,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known maternal variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "manageable with factor VIII/emicizumab; not standard NBS"}
+    treatment: {modality: pharmacologic, note: "factor VIII/emicizumab; gene therapy emerging"}
     editing_unique: false
     editing_note: "Selection-addressable when maternal variant known."
 
@@ -455,6 +477,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known maternal variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "manageable with factor IX; gene therapy emerging; not standard NBS"}
+    treatment: {modality: pharmacologic, note: "factor IX; gene therapy (Hemgenix)"}
     editing_unique: false
     editing_note: "Selection-addressable when maternal variant known."
 
@@ -473,6 +496,7 @@ diseases:
       PGT: {applicable: false, note: "usually mild; embryo selection rarely pursued"}
       PND: {applicable: true,  note: "detectable prenatally but seldom indicated"}
       NBS: {applicable: true,  note: "NBS in some regions; avoid oxidant triggers, manage neonatal jaundice"}
+    treatment: {modality: supportive, note: "avoid oxidant triggers; manage jaundice"}
     editing_unique: false
     editing_note: "Selection-addressable; usually mild so rarely pursued."
 
@@ -491,6 +515,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known maternal variant"}
       PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
       NBS: {applicable: true,  note: "ERT available; earlier treatment improves outcome"}
+    treatment: {modality: enzyme_replacement, note: "ERT (idursulfase)"}
     editing_unique: false
     editing_note: "Selection-addressable when maternal variant known."
 
@@ -509,6 +534,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known variant"}
       PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
       NBS: {applicable: true,  note: "ERT/chaperone therapy; on some NBS panels"}
+    treatment: {modality: enzyme_replacement, note: "ERT (agalsidase); chaperone migalastat"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -527,6 +553,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known maternal variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: true,  note: "presymptomatic HSCT/gene therapy; added to NBS panels (US RUSP)"}
+    treatment: {modality: transplant, note: "HSCT; gene therapy (Skysona)"}
     editing_unique: false
     editing_note: "Selection- and NBS-addressable."
 
@@ -546,6 +573,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M, incl. exclusion testing to avoid disclosing parental status"}
       PND: {applicable: true,  note: "prenatal CAG repeat sizing"}
       NBS: {applicable: false, note: "adult-onset; no early-life mitigation"}
+    treatment: {modality: supportive, note: "symptomatic management; no disease-modifying therapy"}
     editing_unique: false
     editing_note: "Selection-addressable for a heterozygous parent; only a viable homozygous-affected parent (all embryos affected) would lack an unaffected embryo — couple-config dependent, handled in S1."
 
@@ -564,6 +592,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "managed clinically (beta-blockers/surgery); not an NBS target"}
+    treatment: {modality: pharmacologic, note: "beta-blockers/losartan; prophylactic aortic surgery"}
     editing_unique: false
     editing_note: "Selection-addressable when a parent carries a known variant."
 
@@ -582,6 +611,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "clinical surveillance; not an NBS target"}
+    treatment: {modality: supportive, note: "surveillance; selumetinib for plexiform neurofibromas"}
     editing_unique: false
     editing_note: "Selection-addressable when a parent carries a known variant."
 
@@ -600,6 +630,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M when an affected parent carries the recurrent variant"}
       PND: {applicable: true,  note: "prenatal DNA/ultrasound"}
       NBS: {applicable: false, note: "no early-life mitigation of the skeletal phenotype"}
+    treatment: {modality: pharmacologic, note: "vosoritide"}
     editing_unique: false
     editing_note: "Selection-addressable for affected parents; most cases de novo."
 
@@ -618,6 +649,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental repeat expansion"}
       PND: {applicable: true,  note: "prenatal CTG repeat sizing"}
       NBS: {applicable: false, note: "no early-life mitigation; congenital form supportive care"}
+    treatment: {modality: supportive, note: "symptomatic management"}
     editing_unique: false
     editing_note: "Selection-addressable when a parent carries the expansion."
 
@@ -636,6 +668,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M possible but rarely pursued given treatability"}
       PND: {applicable: true,  note: "detectable but seldom indicated"}
       NBS: {applicable: false, note: "highly treatable with statins; child screening/cascade used, not classic NBS"}
+    treatment: {modality: pharmacologic, note: "statins (+/- PCSK9 inhibitors)"}
     editing_unique: false
     editing_note: "Selection-addressable; treatability makes reproductive intervention uncommon."
 
@@ -654,6 +687,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "adult-onset; no early-life mitigation"}
+    treatment: {modality: pharmacologic, note: "tolvaptan slows progression"}
     editing_unique: false
     editing_note: "Selection-addressable when a parent carries a known variant."
 
@@ -672,6 +706,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental RB1 variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "no NBS, but surveillance exams in at-risk infants improve survival"}
+    treatment: {modality: surgical, note: "enucleation/local therapy; chemotherapy"}
     editing_unique: false
     editing_note: "Selection-addressable when a parent carries a known variant."
 
@@ -690,6 +725,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "clinical surveillance; not an NBS target"}
+    treatment: {modality: pharmacologic, note: "mTOR inhibitors (everolimus)"}
     editing_unique: false
     editing_note: "Selection-addressable when a parent carries a known variant."
 
@@ -709,6 +745,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-A embryo selection"}
       PND: {applicable: true,  note: "cfDNA screening + diagnostic CVS/amniocentesis"}
       NBS: {applicable: false, note: "not preventable postnatally; associated conditions managed"}
+    treatment: {modality: supportive, note: "supportive; manage associated conditions"}
     editing_unique: false
     editing_note: "PGT-A/selection-addressable; whole-chromosome aneuploidy not an editing target."
 
@@ -727,6 +764,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-A embryo selection"}
       PND: {applicable: true,  note: "cfDNA + diagnostic testing"}
       NBS: {applicable: false, note: "usually lethal in infancy; no mitigation"}
+    treatment: {modality: supportive, note: "supportive; usually lethal in infancy"}
     editing_unique: false
     editing_note: "PGT-A/selection-addressable; aneuploidy not an editing target."
 
@@ -745,6 +783,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-A embryo selection"}
       PND: {applicable: true,  note: "cfDNA + diagnostic testing"}
       NBS: {applicable: false, note: "usually lethal in infancy; no mitigation"}
+    treatment: {modality: supportive, note: "supportive; usually lethal in infancy"}
     editing_unique: false
     editing_note: "PGT-A/selection-addressable; aneuploidy not an editing target."
 
@@ -763,6 +802,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-A embryo selection"}
       PND: {applicable: true,  note: "cfDNA + diagnostic testing/ultrasound"}
       NBS: {applicable: false, note: "growth hormone/estrogen management later, not NBS"}
+    treatment: {modality: pharmacologic, note: "growth hormone; estrogen replacement"}
     editing_unique: false
     editing_note: "PGT-A/selection-addressable; monosomy not an editing target."
 
@@ -781,6 +821,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-A embryo selection"}
       PND: {applicable: true,  note: "cfDNA + diagnostic testing"}
       NBS: {applicable: false, note: "testosterone therapy later, not NBS"}
+    treatment: {modality: pharmacologic, note: "testosterone replacement"}
     editing_unique: false
     editing_note: "PGT-A/selection-addressable; aneuploidy not an editing target."
 
@@ -799,6 +840,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-A/PGT-SR or targeted testing when a parent carries the deletion"}
       PND: {applicable: true,  note: "cfDNA microdeletion screening + diagnostic microarray"}
       NBS: {applicable: false, note: "not an NBS target; associated conditions managed clinically"}
+    treatment: {modality: supportive, note: "supportive; cardiac surgery; manage hypocalcaemia"}
     editing_unique: false
     editing_note: "Selection-addressable; contiguous-gene deletion not an editing target."
 
@@ -818,6 +860,7 @@ diseases:
       PGT: {applicable: false, note: "not a single-gene disorder; embryo selection not applicable"}
       PND: {applicable: true,  note: "maternal serum AFP + ultrasound detect open defects"}
       NBS: {applicable: false, note: "structural at birth; prevented antenatally by folate, not NBS"}
+    treatment: {modality: surgical, note: "surgical closure (postnatal/fetal)"}
     editing_unique: false
     editing_note: "Not selection- or editing-addressable as a monogenic trait; folate fortification is the key lever."
 
@@ -836,6 +879,7 @@ diseases:
       PGT: {applicable: false, note: "not a single-gene disorder in most cases"}
       PND: {applicable: true,  note: "fetal echocardiography/anomaly scan"}
       NBS: {applicable: true,  note: "pulse-oximetry screening for critical CHD + surgery mitigates"}
+    treatment: {modality: surgical, note: "surgical/catheter repair"}
     editing_unique: false
     editing_note: "Not selection/editing-addressable as a monogenic trait; detection + surgical repair mitigate."
 
@@ -854,6 +898,7 @@ diseases:
       PGT: {applicable: false, note: "not a single-gene disorder in most cases"}
       PND: {applicable: true,  note: "detectable on prenatal ultrasound"}
       NBS: {applicable: false, note: "surgical repair postnatally, not an NBS target"}
+    treatment: {modality: surgical, note: "surgical repair"}
     editing_unique: false
     editing_note: "Not selection/editing-addressable as a monogenic trait; surgically correctable."
 
@@ -872,6 +917,7 @@ diseases:
       PGT: {applicable: false, note: "not a single-gene disorder in most cases"}
       PND: {applicable: true,  note: "detectable on prenatal ultrasound"}
       NBS: {applicable: true,  note: "newborn exam + early Ponseti casting corrects most cases"}
+    treatment: {modality: surgical, note: "Ponseti casting +/- tenotomy"}
     editing_unique: false
     editing_note: "Not selection/editing-addressable as a monogenic trait; early casting mitigates."
 
@@ -891,6 +937,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variants"}
       PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
       NBS: {applicable: true,  note: "NBS + early enzyme replacement (alglucosidase) transforms infantile outcome"}
+    treatment: {modality: enzyme_replacement, note: "ERT (alglucosidase alfa)"}
     editing_unique: false
     editing_note: "Selection-addressable; NBS + ERT mitigates."
 
@@ -909,6 +956,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
       NBS: {applicable: true,  note: "presymptomatic HSCT improves outcome; on some NBS panels"}
+    treatment: {modality: transplant, note: "presymptomatic HSCT"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -927,6 +975,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
       NBS: {applicable: false, note: "no effective therapy; fatal in early childhood"}
+    treatment: {modality: none, note: "no effective therapy; fatal"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -945,6 +994,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
       NBS: {applicable: false, note: "no disease-modifying therapy proven"}
+    treatment: {modality: supportive, note: "no proven disease-modifying therapy"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -963,6 +1013,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
       NBS: {applicable: false, note: "ERT (elosulfase) available but does not broadly prevent skeletal disease"}
+    treatment: {modality: enzyme_replacement, note: "ERT (elosulfase alfa)"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -981,6 +1032,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "no disease-modifying therapy for the CLN3 form"}
+    treatment: {modality: supportive, note: "supportive; no therapy for CLN3"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -999,6 +1051,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
       NBS: {applicable: true,  note: "NBS + B6/betaine/diet prevents thromboembolic and skeletal complications"}
+    treatment: {modality: cofactor, note: "B6-responsive; betaine; Met-restricted diet"}
     editing_unique: false
     editing_note: "NBS + treatment mitigates; selection-addressable."
 
@@ -1017,6 +1070,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal succinylacetone/DNA testing"}
       NBS: {applicable: true,  note: "NBS + nitisinone (NTBC) + diet prevents liver failure/HCC"}
+    treatment: {modality: pharmacologic, note: "nitisinone (NTBC) + diet"}
     editing_unique: false
     editing_note: "NBS + NTBC mitigates; selection-addressable."
 
@@ -1035,6 +1089,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal metabolite/DNA testing"}
       NBS: {applicable: true,  note: "NBS + protein-restricted diet/carnitine reduces crises, though outcome remains guarded"}
+    treatment: {modality: dietary, note: "protein restriction; carnitine"}
     editing_unique: false
     editing_note: "NBS partially mitigates; selection-addressable."
 
@@ -1053,6 +1108,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal metabolite/DNA testing"}
       NBS: {applicable: true,  note: "NBS + diet/B12/carnitine reduces metabolic crises"}
+    treatment: {modality: dietary, note: "protein restriction; B12/carnitine"}
     editing_unique: false
     editing_note: "NBS partially mitigates; selection-addressable."
 
@@ -1071,6 +1127,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal metabolite/DNA testing"}
       NBS: {applicable: true,  note: "NBS + leucine restriction/glycine/carnitine prevents crises"}
+    treatment: {modality: dietary, note: "leucine restriction; glycine/carnitine"}
     editing_unique: false
     editing_note: "NBS mitigates; selection-addressable."
 
@@ -1089,6 +1146,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal metabolite/DNA testing"}
       NBS: {applicable: true,  note: "NBS + lysine-restricted diet/carnitine prevents encephalopathic crises"}
+    treatment: {modality: dietary, note: "lysine-restricted diet; carnitine"}
     editing_unique: false
     editing_note: "NBS mitigates; selection-addressable."
 
@@ -1107,6 +1165,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal enzyme/DNA testing"}
       NBS: {applicable: true,  note: "NBS + oral biotin essentially prevents the disease (classic NBS success)"}
+    treatment: {modality: cofactor, note: "oral biotin"}
     editing_unique: false
     editing_note: "NBS + biotin prevents the phenotype; selection-addressable."
 
@@ -1125,6 +1184,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "not on standard NBS panels; managed with cornstarch/dietary regimen"}
+    treatment: {modality: dietary, note: "cornstarch regimen; avoid hypoglycaemia"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -1144,6 +1204,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M (also used for HLA-matched sibling selection)"}
       PND: {applicable: true,  note: "prenatal DNA/chromosome-breakage testing"}
       NBS: {applicable: false, note: "not an NBS target; surveillance and HSCT as needed"}
+    treatment: {modality: transplant, note: "HSCT; surveillance"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -1162,6 +1223,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "no disease-modifying early therapy"}
+    treatment: {modality: supportive, note: "supportive; infection/cancer surveillance"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -1180,6 +1242,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "no early-life mitigation; cancer surveillance"}
+    treatment: {modality: supportive, note: "supportive; cancer surveillance"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -1198,6 +1261,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal biochemical/DNA testing"}
       NBS: {applicable: false, note: "no effective therapy; usually fatal in infancy"}
+    treatment: {modality: none, note: "no effective therapy; usually fatal"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -1216,6 +1280,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "hearing screen detects the deafness; no therapy halts retinitis pigmentosa"}
+    treatment: {modality: supportive, note: "cochlear implant; no retinal therapy"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -1234,6 +1299,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "no early-life mitigation of the ciliopathy phenotype"}
+    treatment: {modality: supportive, note: "setmelanotide for obesity; supportive"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -1252,6 +1318,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variants"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "not an NBS target; airway clearance management"}
+    treatment: {modality: supportive, note: "airway clearance; manage infections"}
     editing_unique: false
     editing_note: "Selection-addressable when parental variants known."
 
@@ -1270,6 +1337,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal DNA testing; elevated amniotic AFP"}
       NBS: {applicable: false, note: "not an NBS target; supportive care/transplant"}
+    treatment: {modality: transplant, note: "nephrectomy/dialysis then kidney transplant"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -1288,6 +1356,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "hearing screen detects deafness; no therapy alters the underlying defect"}
+    treatment: {modality: surgical, note: "cochlear implant/hearing aids"}
     editing_unique: false
     editing_note: "Selection-addressable."
 
@@ -1307,6 +1376,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "managed with beta-blockers/ICD; not a routine NBS target"}
+    treatment: {modality: pharmacologic, note: "beta-blockers; ICD"}
     editing_unique: false
     editing_note: "Selection-addressable when a parent carries a known variant."
 
@@ -1325,6 +1395,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "clinical surveillance/ICD; not an NBS target"}
+    treatment: {modality: pharmacologic, note: "beta-blockers; mavacamten; ICD"}
     editing_unique: false
     editing_note: "Selection-addressable when a parent carries a known variant."
 
@@ -1343,6 +1414,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "colonoscopic surveillance/colectomy; not an NBS target"}
+    treatment: {modality: surgical, note: "prophylactic colectomy"}
     editing_unique: false
     editing_note: "Selection-addressable when a parent carries a known variant."
 
@@ -1361,6 +1433,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variant (rarely pursued given adult onset)"}
       PND: {applicable: true,  note: "detectable but seldom indicated"}
       NBS: {applicable: false, note: "adult-onset cancer risk; managed by surveillance, not NBS"}
+    treatment: {modality: surgical, note: "surveillance; risk-reducing surgery"}
     editing_unique: false
     editing_note: "Selection-addressable; treatable/surveillable so reproductive intervention uncommon."
 
@@ -1379,6 +1452,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "intensive cancer surveillance; not an NBS target"}
+    treatment: {modality: supportive, note: "intensive cancer surveillance"}
     editing_unique: false
     editing_note: "Selection-addressable when a parent carries a known variant."
 
@@ -1397,6 +1471,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "surveillance imaging; not an NBS target"}
+    treatment: {modality: pharmacologic, note: "belzutifan; surgical resection"}
     editing_unique: false
     editing_note: "Selection-addressable when a parent carries a known variant."
 
@@ -1415,6 +1490,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variant"}
       PND: {applicable: true,  note: "prenatal DNA testing/ultrasound"}
       NBS: {applicable: false, note: "bisphosphonates/orthopaedic care; not an NBS target"}
+    treatment: {modality: pharmacologic, note: "bisphosphonates; orthopaedic care"}
     editing_unique: false
     editing_note: "Selection-addressable when a parent carries a known variant."
 
@@ -1433,6 +1509,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known parental variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "no early-life mitigation of vascular fragility"}
+    treatment: {modality: pharmacologic, note: "celiprolol reduces vascular events"}
     editing_unique: false
     editing_note: "Selection-addressable when a parent carries a known variant."
 
@@ -1451,6 +1528,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M possible but rarely pursued given treatability"}
       PND: {applicable: true,  note: "detectable but seldom indicated"}
       NBS: {applicable: false, note: "manageable (phototherapy, transfusion, splenectomy); not classic NBS"}
+    treatment: {modality: surgical, note: "splenectomy; transfusion/phototherapy"}
     editing_unique: false
     editing_note: "Selection-addressable; treatability makes reproductive intervention uncommon."
 
@@ -1469,6 +1547,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M available for known parental variant (elective; adult-onset)"}
       PND: {applicable: true,  note: "detectable but seldom indicated"}
       NBS: {applicable: false, note: "adult cancer risk; managed by surveillance/risk-reducing surgery"}
+    treatment: {modality: surgical, note: "risk-reducing surgery; surveillance"}
     editing_unique: false
     editing_note: "Selection-addressable; high-penetrance but treatable/surveillable, so intervention is elective."
 
@@ -1488,6 +1567,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M in the rare familial case with known maternal variant"}
       PND: {applicable: true,  note: "prenatal DNA testing when variant known"}
       NBS: {applicable: false, note: "no disease-modifying early therapy"}
+    treatment: {modality: pharmacologic, note: "trofinetide (Daybue); supportive"}
     editing_unique: false
     editing_note: "Mostly de novo; selection-addressable only in rare familial cases."
 
@@ -1506,6 +1586,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known maternal variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "not on standard NBS panels; HSCT/gene therapy curative when done early"}
+    treatment: {modality: transplant, note: "HSCT; gene therapy emerging"}
     editing_unique: false
     editing_note: "Selection-addressable when maternal variant known."
 
@@ -1524,6 +1605,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known maternal variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: true,  note: "TREC-based SCID NBS + early HSCT/gene therapy is curative"}
+    treatment: {modality: somatic_gene_cell_therapy, note: "gene therapy; HSCT"}
     editing_unique: false
     editing_note: "Selection- and NBS-addressable; a leading SCID NBS success."
 
@@ -1542,6 +1624,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known maternal variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "early copper-histidine helps only some genotypes; not standard NBS"}
+    treatment: {modality: cofactor, note: "early copper-histidine (some genotypes)"}
     editing_unique: false
     editing_note: "Selection-addressable when maternal variant known."
 
@@ -1560,6 +1643,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known familial variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "ACE inhibitors slow progression clinically; not an NBS target"}
+    treatment: {modality: pharmacologic, note: "ACE inhibitors/ARBs slow progression"}
     editing_unique: false
     editing_note: "Selection-addressable when familial variant known."
 
@@ -1578,6 +1662,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known maternal variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: false, note: "no approved therapy that halts the retinal degeneration"}
+    treatment: {modality: supportive, note: "no approved therapy; low-vision support"}
     editing_unique: false
     editing_note: "Selection-addressable when maternal variant known."
 
@@ -1596,6 +1681,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M for known maternal variant"}
       PND: {applicable: true,  note: "prenatal DNA testing"}
       NBS: {applicable: true,  note: "early detection + protein restriction/nitrogen scavengers prevents hyperammonaemic crises"}
+    treatment: {modality: dietary, note: "protein restriction; nitrogen scavengers"}
     editing_unique: false
     editing_note: "Selection- and NBS-addressable; early management mitigates."
 
@@ -1615,6 +1701,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-SR/PGT-A in rare translocation/familial cases"}
       PND: {applicable: true,  note: "prenatal microarray/methylation testing"}
       NBS: {applicable: false, note: "not an NBS target; growth hormone/management clinically"}
+    treatment: {modality: pharmacologic, note: "growth hormone; supportive"}
     editing_unique: false
     editing_note: "Selection-addressable in familial cases; imprinting defect not an editing target."
 
@@ -1633,6 +1720,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-M/PGT-SR in rare familial UBE3A or translocation cases"}
       PND: {applicable: true,  note: "prenatal microarray/methylation testing"}
       NBS: {applicable: false, note: "not an NBS target; supportive management"}
+    treatment: {modality: supportive, note: "supportive; seizure management"}
     editing_unique: false
     editing_note: "Selection-addressable in familial cases; imprinting defect not an editing target."
 
@@ -1651,6 +1739,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-A/targeted testing in the rare familial case"}
       PND: {applicable: true,  note: "prenatal microarray"}
       NBS: {applicable: false, note: "not an NBS target; associated conditions managed clinically"}
+    treatment: {modality: supportive, note: "supportive; manage cardiovascular disease"}
     editing_unique: false
     editing_note: "Selection-addressable; contiguous-gene deletion not an editing target."
 
@@ -1669,6 +1758,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-SR when a parent carries a balanced translocation"}
       PND: {applicable: true,  note: "prenatal microarray/karyotype"}
       NBS: {applicable: false, note: "not an NBS target; supportive management"}
+    treatment: {modality: supportive, note: "supportive management"}
     editing_unique: false
     editing_note: "Selection-addressable; structural deletion not an editing target."
 
@@ -1687,6 +1777,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-SR when a parent carries a balanced rearrangement"}
       PND: {applicable: true,  note: "prenatal microarray"}
       NBS: {applicable: false, note: "not an NBS target; supportive management"}
+    treatment: {modality: supportive, note: "supportive; seizure management"}
     editing_unique: false
     editing_note: "Selection-addressable; structural deletion not an editing target."
 
@@ -1705,6 +1796,7 @@ diseases:
       PGT: {applicable: true,  note: "PGT-SR when a parent carries a balanced translocation"}
       PND: {applicable: true,  note: "prenatal microarray/ultrasound"}
       NBS: {applicable: false, note: "not an NBS target; supportive management"}
+    treatment: {modality: supportive, note: "supportive; seizure management"}
     editing_unique: false
     editing_note: "Selection-addressable; structural deletion not an editing target."
 
@@ -1724,6 +1816,7 @@ diseases:
       PGT: {applicable: false, note: "not a single-gene disorder"}
       PND: {applicable: true,  note: "maternal serum AFP elevation + prenatal ultrasound"}
       NBS: {applicable: false, note: "structural at birth; surgical repair postnatally, not NBS"}
+    treatment: {modality: surgical, note: "surgical closure"}
     editing_unique: false
     editing_note: "Not selection/editing-addressable as a monogenic trait; surgically correctable."
 
@@ -1742,6 +1835,7 @@ diseases:
       PGT: {applicable: false, note: "not a single-gene disorder in most cases"}
       PND: {applicable: true,  note: "sometimes detectable on prenatal ultrasound"}
       NBS: {applicable: false, note: "surgical repair postnatally, not an NBS target"}
+    treatment: {modality: surgical, note: "surgical repair"}
     editing_unique: false
     editing_note: "Not selection/editing-addressable as a monogenic trait; surgically correctable."
 
@@ -1760,6 +1854,7 @@ diseases:
       PGT: {applicable: false, note: "not a single-gene disorder in most cases"}
       PND: {applicable: true,  note: "detectable on prenatal ultrasound/MRI"}
       NBS: {applicable: false, note: "surgical repair postnatally (± fetal therapy); not an NBS target"}
+    treatment: {modality: surgical, note: "surgical repair (+/- fetal therapy)"}
     editing_unique: false
     editing_note: "Not selection/editing-addressable as a monogenic trait; surgically correctable."
 
@@ -1778,6 +1873,7 @@ diseases:
       PGT: {applicable: false, note: "not a single-gene disorder"}
       PND: {applicable: false, note: "presents postnatally; not a prenatal diagnosis"}
       NBS: {applicable: false, note: "diagnosed clinically in infancy; pyloromyotomy is curative"}
+    treatment: {modality: surgical, note: "pyloromyotomy (curative)"}
     editing_unique: false
     editing_note: "Not selection/editing-addressable as a monogenic trait; surgically curable."
 
@@ -1796,5 +1892,6 @@ diseases:
       PGT: {applicable: false, note: "not a single-gene disorder"}
       PND: {applicable: false, note: "not a prenatal diagnosis"}
       NBS: {applicable: true,  note: "newborn hip exam (Ortolani/Barlow) ± ultrasound + early bracing corrects most cases"}
+    treatment: {modality: surgical, note: "Pavlik harness; surgery if late"}
     editing_unique: false
     editing_note: "Not selection/editing-addressable as a monogenic trait; early bracing mitigates."

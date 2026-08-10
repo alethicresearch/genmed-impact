@@ -27,6 +27,21 @@ const STATUS_STYLE: Record<StatusKey, { cls: string; short: string }> = {
   none: { cls: 'bg-slate-200 text-slate-600', short: 'No option' },
 };
 
+// Existing post-birth treatment modality — short labels for the table. Germline editing is
+// deliberately NOT here; it is a distinct kind of intervention (the residual), not a modality.
+const TREATMENT_SHORT: Record<string, string> = {
+  somatic_gene_cell_therapy: 'Gene/cell Rx',
+  enzyme_replacement: 'ERT',
+  pharmacologic: 'Drug',
+  transplant: 'Transplant',
+  dietary: 'Diet',
+  cofactor: 'Cofactor',
+  surgical: 'Surgery',
+  supportive: 'Supportive',
+  none: 'None',
+  unknown: '—',
+};
+
 const TOOLS: ToolKey[] = ['CS', 'PGT', 'PND', 'NBS'];
 
 function titleCase(s: string): string {
@@ -53,6 +68,7 @@ export default function Library({ data, state, update }: Props) {
   const sort =
     state.libsort === 'name' || state.libsort === 'status' ? state.libsort : 'births';
   const statusFilter = state.status || 'all';
+  const txFilter = state.tx || 'all';
 
   const inheritances = useMemo(
     () => Array.from(new Set(lib.diseases.map((d) => d.inheritance))).sort(),
@@ -70,6 +86,7 @@ export default function Library({ data, state, update }: Props) {
       if (inh !== 'all' && d.inheritance !== inh) return false;
       if (sev !== 'all' && d.severity !== sev) return false;
       if (statusFilter !== 'all' && d.status.status !== statusFilter) return false;
+      if (txFilter !== 'all' && d.treatment.modality !== txFilter) return false;
       if (tool !== 'any') {
         if (tool === 'reproductive') {
           if (!d.addressable_by_reproductive_tool) return false;
@@ -99,7 +116,7 @@ export default function Library({ data, state, update }: Props) {
       return b.affected_births_per_year - a.affected_births_per_year;
     });
     return rows;
-  }, [lib.diseases, q, cat, inh, sev, tool, statusFilter, sort]);
+  }, [lib.diseases, q, cat, inh, sev, tool, statusFilter, txFilter, sort]);
 
   const catOptions = [
     { value: 'all', label: 'All categories' },
@@ -128,6 +145,13 @@ export default function Library({ data, state, update }: Props) {
       label: lib.rollup.genetic_medicine_status.distribution[s].label,
     })),
   ];
+  const txDist = lib.rollup.treatment_modalities.distribution;
+  const txOptions = [
+    { value: 'all', label: 'All treatment types' },
+    ...lib.rollup.treatment_modalities.order
+      .filter((m) => txDist[m])
+      .map((m) => ({ value: m, label: txDist[m].label })),
+  ];
 
   return (
     <SourcesProvider>
@@ -137,9 +161,9 @@ export default function Library({ data, state, update }: Props) {
           subtitle="The catalogue at the centre of the model: genetic diseases mapped to their causal genes and to the interventions that can address them. Sorted by affected births per year."
         />
         <Explainer
-          whatThisShows="Every serious genetic disease in the catalogue — the gene(s) that cause it, how it is inherited, how common it is at birth, and which genetic-medicine tools can address it."
-          howToRead="Each row is one disease. The four columns on the right (CS · PGT · PND · NBS) show a check when that tool applies. Use the filters to narrow by gene, inheritance, category, or a specific tool; expand any row for its incidence source, per-tool notes, and OMIM/Orphanet links."
-          whatItDetermines="Which diseases are already reachable by today's tools — and which are not — which is what the aggregate burden numbers are built from."
+          whatThisShows="Every serious genetic disease in the catalogue — the gene(s) that cause it, how it is inherited, how common it is at birth, the type of existing treatment, and which reproductive tools apply."
+          howToRead="Each row is one disease. Status is the best thing existing genetic medicine can do; Treatment type is the kind of existing post-birth therapy (surgery, drug, enzyme replacement, gene/cell therapy, diet…); the four right-hand columns (CS · PGT · PND · NBS) flag applicable reproductive/newborn tools. Germline editing is deliberately not a treatment type here — it is a categorically different intervention, tracked as the residual (see the Residual and Embryos tabs). Filter by treatment type to separate diseases already handled by an existing modality from those that aren't."
+          whatItDetermines="How each disease is addressed today — and, by keeping editing distinct, where editing would add something existing modalities can't."
         />
 
         {/* Rollup strip */}
@@ -178,7 +202,7 @@ export default function Library({ data, state, update }: Props) {
 
         {/* Filters */}
         <Card>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-7">
             <label htmlFor="libq" className="flex flex-col gap-1 text-sm lg:col-span-1">
               <span className="font-medium text-slate-700">Search</span>
               <input
@@ -224,6 +248,13 @@ export default function Library({ data, state, update }: Props) {
               value={statusFilter}
               options={statusOptions}
               onChange={(v) => update({ status: v })}
+            />
+            <Select
+              id="tx"
+              label="Treatment type"
+              value={txFilter}
+              options={txOptions}
+              onChange={(v) => update({ tx: v })}
             />
           </div>
           <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
@@ -276,6 +307,13 @@ export default function Library({ data, state, update }: Props) {
                 >
                   Status
                 </th>
+                <th
+                  scope="col"
+                  className="px-3 py-2 text-center font-medium"
+                  title="Type of existing post-birth treatment for the born child. Germline editing is a distinct kind of intervention, not shown here."
+                >
+                  Treatment type
+                </th>
                 <th scope="col" className="px-3 py-2 text-center font-medium" title="Carrier screening / Embryo testing / Prenatal diagnosis / Newborn screening">
                   CS · PGT · PND · NBS
                 </th>
@@ -287,7 +325,7 @@ export default function Library({ data, state, update }: Props) {
               ))}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-3 py-6 text-center text-slate-500">
+                  <td colSpan={8} className="px-3 py-6 text-center text-slate-500">
                     No diseases match these filters.
                   </td>
                 </tr>
@@ -311,6 +349,20 @@ function StatusBadge({ d }: { d: Disease }) {
       title={`${st.label} — the best thing existing genetic medicine can currently do for this disease.`}
     >
       {style.short}
+    </span>
+  );
+}
+
+function TreatmentBadge({ d }: { d: Disease }) {
+  const t = d.treatment;
+  const short = TREATMENT_SHORT[t.modality] ?? t.label;
+  const cls = t.disease_modifying ? 'bg-violet-100 text-violet-800' : 'bg-slate-100 text-slate-500';
+  return (
+    <span
+      className={`inline-block whitespace-nowrap rounded px-2 py-0.5 text-xs font-medium ${cls}`}
+      title={`${t.label}${t.note ? ' — ' + t.note : ''}. Existing post-birth treatment type; germline editing is a distinct intervention, not shown here.`}
+    >
+      {short}
     </span>
   );
 }
@@ -377,6 +429,9 @@ function DiseaseRow({
         <td className="px-3 py-2 text-center">
           <StatusBadge d={d} />
         </td>
+        <td className="px-3 py-2 text-center">
+          <TreatmentBadge d={d} />
+        </td>
         <td className="px-3 py-2">
           <span className="flex items-center justify-center gap-2 font-mono text-sm">
             {TOOLS.map((t) => {
@@ -398,7 +453,7 @@ function DiseaseRow({
       </tr>
       {open && (
         <tr className="border-b border-slate-200 bg-slate-50/60">
-          <td colSpan={7} className="px-4 py-3">
+          <td colSpan={8} className="px-4 py-3">
             <DiseaseDetail d={d} />
           </td>
         </tr>
@@ -446,6 +501,16 @@ function DiseaseDetail({ d }: { d: Disease }) {
         <p>
           <span className="font-medium text-slate-600">Onset: </span>
           <span className="text-slate-700">{titleCase(d.onset)}</span>
+        </p>
+        <p>
+          <span className="font-medium text-slate-600">Existing treatment: </span>
+          <span className="text-slate-700">
+            {d.treatment.label}
+            {d.treatment.note ? ` — ${d.treatment.note}` : ''}
+          </span>
+          <span className="block text-xs text-slate-400">
+            Germline editing is a distinct kind of intervention, not an existing treatment modality.
+          </span>
         </p>
         <p>
           <span className="font-medium text-slate-600">Incidence: </span>
