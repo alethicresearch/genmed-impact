@@ -269,9 +269,9 @@ export default function Prevention({ data, state, update }: Props) {
       </Card>
 
       <p className="text-xs text-slate-500">
-        NBS averts burden, not births — its averted-birth fraction is 0 by design and it appears
-        only in the burden track. Coverage and effectiveness for the chosen scenario are already
-        baked into the fractions; the app does not recompute them.
+        Newborn screening treats disease rather than preventing a birth, so its averted-birth share
+        is zero and it appears only in the burden track. Each scenario's coverage and effectiveness
+        are already included in the figures shown.
       </p>
     </div>
   );
