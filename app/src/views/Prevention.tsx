@@ -70,6 +70,15 @@ export default function Prevention({ data, state, update }: Props) {
   const totalAverted =
     track === 'burden' ? leaf.total_averted_burden_fraction : leaf.total_averted_birth_fraction;
 
+  // Full-coverage floor: what is still NOT prevented for this class even at ideal coverage —
+  // i.e. the biological floor the existing tools cannot reach, which is editing's domain.
+  const idealLeaf = data.prevention[region!]?.['ideal']?.[cls]?.[pndKey];
+  const floorFrac = idealLeaf
+    ? track === 'burden'
+      ? idealLeaf.residual_burden_fraction.median
+      : idealLeaf.residual_birth_fraction.median
+    : undefined;
+
   // Illustrative coverage scaling of displayed averted fractions (display-only).
   const scale = coverage;
   const scaledAverted = tools.map((t) => ({ tool: t, frac: avertedMap[t].median * scale }));
@@ -140,9 +149,19 @@ export default function Prevention({ data, state, update }: Props) {
           <Waterfall
             steps={scaledAverted}
             residual={residualScaled}
+            floor={floorFrac}
             colors={TOOL_COLOR}
           />
         </div>
+        {floorFrac !== undefined && scenario !== 'ideal' && (
+          <p className="mt-1 text-xs text-slate-600">
+            The dashed line is the <strong>full-coverage floor</strong> — what the existing tools
+            cannot reach for this class even at 100% coverage ({fmtPct(floorFrac, 1)}). In the
+            “Not prevented” bar, everything <em>above</em> the line is{' '}
+            <strong>access headroom</strong> (closed by scaling the tools); only the sliver{' '}
+            <em>below</em> it is germline editing's domain.
+          </p>
+        )}
 
         <div className="mt-3">
           <label htmlFor="cov" className="flex flex-col gap-1 text-sm">
@@ -352,11 +371,12 @@ function clamp(n: number, lo: number, hi: number) {
 interface WaterfallProps {
   steps: Array<{ tool: ToolKey; frac: number }>;
   residual: number;
+  floor?: number;
   colors: Record<ToolKey, string>;
 }
 
 // Waterfall as inline SVG: start at 100%, subtract each tool's averted fraction.
-function Waterfall({ steps, residual, colors }: WaterfallProps) {
+function Waterfall({ steps, residual, floor, colors }: WaterfallProps) {
   const W = 820;
   const H = 300;
   const padL = 40;
@@ -443,6 +463,22 @@ function Waterfall({ steps, residual, colors }: WaterfallProps) {
           </text>
         </g>
       ))}
+      {floor !== undefined && floor >= 0 && floor <= 1 && (
+        <g>
+          <line
+            x1={padL}
+            x2={W - padR}
+            y1={y(floor)}
+            y2={y(floor)}
+            stroke="#6d28d9"
+            strokeWidth={1.5}
+            strokeDasharray="6 4"
+          />
+          <text x={padL + 4} y={y(floor) - 4} fontSize={10} fill="#6d28d9">
+            Full-coverage floor · editing's domain ≈ {fmtPct(floor, 1)}
+          </text>
+        </g>
+      )}
     </svg>
   );
 }
