@@ -53,7 +53,7 @@ export default function Residual({ data, state, update }: Props) {
               checked={includeContested}
               onChange={(v) => update({ deaf: v ? '1' : '0' })}
             />
-            <p className="mt-1 max-w-2xl text-xs text-slate-600">
+            <p className="mt-1 text-xs text-slate-600">
               Deafness is a contested inclusion: many Deaf people and scholars reject the
               characterization of deafness as a condition that should necessarily be prevented.
               This toggle is a <strong>normative classification decision</strong>, not
@@ -129,7 +129,7 @@ export default function Residual({ data, state, update }: Props) {
         <h3 className="text-base font-semibold text-slate-900">
           Where do these families live? — by World Bank income group
         </h3>
-        <p className="mt-1 max-w-3xl text-xs text-slate-600">{r.s1_by_region_note}</p>
+        <p className="mt-1 text-xs text-slate-600">{r.s1_by_region_note}</p>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full border-collapse text-sm">
             <caption className="sr-only">S1 residual births per year by income group</caption>
@@ -165,7 +165,7 @@ export default function Residual({ data, state, update }: Props) {
         <h3 className="text-base font-semibold text-slate-900">
           Potential editing advantage in complex disease
         </h3>
-        <p className="mt-1 max-w-3xl text-sm text-slate-600">
+        <p className="mt-1 text-sm text-slate-600">
           Unlike the editing-only population above, this term does <em>not</em> mean no
           alternative exists. It asks whether editing could provide a meaningful advantage over
           selection, treatment, or prevention for common complex diseases — a modeled
@@ -222,7 +222,7 @@ export default function Residual({ data, state, update }: Props) {
             ({includeContested ? 'incl.' : 'excl.'} deafness)
           </span>
         </h3>
-        <p className="mb-3 max-w-3xl text-sm text-slate-600">
+        <p className="mb-3 text-sm text-slate-600">
           The two components below have different evidentiary status and should not be read as
           equivalent: the first is an editing-only population within the model; the second is a
           hypothesized advantage. Their sum bounds a broader “editing-relevant” population.

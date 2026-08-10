@@ -100,7 +100,7 @@ export default function Prevention({ data, state, update }: Props) {
         title="What current medicine can do"
         subtitle="The four existing pathways applied one after another, under a chosen real-world coverage scenario."
       />
-      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
+      <p className="text-sm leading-relaxed text-slate-700">
         None of these pathways is a treatment in itself — each is a test plus what follows it.{' '}
         <strong>Carrier screening</strong> identifies risk and enables reproductive planning;{' '}
         <strong>IVF with embryo selection (PGT-M)</strong> avoids transferring an affected embryo;{' '}
@@ -109,7 +109,7 @@ export default function Prevention({ data, state, update }: Props) {
         enables earlier treatment. The model keeps two tracks separate throughout:{' '}
         <em>affected births avoided</em> and <em>disease burden mitigated after birth</em>.
       </p>
-      <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
+      <p className="text-sm leading-relaxed text-slate-700">
         In the chart, each pathway removes a share of a disease class&apos;s affected births; the
         bar shrinks toward what is still not prevented. Most of that remainder is cases the
         pathways would reach but don&apos;t today, because access is incomplete — it closes as
@@ -150,7 +150,7 @@ export default function Prevention({ data, state, update }: Props) {
           onChange={(v) => update({ track: v })}
         />
       </div>
-      <div className="max-w-3xl rounded border border-slate-200 bg-slate-50 p-3">
+      <div className="rounded border border-slate-200 bg-slate-50 p-3">
         <Toggle
           label="Count prenatal diagnosis followed by pregnancy termination as reducing affected births?"
           checked={pndOn}

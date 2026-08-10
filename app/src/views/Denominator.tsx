@@ -124,7 +124,7 @@ export default function Denominator({ data, state, update }: Props) {
           <p className="mt-1 max-w-md text-xs text-slate-500">{ATTR_HELP[attribution]}</p>
         </div>
       </div>
-      <p className="max-w-3xl text-xs text-slate-500">
+      <p className="text-xs text-slate-500">
         There is no uniquely correct way to attribute multifactorial disease to genetics; this
         choice is deliberately exposed because it strongly affects the denominator.
       </p>

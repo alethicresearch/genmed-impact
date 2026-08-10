@@ -544,7 +544,7 @@ function H({ children }: { children: ReactNode }) {
 }
 // Prose capped at a readable measure; figures and stat cards keep the full width.
 function Lead({ children }: { children: ReactNode }) {
-  return <p className="max-w-[72ch] text-[15px] leading-7 text-slate-700">{children}</p>;
+  return <p className="text-[15px] leading-7 text-slate-700">{children}</p>;
 }
 function Big({ children }: { children: ReactNode }) {
   return <span className="text-2xl font-bold text-slate-900">{children}</span>;
