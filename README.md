@@ -1,7 +1,5 @@
 # Reframing Genetic Medicine in Terms of Impact
 
-Sankalpa Ghose · D. A. Wallach · Peter Singer · Julian Savulescu
-
 [Research page](https://alethicresearch.github.io/genmed-impact/) · [Paper — in preparation](#paper) · [Results & data](results/) · [Citation](#citation)
 
 > **Work in progress.** The analysis and accompanying manuscript are under development. Numerical results, disease classifications, and figures may change before the analysis is frozen for submission.
@@ -247,7 +245,7 @@ Machine-readable citation metadata is provided in [`CITATION.cff`](CITATION.cff)
 ```bibtex
 @software{genmed_impact,
   title  = {Reframing Genetic Medicine in Terms of Impact},
-  author = {Ghose, Sankalpa and Wallach, D. A. and Singer, Peter and Savulescu, Julian},
+  author = {{Authors to be listed at manuscript submission}},
   year   = {2026},
   url    = {https://github.com/alethicresearch/genmed-impact},
   note   = {Code Apache-2.0; curated data CC-BY-4.0.}

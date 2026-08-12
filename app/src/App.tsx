@@ -86,7 +86,7 @@ const DATA_ARCHIVE_URL = `${REPO_URL}/tree/main/results`;
 
 const BIBTEX = `@software{genmed_impact,
   title  = {Reframing Genetic Medicine in Terms of Impact},
-  author = {Ghose, Sankalpa and Wallach, D. A. and Singer, Peter and Savulescu, Julian},
+  author = {{Authors to be listed at manuscript submission}},
   year   = {2026},
   url    = {https://github.com/alethicresearch/genmed-impact},
   note   = {Version 0.1.0. Code Apache-2.0; curated data CC-BY-4.0.}
@@ -137,12 +137,6 @@ export default function App() {
             Reframing Genetic Medicine in Terms of Impact
           </h1>
         </button>
-        {/* Author names only — manuscript affiliations are finalised in the paper, not here. */}
-        <p className="mt-1 text-sm text-slate-600">
-          Sankalpa Ghose <span className="text-slate-400">·</span> D. A. Wallach{' '}
-          <span className="text-slate-400">·</span> Peter Singer{' '}
-          <span className="text-slate-400">·</span> Julian Savulescu
-        </p>
         <p className="mt-1.5 text-sm leading-6 text-slate-600">
           A quantitative framework for comparing what genetic medicine can achieve now, where
           germline editing has a distinct translational role, and how the role of editing could

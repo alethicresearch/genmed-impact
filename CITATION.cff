@@ -27,19 +27,9 @@ keywords:
   - global burden of disease
   - reproducible research
 authors:
-  # Manuscript author order: SG, DAW, PS, JS. TODO(authors): add affiliations + ORCIDs.
-  - family-names: Ghose
-    given-names: Sankalpa
-    # orcid: "https://orcid.org/0000-0000-0000-0000"   # TODO
-  - family-names: Wallach
-    given-names: D. A.
-    # orcid: "https://orcid.org/0000-0000-0000-0000"   # TODO
-  - family-names: Singer
-    given-names: Peter
-    # orcid: "https://orcid.org/0000-0000-0000-0000"   # TODO
-  - family-names: Savulescu
-    given-names: Julian
-    # orcid: "https://orcid.org/0000-0000-0000-0000"   # TODO
+  # TODO(authors): replace with the manuscript's confirmed author list, affiliations, and
+  # ORCIDs before the Zenodo deposit / camera-ready submission. Left unattributed for now.
+  - name: "Authors to be listed at manuscript submission"
 # TODO(authors): once the paper has a DOI, add it here and mirror it in .zenodo.json.
 # preferred-citation:
 #   type: article
