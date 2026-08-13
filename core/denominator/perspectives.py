@@ -91,9 +91,16 @@ INDIVIDUAL_BENEFIT = {
 PERSPECTIVES = {
     "population_health": {
         "label": "Population health",
+        "tradition": "Aggregative consequentialism / cost-effectiveness analysis",
         "stance": "Maximise expected cases averted per dollar across the whole birth cohort.",
         "rationale": "The standard public-health objective: the strongest claim on shared "
                      "resources is the one that prevents the most disease overall.",
+        "citations": [
+            "Murray CJL, Lopez AD. The Global Burden of Disease. Harvard/WHO, 1996 — the "
+            "summary-measure tradition that makes aggregate health comparable across causes.",
+            "WHO-CHOICE. Cost-effectiveness thresholds and generalised cost-effectiveness "
+            "analysis for health-sector priority setting.",
+        ],
         "weights": {
             "population_impact": 0.30, "cost_efficiency": 0.30, "individual_benefit": 0.05,
             "equity": 0.15, "certainty": 0.15, "immediacy": 0.05,
@@ -101,9 +108,17 @@ PERSPECTIVES = {
     },
     "clinical_family": {
         "label": "Clinical & family",
+        "tradition": "Rule of rescue / reproductive autonomy",
         "stance": "Weight the strength of the clinical case for the individual patient or family.",
         "rationale": "A family for whom no unaffected embryo can be selected has an urgent "
                      "claim that does not diminish because the population it belongs to is small.",
+        "citations": [
+            "Jonsen AR. Bentham in a box: technology assessment and health care allocation. "
+            "Law, Medicine & Health Care, 1986 — the 'rule of rescue': identified individuals "
+            "in peril exert a moral claim that aggregate calculation understates.",
+            "Robertson JA. Children of Choice: Freedom and the New Reproductive Technologies. "
+            "Princeton, 1994 — procreative liberty as the frame for reproductive decisions.",
+        ],
         "weights": {
             "population_impact": 0.05, "cost_efficiency": 0.05, "individual_benefit": 0.50,
             "equity": 0.10, "certainty": 0.15, "immediacy": 0.15,
@@ -111,9 +126,18 @@ PERSPECTIVES = {
     },
     "equity_first": {
         "label": "Equity first",
+        "tradition": "Prioritarianism / fair equality of opportunity",
         "stance": "Prioritise reaching populations that existing genetic medicine does not serve.",
         "rationale": "Most serious genetic disease occurs where access is weakest; an "
                      "intervention that only reaches well-served populations widens the gap.",
+        "citations": [
+            "Parfit D. Equality and Priority. Ratio, 1997 — benefits matter more the worse off "
+            "the recipient is.",
+            "Daniels N. Just Health: Meeting Health Needs Fairly. Cambridge, 2008 — health "
+            "institutions as protectors of fair equality of opportunity.",
+            "WHO. Making Fair Choices on the Path to Universal Health Coverage. 2014 — explicit "
+            "priority to the worse-off in coverage decisions.",
+        ],
         "weights": {
             "population_impact": 0.15, "cost_efficiency": 0.15, "individual_benefit": 0.10,
             "equity": 0.45, "certainty": 0.10, "immediacy": 0.05,
@@ -121,9 +145,17 @@ PERSPECTIVES = {
     },
     "evidence_first": {
         "label": "Evidence first",
+        "tradition": "Evidence-based medicine / precautionary governance",
         "stance": "Fund what is demonstrably effective; discount speculative benefit heavily.",
         "rationale": "The evaluator's position: expected value computed from weak evidence is "
                      "not a reason to move money, and probability-weighted futures are cheap to assert.",
+        "citations": [
+            "Guyatt GH et al. GRADE: an emerging consensus on rating quality of evidence and "
+            "strength of recommendations. BMJ, 2008.",
+            "National Academies of Sciences, Engineering, and Medicine. Human Genome Editing: "
+            "Science, Ethics, and Governance. 2017.",
+            "WHO. Human genome editing: a framework for governance. 2021.",
+        ],
         "weights": {
             "population_impact": 0.20, "cost_efficiency": 0.20, "individual_benefit": 0.05,
             "equity": 0.05, "certainty": 0.40, "immediacy": 0.10,
@@ -131,9 +163,17 @@ PERSPECTIVES = {
     },
     "translational_research": {
         "label": "Translational research",
+        "tradition": "Staged ethical pathway / option value",
         "stance": "Fund the work that creates options which do not currently exist.",
         "rationale": "Implementation can only deploy what has already been developed; someone "
                      "has to accept high uncertainty to expand the set of available routes.",
+        "citations": [
+            "Savulescu J, Singer P. An ethical pathway for gene editing. Bioethics, 2019. "
+            "doi:10.1111/bioe.12570 — a staged progression in which the strongest disease cases "
+            "justify carefully governed first steps.",
+            "Savulescu J. Procreative beneficence: why we should select the best children. "
+            "Bioethics, 2001.",
+        ],
         "weights": {
             "population_impact": 0.10, "cost_efficiency": 0.05, "individual_benefit": 0.35,
             "equity": 0.05, "certainty": 0.05, "immediacy": 0.40,
@@ -248,9 +288,13 @@ def build_perspectives(opportunities: list[dict]) -> dict[str, Any]:
             "n_perspectives": len(PERSPECTIVES),
             "n_opportunities": len(scored),
             "caveats": [
-                "These perspectives are stipulated positions, not survey results. No group has "
-                "been asked what it believes; each profile is a declared weighting with its "
-                "reasoning attached, and can be reweighted.",
+                "Each position names an ethical tradition that is genuinely argued for in the "
+                "literature, with representative citations. The numeric weights, however, are "
+                "our operationalisation of that position for this exercise — none of the cited "
+                "authors published a weight vector, and they should not be read as endorsing one.",
+                "These are stipulated positions, not survey results. No group has been asked "
+                "what it believes; each profile can be reweighted, and readers are invited to "
+                "set their own weights rather than accept these.",
                 "Scoring opportunities from different markets on one 0-100 scale requires "
                 "commensurating units that are not naturally comparable. That commensuration is "
                 "itself a normative choice, which is why the underlying quantities stay visible.",
@@ -260,7 +304,8 @@ def build_perspectives(opportunities: list[dict]) -> dict[str, Any]:
         },
         "dimensions": DIMENSIONS,
         "perspectives": {
-            k: {"label": p["label"], "stance": p["stance"], "rationale": p["rationale"],
+            k: {"label": p["label"], "tradition": p["tradition"], "stance": p["stance"],
+                "rationale": p["rationale"], "citations": p["citations"],
                 "weights": p["weights"], "inverts_immediacy": k in INVERTS_IMMEDIACY}
             for k, p in PERSPECTIVES.items()
         },

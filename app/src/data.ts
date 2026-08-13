@@ -484,6 +484,8 @@ export interface Opportunities {
 
 export interface PerspectiveProfile {
   label: string;
+  tradition: string;
+  citations: string[];
   stance: string;
   rationale: string;
   weights: Record<string, number>;

@@ -111,3 +111,19 @@ def test_ledger_schema_defines_the_full_loop(constants):
     assert "delivery_ratio" in derived
     assert "realized_cost_per_outcome" in derived
     assert r["retroactive_rules"]
+
+
+def test_positions_are_grounded_in_named_traditions(persp):
+    """Each position must name a real ethical tradition and cite representative work."""
+    for key, p in persp["perspectives"].items():
+        assert p["tradition"], f"{key} names no ethical tradition"
+        assert p["citations"], f"{key} cites nothing"
+        for c in p["citations"]:
+            assert len(c) > 30, f"{key} has a stub citation: {c!r}"
+
+
+def test_weights_are_declared_as_our_operationalisation(persp):
+    """The cited authors did not publish weight vectors; the site must not imply they did."""
+    blob = " ".join(persp["meta"]["caveats"]).lower()
+    assert "operationalisation" in blob or "operationalization" in blob
+    assert "did not publish" in blob or "not published" in blob or "none of the cited" in blob

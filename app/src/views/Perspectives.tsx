@@ -3,6 +3,7 @@ import { AllData, fmtPct } from '../data';
 import { UrlState } from '../urlState';
 import { Card, SectionHeading } from '../components/ui';
 import { InlineLink } from '../components/prose';
+import { RESPONDENT_TYPES, buildResponse, scoreWithWeights, useElicitation } from '../elicitation';
 
 interface Props {
   data: AllData;
@@ -34,6 +35,35 @@ export default function Perspectives({ data, update }: Props) {
     () => Object.fromEntries(p.scored.map((s) => [s.id, s])),
     [p.scored]
   );
+
+  const { state: elicit, patch, setWeight, resetWeights } = useElicitation();
+  const hasOwnWeights = Object.values(elicit.weights).some((v) => v > 0);
+
+  // The visitor's own ranking, recomputed from the precomputed dimension scores.
+  const ownRanking = useMemo(() => {
+    if (!hasOwnWeights) return [];
+    return p.scored
+      .map((s) => ({
+        s,
+        score: scoreWithWeights(s.dimensions, elicit.weights, elicit.valuesDistantPayoffs),
+      }))
+      .sort((a, b) => b.score - a.score);
+  }, [p.scored, elicit.weights, elicit.valuesDistantPayoffs, hasOwnWeights]);
+
+  // Which declared position the visitor's ranking most resembles (rank correlation of top order).
+  const closest = useMemo(() => {
+    if (!hasOwnWeights) return null;
+    const mine = ownRanking.map((r) => r.s.id);
+    let best: { key: string; agree: number } | null = null;
+    for (const k of keys) {
+      const theirs = p.rankings[k];
+      const topN = Math.min(10, mine.length);
+      const overlap = mine.slice(0, topN).filter((id) => theirs.slice(0, topN).includes(id)).length;
+      const agree = overlap / topN;
+      if (!best || agree > best.agree) best = { key: k, agree };
+    }
+    return best;
+  }, [ownRanking, p.rankings, keys, hasOwnWeights]);
 
   const focusOrder = p.rankings[focus] || [];
   const rows = showAll ? focusOrder : focusOrder.slice(0, 10);
@@ -91,6 +121,7 @@ export default function Perspectives({ data, update }: Props) {
                     style={{ backgroundColor: PERSPECTIVE_COLORS[k] }}
                   />
                   <span className="text-sm font-semibold text-slate-900">{prof.label}</span>
+                  <span className="text-[11px] italic text-slate-400">{prof.tradition}</span>
                   {active && (
                     <span className="ml-auto text-[11px] font-medium uppercase tracking-wide text-accent">
                       ranking shown
@@ -231,6 +262,90 @@ export default function Perspectives({ data, update }: Props) {
         </ul>
       </Card>
 
+      {/* Set your own weights */}
+      <Card className="border-accent/50">
+        <h3 className="text-base font-semibold text-slate-900">Set your own weights</h3>
+        <p className="mt-1 text-sm text-slate-600">
+          Rather than accept the positions above, say how much each dimension matters to you. Your
+          ranking is recomputed from the same underlying scores, and compared with the declared
+          positions.
+        </p>
+        <div className="mt-3 space-y-2.5">
+          {Object.entries(p.dimensions).map(([k, d]) => (
+            <div key={k} className="flex flex-wrap items-center gap-3">
+              <label htmlFor={`w-${k}`} className="w-48 shrink-0 text-sm text-slate-700">
+                {d.label}
+              </label>
+              <input
+                id={`w-${k}`}
+                type="range"
+                min={0}
+                max={100}
+                step={5}
+                value={elicit.weights[k] ?? 0}
+                onChange={(e) => setWeight(k, Number(e.target.value))}
+                className="h-2 w-56 max-w-full"
+              />
+              <span className="tnum w-10 text-right text-xs text-slate-500">
+                {elicit.weights[k] ?? 0}
+              </span>
+            </div>
+          ))}
+        </div>
+        <label className="mt-3 flex items-center gap-2 text-sm text-slate-700">
+          <input
+            type="checkbox"
+            checked={elicit.valuesDistantPayoffs}
+            onChange={(e) => patch({ valuesDistantPayoffs: e.target.checked })}
+          />
+          I value work whose payoff is distant (inverts immediacy, as the translational position does)
+        </label>
+
+        {hasOwnWeights ? (
+          <div className="mt-4 border-t border-slate-200 pt-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Your top 10
+            </p>
+            <ol className="mt-1.5 space-y-1">
+              {ownRanking.slice(0, 10).map((r, i) => (
+                <li key={r.s.id} className="flex flex-wrap items-baseline gap-2 text-sm">
+                  <span className="tnum w-5 text-slate-400">{i + 1}</span>
+                  <span className="text-slate-900">{r.s.title}</span>
+                  <span className="text-xs text-slate-400">
+                    {MARKET_LABEL[r.s.market] ?? r.s.market} · {r.score.toFixed(0)}
+                  </span>
+                </li>
+              ))}
+            </ol>
+            {closest && (
+              <p className="mt-2 text-sm text-slate-700">
+                Your top 10 overlaps most with{' '}
+                <span
+                  className="font-semibold"
+                  style={{ color: PERSPECTIVE_COLORS[closest.key] }}
+                >
+                  {p.perspectives[closest.key]?.label}
+                </span>{' '}
+                ({fmtPct(closest.agree, 0)} of the same opportunities).
+              </p>
+            )}
+            <button
+              type="button"
+              onClick={resetWeights}
+              className="mt-2 text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              Reset weights
+            </button>
+          </div>
+        ) : (
+          <p className="mt-3 text-sm text-slate-500">
+            Move any slider above zero to see your own ranking.
+          </p>
+        )}
+      </Card>
+
+      <ElicitationExport data={data} />
+
       {/* Dimensions + caveats */}
       <Card className="bg-slate-50">
         <h3 className="text-sm font-semibold text-slate-900">What the positions weight</h3>
@@ -242,6 +357,26 @@ export default function Perspectives({ data, update }: Props) {
             </div>
           ))}
         </dl>
+        <h3 className="mt-4 text-sm font-semibold text-slate-900">
+          Where these positions come from
+        </h3>
+        <div className="mt-2 space-y-2">
+          {keys.map((k) => (
+            <div key={k} className="text-[13px] leading-6">
+              <p className="font-medium text-slate-700">
+                {p.perspectives[k].label}{' '}
+                <span className="font-normal italic text-slate-500">
+                  — {p.perspectives[k].tradition}
+                </span>
+              </p>
+              <ul className="ml-4 list-disc text-slate-600">
+                {p.perspectives[k].citations.map((c) => (
+                  <li key={c}>{c}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
         <ul className="mt-3 space-y-1.5">
           {p.meta.caveats.map((c) => (
             <li key={c} className="flex gap-2.5 text-[13px] leading-6 text-slate-600">
@@ -308,5 +443,124 @@ function PerspectiveBars({
         </div>
       ))}
     </div>
+  );
+}
+
+/**
+ * The elicitation record. This site is a static page with no backend, so nothing is transmitted:
+ * a respondent exports their own answer and decides whether to send it on.
+ */
+function ElicitationExport({ data }: { data: AllData }) {
+  const { state, patch, reset } = useElicitation();
+  const [copied, setCopied] = useState(false);
+
+  const allocationDetail = useMemo(() => {
+    const byId = Object.fromEntries(
+      data.opportunities.opportunities.map((o) => [o.id, o])
+    );
+    return Object.entries(state.allocation)
+      .filter(([, amt]) => amt > 0)
+      .map(([id, amt]) => ({
+        id,
+        title: byId[id]?.title ?? id,
+        market: byId[id]?.market ?? 'unknown',
+        amount_usd: amt,
+      }));
+  }, [state.allocation, data.opportunities.opportunities]);
+
+  const record = useMemo(
+    () =>
+      buildResponse(state, {
+        commit: data.meta.commit,
+        poolUsd: data.opportunities.meta.default_pool_usd,
+      }, allocationDetail),
+    [state, data.meta.commit, data.opportunities.meta.default_pool_usd, allocationDetail]
+  );
+
+  const json = JSON.stringify(record, null, 2);
+  const nothingRecorded =
+    !state.respondentType && allocationDetail.length === 0 &&
+    !Object.values(state.weights).some((v) => v > 0);
+
+  return (
+    <Card>
+      <h3 className="text-base font-semibold text-slate-900">Record your response</h3>
+      <p className="mt-1 text-sm leading-6 text-slate-600">
+        If you would like your allocation and weights to count towards a comparison across
+        vantage points, tag them and export the record below.
+      </p>
+
+      <label className="mt-3 flex flex-col gap-1 text-sm">
+        <span className="font-medium text-slate-700">I am answering as</span>
+        <select
+          value={state.respondentType}
+          onChange={(e) => patch({ respondentType: e.target.value })}
+          className="w-72 max-w-full rounded border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          {RESPONDENT_TYPES.map((r) => (
+            <option key={r.value} value={r.value}>
+              {r.label}
+            </option>
+          ))}
+        </select>
+      </label>
+      {state.respondentType === 'other' && (
+        <input
+          type="text"
+          value={state.otherDetail}
+          placeholder="Describe your vantage point"
+          onChange={(e) => patch({ otherDetail: e.target.value })}
+          className="mt-2 w-72 max-w-full rounded border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        />
+      )}
+
+      <p className="mt-3 text-sm text-slate-700">
+        Currently recorded: {allocationDetail.length} allocation
+        {allocationDetail.length === 1 ? '' : 's'},{' '}
+        {Object.values(state.weights).filter((v) => v > 0).length} weighted dimension
+        {Object.values(state.weights).filter((v) => v > 0).length === 1 ? '' : 's'}.
+      </p>
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        <button
+          type="button"
+          disabled={nothingRecorded}
+          onClick={() => {
+            navigator.clipboard?.writeText(json).then(
+              () => {
+                setCopied(true);
+                window.setTimeout(() => setCopied(false), 2000);
+              },
+              () => setCopied(false)
+            );
+          }}
+          className="rounded border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          {copied ? 'Copied ✓' : 'Copy response as JSON'}
+        </button>
+        <button
+          type="button"
+          onClick={reset}
+          className="rounded border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-500 hover:border-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          Clear everything
+        </button>
+      </div>
+
+      <details className="mt-3">
+        <summary className="cursor-pointer text-xs font-medium text-slate-600">
+          Preview the record
+        </summary>
+        <pre className="mt-2 max-h-64 overflow-auto rounded bg-slate-900 p-3 text-[11px] leading-5 text-slate-100">
+          {json}
+        </pre>
+      </details>
+
+      <p className="mt-3 text-xs leading-5 text-slate-500">
+        Nothing is sent anywhere. This is a static page with no backend; your response is held in
+        this browser only, and exporting it is entirely your choice. It is stamped with the
+        pipeline commit so that a response can be matched to the figures it was made against.
+      </p>
+    </Card>
   );
 }

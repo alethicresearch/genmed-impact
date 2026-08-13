@@ -11,6 +11,7 @@ import {
 import { UrlState } from '../urlState';
 import { Card, SectionHeading } from '../components/ui';
 import { InlineLink } from '../components/prose';
+import { useElicitation } from '../elicitation';
 
 interface Props {
   data: AllData;
@@ -39,8 +40,9 @@ export default function ImpactFunding({ data, update }: Props) {
 
   const [market, setMarket] = useState<MarketKey>('impact_now');
   const [sort, setSort] = useState<'impact' | 'efficiency' | 'ask'>('efficiency');
-  // Allocation is a local thought-experiment: opportunity id → dollars committed.
-  const [alloc, setAlloc] = useState<Record<string, number>>({});
+  // Allocation is shared with the perspectives view and kept in this browser only.
+  const { state: elicit, setAllocation, clearAllocation } = useElicitation();
+  const alloc = elicit.allocation;
 
   const committed = Object.values(alloc).reduce((a, b) => a + b, 0);
   const remaining = Math.max(0, pool - committed);
@@ -76,13 +78,7 @@ export default function ImpactFunding({ data, update }: Props) {
     return byMarket;
   }, [alloc, opportunities, markets]);
 
-  const setAmount = (id: string, amount: number) =>
-    setAlloc((prev) => {
-      const next = { ...prev };
-      if (amount <= 0) delete next[id];
-      else next[id] = amount;
-      return next;
-    });
+  const setAmount = (id: string, amount: number) => setAllocation(id, amount);
 
   return (
     <div className="space-y-6">
@@ -166,7 +162,7 @@ export default function ImpactFunding({ data, update }: Props) {
             </p>
             <button
               type="button"
-              onClick={() => setAlloc({})}
+              onClick={clearAllocation}
               className="text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               Clear allocation
