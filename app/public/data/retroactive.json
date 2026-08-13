@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "note_kind": "mechanism_definition",
+    "n_ledger_entries": 0,
+    "caveats": [
+      "The forward ledger is empty. No project has been funded or reported through this market, and no outcome has been simulated to fill the gap.",
+      "Retrospective validation rests on two long-running programmes. Two cases can show whether an assumption is in the right range; they cannot validate the model as a whole.",
+      "Published programme reductions reflect decades of sustained delivery in high-prevalence populations, so they are an optimistic comparator for a new programme starting from low coverage."
+    ]
+  },
+  "validation": [
+    {
+      "key": "thalassaemia",
+      "programme": "National thalassaemia programmes (Cyprus, Sardinia, Greece)",
+      "what_ran": "Population carrier screening with counselling and prenatal diagnosis, sustained over decades in high-prevalence populations.",
+      "model_param_label": "Assumed carrier-screening effectiveness at full coverage (monogenic)",
+      "modelled_effectiveness": 0.85,
+      "modelled_low": 0.6,
+      "modelled_high": 0.95,
+      "outcome_label": "Observed reduction in thalassaemia major births",
+      "observed_reduction": 0.9,
+      "observed_low": 0.7,
+      "observed_high": 0.95,
+      "observed_over_modelled": 1.0588235294117647,
+      "within_modelled_interval": true,
+      "source": "Cyprus/Sardinia/Greece national thalassaemia programs",
+      "doi": "10.2471/BLT.06.036673",
+      "citation": "Angastiniotis & Hadjiminas 1981; Cao 1989; Kattamis 2020"
+    },
+    {
+      "key": "down_syndrome",
+      "programme": "Nordic prenatal screening (Denmark, Iceland, Netherlands)",
+      "what_ran": "Universal offer of prenatal screening with diagnostic confirmation and non-directive counselling.",
+      "model_param_label": "Assumed prenatal-diagnosis effectiveness at full coverage",
+      "modelled_effectiveness": 0.7,
+      "modelled_low": 0.4,
+      "modelled_high": 0.9,
+      "outcome_label": "Observed reduction in Down syndrome births",
+      "observed_reduction": 0.7,
+      "observed_low": 0.55,
+      "observed_high": 0.85,
+      "observed_over_modelled": 1.0,
+      "within_modelled_interval": true,
+      "source": "Denmark/Iceland/Netherlands prenatal screening outcomes",
+      "doi": "n/a",
+      "citation": "Wald 2018"
+    }
+  ],
+  "ledger_schema": {
+    "committed": [
+      {
+        "field": "opportunity_id",
+        "meaning": "Which modelled opportunity the project addresses."
+      },
+      {
+        "field": "funder_commitment_usd",
+        "meaning": "Money committed at the time of funding."
+      },
+      {
+        "field": "predicted_impact_per_year",
+        "meaning": "What the model predicted that money would buy."
+      },
+      {
+        "field": "predicted_coverage_gain",
+        "meaning": "The coverage increase the project committed to."
+      },
+      {
+        "field": "reporting_period_years",
+        "meaning": "When the project must report outcomes."
+      }
+    ],
+    "reported": [
+      {
+        "field": "realized_coverage_gain",
+        "meaning": "Coverage actually achieved, independently verifiable."
+      },
+      {
+        "field": "people_actually_served",
+        "meaning": "Screened, tested or treated — a counted quantity."
+      },
+      {
+        "field": "cases_identified",
+        "meaning": "Affected cases actually detected."
+      },
+      {
+        "field": "outcomes_delivered",
+        "meaning": "Births avoided or children treated early, by the market's own unit."
+      },
+      {
+        "field": "evidence_url",
+        "meaning": "Where the reported figures can be checked."
+      }
+    ],
+    "derived": [
+      {
+        "field": "delivery_ratio",
+        "meaning": "outcomes_delivered / predicted_impact_per_year — above 1 means the project beat its prediction."
+      },
+      {
+        "field": "realized_cost_per_outcome",
+        "meaning": "funder_commitment_usd / outcomes_delivered."
+      },
+      {
+        "field": "model_error",
+        "meaning": "How far the model's prediction was from what happened, fed back into the parameters it came from."
+      }
+    ]
+  },
+  "retroactive_rules": [
+    "A retroactive pool is set aside and awarded only after outcomes are reported and checked, so payment tracks demonstrated impact rather than a persuasive proposal.",
+    "Each project's share of the pool is proportional to its verified outcomes, valued in that market's own unit — the three markets are rewarded from separate pools because their units are not interchangeable.",
+    "Reporting an outcome below the prediction is not penalised beyond the smaller share it earns. Penalising shortfalls harder would simply select for projects that under-promise.",
+    "Every reported figure needs an independently checkable source; unverifiable reports earn nothing, which is what keeps the ledger worth reading.",
+    "Prediction errors are fed back into the parameter they came from, so the model that generated the opportunity is corrected by what actually happened."
+  ],
+  "ledger": []
+}

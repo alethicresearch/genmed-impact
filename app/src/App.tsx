@@ -13,6 +13,8 @@ import Beyond from './views/Beyond';
 import EthicsPolicy from './views/EthicsPolicy';
 import Allocation from './views/Allocation';
 import ImpactFunding from './views/ImpactFunding';
+import Perspectives from './views/Perspectives';
+import Realized from './views/Realized';
 import Methods from './views/Methods';
 
 // Two-layer navigation. The top level is the argument in six steps; specialized analyses
@@ -65,7 +67,11 @@ const SECTIONS: SectionDef[] = [
   {
     id: 'sec-funding',
     label: 'Impact funding',
-    views: [{ id: 'funding', label: 'Impact funding' }],
+    views: [
+      { id: 'funding', label: 'Opportunities' },
+      { id: 'perspectives', label: 'Whose values?' },
+      { id: 'realized', label: 'Predicted vs realized' },
+    ],
   },
   {
     id: 'sec-methods',
@@ -251,6 +257,12 @@ export default function App() {
               {activeView === 'allocation' && <Allocation data={data} />}
               {activeView === 'funding' && (
                 <ImpactFunding data={data} state={state} update={update} />
+              )}
+              {activeView === 'perspectives' && (
+                <Perspectives data={data} state={state} update={update} />
+              )}
+              {activeView === 'realized' && (
+                <Realized data={data} state={state} update={update} />
               )}
               {activeView === 'methods' && (
                 <Methods data={data} state={state} update={update} />

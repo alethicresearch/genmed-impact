@@ -1,0 +1,1238 @@
+{
+  "meta": {
+    "epistemic_status": "normative_choice",
+    "n_perspectives": 5,
+    "n_opportunities": 26,
+    "caveats": [
+      "These perspectives are stipulated positions, not survey results. No group has been asked what it believes; each profile is a declared weighting with its reasoning attached, and can be reweighted.",
+      "Scoring opportunities from different markets on one 0-100 scale requires commensurating units that are not naturally comparable. That commensuration is itself a normative choice, which is why the underlying quantities stay visible.",
+      "A high score means an opportunity ranks well under that perspective's weights — not that it is objectively better."
+    ]
+  },
+  "dimensions": {
+    "population_impact": {
+      "label": "Population impact",
+      "definition": "How many outcomes per year the opportunity is expected to produce, log-scaled so that programmes of very different size remain comparable."
+    },
+    "cost_efficiency": {
+      "label": "Cost efficiency",
+      "definition": "Outcomes obtained per dollar, log-scaled. High means the same money goes further."
+    },
+    "individual_benefit": {
+      "label": "Individual clinical benefit",
+      "definition": "How much the opportunity matters to a particular affected family — strongest where no alternative route exists for them at all, weaker where the benefit is a diffuse population-level shift in risk."
+    },
+    "equity": {
+      "label": "Equity of reach",
+      "definition": "Whether the opportunity reaches populations currently least served by genetic medicine."
+    },
+    "certainty": {
+      "label": "Evidence certainty",
+      "definition": "Strength of the underlying evidence and narrowness of the modelled uncertainty. Research opportunities score low by construction."
+    },
+    "immediacy": {
+      "label": "Immediacy",
+      "definition": "How soon the benefit would accrue. Implementation is immediate; research benefits, if they arrive, are years to decades away."
+    }
+  },
+  "perspectives": {
+    "population_health": {
+      "label": "Population health",
+      "stance": "Maximise expected cases averted per dollar across the whole birth cohort.",
+      "rationale": "The standard public-health objective: the strongest claim on shared resources is the one that prevents the most disease overall.",
+      "weights": {
+        "population_impact": 0.3,
+        "cost_efficiency": 0.3,
+        "individual_benefit": 0.05,
+        "equity": 0.15,
+        "certainty": 0.15,
+        "immediacy": 0.05
+      },
+      "inverts_immediacy": false
+    },
+    "clinical_family": {
+      "label": "Clinical & family",
+      "stance": "Weight the strength of the clinical case for the individual patient or family.",
+      "rationale": "A family for whom no unaffected embryo can be selected has an urgent claim that does not diminish because the population it belongs to is small.",
+      "weights": {
+        "population_impact": 0.05,
+        "cost_efficiency": 0.05,
+        "individual_benefit": 0.5,
+        "equity": 0.1,
+        "certainty": 0.15,
+        "immediacy": 0.15
+      },
+      "inverts_immediacy": false
+    },
+    "equity_first": {
+      "label": "Equity first",
+      "stance": "Prioritise reaching populations that existing genetic medicine does not serve.",
+      "rationale": "Most serious genetic disease occurs where access is weakest; an intervention that only reaches well-served populations widens the gap.",
+      "weights": {
+        "population_impact": 0.15,
+        "cost_efficiency": 0.15,
+        "individual_benefit": 0.1,
+        "equity": 0.45,
+        "certainty": 0.1,
+        "immediacy": 0.05
+      },
+      "inverts_immediacy": false
+    },
+    "evidence_first": {
+      "label": "Evidence first",
+      "stance": "Fund what is demonstrably effective; discount speculative benefit heavily.",
+      "rationale": "The evaluator's position: expected value computed from weak evidence is not a reason to move money, and probability-weighted futures are cheap to assert.",
+      "weights": {
+        "population_impact": 0.2,
+        "cost_efficiency": 0.2,
+        "individual_benefit": 0.05,
+        "equity": 0.05,
+        "certainty": 0.4,
+        "immediacy": 0.1
+      },
+      "inverts_immediacy": false
+    },
+    "translational_research": {
+      "label": "Translational research",
+      "stance": "Fund the work that creates options which do not currently exist.",
+      "rationale": "Implementation can only deploy what has already been developed; someone has to accept high uncertainty to expand the set of available routes.",
+      "weights": {
+        "population_impact": 0.1,
+        "cost_efficiency": 0.05,
+        "individual_benefit": 0.35,
+        "equity": 0.05,
+        "certainty": 0.05,
+        "immediacy": 0.4
+      },
+      "inverts_immediacy": true
+    }
+  },
+  "scored": [
+    {
+      "id": "now::programme::lower-middle_income::PND",
+      "title": "Prenatal diagnosis — Lower-middle income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 1.0,
+        "cost_efficiency": 0.9838610687358603,
+        "individual_benefit": 0.45,
+        "equity": 1.0,
+        "certainty": 0.55,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 90.0158320620758,
+        "clinical_family": 65.66930534367931,
+        "equity_first": 89.75791603103791,
+        "evidence_first": 78.9272213747172,
+        "translational_research": 38.4193053436793
+      },
+      "mean_score": 72.5579160310379,
+      "disagreement": 51.596526718396504,
+      "most_favoured_by": "population_health",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 4,
+        "clinical_family": 20,
+        "equity_first": 10,
+        "evidence_first": 14,
+        "translational_research": 22
+      },
+      "rank_spread": 18,
+      "best_rank": 4,
+      "worst_rank": 22
+    },
+    {
+      "id": "now::programme::upper-middle_income::PND",
+      "title": "Prenatal diagnosis — Upper-middle income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.9637418720410156,
+        "cost_efficiency": 0.9838610687358601,
+        "individual_benefit": 0.45,
+        "equity": 0.55,
+        "certainty": 0.55,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 82.17808822330628,
+        "clinical_family": 60.988014703884375,
+        "equity_first": 68.96404411165314,
+        "evidence_first": 75.95205881553751,
+        "translational_research": 35.806724064089465
+      },
+      "mean_score": 64.77778598369414,
+      "disagreement": 46.37136415921681,
+      "most_favoured_by": "population_health",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 16,
+        "clinical_family": 22,
+        "equity_first": 18,
+        "evidence_first": 18,
+        "translational_research": 26
+      },
+      "rank_spread": 10,
+      "best_rank": 16,
+      "worst_rank": 26
+    },
+    {
+      "id": "now::programme::lower-middle_income::PGT",
+      "title": "IVF + PGT-M access — Lower-middle income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.9450796897724107,
+        "cost_efficiency": 0.7929003193925164,
+        "individual_benefit": 0.65,
+        "equity": 1.0,
+        "certainty": 1.0,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 90.38940027494782,
+        "clinical_family": 81.18990004582464,
+        "equity_first": 92.56970013747392,
+        "evidence_first": 93.00960018329855,
+        "translational_research": 46.16529849468669
+      },
+      "mean_score": 80.66477982724632,
+      "disagreement": 46.84430168861186,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 2,
+        "clinical_family": 3,
+        "equity_first": 1,
+        "evidence_first": 2,
+        "translational_research": 10
+      },
+      "rank_spread": 9,
+      "best_rank": 1,
+      "worst_rank": 10
+    },
+    {
+      "id": "now::programme::low_income::PND",
+      "title": "Prenatal diagnosis — Low income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.9298450089870176,
+        "cost_efficiency": 0.9838610687358601,
+        "individual_benefit": 0.45,
+        "equity": 1.0,
+        "certainty": 0.55,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 87.91118233168633,
+        "clinical_family": 65.31853038861439,
+        "equity_first": 88.70559116584317,
+        "evidence_first": 77.52412155445755,
+        "translational_research": 37.717755433549485
+      },
+      "mean_score": 71.43543617483019,
+      "disagreement": 50.98783573229369,
+      "most_favoured_by": "equity_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 9,
+        "clinical_family": 21,
+        "equity_first": 11,
+        "evidence_first": 16,
+        "translational_research": 24
+      },
+      "rank_spread": 15,
+      "best_rank": 9,
+      "worst_rank": 24
+    },
+    {
+      "id": "now::programme::lower-middle_income::CS",
+      "title": "Carrier screening — Lower-middle income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.9285141322718646,
+        "cost_efficiency": 0.8602660729216663,
+        "individual_benefit": 0.5,
+        "equity": 1.0,
+        "certainty": 1.0,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 91.16340615580594,
+        "clinical_family": 73.94390102596766,
+        "equity_first": 91.83170307790297,
+        "evidence_first": 93.27560410387062,
+        "translational_research": 41.08647168732698
+      },
+      "mean_score": 78.26021721017483,
+      "disagreement": 52.18913241654364,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 1,
+        "clinical_family": 8,
+        "equity_first": 3,
+        "evidence_first": 1,
+        "translational_research": 14
+      },
+      "rank_spread": 13,
+      "best_rank": 1,
+      "worst_rank": 14
+    },
+    {
+      "id": "now::programme::upper-middle_income::PGT",
+      "title": "IVF + PGT-M access — Upper-middle income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.9193615365440339,
+        "cost_efficiency": 0.7929003193925164,
+        "individual_benefit": 0.65,
+        "equity": 0.55,
+        "certainty": 1.0,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 82.86785567809652,
+        "clinical_family": 76.56130927968276,
+        "equity_first": 71.93392783904827,
+        "evidence_first": 90.24523711873101,
+        "translational_research": 43.65811696240292
+      },
+      "mean_score": 73.0532893755923,
+      "disagreement": 46.58712015632809,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 14,
+        "clinical_family": 6,
+        "equity_first": 13,
+        "evidence_first": 9,
+        "translational_research": 12
+      },
+      "rank_spread": 8,
+      "best_rank": 6,
+      "worst_rank": 14
+    },
+    {
+      "id": "now::programme::lower-middle_income::NBS",
+      "title": "Newborn screening — Lower-middle income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.9169294408621853,
+        "cost_efficiency": 1.0,
+        "individual_benefit": 0.8,
+        "equity": 1.0,
+        "certainty": 0.55,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 89.75788322586557,
+        "clinical_family": 82.83464720431093,
+        "equity_first": 92.25394161293279,
+        "evidence_first": 79.3385888172437,
+        "translational_research": 49.91929440862185
+      },
+      "mean_score": 78.82087105379497,
+      "disagreement": 42.33464720431094,
+      "most_favoured_by": "equity_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 5,
+        "clinical_family": 1,
+        "equity_first": 2,
+        "evidence_first": 13,
+        "translational_research": 7
+      },
+      "rank_spread": 12,
+      "best_rank": 1,
+      "worst_rank": 13
+    },
+    {
+      "id": "now::programme::upper-middle_income::CS",
+      "title": "Carrier screening — Upper-middle income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.9023063333213949,
+        "cost_efficiency": 0.8602660729216663,
+        "individual_benefit": 0.5,
+        "equity": 0.55,
+        "certainty": 1.0,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 83.62717218729185,
+        "clinical_family": 69.3128620312153,
+        "equity_first": 71.18858609364592,
+        "evidence_first": 90.50144812486124,
+        "translational_research": 38.57439369782229
+      },
+      "mean_score": 70.64089242696733,
+      "disagreement": 51.927054427038954,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 13,
+        "clinical_family": 15,
+        "equity_first": 15,
+        "evidence_first": 8,
+        "translational_research": 21
+      },
+      "rank_spread": 13,
+      "best_rank": 8,
+      "worst_rank": 21
+    },
+    {
+      "id": "now::programme::upper-middle_income::NBS",
+      "title": "Newborn screening — Upper-middle income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.8844588924291376,
+        "cost_efficiency": 1.0,
+        "individual_benefit": 0.8,
+        "equity": 0.55,
+        "certainty": 0.55,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 82.03376677287413,
+        "clinical_family": 78.1722944621457,
+        "equity_first": 71.51688338643707,
+        "evidence_first": 76.43917784858276,
+        "translational_research": 47.34458892429137
+      },
+      "mean_score": 71.10134227886621,
+      "disagreement": 34.68917784858276,
+      "most_favoured_by": "population_health",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 17,
+        "clinical_family": 5,
+        "equity_first": 14,
+        "evidence_first": 17,
+        "translational_research": 9
+      },
+      "rank_spread": 12,
+      "best_rank": 5,
+      "worst_rank": 17
+    },
+    {
+      "id": "now::programme::low_income::PGT",
+      "title": "IVF + PGT-M access — Low income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.8719742662620072,
+        "cost_efficiency": 0.7929003193925164,
+        "individual_benefit": 0.65,
+        "equity": 1.0,
+        "certainty": 1.0,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 88.19623756963571,
+        "clinical_family": 80.82437292827262,
+        "equity_first": 91.47311878481787,
+        "evidence_first": 91.54749171309048,
+        "translational_research": 45.43424425958265
+      },
+      "mean_score": 79.49509305107988,
+      "disagreement": 46.11324745350783,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 7,
+        "clinical_family": 4,
+        "equity_first": 4,
+        "evidence_first": 5,
+        "translational_research": 11
+      },
+      "rank_spread": 7,
+      "best_rank": 4,
+      "worst_rank": 11
+    },
+    {
+      "id": "now::targeted::sickle_cell_disease::lower-middle_income",
+      "title": "Sickle cell disease — national programme, Lower-middle income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.8619779093730802,
+        "cost_efficiency": 0.9006460950347522,
+        "individual_benefit": 0.5,
+        "equity": 1.0,
+        "certainty": 1.0,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 90.37872013223497,
+        "clinical_family": 73.81312002203917,
+        "equity_first": 91.43936006611749,
+        "evidence_first": 92.75248008815666,
+        "translational_research": 40.623009568904564
+      },
+      "mean_score": 77.80133797549055,
+      "disagreement": 52.129470519252095,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 3,
+        "clinical_family": 9,
+        "equity_first": 5,
+        "evidence_first": 3,
+        "translational_research": 15
+      },
+      "rank_spread": 12,
+      "best_rank": 3,
+      "worst_rank": 15
+    },
+    {
+      "id": "now::programme::low_income::CS",
+      "title": "Carrier screening — Low income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.8555598067048136,
+        "cost_efficiency": 0.8602660729216663,
+        "individual_benefit": 0.5,
+        "equity": 1.0,
+        "certainty": 1.0,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 88.97477638879441,
+        "clinical_family": 73.57912939813241,
+        "equity_first": 90.7373881943972,
+        "evidence_first": 91.8165175925296,
+        "translational_research": 40.35692843165647
+      },
+      "mean_score": 77.09294800110202,
+      "disagreement": 51.459589160873136,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 6,
+        "clinical_family": 10,
+        "equity_first": 7,
+        "evidence_first": 4,
+        "translational_research": 16
+      },
+      "rank_spread": 12,
+      "best_rank": 4,
+      "worst_rank": 16
+    },
+    {
+      "id": "now::programme::low_income::NBS",
+      "title": "Newborn screening — Low income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.845783536533036,
+        "cost_efficiency": 1.0,
+        "individual_benefit": 0.8,
+        "equity": 1.0,
+        "certainty": 0.55,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 87.62350609599109,
+        "clinical_family": 82.47891768266518,
+        "equity_first": 91.18675304799555,
+        "evidence_first": 77.91567073066072,
+        "translational_research": 49.20783536533036
+      },
+      "mean_score": 77.68253658452858,
+      "disagreement": 41.97891768266519,
+      "most_favoured_by": "equity_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 10,
+        "clinical_family": 2,
+        "equity_first": 6,
+        "evidence_first": 15,
+        "translational_research": 8
+      },
+      "rank_spread": 13,
+      "best_rank": 2,
+      "worst_rank": 15
+    },
+    {
+      "id": "now::targeted::sickle_cell_disease::upper-middle_income",
+      "title": "Sickle cell disease — national programme, Upper-middle income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.8357701104226104,
+        "cost_efficiency": 0.9006460950347522,
+        "individual_benefit": 0.5,
+        "equity": 0.55,
+        "certainty": 1.0,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 82.84248616372089,
+        "clinical_family": 69.18208102728681,
+        "equity_first": 70.79624308186044,
+        "evidence_first": 89.97832410914727,
+        "translational_research": 38.11093157939987
+      },
+      "mean_score": 70.18201319228305,
+      "disagreement": 51.8673925297474,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 15,
+        "clinical_family": 17,
+        "equity_first": 16,
+        "evidence_first": 10,
+        "translational_research": 23
+      },
+      "rank_spread": 13,
+      "best_rank": 10,
+      "worst_rank": 23
+    },
+    {
+      "id": "now::targeted::sickle_cell_disease::low_income",
+      "title": "Sickle cell disease — national programme, Low income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.7890235838060291,
+        "cost_efficiency": 0.9006460950347522,
+        "individual_benefit": 0.5,
+        "equity": 1.0,
+        "certainty": 1.0,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 88.19009036522345,
+        "clinical_family": 73.4483483942039,
+        "equity_first": 90.34504518261171,
+        "evidence_first": 91.29339357681563,
+        "translational_research": 39.89346631323405
+      },
+      "mean_score": 76.63406876641776,
+      "disagreement": 51.39992726358158,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 8,
+        "clinical_family": 11,
+        "equity_first": 8,
+        "evidence_first": 6,
+        "translational_research": 18
+      },
+      "rank_spread": 12,
+      "best_rank": 6,
+      "worst_rank": 18
+    },
+    {
+      "id": "now::targeted::beta_thalassaemia::lower-middle_income",
+      "title": "Beta-thalassaemia — national programme, Lower-middle income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.7519452939452854,
+        "cost_efficiency": 0.9006460950347522,
+        "individual_benefit": 0.5,
+        "equity": 1.0,
+        "certainty": 1.0,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 87.07774166940115,
+        "clinical_family": 73.2629569449002,
+        "equity_first": 89.78887083470056,
+        "evidence_first": 90.55182777960074,
+        "translational_research": 39.52268341462661
+      },
+      "mean_score": 76.04081612864584,
+      "disagreement": 51.02914436497413,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 11,
+        "clinical_family": 12,
+        "equity_first": 9,
+        "evidence_first": 7,
+        "translational_research": 19
+      },
+      "rank_spread": 12,
+      "best_rank": 7,
+      "worst_rank": 19
+    },
+    {
+      "id": "now::targeted::beta_thalassaemia::upper-middle_income",
+      "title": "Beta-thalassaemia — national programme, Upper-middle income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.7257374949948159,
+        "cost_efficiency": 0.9006460950347522,
+        "individual_benefit": 0.5,
+        "equity": 0.55,
+        "certainty": 1.0,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 79.54150770088705,
+        "clinical_family": 68.63191795014784,
+        "equity_first": 69.14575385044353,
+        "evidence_first": 87.77767180059136,
+        "translational_research": 37.01060542512192
+      },
+      "mean_score": 68.42149134543834,
+      "disagreement": 50.76706637546944,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 18,
+        "clinical_family": 18,
+        "equity_first": 17,
+        "evidence_first": 12,
+        "translational_research": 25
+      },
+      "rank_spread": 13,
+      "best_rank": 12,
+      "worst_rank": 25
+    },
+    {
+      "id": "now::targeted::beta_thalassaemia::low_income",
+      "title": "Beta-thalassaemia — national programme, Low income",
+      "market": "impact_now",
+      "dimensions": {
+        "population_impact": 0.6789909683782345,
+        "cost_efficiency": 0.9006460950347522,
+        "individual_benefit": 0.5,
+        "equity": 1.0,
+        "certainty": 1.0,
+        "immediacy": 1.0
+      },
+      "scores": {
+        "population_health": 84.88911190238962,
+        "clinical_family": 72.89818531706493,
+        "equity_first": 88.69455595119481,
+        "evidence_first": 89.09274126825973,
+        "translational_research": 38.7931401589561
+      },
+      "mean_score": 74.87354691957304,
+      "disagreement": 50.29960110930363,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "ranks": {
+        "population_health": 12,
+        "clinical_family": 13,
+        "equity_first": 12,
+        "evidence_first": 11,
+        "translational_research": 20
+      },
+      "rank_spread": 9,
+      "best_rank": 11,
+      "worst_rank": 20
+    },
+    {
+      "id": "trans::correction_safety",
+      "title": "Preclinical safety package for single-gene correction",
+      "market": "translational",
+      "dimensions": {
+        "population_impact": 0.570636693346896,
+        "cost_efficiency": 0.7347398439265512,
+        "individual_benefit": 0.95,
+        "equity": 0.55,
+        "certainty": 0.2,
+        "immediacy": 0.44999999999999996
+      },
+      "scores": {
+        "population_health": 57.41129611820342,
+        "clinical_family": 69.27688268636724,
+        "equity_first": 58.08064805910171,
+        "evidence_first": 46.10753074546894,
+        "translational_research": 68.38006615310172
+      },
+      "mean_score": 59.85128475244861,
+      "disagreement": 23.169351940898302,
+      "most_favoured_by": "clinical_family",
+      "least_favoured_by": "evidence_first",
+      "ranks": {
+        "population_health": 22,
+        "clinical_family": 16,
+        "equity_first": 22,
+        "evidence_first": 21,
+        "translational_research": 2
+      },
+      "rank_spread": 20,
+      "best_rank": 2,
+      "worst_rank": 22
+    },
+    {
+      "id": "trans::embryo_models",
+      "title": "Non-clinical embryo models for correction research",
+      "market": "translational",
+      "dimensions": {
+        "population_impact": 0.557543515475391,
+        "cost_efficiency": 0.7986509175207412,
+        "individual_benefit": 0.95,
+        "equity": 0.55,
+        "certainty": 0.2,
+        "immediacy": 0.6
+      },
+      "scores": {
+        "population_health": 59.68583298988397,
+        "clinical_family": 71.78097216498067,
+        "equity_first": 59.592916494941996,
+        "evidence_first": 48.62388865992265,
+        "translational_research": 62.56868974235762
+      },
+      "mean_score": 60.45046001041737,
+      "disagreement": 23.15708350505802,
+      "most_favoured_by": "clinical_family",
+      "least_favoured_by": "evidence_first",
+      "ranks": {
+        "population_health": 20,
+        "clinical_family": 14,
+        "equity_first": 20,
+        "evidence_first": 20,
+        "translational_research": 3
+      },
+      "rank_spread": 17,
+      "best_rank": 3,
+      "worst_rank": 20
+    },
+    {
+      "id": "trans::delivery_efficiency",
+      "title": "Higher-fidelity editing chemistry and delivery",
+      "market": "translational",
+      "dimensions": {
+        "population_impact": 0.5876899822602303,
+        "cost_efficiency": 0.7893669612314733,
+        "individual_benefit": 0.95,
+        "equity": 0.55,
+        "certainty": 0.2,
+        "immediacy": 0.30000000000000004
+      },
+      "scores": {
+        "population_health": 58.81170830475111,
+        "clinical_family": 67.38528471745853,
+        "equity_first": 58.40585415237556,
+        "evidence_first": 46.04113886983408,
+        "translational_research": 74.82373462875967
+      },
+      "mean_score": 61.09354413463579,
+      "disagreement": 28.782595758925588,
+      "most_favoured_by": "translational_research",
+      "least_favoured_by": "evidence_first",
+      "ranks": {
+        "population_health": 21,
+        "clinical_family": 19,
+        "equity_first": 21,
+        "evidence_first": 22,
+        "translational_research": 1
+      },
+      "rank_spread": 21,
+      "best_rank": 1,
+      "worst_rank": 22
+    },
+    {
+      "id": "trans::registry",
+      "title": "International registry and long-term follow-up infrastructure",
+      "market": "translational",
+      "dimensions": {
+        "population_impact": 0.5770860958955553,
+        "cost_efficiency": 0.8713393463629244,
+        "individual_benefit": 0.95,
+        "equity": 0.55,
+        "certainty": 0.2,
+        "immediacy": 0.75
+      },
+      "scores": {
+        "population_health": 63.20276326775439,
+        "clinical_family": 74.4921272112924,
+        "equity_first": 61.7263816338772,
+        "evidence_first": 51.968508845169595,
+        "translational_research": 57.12755769077018
+      },
+      "mean_score": 61.703467729772754,
+      "disagreement": 22.523618366122804,
+      "most_favoured_by": "clinical_family",
+      "least_favoured_by": "evidence_first",
+      "ranks": {
+        "population_health": 19,
+        "clinical_family": 7,
+        "equity_first": 19,
+        "evidence_first": 19,
+        "translational_research": 4
+      },
+      "rank_spread": 15,
+      "best_rank": 4,
+      "worst_rank": 19
+    },
+    {
+      "id": "future::causal_variants",
+      "title": "Causal-variant discovery for common disease",
+      "market": "future",
+      "dimensions": {
+        "population_impact": 0.030956999999860214,
+        "cost_efficiency": 0.015300798320475694,
+        "individual_benefit": 0.3,
+        "equity": 0.55,
+        "certainty": 0.2,
+        "immediacy": 0.07499999999999996
+      },
+      "scores": {
+        "population_health": 14.512733949610077,
+        "clinical_family": 24.85628899160168,
+        "equity_first": 30.818866974805044,
+        "evidence_first": 13.925155966406722,
+        "translational_research": 51.63607399160098
+      },
+      "mean_score": 27.1498239748049,
+      "disagreement": 37.71091802519426,
+      "most_favoured_by": "translational_research",
+      "least_favoured_by": "evidence_first",
+      "ranks": {
+        "population_health": 25,
+        "clinical_family": 25,
+        "equity_first": 25,
+        "evidence_first": 25,
+        "translational_research": 5
+      },
+      "rank_spread": 20,
+      "best_rank": 5,
+      "worst_rank": 25
+    },
+    {
+      "id": "future::pleiotropy",
+      "title": "Pleiotropy and trade-off mapping",
+      "market": "future",
+      "dimensions": {
+        "population_impact": 0.06162336662501606,
+        "cost_efficiency": 0.11921803398011263,
+        "individual_benefit": 0.3,
+        "equity": 0.55,
+        "certainty": 0.2,
+        "immediacy": 0.30000000000000004
+      },
+      "scores": {
+        "population_health": 19.675242018153863,
+        "clinical_family": 28.904207003025643,
+        "equity_first": 33.96262100907694,
+        "evidence_first": 18.866828012102577,
+        "translational_research": 43.462323836150716
+      },
+      "mean_score": 28.97424437570195,
+      "disagreement": 24.59549582404814,
+      "most_favoured_by": "translational_research",
+      "least_favoured_by": "evidence_first",
+      "ranks": {
+        "population_health": 24,
+        "clinical_family": 24,
+        "equity_first": 24,
+        "evidence_first": 24,
+        "translational_research": 13
+      },
+      "rank_spread": 11,
+      "best_rank": 13,
+      "worst_rank": 24
+    },
+    {
+      "id": "future::multiplex",
+      "title": "Multiplex editing capacity",
+      "market": "future",
+      "dimensions": {
+        "population_impact": 0.0,
+        "cost_efficiency": 0.0,
+        "individual_benefit": 0.3,
+        "equity": 0.55,
+        "certainty": 0.2,
+        "immediacy": 0.07499999999999996
+      },
+      "scores": {
+        "population_health": 13.125,
+        "clinical_family": 24.625,
+        "equity_first": 30.125,
+        "evidence_first": 13.000000000000004,
+        "translational_research": 51.25000000000001
+      },
+      "mean_score": 26.425,
+      "disagreement": 38.25,
+      "most_favoured_by": "translational_research",
+      "least_favoured_by": "evidence_first",
+      "ranks": {
+        "population_health": 26,
+        "clinical_family": 26,
+        "equity_first": 26,
+        "evidence_first": 26,
+        "translational_research": 6
+      },
+      "rank_spread": 20,
+      "best_rank": 6,
+      "worst_rank": 26
+    },
+    {
+      "id": "future::prediction_equity",
+      "title": "Cross-ancestry polygenic prediction",
+      "market": "future",
+      "dimensions": {
+        "population_impact": 0.07690380242465455,
+        "cost_efficiency": 0.17161925523495375,
+        "individual_benefit": 0.3,
+        "equity": 1.0,
+        "certainty": 0.2,
+        "immediacy": 0.44999999999999996
+      },
+      "scores": {
+        "population_health": 29.205691729788246,
+        "clinical_family": 35.99261528829805,
+        "equity_first": 55.97784586489413,
+        "evidence_first": 23.97046115319217,
+        "translational_research": 40.12713430042132
+      },
+      "mean_score": 37.05474966731878,
+      "disagreement": 32.00738471170196,
+      "most_favoured_by": "equity_first",
+      "least_favoured_by": "evidence_first",
+      "ranks": {
+        "population_health": 23,
+        "clinical_family": 23,
+        "equity_first": 23,
+        "evidence_first": 23,
+        "translational_research": 17
+      },
+      "rank_spread": 6,
+      "best_rank": 17,
+      "worst_rank": 23
+    }
+  ],
+  "rankings": {
+    "population_health": [
+      "now::programme::lower-middle_income::CS",
+      "now::programme::lower-middle_income::PGT",
+      "now::targeted::sickle_cell_disease::lower-middle_income",
+      "now::programme::lower-middle_income::PND",
+      "now::programme::lower-middle_income::NBS",
+      "now::programme::low_income::CS",
+      "now::programme::low_income::PGT",
+      "now::targeted::sickle_cell_disease::low_income",
+      "now::programme::low_income::PND",
+      "now::programme::low_income::NBS",
+      "now::targeted::beta_thalassaemia::lower-middle_income",
+      "now::targeted::beta_thalassaemia::low_income",
+      "now::programme::upper-middle_income::CS",
+      "now::programme::upper-middle_income::PGT",
+      "now::targeted::sickle_cell_disease::upper-middle_income",
+      "now::programme::upper-middle_income::PND",
+      "now::programme::upper-middle_income::NBS",
+      "now::targeted::beta_thalassaemia::upper-middle_income",
+      "trans::registry",
+      "trans::embryo_models",
+      "trans::delivery_efficiency",
+      "trans::correction_safety",
+      "future::prediction_equity",
+      "future::pleiotropy",
+      "future::causal_variants",
+      "future::multiplex"
+    ],
+    "clinical_family": [
+      "now::programme::lower-middle_income::NBS",
+      "now::programme::low_income::NBS",
+      "now::programme::lower-middle_income::PGT",
+      "now::programme::low_income::PGT",
+      "now::programme::upper-middle_income::NBS",
+      "now::programme::upper-middle_income::PGT",
+      "trans::registry",
+      "now::programme::lower-middle_income::CS",
+      "now::targeted::sickle_cell_disease::lower-middle_income",
+      "now::programme::low_income::CS",
+      "now::targeted::sickle_cell_disease::low_income",
+      "now::targeted::beta_thalassaemia::lower-middle_income",
+      "now::targeted::beta_thalassaemia::low_income",
+      "trans::embryo_models",
+      "now::programme::upper-middle_income::CS",
+      "trans::correction_safety",
+      "now::targeted::sickle_cell_disease::upper-middle_income",
+      "now::targeted::beta_thalassaemia::upper-middle_income",
+      "trans::delivery_efficiency",
+      "now::programme::lower-middle_income::PND",
+      "now::programme::low_income::PND",
+      "now::programme::upper-middle_income::PND",
+      "future::prediction_equity",
+      "future::pleiotropy",
+      "future::causal_variants",
+      "future::multiplex"
+    ],
+    "equity_first": [
+      "now::programme::lower-middle_income::PGT",
+      "now::programme::lower-middle_income::NBS",
+      "now::programme::lower-middle_income::CS",
+      "now::programme::low_income::PGT",
+      "now::targeted::sickle_cell_disease::lower-middle_income",
+      "now::programme::low_income::NBS",
+      "now::programme::low_income::CS",
+      "now::targeted::sickle_cell_disease::low_income",
+      "now::targeted::beta_thalassaemia::lower-middle_income",
+      "now::programme::lower-middle_income::PND",
+      "now::programme::low_income::PND",
+      "now::targeted::beta_thalassaemia::low_income",
+      "now::programme::upper-middle_income::PGT",
+      "now::programme::upper-middle_income::NBS",
+      "now::programme::upper-middle_income::CS",
+      "now::targeted::sickle_cell_disease::upper-middle_income",
+      "now::targeted::beta_thalassaemia::upper-middle_income",
+      "now::programme::upper-middle_income::PND",
+      "trans::registry",
+      "trans::embryo_models",
+      "trans::delivery_efficiency",
+      "trans::correction_safety",
+      "future::prediction_equity",
+      "future::pleiotropy",
+      "future::causal_variants",
+      "future::multiplex"
+    ],
+    "evidence_first": [
+      "now::programme::lower-middle_income::CS",
+      "now::programme::lower-middle_income::PGT",
+      "now::targeted::sickle_cell_disease::lower-middle_income",
+      "now::programme::low_income::CS",
+      "now::programme::low_income::PGT",
+      "now::targeted::sickle_cell_disease::low_income",
+      "now::targeted::beta_thalassaemia::lower-middle_income",
+      "now::programme::upper-middle_income::CS",
+      "now::programme::upper-middle_income::PGT",
+      "now::targeted::sickle_cell_disease::upper-middle_income",
+      "now::targeted::beta_thalassaemia::low_income",
+      "now::targeted::beta_thalassaemia::upper-middle_income",
+      "now::programme::lower-middle_income::NBS",
+      "now::programme::lower-middle_income::PND",
+      "now::programme::low_income::NBS",
+      "now::programme::low_income::PND",
+      "now::programme::upper-middle_income::NBS",
+      "now::programme::upper-middle_income::PND",
+      "trans::registry",
+      "trans::embryo_models",
+      "trans::correction_safety",
+      "trans::delivery_efficiency",
+      "future::prediction_equity",
+      "future::pleiotropy",
+      "future::causal_variants",
+      "future::multiplex"
+    ],
+    "translational_research": [
+      "trans::delivery_efficiency",
+      "trans::correction_safety",
+      "trans::embryo_models",
+      "trans::registry",
+      "future::causal_variants",
+      "future::multiplex",
+      "now::programme::lower-middle_income::NBS",
+      "now::programme::low_income::NBS",
+      "now::programme::upper-middle_income::NBS",
+      "now::programme::lower-middle_income::PGT",
+      "now::programme::low_income::PGT",
+      "now::programme::upper-middle_income::PGT",
+      "future::pleiotropy",
+      "now::programme::lower-middle_income::CS",
+      "now::targeted::sickle_cell_disease::lower-middle_income",
+      "now::programme::low_income::CS",
+      "future::prediction_equity",
+      "now::targeted::sickle_cell_disease::low_income",
+      "now::targeted::beta_thalassaemia::lower-middle_income",
+      "now::targeted::beta_thalassaemia::low_income",
+      "now::programme::upper-middle_income::CS",
+      "now::programme::lower-middle_income::PND",
+      "now::targeted::sickle_cell_disease::upper-middle_income",
+      "now::programme::low_income::PND",
+      "now::targeted::beta_thalassaemia::upper-middle_income",
+      "now::programme::upper-middle_income::PND"
+    ]
+  },
+  "most_contested": [
+    {
+      "id": "now::programme::lower-middle_income::CS",
+      "title": "Carrier screening — Lower-middle income",
+      "market": "impact_now",
+      "disagreement": 52.18913241654364,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "best_rank": 1,
+      "worst_rank": 14
+    },
+    {
+      "id": "now::targeted::sickle_cell_disease::lower-middle_income",
+      "title": "Sickle cell disease — national programme, Lower-middle income",
+      "market": "impact_now",
+      "disagreement": 52.129470519252095,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "best_rank": 3,
+      "worst_rank": 15
+    },
+    {
+      "id": "now::programme::upper-middle_income::CS",
+      "title": "Carrier screening — Upper-middle income",
+      "market": "impact_now",
+      "disagreement": 51.927054427038954,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "best_rank": 8,
+      "worst_rank": 21
+    },
+    {
+      "id": "now::targeted::sickle_cell_disease::upper-middle_income",
+      "title": "Sickle cell disease — national programme, Upper-middle income",
+      "market": "impact_now",
+      "disagreement": 51.8673925297474,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "best_rank": 10,
+      "worst_rank": 23
+    },
+    {
+      "id": "now::programme::lower-middle_income::PND",
+      "title": "Prenatal diagnosis — Lower-middle income",
+      "market": "impact_now",
+      "disagreement": 51.596526718396504,
+      "most_favoured_by": "population_health",
+      "least_favoured_by": "translational_research",
+      "best_rank": 4,
+      "worst_rank": 22
+    },
+    {
+      "id": "now::programme::low_income::CS",
+      "title": "Carrier screening — Low income",
+      "market": "impact_now",
+      "disagreement": 51.459589160873136,
+      "most_favoured_by": "evidence_first",
+      "least_favoured_by": "translational_research",
+      "best_rank": 4,
+      "worst_rank": 16
+    }
+  ],
+  "most_agreed": [
+    {
+      "id": "trans::registry",
+      "title": "International registry and long-term follow-up infrastructure",
+      "market": "translational",
+      "disagreement": 22.523618366122804
+    },
+    {
+      "id": "trans::embryo_models",
+      "title": "Non-clinical embryo models for correction research",
+      "market": "translational",
+      "disagreement": 23.15708350505802
+    },
+    {
+      "id": "trans::correction_safety",
+      "title": "Preclinical safety package for single-gene correction",
+      "market": "translational",
+      "disagreement": 23.169351940898302
+    },
+    {
+      "id": "future::pleiotropy",
+      "title": "Pleiotropy and trade-off mapping",
+      "market": "future",
+      "disagreement": 24.59549582404814
+    },
+    {
+      "id": "trans::delivery_efficiency",
+      "title": "Higher-fidelity editing chemistry and delivery",
+      "market": "translational",
+      "disagreement": 28.782595758925588
+    },
+    {
+      "id": "future::prediction_equity",
+      "title": "Cross-ancestry polygenic prediction",
+      "market": "future",
+      "disagreement": 32.00738471170196
+    }
+  ]
+}

@@ -480,6 +480,74 @@ export interface Opportunities {
   opportunities: Opportunity[];
 }
 
+// ---- Phase 2: multi-perspective valuation ----
+
+export interface PerspectiveProfile {
+  label: string;
+  stance: string;
+  rationale: string;
+  weights: Record<string, number>;
+  inverts_immediacy: boolean;
+}
+
+export interface ScoredOpportunity {
+  id: string;
+  title: string;
+  market: MarketKey;
+  dimensions: Record<string, number>;
+  scores: Record<string, number>;
+  ranks: Record<string, number>;
+  mean_score: number;
+  disagreement: number;
+  rank_spread: number;
+  best_rank: number;
+  worst_rank: number;
+  most_favoured_by: string;
+  least_favoured_by: string;
+}
+
+export interface Perspectives {
+  meta: { epistemic_status: string; n_perspectives: number; n_opportunities: number; caveats: string[] };
+  dimensions: Record<string, { label: string; definition: string }>;
+  perspectives: Record<string, PerspectiveProfile>;
+  scored: ScoredOpportunity[];
+  rankings: Record<string, string[]>;
+  most_contested: {
+    id: string; title: string; market: MarketKey; disagreement: number;
+    most_favoured_by: string; least_favoured_by: string; best_rank: number; worst_rank: number;
+  }[];
+  most_agreed: { id: string; title: string; market: MarketKey; disagreement: number }[];
+}
+
+// ---- Phase 2: realized impact ----
+
+export interface ValidationCase {
+  key: string;
+  programme: string;
+  what_ran: string;
+  model_param_label: string;
+  modelled_effectiveness: number;
+  modelled_low: number;
+  modelled_high: number;
+  outcome_label: string;
+  observed_reduction: number;
+  observed_low: number;
+  observed_high: number;
+  observed_over_modelled: number;
+  within_modelled_interval: boolean;
+  source: string;
+  doi: string;
+  citation: string;
+}
+
+export interface Retroactive {
+  meta: { note_kind: string; n_ledger_entries: number; caveats: string[] };
+  validation: ValidationCase[];
+  ledger_schema: Record<string, { field: string; meaning: string }[]>;
+  retroactive_rules: string[];
+  ledger: unknown[];
+}
+
 export interface AllData {
   meta: Meta;
   summary: Summary;
@@ -494,6 +562,8 @@ export interface AllData {
   multifactorial: Multifactorial;
   embryos: Embryos;
   opportunities: Opportunities;
+  perspectives: Perspectives;
+  retroactive: Retroactive;
 }
 
 // BASE_URL is set by Vite; with base:'./' it resolves relative to the page.
@@ -526,6 +596,8 @@ export async function loadAll(): Promise<AllData> {
     multifactorial,
     embryos,
     opportunities,
+    perspectives,
+    retroactive,
   ] = await Promise.all([
     getJson<Meta>('meta'),
     getJson<Summary>('summary'),
@@ -540,6 +612,8 @@ export async function loadAll(): Promise<AllData> {
     getJson<Multifactorial>('multifactorial'),
     getJson<Embryos>('embryos'),
     getJson<Opportunities>('opportunities'),
+    getJson<Perspectives>('perspectives'),
+    getJson<Retroactive>('retroactive'),
   ]);
   return {
     meta,
@@ -555,6 +629,8 @@ export async function loadAll(): Promise<AllData> {
     multifactorial,
     embryos,
     opportunities,
+    perspectives,
+    retroactive,
   };
 }
 

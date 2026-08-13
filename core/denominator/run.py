@@ -12,7 +12,8 @@ from typing import Any
 import numpy as np
 
 from . import (attribution, config, embryos, harmonize, library, model, montecarlo as mc,
-               multifactorial, opportunities, provenance, residual, sensitivity)
+               multifactorial, opportunities, perspectives, provenance, residual,
+               retroactive, sensitivity)
 
 
 def _git_commit() -> str:
@@ -230,6 +231,9 @@ def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
     # Funding opportunities are derived from the assembled results, so they build last.
     R["opportunities"] = opportunities.build_opportunities(
         constants, _library_built, R["residual"], _multifactorial_built)
+    # Phase 2: whose values rank these opportunities, and how predictions score against reality.
+    R["perspectives"] = perspectives.build_perspectives(R["opportunities"]["opportunities"])
+    R["retroactive"] = retroactive.build_retroactive(constants)
     return R
 
 
