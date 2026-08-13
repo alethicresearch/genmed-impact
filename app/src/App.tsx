@@ -12,6 +12,7 @@ import Residual from './views/Residual';
 import Beyond from './views/Beyond';
 import EthicsPolicy from './views/EthicsPolicy';
 import Allocation from './views/Allocation';
+import ImpactFunding from './views/ImpactFunding';
 import Methods from './views/Methods';
 
 // Two-layer navigation. The top level is the argument in six steps; specialized analyses
@@ -60,6 +61,11 @@ const SECTIONS: SectionDef[] = [
       { id: 'beyond', label: 'Resistance & enhancement' },
       { id: 'allocation', label: 'Exploratory costs' },
     ],
+  },
+  {
+    id: 'sec-funding',
+    label: 'Impact funding',
+    views: [{ id: 'funding', label: 'Impact funding' }],
   },
   {
     id: 'sec-methods',
@@ -243,6 +249,9 @@ export default function App() {
                 <EthicsPolicy data={data} state={state} update={update} />
               )}
               {activeView === 'allocation' && <Allocation data={data} />}
+              {activeView === 'funding' && (
+                <ImpactFunding data={data} state={state} update={update} />
+              )}
               {activeView === 'methods' && (
                 <Methods data={data} state={state} update={update} />
               )}

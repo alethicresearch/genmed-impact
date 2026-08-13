@@ -1,6 +1,6 @@
 # Methods — Reframing Genetic Medicine in Terms of Impact
 
-_Auto-generated from the analysis pipeline · Monte-Carlo n=20,000 · pipeline commit `8c658ef` · model version 3.0._
+_Auto-generated from the analysis pipeline · Monte-Carlo n=10,000 · pipeline commit `4f50337` · model version 3.0._
 
 This document describes every input, assumption, formula, and parameter behind the analysis. All headline figures below are regenerated from the pipeline; the full parameter provenance and disease catalogue are in the appendices. Contestable judgment calls are implemented as explicit parameters and reported across their range.
 
@@ -21,7 +21,7 @@ Provenance tiers: **A** = open programmatic pull (UN WPP births, WHO GHO, gnomAD
 
 ## 3. Denominator: annual births
 
-Global annual live births are modelled as **135,016,418 (95% UI 130,178,065–140,053,624)** (UN WPP 2024; the interval spans the WPP estimate and the ~140M figure used in the draft). Per-country births distribute to World Bank income groups and GBD super-regions via population-weighted birth shares.
+Global annual live births are modelled as **135,030,856 (95% UI 130,164,701–140,087,130)** (UN WPP 2024; the interval spans the WPP estimate and the ~140M figure used in the draft). Per-country births distribute to World Bank income groups and GBD super-regions via population-weighted birth shares.
 
 ## 4. Disease library
 
@@ -49,10 +49,10 @@ Under the default set (severity=`def_b`, attribution=`inclusive`):
 
 | Quantity | Median (95% UI) |
 | --- | ---: |
-| Monogenic serious births/yr | 1,404,840 (95% UI 1,097,734–1,793,182) |
-| Multifactorial serious births/yr | 6,620,881 (95% UI 5,393,430–8,126,234) |
-| **All serious genetic births/yr** | **8,042,019 (95% UI 6,747,369–9,591,263)** |
-| Share of all births | 5.96% (95% UI 5.01–7.08%) |
+| Monogenic serious births/yr | 1,402,972 (95% UI 1,091,400–1,797,251) |
+| Multifactorial serious births/yr | 6,612,098 (95% UI 5,403,923–8,152,691) |
+| **All serious genetic births/yr** | **8,028,368 (95% UI 6,756,928–9,598,598)** |
+| Share of all births | 5.94% (95% UI 5.03–7.07%) |
 
 The full severity × attribution grid (nine combinations) is emitted to `paper_numbers.json` and shown in the app's Denominator view.
 
@@ -103,11 +103,11 @@ P_couple  = P_aa_repro · (α_eff + (1−α_eff)·P_aa_repro)      # recessive
 births_S1 = births × Σ_conditions P_couple  + structural-variant term
 ```
 
-Standard both-heterozygous couples (¼ unaffected embryos) are selection-addressable and excluded. Result — editing-only prevention: **S1 ≈ 11,320 (95% UI 4,852–26,109)** excluding congenital deafness (the headline default); **24,877** including it. Deafness is a contested, normative classification decision — many Deaf people and scholars reject the characterization of deafness as a condition that should necessarily be prevented — and is toggled explicitly.
+Standard both-heterozygous couples (¼ unaffected embryos) are selection-addressable and excluded. Result — editing-only prevention: **S1 ≈ 11,426 (95% UI 4,787–26,000)** excluding congenital deafness (the headline default); **24,924** including it. Deafness is a contested, normative classification decision — many Deaf people and scholars reject the characterization of deafness as a condition that should necessarily be prevented — and is toggled explicitly.
 
-**S2 — potential complex-disease editing advantage.** The multifactorial share for which a single/oligo-locus edit might provide a medically meaningful benefit beyond somatic, pharmacological, and public-health alternatives (an advantage term, not an only-option population), under the current-evidence (strict) vs future-capacity exploratory (permissive) scaling scenarios. This population-scaled quantity is generated from the model's assumed complex-disease editing share; it is not the direct sum of the disease-specific liability-threshold analysis (§9): strict ≈ 1,320/yr, permissive ≈ 127,166/yr.
+**S2 — potential complex-disease editing advantage.** The multifactorial share for which a single/oligo-locus edit might provide a medically meaningful benefit beyond somatic, pharmacological, and public-health alternatives (an advantage term, not an only-option population), under the current-evidence (strict) vs future-capacity exploratory (permissive) scaling scenarios. This population-scaled quantity is generated from the model's assumed complex-disease editing share; it is not the direct sum of the disease-specific liability-threshold analysis (§9): strict ≈ 1,305/yr, permissive ≈ 126,333/yr.
 
-**Editing-relevant residual, future-capacity exploratory scaling (S1 + permissive S2): 139,586 (95% UI 68,828–257,513)** — **1.74% (95% UI 0.87–3.10%)** of serious genetic disease; the complement, **98.26% (95% UI 96.90–99.13%)**, is not uniquely dependent on germline editing.
+**Editing-relevant residual, future-capacity exploratory scaling (S1 + permissive S2): 138,864 (95% UI 68,778–252,366)** — **1.73% (95% UI 0.88–3.09%)** of serious genetic disease; the complement, **98.27% (95% UI 96.91–99.12%)**, is not uniquely dependent on germline editing.
 
 ## 9. Multifactorial intervention viability (liability-threshold)
 
@@ -126,11 +126,11 @@ _Caveats (stated in-app): selection RRR can look large for rare, highly-heritabl
 
 ## 10. Resistance analysis
 
-**HIV:** 129,826 vertical infections/yr (UNAIDS); residual after PMTCT (effectiveness × coverage) ≈ 24,842/yr — the only window in which CCR5 germline resistance could uniquely matter. **Cardiovascular:** statins + somatic PCSK9 inhibition deliver comparable benefit cheaply; unique germline benefit is small and not reduced to a single count. **Neurodegeneration:** APOE developmental pleiotropy — no safe, clearly causal embryo-level target; reported as **not computable** rather than forcing a number.
+**HIV:** 129,861 vertical infections/yr (UNAIDS); residual after PMTCT (effectiveness × coverage) ≈ 25,073/yr — the only window in which CCR5 germline resistance could uniquely matter. **Cardiovascular:** statins + somatic PCSK9 inhibition deliver comparable benefit cheaply; unique germline benefit is small and not reduced to a single count. **Neurodegeneration:** APOE developmental pleiotropy — no safe, clearly causal embryo-level target; reported as **not computable** rather than forcing a number.
 
 ## 11. Allocation
 
-Cost per affected birth prevented: **screening program $11,913** vs **editing program $504,530**. Cost per DALY averted is derived from DALYs-per-case (pending the GBD pull). Budget scenarios ($1B/$5B/$10B per year) translate these into births prevented under each strategy; under these provisional anchors the screening program prevents on the order of 10-100x more births per dollar. This is an **exploratory cost scenario, not yet a paper result**: the editing-program cost basis is a wide-interval free parameter, and broad screening infrastructure and frontier editing R&D are not direct substitutes for the same cases. Cost anchors: Cousens et al. 2010 (haemoglobinopathy programs), IVF+PGT cycle costs, gene-therapy list prices, PMTCT program costs; the editing-program overhead is a wide-interval free parameter.
+Cost per affected birth prevented: **screening program $11,996** vs **editing program $504,061**. Cost per DALY averted is derived from DALYs-per-case (pending the GBD pull). Budget scenarios ($1B/$5B/$10B per year) translate these into births prevented under each strategy; under these provisional anchors the screening program prevents on the order of 10-100x more births per dollar. This is an **exploratory cost scenario, not yet a paper result**: the editing-program cost basis is a wide-interval free parameter, and broad screening infrastructure and frontier editing R&D are not direct substitutes for the same cases. Cost anchors: Cousens et al. 2010 (haemoglobinopathy programs), IVF+PGT cycle costs, gene-therapy list prices, PMTCT program costs; the editing-program overhead is a wide-interval free parameter.
 
 ## 12. Embryo selection versus correction accounting
 
@@ -154,7 +154,7 @@ Editing:   embryos not selected for transfer / child = 0 (idealized; failure/mos
 
 ## 13. Uncertainty and sensitivity
 
-All quantities are propagated through a Monte-Carlo of **n=20,000 draws** (Beta for proportions matched by moments; Lognormal for rates and costs with the stated value as median and low/high as ~95% bounds). Ratios and shares are computed per draw, so uncertainty intervals are correct. A deterministic **tornado** swings each judgment call across its range; the parameters that move the editing-relevant share most, in order:
+All quantities are propagated through a Monte-Carlo of **n=10,000 draws** (Beta for proportions matched by moments; Lognormal for rates and costs with the stated value as median and low/high as ~95% bounds). Ratios and shares are computed per draw, so uncertainty intervals are correct. A deterministic **tornado** swings each judgment call across its range; the parameters that move the editing-relevant share most, in order:
 
 | Parameter | Editable share range |
 | --- | ---: |

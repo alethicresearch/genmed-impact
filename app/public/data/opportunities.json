@@ -1,0 +1,1138 @@
+{
+  "meta": {
+    "default_pool_usd": 250000000,
+    "identity": "expected impact = N x G x dC x E x A",
+    "note": "Opportunities are derived from the disease catalogue, the coverage and effectiveness parameters, and the cost anchors used elsewhere in this project. They are illustrative allocation objects for studying how people value different kinds of genetic-medicine impact — not solicitations, and not endorsements of any named programme. Impact in the two research markets is probability-weighted using explicit modelling assumptions.",
+    "caveats": [
+      "Opportunities overlap. The same affected birth can be avoided by carrier screening, embryo selection or prenatal diagnosis, so impacts must not be added together — only the funding asks are additive.",
+      "Impact is assumed to scale linearly with the funded share of an opportunity.",
+      "Cost anchors for editing programmes remain provisional (see DATA_NEEDED.md).",
+      "Research success probabilities are assumptions, not forecasts.",
+      "The three markets are not denominated in the same units and should not be summed into a single impact number."
+    ]
+  },
+  "markets": {
+    "impact_now": {
+      "label": "Impact now",
+      "question": "Which projects most efficiently close known gaps between what genetic medicine can already do and who actually receives it?",
+      "n": 18,
+      "funding_requested": 62164585393.19998,
+      "outcome_unit": "affected births avoided or infants treated early, per year",
+      "best_cost_per_outcome": 3568.3368624184895,
+      "best_cost_per_outcome_title": "Newborn screening — Upper-middle income",
+      "impacts_are_additive": false
+    },
+    "translational": {
+      "label": "Translational R&D",
+      "question": "Which research would most raise the chance that a safe option exists for families who cannot select an unaffected embryo?",
+      "n": 4,
+      "funding_requested": 270000000.0,
+      "outcome_unit": "probability-weighted reproductive situations served per year",
+      "best_cost_per_outcome": 17161.222525914738,
+      "best_cost_per_outcome_title": "International registry and long-term follow-up infrastructure",
+      "impacts_are_additive": false
+    },
+    "future": {
+      "label": "Future research",
+      "question": "Which research would most expand what heritable intervention could reach in common polygenic disease?",
+      "n": 4,
+      "funding_requested": 500000000.0,
+      "outcome_unit": "probability-weighted common diseases brought within reach",
+      "best_cost_per_outcome": 87912087.91208793,
+      "best_cost_per_outcome_title": "Cross-ancestry polygenic prediction",
+      "impacts_are_additive": false
+    }
+  },
+  "opportunities": [
+    {
+      "id": "now::programme::lower-middle_income::PND",
+      "market": "impact_now",
+      "kind": "shared_programme",
+      "title": "Prenatal diagnosis — Lower-middle income",
+      "region": "Lower-middle income",
+      "tool": "PND",
+      "intervention": "Prenatal diagnosis + reproductive decision",
+      "outcome_unit": "affected births avoided",
+      "served_unit": "pregnancies screened",
+      "n_conditions_covered": 95,
+      "top_conditions": [
+        {
+          "disease": "Congenital heart disease (multifactorial)",
+          "disease_id": "congenital_heart_disease",
+          "impact_per_year": 153173.59200000003
+        },
+        {
+          "disease": "Sickle cell disease",
+          "disease_id": "sickle_cell_disease",
+          "impact_per_year": 104182.848
+        },
+        {
+          "disease": "G6PD deficiency",
+          "disease_id": "g6pd_deficiency",
+          "impact_per_year": 96465.60000000002
+        },
+        {
+          "disease": "Familial hypercholesterolaemia",
+          "disease_id": "familial_hypercholesterolaemia",
+          "impact_per_year": 96465.60000000002
+        },
+        {
+          "disease": "Lynch syndrome",
+          "disease_id": "lynch_syndrome",
+          "impact_per_year": 72349.20000000001
+        }
+      ],
+      "current_coverage": 0.06999999999999999,
+      "target_coverage": 0.65,
+      "coverage_gain": 0.5800000000000001,
+      "attributable_fraction": 1.0,
+      "people_served": 34452000.00000001,
+      "unit_cost": 120.0,
+      "funding_requested": 4134240000.000001,
+      "expected_impact_per_year": 951416.7854400008,
+      "expected_impact_low": 539753.9716799997,
+      "expected_impact_high": 1262377.7812799998,
+      "cost_per_outcome": 4345.351126097741,
+      "evidence": "Moderate",
+      "uncertainty": "Moderate",
+      "equity": "High",
+      "effectiveness_source": "prenatal detection of major structural anomalies (CHD, NTD)",
+      "assumptions": [
+        "One programme serves every catalogue condition the panel covers; impact is summed across 95 conditions rather than billed to one.",
+        "Coverage rises from the region's modelled current reach to the achievable-2035 standard for this tool.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::programme::upper-middle_income::PND",
+      "market": "impact_now",
+      "kind": "shared_programme",
+      "title": "Prenatal diagnosis — Upper-middle income",
+      "region": "Upper-middle income",
+      "tool": "PND",
+      "intervention": "Prenatal diagnosis + reproductive decision",
+      "outcome_unit": "affected births avoided",
+      "served_unit": "pregnancies screened",
+      "n_conditions_covered": 95,
+      "top_conditions": [
+        {
+          "disease": "Congenital heart disease (multifactorial)",
+          "disease_id": "congenital_heart_disease",
+          "impact_per_year": 87870.744
+        },
+        {
+          "disease": "Sickle cell disease",
+          "disease_id": "sickle_cell_disease",
+          "impact_per_year": 59766.336
+        },
+        {
+          "disease": "G6PD deficiency",
+          "disease_id": "g6pd_deficiency",
+          "impact_per_year": 55339.2
+        },
+        {
+          "disease": "Familial hypercholesterolaemia",
+          "disease_id": "familial_hypercholesterolaemia",
+          "impact_per_year": 55339.2
+        },
+        {
+          "disease": "Lynch syndrome",
+          "disease_id": "lynch_syndrome",
+          "impact_per_year": 41504.399999999994
+        }
+      ],
+      "current_coverage": 0.1925,
+      "target_coverage": 0.65,
+      "coverage_gain": 0.4575,
+      "attributable_fraction": 1.0,
+      "people_served": 19764000.0,
+      "unit_cost": 120.0,
+      "funding_requested": 2371680000.0,
+      "expected_impact_per_year": 545797.0900799999,
+      "expected_impact_low": 309639.4257599998,
+      "expected_impact_high": 724185.3729600006,
+      "cost_per_outcome": 4345.351126097746,
+      "evidence": "Moderate",
+      "uncertainty": "Moderate",
+      "equity": "Moderate",
+      "effectiveness_source": "prenatal detection of major structural anomalies (CHD, NTD)",
+      "assumptions": [
+        "One programme serves every catalogue condition the panel covers; impact is summed across 95 conditions rather than billed to one.",
+        "Coverage rises from the region's modelled current reach to the achievable-2035 standard for this tool.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::programme::lower-middle_income::PGT",
+      "market": "impact_now",
+      "kind": "shared_programme",
+      "title": "IVF + PGT-M access — Lower-middle income",
+      "region": "Lower-middle income",
+      "tool": "PGT",
+      "intervention": "IVF + PGT-M embryo selection",
+      "outcome_unit": "affected births avoided",
+      "served_unit": "at-risk couples supported through IVF+PGT",
+      "n_conditions_covered": 87,
+      "top_conditions": [
+        {
+          "disease": "Sickle cell disease",
+          "disease_id": "sickle_cell_disease",
+          "impact_per_year": 70207.94879999998
+        },
+        {
+          "disease": "Familial hypercholesterolaemia",
+          "disease_id": "familial_hypercholesterolaemia",
+          "impact_per_year": 65007.359999999986
+        },
+        {
+          "disease": "Lynch syndrome",
+          "disease_id": "lynch_syndrome",
+          "impact_per_year": 48755.52
+        },
+        {
+          "disease": "Hereditary breast and ovarian cancer (BRCA1/2)",
+          "disease_id": "hereditary_breast_ovarian_cancer",
+          "impact_per_year": 40629.6
+        },
+        {
+          "disease": "Hypertrophic cardiomyopathy",
+          "disease_id": "hypertrophic_cardiomyopathy",
+          "impact_per_year": 32503.679999999993
+        }
+      ],
+      "current_coverage": 0.012,
+      "target_coverage": 0.3,
+      "coverage_gain": 0.288,
+      "attributable_fraction": 1.0,
+      "people_served": 1222100.73216,
+      "unit_cost": 15000.0,
+      "funding_requested": 18331510982.399998,
+      "expected_impact_per_year": 410027.422464,
+      "expected_impact_low": 366866.6411519997,
+      "expected_impact_high": 427291.73498880037,
+      "cost_per_outcome": 44708.01214279634,
+      "evidence": "High",
+      "uncertainty": "Low",
+      "equity": "High",
+      "effectiveness_source": "ESHRE PGT Consortium data collections",
+      "assumptions": [
+        "One programme serves every catalogue condition the panel covers; impact is summed across 87 conditions rather than billed to one.",
+        "Coverage rises from the region's modelled current reach to the achievable-2035 standard for this tool.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::programme::low_income::PND",
+      "market": "impact_now",
+      "kind": "shared_programme",
+      "title": "Prenatal diagnosis — Low income",
+      "region": "Low income",
+      "tool": "PND",
+      "intervention": "Prenatal diagnosis + reproductive decision",
+      "outcome_unit": "affected births avoided",
+      "served_unit": "pregnancies screened",
+      "n_conditions_covered": 95,
+      "top_conditions": [
+        {
+          "disease": "Congenital heart disease (multifactorial)",
+          "disease_id": "congenital_heart_disease",
+          "impact_per_year": 52266.2868
+        },
+        {
+          "disease": "Sickle cell disease",
+          "disease_id": "sickle_cell_disease",
+          "impact_per_year": 35549.53919999999
+        },
+        {
+          "disease": "G6PD deficiency",
+          "disease_id": "g6pd_deficiency",
+          "impact_per_year": 32916.24
+        },
+        {
+          "disease": "Familial hypercholesterolaemia",
+          "disease_id": "familial_hypercholesterolaemia",
+          "impact_per_year": 32916.24
+        },
+        {
+          "disease": "Lynch syndrome",
+          "disease_id": "lynch_syndrome",
+          "impact_per_year": 24687.18
+        }
+      ],
+      "current_coverage": 0.027999999999999997,
+      "target_coverage": 0.65,
+      "coverage_gain": 0.622,
+      "attributable_fraction": 1.0,
+      "people_served": 11755800.0,
+      "unit_cost": 120.0,
+      "funding_requested": 1410696000.0,
+      "expected_impact_per_year": 324644.88117600005,
+      "expected_impact_low": 184176.237672,
+      "expected_impact_high": 430751.79151199985,
+      "cost_per_outcome": 4345.351126097744,
+      "evidence": "Moderate",
+      "uncertainty": "Moderate",
+      "equity": "High",
+      "effectiveness_source": "prenatal detection of major structural anomalies (CHD, NTD)",
+      "assumptions": [
+        "One programme serves every catalogue condition the panel covers; impact is summed across 95 conditions rather than billed to one.",
+        "Coverage rises from the region's modelled current reach to the achievable-2035 standard for this tool.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::programme::lower-middle_income::CS",
+      "market": "impact_now",
+      "kind": "shared_programme",
+      "title": "Carrier screening — Lower-middle income",
+      "region": "Lower-middle income",
+      "tool": "CS",
+      "intervention": "Carrier screening + reproductive planning",
+      "outcome_unit": "affected births avoided",
+      "served_unit": "couples screened",
+      "n_conditions_covered": 56,
+      "top_conditions": [
+        {
+          "disease": "Sickle cell disease",
+          "disease_id": "sickle_cell_disease",
+          "impact_per_year": 114729.43680000001
+        },
+        {
+          "disease": "G6PD deficiency",
+          "disease_id": "g6pd_deficiency",
+          "impact_per_year": 106230.96
+        },
+        {
+          "disease": "Alpha-thalassaemia",
+          "disease_id": "alpha_thalassaemia",
+          "impact_per_year": 26557.74
+        },
+        {
+          "disease": "Beta-thalassaemia",
+          "disease_id": "beta_thalassaemia",
+          "impact_per_year": 21246.192
+        },
+        {
+          "disease": "Cystic fibrosis",
+          "disease_id": "cystic_fibrosis",
+          "impact_per_year": 6639.435
+        }
+      ],
+      "current_coverage": 0.024,
+      "target_coverage": 0.55,
+      "coverage_gain": 0.526,
+      "attributable_fraction": 1.0,
+      "people_served": 31244400.0,
+      "unit_cost": 200.0,
+      "funding_requested": 6248880000.0,
+      "expected_impact_per_year": 318090.01930200023,
+      "expected_impact_low": 224534.13127200006,
+      "expected_impact_high": 355512.3745139999,
+      "cost_per_outcome": 19645.0049382631,
+      "evidence": "High",
+      "uncertainty": "Low",
+      "equity": "High",
+      "effectiveness_source": "Cyprus/Sardinia/Greece thalassaemia premarital+carrier programs",
+      "assumptions": [
+        "One programme serves every catalogue condition the panel covers; impact is summed across 56 conditions rather than billed to one.",
+        "Coverage rises from the region's modelled current reach to the achievable-2035 standard for this tool.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::programme::upper-middle_income::PGT",
+      "market": "impact_now",
+      "kind": "shared_programme",
+      "title": "IVF + PGT-M access — Upper-middle income",
+      "region": "Upper-middle income",
+      "tool": "PGT",
+      "intervention": "IVF + PGT-M embryo selection",
+      "outcome_unit": "affected births avoided",
+      "served_unit": "at-risk couples supported through IVF+PGT",
+      "n_conditions_covered": 87,
+      "top_conditions": [
+        {
+          "disease": "Sickle cell disease",
+          "disease_id": "sickle_cell_disease",
+          "impact_per_year": 47337.177599999995
+        },
+        {
+          "disease": "Familial hypercholesterolaemia",
+          "disease_id": "familial_hypercholesterolaemia",
+          "impact_per_year": 43830.72
+        },
+        {
+          "disease": "Lynch syndrome",
+          "disease_id": "lynch_syndrome",
+          "impact_per_year": 32873.04
+        },
+        {
+          "disease": "Hereditary breast and ovarian cancer (BRCA1/2)",
+          "disease_id": "hereditary_breast_ovarian_cancer",
+          "impact_per_year": 27394.199999999997
+        },
+        {
+          "disease": "Hypertrophic cardiomyopathy",
+          "disease_id": "hypertrophic_cardiomyopathy",
+          "impact_per_year": 21915.36
+        }
+      ],
+      "current_coverage": 0.033,
+      "target_coverage": 0.3,
+      "coverage_gain": 0.267,
+      "attributable_fraction": 1.0,
+      "people_served": 823992.1603200001,
+      "unit_cost": 15000.0,
+      "funding_requested": 12359882404.800003,
+      "expected_impact_per_year": 276457.88332799985,
+      "expected_impact_low": 247357.0535040001,
+      "expected_impact_high": 288098.21525760007,
+      "cost_per_outcome": 44708.01214279638,
+      "evidence": "High",
+      "uncertainty": "Low",
+      "equity": "Moderate",
+      "effectiveness_source": "ESHRE PGT Consortium data collections",
+      "assumptions": [
+        "One programme serves every catalogue condition the panel covers; impact is summed across 87 conditions rather than billed to one.",
+        "Coverage rises from the region's modelled current reach to the achievable-2035 standard for this tool.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::programme::lower-middle_income::NBS",
+      "market": "impact_now",
+      "kind": "shared_programme",
+      "title": "Newborn screening — Lower-middle income",
+      "region": "Lower-middle income",
+      "tool": "NBS",
+      "intervention": "Newborn screening + early treatment",
+      "outcome_unit": "affected infants treated early",
+      "served_unit": "infants screened",
+      "n_conditions_covered": 32,
+      "top_conditions": [
+        {
+          "disease": "Sickle cell disease",
+          "disease_id": "sickle_cell_disease",
+          "impact_per_year": 90326.01599999999
+        },
+        {
+          "disease": "G6PD deficiency",
+          "disease_id": "g6pd_deficiency",
+          "impact_per_year": 83635.2
+        },
+        {
+          "disease": "Congenital heart disease (multifactorial)",
+          "disease_id": "congenital_heart_disease",
+          "impact_per_year": 56339.71199999999
+        },
+        {
+          "disease": "Clubfoot (talipes equinovarus)",
+          "disease_id": "clubfoot",
+          "impact_per_year": 5702.399999999999
+        },
+        {
+          "disease": "Developmental dysplasia of the hip",
+          "disease_id": "developmental_dysplasia_hip",
+          "impact_per_year": 5702.399999999999
+        }
+      ],
+      "current_coverage": 0.06,
+      "target_coverage": 0.7,
+      "coverage_gain": 0.6399999999999999,
+      "attributable_fraction": 1.0,
+      "people_served": 38015999.99999999,
+      "unit_cost": 25.0,
+      "funding_requested": 950399999.9999998,
+      "expected_impact_per_year": 266342.5670399999,
+      "expected_impact_low": 130907.71583999998,
+      "expected_impact_high": 424358.9222399999,
+      "cost_per_outcome": 3568.336862418491,
+      "evidence": "Moderate",
+      "uncertainty": "Moderate",
+      "equity": "High",
+      "effectiveness_source": "limited treatable multifactorial subset",
+      "assumptions": [
+        "One programme serves every catalogue condition the panel covers; impact is summed across 32 conditions rather than billed to one.",
+        "Coverage rises from the region's modelled current reach to the achievable-2035 standard for this tool.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::programme::upper-middle_income::CS",
+      "market": "impact_now",
+      "kind": "shared_programme",
+      "title": "Carrier screening — Upper-middle income",
+      "region": "Upper-middle income",
+      "tool": "CS",
+      "intervention": "Carrier screening + reproductive planning",
+      "outcome_unit": "affected births avoided",
+      "served_unit": "couples screened",
+      "n_conditions_covered": 56,
+      "top_conditions": [
+        {
+          "disease": "Sickle cell disease",
+          "disease_id": "sickle_cell_disease",
+          "impact_per_year": 76777.1136
+        },
+        {
+          "disease": "G6PD deficiency",
+          "disease_id": "g6pd_deficiency",
+          "impact_per_year": 71089.92000000001
+        },
+        {
+          "disease": "Alpha-thalassaemia",
+          "disease_id": "alpha_thalassaemia",
+          "impact_per_year": 17772.480000000003
+        },
+        {
+          "disease": "Beta-thalassaemia",
+          "disease_id": "beta_thalassaemia",
+          "impact_per_year": 14217.984
+        },
+        {
+          "disease": "Cystic fibrosis",
+          "disease_id": "cystic_fibrosis",
+          "impact_per_year": 4443.120000000001
+        }
+      ],
+      "current_coverage": 0.066,
+      "target_coverage": 0.55,
+      "coverage_gain": 0.48400000000000004,
+      "attributable_fraction": 1.0,
+      "people_served": 20908800.0,
+      "unit_cost": 200.0,
+      "funding_requested": 4181760000.0,
+      "expected_impact_per_year": 212866.32470400014,
+      "expected_impact_low": 150258.582144,
+      "expected_impact_high": 237909.42172800004,
+      "cost_per_outcome": 19645.004938263104,
+      "evidence": "High",
+      "uncertainty": "Low",
+      "equity": "Moderate",
+      "effectiveness_source": "Cyprus/Sardinia/Greece thalassaemia premarital+carrier programs",
+      "assumptions": [
+        "One programme serves every catalogue condition the panel covers; impact is summed across 56 conditions rather than billed to one.",
+        "Coverage rises from the region's modelled current reach to the achievable-2035 standard for this tool.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::programme::upper-middle_income::NBS",
+      "market": "impact_now",
+      "kind": "shared_programme",
+      "title": "Newborn screening — Upper-middle income",
+      "region": "Upper-middle income",
+      "tool": "NBS",
+      "intervention": "Newborn screening + early treatment",
+      "outcome_unit": "affected infants treated early",
+      "served_unit": "infants screened",
+      "n_conditions_covered": 32,
+      "top_conditions": [
+        {
+          "disease": "Sickle cell disease",
+          "disease_id": "sickle_cell_disease",
+          "impact_per_year": 54914.111999999994
+        },
+        {
+          "disease": "G6PD deficiency",
+          "disease_id": "g6pd_deficiency",
+          "impact_per_year": 50846.399999999994
+        },
+        {
+          "disease": "Congenital heart disease (multifactorial)",
+          "disease_id": "congenital_heart_disease",
+          "impact_per_year": 34251.984
+        },
+        {
+          "disease": "Clubfoot (talipes equinovarus)",
+          "disease_id": "clubfoot",
+          "impact_per_year": 3466.7999999999993
+        },
+        {
+          "disease": "Developmental dysplasia of the hip",
+          "disease_id": "developmental_dysplasia_hip",
+          "impact_per_year": 3466.7999999999993
+        }
+      ],
+      "current_coverage": 0.165,
+      "target_coverage": 0.7,
+      "coverage_gain": 0.5349999999999999,
+      "attributable_fraction": 1.0,
+      "people_served": 23111999.999999996,
+      "unit_cost": 25.0,
+      "funding_requested": 577799999.9999999,
+      "expected_impact_per_year": 161924.17428,
+      "expected_impact_low": 79585.94087999998,
+      "expected_impact_high": 257990.93568000002,
+      "cost_per_outcome": 3568.3368624184895,
+      "evidence": "Moderate",
+      "uncertainty": "Moderate",
+      "equity": "Moderate",
+      "effectiveness_source": "limited treatable multifactorial subset",
+      "assumptions": [
+        "One programme serves every catalogue condition the panel covers; impact is summed across 32 conditions rather than billed to one.",
+        "Coverage rises from the region's modelled current reach to the achievable-2035 standard for this tool.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::programme::low_income::PGT",
+      "market": "impact_now",
+      "kind": "shared_programme",
+      "title": "IVF + PGT-M access — Low income",
+      "region": "Low income",
+      "tool": "PGT",
+      "intervention": "IVF + PGT-M embryo selection",
+      "outcome_unit": "affected births avoided",
+      "served_unit": "at-risk couples supported through IVF+PGT",
+      "n_conditions_covered": 87,
+      "top_conditions": [
+        {
+          "disease": "Sickle cell disease",
+          "disease_id": "sickle_cell_disease",
+          "impact_per_year": 22897.365119999995
+        },
+        {
+          "disease": "Familial hypercholesterolaemia",
+          "disease_id": "familial_hypercholesterolaemia",
+          "impact_per_year": 21201.263999999996
+        },
+        {
+          "disease": "Lynch syndrome",
+          "disease_id": "lynch_syndrome",
+          "impact_per_year": 15900.947999999997
+        },
+        {
+          "disease": "Hereditary breast and ovarian cancer (BRCA1/2)",
+          "disease_id": "hereditary_breast_ovarian_cancer",
+          "impact_per_year": 13250.789999999999
+        },
+        {
+          "disease": "Hypertrophic cardiomyopathy",
+          "disease_id": "hypertrophic_cardiomyopathy",
+          "impact_per_year": 10600.631999999998
+        }
+      ],
+      "current_coverage": 0.0048,
+      "target_coverage": 0.3,
+      "coverage_gain": 0.29519999999999996,
+      "attributable_fraction": 1.0,
+      "people_served": 398571.48878399987,
+      "unit_cost": 15000.0,
+      "funding_requested": 5978572331.759998,
+      "expected_impact_per_year": 133724.85255359983,
+      "expected_impact_low": 119648.55228479998,
+      "expected_impact_high": 139355.37266112008,
+      "cost_per_outcome": 44708.01214279639,
+      "evidence": "High",
+      "uncertainty": "Low",
+      "equity": "High",
+      "effectiveness_source": "ESHRE PGT Consortium data collections",
+      "assumptions": [
+        "One programme serves every catalogue condition the panel covers; impact is summed across 87 conditions rather than billed to one.",
+        "Coverage rises from the region's modelled current reach to the achievable-2035 standard for this tool.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::targeted::sickle_cell_disease::lower-middle_income",
+      "market": "impact_now",
+      "kind": "targeted_programme",
+      "title": "Sickle cell disease — national programme, Lower-middle income",
+      "disease_id": "sickle_cell_disease",
+      "disease": "Sickle cell disease",
+      "region": "Lower-middle income",
+      "tool": "CS",
+      "intervention": "Haemoglobinopathy programme (carrier screening + prenatal diagnosis)",
+      "outcome_unit": "affected births avoided",
+      "affected_births_region_per_year": 256608.0,
+      "current_coverage": 0.024,
+      "target_coverage": 0.55,
+      "coverage_gain": 0.526,
+      "attributable_fraction": 1.0,
+      "unit_cost": 12000.0,
+      "funding_requested": 1376753241.6000001,
+      "expected_impact_per_year": 114729.43680000001,
+      "expected_impact_low": 80985.4848,
+      "expected_impact_high": 128227.0176,
+      "cost_per_outcome": 12000.0,
+      "evidence": "High",
+      "uncertainty": "Low",
+      "equity": "High",
+      "incidence_basis": "cited",
+      "incidence_source": "GBD 2023 (Sickle cell disorders, <1yr birth incidence, Global)",
+      "effectiveness_source": "Cousens et al. 2010 β-thalassaemia carrier-screening cost-effectiveness",
+      "overlaps_with": "Carrier screening — Lower-middle income",
+      "assumptions": [
+        "Costed from the observed cost per affected birth prevented in national haemoglobinopathy programmes, rather than from a unit screening price.",
+        "This condition is also covered by the broad carrier-screening programme for the same region — the two overlap and should not be funded as if they were independent.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::programme::low_income::CS",
+      "market": "impact_now",
+      "kind": "shared_programme",
+      "title": "Carrier screening — Low income",
+      "region": "Low income",
+      "tool": "CS",
+      "intervention": "Carrier screening + reproductive planning",
+      "outcome_unit": "affected births avoided",
+      "served_unit": "couples screened",
+      "n_conditions_covered": 56,
+      "top_conditions": [
+        {
+          "disease": "Sickle cell disease",
+          "disease_id": "sickle_cell_disease",
+          "impact_per_year": 37504.19232
+        },
+        {
+          "disease": "G6PD deficiency",
+          "disease_id": "g6pd_deficiency",
+          "impact_per_year": 34726.104
+        },
+        {
+          "disease": "Alpha-thalassaemia",
+          "disease_id": "alpha_thalassaemia",
+          "impact_per_year": 8681.526
+        },
+        {
+          "disease": "Beta-thalassaemia",
+          "disease_id": "beta_thalassaemia",
+          "impact_per_year": 6945.2208
+        },
+        {
+          "disease": "Cystic fibrosis",
+          "disease_id": "cystic_fibrosis",
+          "impact_per_year": 2170.3815
+        }
+      ],
+      "current_coverage": 0.0096,
+      "target_coverage": 0.55,
+      "coverage_gain": 0.5404,
+      "attributable_fraction": 1.0,
+      "people_served": 10213560.0,
+      "unit_cost": 200.0,
+      "funding_requested": 2042712000.0,
+      "expected_impact_per_year": 103981.24135980014,
+      "expected_impact_low": 73398.52331279991,
+      "expected_impact_high": 116214.32857860006,
+      "cost_per_outcome": 19645.00493826309,
+      "evidence": "High",
+      "uncertainty": "Low",
+      "equity": "High",
+      "effectiveness_source": "Cyprus/Sardinia/Greece thalassaemia premarital+carrier programs",
+      "assumptions": [
+        "One programme serves every catalogue condition the panel covers; impact is summed across 56 conditions rather than billed to one.",
+        "Coverage rises from the region's modelled current reach to the achievable-2035 standard for this tool.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::programme::low_income::NBS",
+      "market": "impact_now",
+      "kind": "shared_programme",
+      "title": "Newborn screening — Low income",
+      "region": "Low income",
+      "tool": "NBS",
+      "intervention": "Newborn screening + early treatment",
+      "outcome_unit": "affected infants treated early",
+      "served_unit": "infants screened",
+      "n_conditions_covered": 32,
+      "top_conditions": [
+        {
+          "disease": "Sickle cell disease",
+          "disease_id": "sickle_cell_disease",
+          "impact_per_year": 30356.7264
+        },
+        {
+          "disease": "G6PD deficiency",
+          "disease_id": "g6pd_deficiency",
+          "impact_per_year": 28108.08
+        },
+        {
+          "disease": "Congenital heart disease (multifactorial)",
+          "disease_id": "congenital_heart_disease",
+          "impact_per_year": 18934.624799999998
+        },
+        {
+          "disease": "Clubfoot (talipes equinovarus)",
+          "disease_id": "clubfoot",
+          "impact_per_year": 1916.4599999999998
+        },
+        {
+          "disease": "Developmental dysplasia of the hip",
+          "disease_id": "developmental_dysplasia_hip",
+          "impact_per_year": 1916.4599999999998
+        }
+      ],
+      "current_coverage": 0.024,
+      "target_coverage": 0.7,
+      "coverage_gain": 0.6759999999999999,
+      "attributable_fraction": 1.0,
+      "people_served": 12776399.999999998,
+      "unit_cost": 25.0,
+      "funding_requested": 319409999.99999994,
+      "expected_impact_per_year": 89512.28886599999,
+      "expected_impact_low": 43995.405635999996,
+      "expected_impact_high": 142618.35369599992,
+      "cost_per_outcome": 3568.33686241849,
+      "evidence": "Moderate",
+      "uncertainty": "Moderate",
+      "equity": "High",
+      "effectiveness_source": "limited treatable multifactorial subset",
+      "assumptions": [
+        "One programme serves every catalogue condition the panel covers; impact is summed across 32 conditions rather than billed to one.",
+        "Coverage rises from the region's modelled current reach to the achievable-2035 standard for this tool.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::targeted::sickle_cell_disease::upper-middle_income",
+      "market": "impact_now",
+      "kind": "targeted_programme",
+      "title": "Sickle cell disease — national programme, Upper-middle income",
+      "disease_id": "sickle_cell_disease",
+      "disease": "Sickle cell disease",
+      "region": "Upper-middle income",
+      "tool": "CS",
+      "intervention": "Haemoglobinopathy programme (carrier screening + prenatal diagnosis)",
+      "outcome_unit": "affected births avoided",
+      "affected_births_region_per_year": 186624.0,
+      "current_coverage": 0.066,
+      "target_coverage": 0.55,
+      "coverage_gain": 0.48400000000000004,
+      "attributable_fraction": 1.0,
+      "unit_cost": 12000.0,
+      "funding_requested": 921325363.1999999,
+      "expected_impact_per_year": 76777.1136,
+      "expected_impact_low": 54195.6096,
+      "expected_impact_high": 85809.7152,
+      "cost_per_outcome": 12000.0,
+      "evidence": "High",
+      "uncertainty": "Low",
+      "equity": "Moderate",
+      "incidence_basis": "cited",
+      "incidence_source": "GBD 2023 (Sickle cell disorders, <1yr birth incidence, Global)",
+      "effectiveness_source": "Cousens et al. 2010 β-thalassaemia carrier-screening cost-effectiveness",
+      "overlaps_with": "Carrier screening — Upper-middle income",
+      "assumptions": [
+        "Costed from the observed cost per affected birth prevented in national haemoglobinopathy programmes, rather than from a unit screening price.",
+        "This condition is also covered by the broad carrier-screening programme for the same region — the two overlap and should not be funded as if they were independent.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::targeted::sickle_cell_disease::low_income",
+      "market": "impact_now",
+      "kind": "targeted_programme",
+      "title": "Sickle cell disease — national programme, Low income",
+      "disease_id": "sickle_cell_disease",
+      "disease": "Sickle cell disease",
+      "region": "Low income",
+      "tool": "CS",
+      "intervention": "Haemoglobinopathy programme (carrier screening + prenatal diagnosis)",
+      "outcome_unit": "affected births avoided",
+      "affected_births_region_per_year": 81648.0,
+      "current_coverage": 0.0096,
+      "target_coverage": 0.55,
+      "coverage_gain": 0.5404,
+      "attributable_fraction": 1.0,
+      "unit_cost": 12000.0,
+      "funding_requested": 450050307.84000003,
+      "expected_impact_per_year": 37504.19232,
+      "expected_impact_low": 26473.54752,
+      "expected_impact_high": 41916.45024,
+      "cost_per_outcome": 12000.0,
+      "evidence": "High",
+      "uncertainty": "Low",
+      "equity": "High",
+      "incidence_basis": "cited",
+      "incidence_source": "GBD 2023 (Sickle cell disorders, <1yr birth incidence, Global)",
+      "effectiveness_source": "Cousens et al. 2010 β-thalassaemia carrier-screening cost-effectiveness",
+      "overlaps_with": "Carrier screening — Low income",
+      "assumptions": [
+        "Costed from the observed cost per affected birth prevented in national haemoglobinopathy programmes, rather than from a unit screening price.",
+        "This condition is also covered by the broad carrier-screening programme for the same region — the two overlap and should not be funded as if they were independent.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::targeted::beta_thalassaemia::lower-middle_income",
+      "market": "impact_now",
+      "kind": "targeted_programme",
+      "title": "Beta-thalassaemia — national programme, Lower-middle income",
+      "disease_id": "beta_thalassaemia",
+      "disease": "Beta-thalassaemia",
+      "region": "Lower-middle income",
+      "tool": "CS",
+      "intervention": "Haemoglobinopathy programme (carrier screening + prenatal diagnosis)",
+      "outcome_unit": "affected births avoided",
+      "affected_births_region_per_year": 47520.0,
+      "current_coverage": 0.024,
+      "target_coverage": 0.55,
+      "coverage_gain": 0.526,
+      "attributable_fraction": 1.0,
+      "unit_cost": 12000.0,
+      "funding_requested": 254954304.0,
+      "expected_impact_per_year": 21246.192,
+      "expected_impact_low": 14997.312,
+      "expected_impact_high": 23745.744,
+      "cost_per_outcome": 12000.0,
+      "evidence": "High",
+      "uncertainty": "Low",
+      "equity": "High",
+      "incidence_basis": "cited",
+      "incidence_source": "Modell & Darlison 2008 (Bull WHO)",
+      "effectiveness_source": "Cousens et al. 2010 β-thalassaemia carrier-screening cost-effectiveness",
+      "overlaps_with": "Carrier screening — Lower-middle income",
+      "assumptions": [
+        "Costed from the observed cost per affected birth prevented in national haemoglobinopathy programmes, rather than from a unit screening price.",
+        "This condition is also covered by the broad carrier-screening programme for the same region — the two overlap and should not be funded as if they were independent.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::targeted::beta_thalassaemia::upper-middle_income",
+      "market": "impact_now",
+      "kind": "targeted_programme",
+      "title": "Beta-thalassaemia — national programme, Upper-middle income",
+      "disease_id": "beta_thalassaemia",
+      "disease": "Beta-thalassaemia",
+      "region": "Upper-middle income",
+      "tool": "CS",
+      "intervention": "Haemoglobinopathy programme (carrier screening + prenatal diagnosis)",
+      "outcome_unit": "affected births avoided",
+      "affected_births_region_per_year": 34560.0,
+      "current_coverage": 0.066,
+      "target_coverage": 0.55,
+      "coverage_gain": 0.48400000000000004,
+      "attributable_fraction": 1.0,
+      "unit_cost": 12000.0,
+      "funding_requested": 170615808.0,
+      "expected_impact_per_year": 14217.984,
+      "expected_impact_low": 10036.224,
+      "expected_impact_high": 15890.688,
+      "cost_per_outcome": 12000.0,
+      "evidence": "High",
+      "uncertainty": "Low",
+      "equity": "Moderate",
+      "incidence_basis": "cited",
+      "incidence_source": "Modell & Darlison 2008 (Bull WHO)",
+      "effectiveness_source": "Cousens et al. 2010 β-thalassaemia carrier-screening cost-effectiveness",
+      "overlaps_with": "Carrier screening — Upper-middle income",
+      "assumptions": [
+        "Costed from the observed cost per affected birth prevented in national haemoglobinopathy programmes, rather than from a unit screening price.",
+        "This condition is also covered by the broad carrier-screening programme for the same region — the two overlap and should not be funded as if they were independent.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "now::targeted::beta_thalassaemia::low_income",
+      "market": "impact_now",
+      "kind": "targeted_programme",
+      "title": "Beta-thalassaemia — national programme, Low income",
+      "disease_id": "beta_thalassaemia",
+      "disease": "Beta-thalassaemia",
+      "region": "Low income",
+      "tool": "CS",
+      "intervention": "Haemoglobinopathy programme (carrier screening + prenatal diagnosis)",
+      "outcome_unit": "affected births avoided",
+      "affected_births_region_per_year": 15120.0,
+      "current_coverage": 0.0096,
+      "target_coverage": 0.55,
+      "coverage_gain": 0.5404,
+      "attributable_fraction": 1.0,
+      "unit_cost": 12000.0,
+      "funding_requested": 83342649.6,
+      "expected_impact_per_year": 6945.2208,
+      "expected_impact_low": 4902.5088,
+      "expected_impact_high": 7762.3056,
+      "cost_per_outcome": 12000.0,
+      "evidence": "High",
+      "uncertainty": "Low",
+      "equity": "High",
+      "incidence_basis": "cited",
+      "incidence_source": "Modell & Darlison 2008 (Bull WHO)",
+      "effectiveness_source": "Cousens et al. 2010 β-thalassaemia carrier-screening cost-effectiveness",
+      "overlaps_with": "Carrier screening — Low income",
+      "assumptions": [
+        "Costed from the observed cost per affected birth prevented in national haemoglobinopathy programmes, rather than from a unit screening price.",
+        "This condition is also covered by the broad carrier-screening programme for the same region — the two overlap and should not be funded as if they were independent.",
+        "Impact scales linearly with the funded share of the gap."
+      ]
+    },
+    {
+      "id": "trans::correction_safety",
+      "market": "translational",
+      "title": "Preclinical safety package for single-gene correction",
+      "detail": "Off-target, mosaicism and long-term-safety evidence sufficient to support a first tightly governed clinical protocol in catastrophic monogenic disease.",
+      "funding_requested": 120000000.0,
+      "p_technical": 0.55,
+      "p_translation": 0.35,
+      "addressable_burden_per_year": 6855.400811094519,
+      "expected_impact_per_year": 1319.664656135695,
+      "outcome_unit": "reproductive situations/yr eventually served, probability-weighted",
+      "cost_per_outcome": 90932.19208536639,
+      "horizon_years": 10,
+      "evidence": "Low",
+      "uncertainty": "High",
+      "equity": "Moderate",
+      "assumptions": [
+        "Probability of technical success 55% and of translation to an approved option 35% — modelling assumptions, not forecasts.",
+        "The programme is relevant to 60% of the modelled no-selectable-embryo population.",
+        "Impact is future-dated and does not accrue within the funding period."
+      ]
+    },
+    {
+      "id": "trans::embryo_models",
+      "market": "translational",
+      "title": "Non-clinical embryo models for correction research",
+      "detail": "Model systems that let correction efficiency and off-target effects be measured without creating clinical embryos.",
+      "funding_requested": 45000000.0,
+      "p_technical": 0.7,
+      "p_translation": 0.3,
+      "addressable_burden_per_year": 5141.550608320889,
+      "expected_impact_per_year": 1079.7256277473866,
+      "outcome_unit": "reproductive situations/yr eventually served, probability-weighted",
+      "cost_per_outcome": 41677.25470579293,
+      "horizon_years": 8,
+      "evidence": "Low",
+      "uncertainty": "High",
+      "equity": "Moderate",
+      "assumptions": [
+        "Probability of technical success 70% and of translation to an approved option 30% — modelling assumptions, not forecasts.",
+        "The programme is relevant to 45% of the modelled no-selectable-embryo population.",
+        "Impact is future-dated and does not accrue within the funding period."
+      ]
+    },
+    {
+      "id": "trans::delivery_efficiency",
+      "market": "translational",
+      "title": "Higher-fidelity editing chemistry and delivery",
+      "detail": "Editing approaches with high on-target conversion at the single-cell stage, the rate-limiting step for any heritable correction.",
+      "funding_requested": 80000000.0,
+      "p_technical": 0.5,
+      "p_translation": 0.4,
+      "addressable_burden_per_year": 8569.25101386815,
+      "expected_impact_per_year": 1713.8502027736301,
+      "outcome_unit": "reproductive situations/yr eventually served, probability-weighted",
+      "cost_per_outcome": 46678.52527048807,
+      "horizon_years": 12,
+      "evidence": "Low",
+      "uncertainty": "High",
+      "equity": "Moderate",
+      "assumptions": [
+        "Probability of technical success 50% and of translation to an approved option 40% — modelling assumptions, not forecasts.",
+        "The programme is relevant to 75% of the modelled no-selectable-embryo population.",
+        "Impact is future-dated and does not accrue within the funding period."
+      ]
+    },
+    {
+      "id": "trans::registry",
+      "market": "translational",
+      "title": "International registry and long-term follow-up infrastructure",
+      "detail": "Shared outcome reporting for any approved heritable intervention — the precondition for evaluating whether early cases actually benefit.",
+      "funding_requested": 25000000.0,
+      "p_technical": 0.85,
+      "p_translation": 0.5,
+      "addressable_burden_per_year": 3427.7004055472594,
+      "expected_impact_per_year": 1456.7726723575852,
+      "outcome_unit": "reproductive situations/yr eventually served, probability-weighted",
+      "cost_per_outcome": 17161.222525914738,
+      "horizon_years": 6,
+      "evidence": "Low",
+      "uncertainty": "High",
+      "equity": "Moderate",
+      "assumptions": [
+        "Probability of technical success 85% and of translation to an approved option 50% — modelling assumptions, not forecasts.",
+        "The programme is relevant to 30% of the modelled no-selectable-embryo population.",
+        "Impact is future-dated and does not accrue within the funding period."
+      ]
+    },
+    {
+      "id": "future::causal_variants",
+      "market": "future",
+      "title": "Causal-variant discovery for common disease",
+      "detail": "Moving from association to causation at scale — the binding constraint on any polygenic intervention.",
+      "funding_requested": 200000000.0,
+      "p_technical": 0.45,
+      "p_translation": 0.25,
+      "expected_impact_per_year": 0.3375,
+      "outcome_unit": "modelled common diseases brought within reach, probability-weighted",
+      "cost_per_outcome": 592592592.5925926,
+      "horizon_years": 15,
+      "evidence": "Low",
+      "uncertainty": "High",
+      "equity": "Moderate",
+      "assumptions": [
+        "Probability of technical success 45% and of translation 25% — modelling assumptions, not forecasts.",
+        "Scale is anchored on the 3 of 10 modelled common diseases that meet the editing threshold under the near-future capacity scenario, which is an assumption set rather than a prediction.",
+        "Benefits, if any, arrive beyond the modelled horizon."
+      ]
+    },
+    {
+      "id": "future::pleiotropy",
+      "market": "future",
+      "title": "Pleiotropy and trade-off mapping",
+      "detail": "Systematic measurement of what else a candidate locus does before anyone proposes editing it.",
+      "funding_requested": 90000000.0,
+      "p_technical": 0.6,
+      "p_translation": 0.3,
+      "expected_impact_per_year": 0.54,
+      "outcome_unit": "modelled common diseases brought within reach, probability-weighted",
+      "cost_per_outcome": 166666666.66666666,
+      "horizon_years": 12,
+      "evidence": "Low",
+      "uncertainty": "High",
+      "equity": "Moderate",
+      "assumptions": [
+        "Probability of technical success 60% and of translation 30% — modelling assumptions, not forecasts.",
+        "Scale is anchored on the 3 of 10 modelled common diseases that meet the editing threshold under the near-future capacity scenario, which is an assumption set rather than a prediction.",
+        "Benefits, if any, arrive beyond the modelled horizon."
+      ]
+    },
+    {
+      "id": "future::multiplex",
+      "market": "future",
+      "title": "Multiplex editing capacity",
+      "detail": "Making many simultaneous edits accurately — the technical ceiling on how far polygenic risk could be shifted at all.",
+      "funding_requested": 150000000.0,
+      "p_technical": 0.35,
+      "p_translation": 0.2,
+      "expected_impact_per_year": 0.20999999999999996,
+      "outcome_unit": "modelled common diseases brought within reach, probability-weighted",
+      "cost_per_outcome": 714285714.2857144,
+      "horizon_years": 15,
+      "evidence": "Low",
+      "uncertainty": "High",
+      "equity": "Moderate",
+      "assumptions": [
+        "Probability of technical success 35% and of translation 20% — modelling assumptions, not forecasts.",
+        "Scale is anchored on the 3 of 10 modelled common diseases that meet the editing threshold under the near-future capacity scenario, which is an assumption set rather than a prediction.",
+        "Benefits, if any, arrive beyond the modelled horizon."
+      ]
+    },
+    {
+      "id": "future::prediction_equity",
+      "market": "future",
+      "title": "Cross-ancestry polygenic prediction",
+      "detail": "Prediction that transfers across ancestries; without it any polygenic benefit accrues unequally by construction.",
+      "funding_requested": 60000000.0,
+      "p_technical": 0.65,
+      "p_translation": 0.35,
+      "expected_impact_per_year": 0.6824999999999999,
+      "outcome_unit": "modelled common diseases brought within reach, probability-weighted",
+      "cost_per_outcome": 87912087.91208793,
+      "horizon_years": 10,
+      "evidence": "Low",
+      "uncertainty": "High",
+      "equity": "High",
+      "assumptions": [
+        "Probability of technical success 65% and of translation 35% — modelling assumptions, not forecasts.",
+        "Scale is anchored on the 3 of 10 modelled common diseases that meet the editing threshold under the near-future capacity scenario, which is an assumption set rather than a prediction.",
+        "Benefits, if any, arrive beyond the modelled horizon."
+      ]
+    }
+  ]
+}

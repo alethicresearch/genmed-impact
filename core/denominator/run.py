@@ -12,7 +12,7 @@ from typing import Any
 import numpy as np
 
 from . import (attribution, config, embryos, harmonize, library, model, montecarlo as mc,
-               multifactorial, provenance, residual, sensitivity)
+               multifactorial, opportunities, provenance, residual, sensitivity)
 
 
 def _git_commit() -> str:
@@ -127,6 +127,7 @@ def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
 
     # library (built once; reused for embryo accounting)
     _library_built = library.build_library(constants)
+    _multifactorial_built = multifactorial.build_multifactorial()
 
     # ---------------------------------------------------------------------------------
     # Assemble summarized results object
@@ -215,7 +216,7 @@ def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
         },
         "sensitivity": {"tornado": tornado_rows},
         "library": _library_built,
-        "multifactorial": multifactorial.build_multifactorial(),
+        "multifactorial": _multifactorial_built,
         "embryos": embryos.build_embryos(constants, _library_built["diseases"]),
         "provenance": {
             "constants": provenance.annotate(constants, "constants"),
@@ -226,6 +227,9 @@ def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
                  "source": harmonize.REGION_SOURCE}, "regions"),
         },
     }
+    # Funding opportunities are derived from the assembled results, so they build last.
+    R["opportunities"] = opportunities.build_opportunities(
+        constants, _library_built, R["residual"], _multifactorial_built)
     return R
 
 

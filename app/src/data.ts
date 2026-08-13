@@ -405,6 +405,81 @@ export interface Embryos {
   note: string;
 }
 
+// ---- Impact-funding opportunities (precomputed by the pipeline) ----
+
+export type MarketKey = 'impact_now' | 'translational' | 'future';
+export type Grade = 'High' | 'Moderate' | 'Low';
+
+export interface OpportunityContributor {
+  disease: string;
+  disease_id: string;
+  impact_per_year: number;
+}
+
+export interface Opportunity {
+  id: string;
+  market: MarketKey;
+  kind?: 'shared_programme' | 'targeted_programme';
+  title: string;
+  detail?: string;
+  region?: string;
+  tool?: string;
+  intervention?: string;
+  disease?: string;
+  disease_id?: string;
+  outcome_unit: string;
+  served_unit?: string;
+  n_conditions_covered?: number;
+  top_conditions?: OpportunityContributor[];
+  affected_births_region_per_year?: number;
+  current_coverage?: number;
+  target_coverage?: number;
+  coverage_gain?: number;
+  attributable_fraction?: number;
+  people_served?: number;
+  unit_cost?: number;
+  funding_requested: number;
+  expected_impact_per_year: number;
+  expected_impact_low?: number;
+  expected_impact_high?: number;
+  cost_per_outcome: number;
+  evidence: Grade;
+  uncertainty: Grade;
+  equity: Grade;
+  incidence_basis?: string;
+  incidence_source?: string;
+  effectiveness_source?: string | null;
+  overlaps_with?: string;
+  assumptions: string[];
+  // research markets only
+  p_technical?: number;
+  p_translation?: number;
+  addressable_burden_per_year?: number;
+  horizon_years?: number;
+}
+
+export interface MarketSummary {
+  label: string;
+  question: string;
+  n: number;
+  funding_requested: number;
+  outcome_unit: string;
+  best_cost_per_outcome: number | null;
+  best_cost_per_outcome_title: string | null;
+  impacts_are_additive: boolean;
+}
+
+export interface Opportunities {
+  meta: {
+    default_pool_usd: number;
+    identity: string;
+    note: string;
+    caveats: string[];
+  };
+  markets: Record<MarketKey, MarketSummary>;
+  opportunities: Opportunity[];
+}
+
 export interface AllData {
   meta: Meta;
   summary: Summary;
@@ -418,6 +493,7 @@ export interface AllData {
   library: Library;
   multifactorial: Multifactorial;
   embryos: Embryos;
+  opportunities: Opportunities;
 }
 
 // BASE_URL is set by Vite; with base:'./' it resolves relative to the page.
@@ -449,6 +525,7 @@ export async function loadAll(): Promise<AllData> {
     library,
     multifactorial,
     embryos,
+    opportunities,
   ] = await Promise.all([
     getJson<Meta>('meta'),
     getJson<Summary>('summary'),
@@ -462,6 +539,7 @@ export async function loadAll(): Promise<AllData> {
     getJson<Library>('library'),
     getJson<Multifactorial>('multifactorial'),
     getJson<Embryos>('embryos'),
+    getJson<Opportunities>('opportunities'),
   ]);
   return {
     meta,
@@ -476,6 +554,7 @@ export async function loadAll(): Promise<AllData> {
     library,
     multifactorial,
     embryos,
+    opportunities,
   };
 }
 

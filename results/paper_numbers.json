@@ -1,176 +1,176 @@
 {
   "births_per_year": {
-    "median": 135016417.62235594,
+    "median": 135030856.48386008,
     "ci95": [
-      130178065.04818273,
-      140053623.61802688
+      130164700.66119622,
+      140087129.90097126
     ]
   },
   "serious_genetic_births_per_year": {
-    "median": 8042018.664133552,
+    "median": 8028368.184029993,
     "ci95": [
-      6747368.514943173,
-      9591263.188988691
+      6756928.398763911,
+      9598597.622977896
     ],
     "severity_def": "def_b",
     "attribution": "inclusive"
   },
   "monogenic_births_per_year": {
-    "median": 1404840.351020278,
+    "median": 1402971.9612385794,
     "ci95": [
-      1097734.3755561537,
-      1793181.509422333
+      1091400.1892011913,
+      1797251.1461241578
     ],
     "severity_def": "def_b",
     "attribution": "inclusive"
   },
   "multifactorial_births_per_year": {
-    "median": 6620881.336075608,
+    "median": 6612097.686854989,
     "ci95": [
-      5393430.007627981,
-      8126233.71530126
+      5403922.69809709,
+      8152690.97398747
     ],
     "severity_def": "def_b",
     "attribution": "inclusive"
   },
   "serious_share_of_all_births": {
-    "median": 0.05955033983564512,
+    "median": 0.059447612198578026,
     "ci95": [
-      0.050096340523768774,
-      0.07084799171320505
+      0.05029671339684022,
+      0.07066643843041855
     ],
     "severity_def": "def_b",
     "attribution": "inclusive"
   },
   "s1_no_selectable_embryo_births_per_year": {
-    "median": 11320.295924931146,
+    "median": 11425.668018490866,
     "ci95": [
-      4851.880736553392,
-      26108.921874838317
+      4787.353808771775,
+      25999.561431199687
     ],
     "severity_def": "def_b",
     "attribution": "inclusive"
   },
   "s1_without_contested_deafness_births_per_year": {
-    "median": 11320.295924931146,
+    "median": 11425.668018490866,
     "ci95": [
-      4851.880736553392,
-      26108.921874838317
+      4787.353808771775,
+      25999.561431199687
     ],
     "severity_def": "def_b",
     "attribution": "inclusive"
   },
   "s1_contested_deafness_contribution": {
-    "median": 12377.10266586017,
+    "median": 12319.82019375121,
     "ci95": [
-      4858.447587624893,
-      30059.7567014242
+      4913.650047187853,
+      30387.0903482053
     ],
     "severity_def": "def_b",
     "attribution": "inclusive"
   },
   "s2_editing_superior_births_per_year__strict": {
-    "median": 1320.3269387247879,
+    "median": 1305.0246968236897,
     "ci95": [
-      1.2386957451389018,
-      18016.945883705608
+      0.9558214631685452,
+      17853.81070731312
     ],
     "criteria": "strict"
   },
   "uniquely_editable_births_per_year__strict": {
-    "median": 14208.00912599327,
+    "median": 14264.767253969292,
     "ci95": [
-      5839.185899962349,
-      34685.54304926661
+      5941.992539769401,
+      34846.69848151498
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "strict"
   },
   "uniquely_editable_share_of_serious__strict": {
-    "median": 0.0017672799496720182,
+    "median": 0.0017846526537995218,
     "ci95": [
-      0.0007136699407206371,
-      0.004347592968267711
+      0.0007357338234982847,
+      0.004343410797404003
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "strict"
   },
   "addressable_share_of_serious__strict": {
-    "median": 0.998232720050328,
+    "median": 0.9982153473462004,
     "ci95": [
-      0.9956524070317323,
-      0.9992863300592794
+      0.995656589202596,
+      0.9992642661765017
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "strict"
   },
   "s2_editing_superior_births_per_year__permissive": {
-    "median": 127165.76944058761,
+    "median": 126332.64225471366,
     "ci95": [
-      57354.72549756156,
-      243590.61051346327
+      57220.466875381375,
+      238916.7501826493
     ],
     "criteria": "permissive"
   },
   "uniquely_editable_births_per_year__permissive": {
-    "median": 139586.09517964604,
+    "median": 138864.36123891594,
     "ci95": [
-      68827.5044899567,
-      257512.8900217289
+      68778.21473027812,
+      252365.65874065692
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "permissive"
   },
   "uniquely_editable_share_of_serious__permissive": {
-    "median": 0.017399295729378733,
+    "median": 0.017308381729703413,
     "ci95": [
-      0.008710872028486567,
-      0.030983169765268215
+      0.008775777203422177,
+      0.030879446557722137
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "permissive"
   },
   "addressable_share_of_serious__permissive": {
-    "median": 0.9826007042706213,
+    "median": 0.9826916182702966,
     "ci95": [
-      0.9690168302347318,
-      0.9912891279715134
+      0.9691205534422778,
+      0.9912242227965778
     ],
     "severity_def": "def_b",
     "attribution": "inclusive",
     "criteria": "permissive"
   },
   "hiv_vertical_infections_per_year": {
-    "median": 129825.75547377739,
+    "median": 129860.86096593415,
     "ci95": [
-      107849.77020659759,
-      156450.23237154298
+      108137.52532734336,
+      157581.96521549366
     ]
   },
   "hiv_residual_after_pmtct": {
-    "median": 24842.409900174964,
+    "median": 25073.453808416074,
     "ci95": [
-      13151.356034035089,
-      41907.197733532914
+      13268.799953948974,
+      41942.00819927985
     ]
   },
   "cost_per_birth_prevented_screening": {
-    "median": 11913.27350386317,
+    "median": 11996.209347355089,
     "ci95": [
-      4321.999897562819,
-      32182.2090975399
+      4381.0532042954865,
+      33004.2331002328
     ]
   },
   "cost_per_birth_prevented_editing": {
-    "median": 504529.93442119705,
+    "median": 504060.89304217795,
     "ci95": [
-      138666.69762866892,
-      1828334.6354896456
+      140526.32769896384,
+      1785272.8154073518
     ]
   },
   "library_n_diseases": {
