@@ -3,7 +3,14 @@ import { AllData, fmtPct } from '../data';
 import { UrlState } from '../urlState';
 import { Card, SectionHeading } from '../components/ui';
 import { InlineLink } from '../components/prose';
-import { RESPONDENT_TYPES, buildResponse, scoreWithWeights, useElicitation } from '../elicitation';
+import {
+  RESPONDENT_TYPES,
+  buildResponse,
+  responseFields,
+  scoreWithWeights,
+  submitResponse,
+  useElicitation,
+} from '../elicitation';
 
 interface Props {
   data: AllData;
@@ -453,6 +460,9 @@ function PerspectiveBars({
 function ElicitationExport({ data }: { data: AllData }) {
   const { state, patch, reset } = useElicitation();
   const [copied, setCopied] = useState(false);
+  const [consented, setConsented] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
 
   const allocationDetail = useMemo(() => {
     const byId = Object.fromEntries(
@@ -521,7 +531,65 @@ function ElicitationExport({ data }: { data: AllData }) {
         {Object.values(state.weights).filter((v) => v > 0).length === 1 ? '' : 's'}.
       </p>
 
-      <div className="mt-3 flex flex-wrap gap-2">
+      {/* Consent — required before anything leaves the browser */}
+      <div className="mt-4 rounded-lg border border-slate-300 bg-slate-50 p-3">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+          Before you submit
+        </p>
+        <ul className="mt-1.5 space-y-1">
+          {[
+            'What is sent: the vantage point you selected, your dimension weights, and the amounts you allocated to each opportunity. Nothing else.',
+            'What is not sent: your name, email, IP-derived identity or any free text beyond an optional description of your role. Responses are not intended to be identifiable.',
+            'Why: to compare how people in different roles allocate against the same modelled opportunities. Results may be reported in aggregate in the accompanying manuscript.',
+            'Submitting is voluntary, and you can simply export your response instead. Because responses are not identifiable, an individual submission cannot be withdrawn after sending.',
+          ].map((t) => (
+            <li key={t} className="flex gap-2.5 text-[13px] leading-6 text-slate-600">
+              <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-300" />
+              <span>{t}</span>
+            </li>
+          ))}
+        </ul>
+        <label className="mt-2 flex items-start gap-2 text-sm text-slate-700">
+          <input
+            type="checkbox"
+            checked={consented}
+            onChange={(e) => setConsented(e.target.checked)}
+            className="mt-1"
+          />
+          <span>I have read the above and agree to submit my response on these terms.</span>
+        </label>
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          disabled={!consented || nothingRecorded || status === 'sending' || status === 'sent'}
+          onClick={async () => {
+            setStatus('sending');
+            setErrorMsg('');
+            try {
+              await submitResponse(
+                responseFields(state, { commit: data.meta.commit }, allocationDetail)
+              );
+              setStatus('sent');
+            } catch (err) {
+              setStatus('error');
+              setErrorMsg(err instanceof Error ? err.message : String(err));
+            }
+          }}
+          className="rounded bg-accent px-3 py-1.5 text-sm font-medium text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          {status === 'sending'
+            ? 'Submitting…'
+            : status === 'sent'
+            ? 'Response submitted ✓'
+            : 'Submit response'}
+        </button>
+        {status === 'error' && (
+          <span className="text-sm text-rose-700">
+            {errorMsg} You can still copy the record below and send it on.
+          </span>
+        )}
         <button
           type="button"
           disabled={nothingRecorded}
@@ -557,9 +625,10 @@ function ElicitationExport({ data }: { data: AllData }) {
       </details>
 
       <p className="mt-3 text-xs leading-5 text-slate-500">
-        Nothing is sent anywhere. This is a static page with no backend; your response is held in
-        this browser only, and exporting it is entirely your choice. It is stamped with the
-        pipeline commit so that a response can be matched to the figures it was made against.
+        Your answers are held in this browser as you work. Nothing leaves it unless you tick the
+        consent box and press Submit; copying the record instead sends nothing at all. Submitted
+        responses go to this site&apos;s form handler and are stamped with the pipeline commit, so
+        a response can be matched to the figures it was made against.
       </p>
     </Card>
   );

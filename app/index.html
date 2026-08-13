@@ -11,6 +11,32 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!--
+      Netlify Forms detection stub. Netlify scans the deployed HTML at build time to register a
+      form, so a single-page app must declare its fields statically here even though the real
+      submission is sent by JavaScript. Hidden from readers and from assistive technology; it is
+      never interacted with directly.
+    -->
+    <form
+      name="allocation-response"
+      netlify
+      netlify-honeypot="bot-field"
+      hidden
+      aria-hidden="true"
+    >
+      <input type="hidden" name="form-name" value="allocation-response" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="respondent_type" />
+      <input type="text" name="respondent_other" />
+      <input type="text" name="consent" />
+      <input type="text" name="pipeline_commit" />
+      <input type="text" name="total_committed_usd" />
+      <input type="text" name="values_distant_payoffs" />
+      <textarea name="weights_json"></textarea>
+      <textarea name="allocation_json"></textarea>
+    </form>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

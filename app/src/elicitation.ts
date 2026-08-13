@@ -4,10 +4,11 @@ import { useCallback, useEffect, useState } from 'react';
  * Shared state for the allocation exercise: how a visitor would spend the pool, how they weight
  * the dimensions of value, and which vantage point they are answering from.
  *
- * This is an elicitation instrument, not a submission form. The site is a static page with no
- * backend, so nothing here is transmitted anywhere. A response is kept in this browser and can
- * be exported by the visitor if they choose to send it on. Anything else would be dishonest
- * about where the data goes.
+ * This is an elicitation instrument. Answers accumulate in the visitor's own browser as they
+ * work; nothing leaves it unless they explicitly consent and submit, in which case the response
+ * goes to the host's form handler. Exporting the record instead transmits nothing. The UI states
+ * which of the two is happening, because being vague about where the data goes would be worse
+ * than collecting none.
  */
 
 const STORAGE_KEY = 'genmed-impact.elicitation.v1';
@@ -136,6 +137,48 @@ export function scoreWithWeights(
   return (100 * s) / total;
 }
 
+export const FORM_NAME = 'allocation-response';
+
+/**
+ * Submit a response to Netlify Forms.
+ *
+ * Netlify captures a urlencoded POST to any path on the site as long as `form-name` matches a
+ * form it detected at build time (the stub in index.html). There is no server code here; if the
+ * site is hosted anywhere without that handler the POST will fail, which is why the caller must
+ * surface the error rather than report a success it cannot verify.
+ */
+export async function submitResponse(fields: Record<string, string>): Promise<void> {
+  const body = new URLSearchParams({ 'form-name': FORM_NAME, ...fields }).toString();
+  const res = await fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body,
+  });
+  if (!res.ok) {
+    throw new Error(`Submission failed (${res.status}). Your response was not recorded.`);
+  }
+}
+
+/** Flatten a response into the fields declared on the Netlify form stub. */
+export function responseFields(
+  state: ElicitationState,
+  meta: { commit: string },
+  allocationDetail: { id: string; title: string; market: string; amount_usd: number }[]
+): Record<string, string> {
+  return {
+    respondent_type: state.respondentType || 'not_stated',
+    respondent_other: state.respondentType === 'other' ? state.otherDetail : '',
+    consent: 'yes',
+    pipeline_commit: meta.commit,
+    total_committed_usd: String(
+      allocationDetail.reduce((a, b) => a + b.amount_usd, 0)
+    ),
+    values_distant_payoffs: String(state.valuesDistantPayoffs),
+    weights_json: JSON.stringify(state.weights),
+    allocation_json: JSON.stringify(allocationDetail),
+  };
+}
+
 /** The exportable record. Includes provenance so a response is interpretable later. */
 export function buildResponse(
   state: ElicitationState,
@@ -157,7 +200,7 @@ export function buildResponse(
     total_committed_usd: allocationDetail.reduce((a, b) => a + b.amount_usd, 0),
     allocation: allocationDetail,
     note:
-      'Recorded in the respondent’s own browser. This static site has no backend and did not ' +
-      'transmit this record anywhere.',
+      'Recorded in the respondent’s own browser. Exporting this record does not transmit it; ' +
+      'it is sent only if the respondent consents and submits.',
   };
 }
