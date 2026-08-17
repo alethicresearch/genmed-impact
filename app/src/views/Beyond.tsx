@@ -65,7 +65,7 @@ export default function Beyond({ data, update }: Props) {
                     Vertical infections / year
                   </dt>
                   <dd className="mt-0.5 text-lg">
-                    <StatValue stat={r.hiv.vertical_infections_per_year} kind="int" showCi />
+                    <StatValue stat={r.hiv.vertical_infections_per_year} kind="int" />
                     <SourceNote
                       source="UNAIDS 2023 — new vertical (mother-to-child) HIV infections"
                       doi={null}
@@ -77,7 +77,7 @@ export default function Beyond({ data, update }: Props) {
                     Residual after existing prevention (PMTCT)
                   </dt>
                   <dd className="mt-0.5 text-lg">
-                    <StatValue stat={r.hiv.residual_after_pmtct} kind="int" showCi />
+                    <StatValue stat={r.hiv.residual_after_pmtct} kind="int" />
                     <span className="block text-xs font-normal text-slate-500">
                       after prevention of mother-to-child transmission (PMTCT), which stops
                       &gt;98% of cases where implemented

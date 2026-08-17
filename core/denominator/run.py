@@ -14,7 +14,7 @@ import numpy as np
 from . import (attribution, config, editing_tech, embryos, harmonize, library, model,
                montecarlo as mc,
                multifactorial, opportunities, perspectives, provenance, residual,
-               retroactive, sensitivity)
+               retroactive, sensitivity, uncertainty)
 
 
 def _git_commit() -> str:
@@ -30,7 +30,8 @@ def _s(arr) -> dict:
     return mc.summarize(arr)
 
 
-def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
+def run(n: int = config.N_DRAWS, seed: int = config.SEED,
+        compare_point_mode: bool = True) -> dict[str, Any]:
     rng = np.random.default_rng(seed)
     constants = harmonize.load_constants()
     conditions = harmonize.load_conditions()
@@ -236,6 +237,13 @@ def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
     R["editing_tech"] = editing_tech.build_editing_tech(R["residual"])
     R["perspectives"] = perspectives.build_perspectives(R["opportunities"]["opportunities"])
     R["retroactive"] = retroactive.build_retroactive(constants)
+    # Re-run the identical pipeline with every sampler collapsed to its central value, so the
+    # page can show what a straight calculation would give and where it parts company with the
+    # sampled median. Guarded so the point-mode pass does not recurse into itself.
+    if compare_point_mode and not mc.in_point_mode():
+        with mc.point_mode():
+            point = run(n=1, seed=seed, compare_point_mode=False)
+        R["uncertainty"] = uncertainty.build_uncertainty(R, point)
     return R
 
 

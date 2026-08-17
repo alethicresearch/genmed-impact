@@ -344,7 +344,7 @@ function CountCard({
         {valueOverride ? (
           <span className="font-semibold">{valueOverride}</span>
         ) : stat ? (
-          <StatValue stat={stat} kind="int" showCi />
+          <StatValue stat={stat} kind="int" />
         ) : null}
       </p>
     </Card>

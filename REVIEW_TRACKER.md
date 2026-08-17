@@ -84,6 +84,8 @@ Not defects — properties of the analysis that the write-up should acknowledge 
 | D5 | Commensurating three funding markets onto one 0–100 scale is itself a **normative act** | ☐ |
 | D6 | The population model is an **attribution framework** for adult-onset and multifactorial disease — it does not claim every modelled case is clinically present at birth | ☐ |
 | D7 | Published programme reductions used for validation reflect decades of sustained delivery in high-prevalence populations, so they are an **optimistic comparator** for a new programme | ☐ |
+| D8 | Uncertainty is **not evenly distributed**: S1 intervals span ~6× for the commonest condition and ~11,000× for the rarest, so per-condition rare-disease figures are orders of magnitude, not estimates | ☐ |
+| D9 | **S2 strict is too skewed for a central value to summarise** (interval 1–17,854; a point calculation gives +153% of the reported median). Any prose describing it should quote the interval, not the median alone | ☐ |
 
 ---
 

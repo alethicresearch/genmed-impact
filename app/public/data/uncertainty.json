@@ -1,0 +1,223 @@
+{
+  "headline": [
+    {
+      "path": "births_per_year",
+      "label": "Annual global live births",
+      "kind": "int",
+      "sampled_median": 135030856.48386008,
+      "point_value": 135000000.0,
+      "divergence": -0.00022851431638340884,
+      "ci95": [
+        130164700.66119622,
+        140087129.90097126
+      ],
+      "spread": 1.0762298010856415
+    },
+    {
+      "path": "residual.s1_total",
+      "label": "No unaffected embryo selectable (S1)",
+      "kind": "int",
+      "sampled_median": 11425.668018490866,
+      "point_value": 11403.440144560529,
+      "divergence": -0.0019454332030620666,
+      "ci95": [
+        4787.353808771775,
+        25999.561431199687
+      ],
+      "spread": 5.430883630025672
+    },
+    {
+      "path": "residual.s2.strict",
+      "label": "Complex-disease advantage — strict (S2)",
+      "kind": "int",
+      "sampled_median": 1305.0246968236897,
+      "point_value": 3307.5,
+      "divergence": 1.5344347950273671,
+      "ci95": [
+        0.9558214631685452,
+        17853.81070731312
+      ],
+      "spread": 18679.022595001992
+    },
+    {
+      "path": "residual.s2.permissive",
+      "label": "Complex-disease advantage — permissive (S2)",
+      "kind": "int",
+      "sampled_median": 126332.64225471366,
+      "point_value": 132300.0,
+      "divergence": 0.047235280120674336,
+      "ci95": [
+        57220.466875381375,
+        238916.7501826493
+      ],
+      "spread": 4.175372261519264
+    },
+    {
+      "path": "residual.uniquely_editable_total.strict",
+      "label": "Editing-relevant residual — strict",
+      "kind": "int",
+      "sampled_median": 14264.767253969292,
+      "point_value": 14710.940144560529,
+      "divergence": 0.03127796497815872,
+      "ci95": [
+        5941.992539769401,
+        34846.69848151498
+      ],
+      "spread": 5.864480348685749
+    },
+    {
+      "path": "residual.uniquely_editable_share_of_serious.strict",
+      "label": "Editing-relevant share of serious disease — strict",
+      "kind": "pct",
+      "sampled_median": 0.0017846526537995218,
+      "point_value": 0.0018345105555007519,
+      "divergence": 0.02793703390689653,
+      "ci95": [
+        0.0007357338234982847,
+        0.004343410797404003
+      ],
+      "spread": 5.903508386704107
+    },
+    {
+      "path": "residual.addressable_share_of_serious.strict",
+      "label": "Addressable by existing tools — strict",
+      "kind": "pct",
+      "sampled_median": 0.9982153473462004,
+      "point_value": 0.9981654894444992,
+      "divergence": -4.994703981836146e-05,
+      "ci95": [
+        0.995656589202596,
+        0.9992642661765017
+      ],
+      "spread": 1.0036234149535384
+    }
+  ],
+  "conditions": [
+    {
+      "condition": "Huntington's disease",
+      "sampled_median": 0.569640069985037,
+      "point_value": 0.5737499993903906,
+      "divergence": 0.00721495839550324,
+      "ci95": [
+        0.11235541937969569,
+        2.9148519490044293
+      ],
+      "spread": 25.943136210937297
+    },
+    {
+      "condition": "Spinal muscular atrophy (type I)",
+      "sampled_median": 2.594321701474014,
+      "point_value": 9.673499961828,
+      "divergence": 2.7287202879780925,
+      "ci95": [
+        0.005930902293159636,
+        67.26560350616897
+      ],
+      "spread": 11341.546392316945
+    },
+    {
+      "condition": "Cystic fibrosis",
+      "sampled_median": 398.1230661377516,
+      "point_value": 555.8670192714656,
+      "divergence": 0.3962190753326865,
+      "ci95": [
+        33.059285442727486,
+        2153.5386555964374
+      ],
+      "spread": 65.14171818163666
+    },
+    {
+      "condition": "Beta-thalassaemia",
+      "sampled_median": 1172.2316425846004,
+      "point_value": 1436.2713185558978,
+      "divergence": 0.22524530679715166,
+      "ci95": [
+        170.964894909483,
+        5406.4422573035545
+      ],
+      "spread": 31.623113389248616
+    },
+    {
+      "condition": "Balanced translocations (no viable euploid)",
+      "sampled_median": 2709.8181377212886,
+      "point_value": 2700.0,
+      "divergence": -0.0036231721917489215,
+      "ci95": [
+        853.4629281488064,
+        8539.214696752602
+      ],
+      "spread": 10.005372717564294
+    },
+    {
+      "condition": "Sickle cell disease",
+      "sampled_median": 5926.227986491362,
+      "point_value": 6701.054556771947,
+      "divergence": 0.13074531929024277,
+      "ci95": [
+        1233.270075844971,
+        19444.7147924392
+      ],
+      "spread": 15.766793643409144
+    },
+    {
+      "condition": "Congenital sensorineural deafness (GJB2)",
+      "sampled_median": 12319.82019375121,
+      "point_value": 12618.352307106408,
+      "divergence": 0.024231856363181228,
+      "ci95": [
+        4913.650047187853,
+        30387.0903482053
+      ],
+      "spread": 6.184219481726469
+    }
+  ],
+  "widest_condition": {
+    "condition": "Spinal muscular atrophy (type I)",
+    "sampled_median": 2.594321701474014,
+    "point_value": 9.673499961828,
+    "divergence": 2.7287202879780925,
+    "ci95": [
+      0.005930902293159636,
+      67.26560350616897
+    ],
+    "spread": 11341.546392316945
+  },
+  "narrowest_condition": {
+    "condition": "Congenital sensorineural deafness (GJB2)",
+    "sampled_median": 12319.82019375121,
+    "point_value": 12618.352307106408,
+    "divergence": 0.024231856363181228,
+    "ci95": [
+      4913.650047187853,
+      30387.0903482053
+    ],
+    "spread": 6.184219481726469
+  },
+  "largest_divergence": {
+    "path": "residual.s2.strict",
+    "label": "Complex-disease advantage — strict (S2)",
+    "kind": "int",
+    "sampled_median": 1305.0246968236897,
+    "point_value": 3307.5,
+    "divergence": 1.5344347950273671,
+    "ci95": [
+      0.9558214631685452,
+      17853.81070731312
+    ],
+    "spread": 18679.022595001992
+  },
+  "smallest_divergence": {
+    "path": "residual.addressable_share_of_serious.strict",
+    "label": "Addressable by existing tools — strict",
+    "kind": "pct",
+    "sampled_median": 0.9982153473462004,
+    "point_value": 0.9981654894444992,
+    "divergence": -4.994703981836146e-05,
+    "ci95": [
+      0.995656589202596,
+      0.9992642661765017
+    ],
+    "spread": 1.0036234149535384
+  },
+  "n_conditions": 7
+}

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Stat, fmtInt, fmtCompact, fmtPct, fmtMoney, crInt, crPct, crMoney } from '../data';
+import { useUncertainty } from '../uncertaintyMode';
 
 type Kind = 'int' | 'compact' | 'pct' | 'money';
 
@@ -55,9 +56,11 @@ function ciInline(stat: Stat, kind: Kind, decimals: number): string {
 }
 
 /**
- * Displays a Stat's median with its 95% uncertainty interval. When the interval is not shown
- * inline, the value is a click/tap toggle that reveals it — hover (title) works too, but is
- * never the only way in, so touch readers get the same information.
+ * Displays a Stat's median, with its 95% uncertainty interval alongside when the reader has
+ * turned uncertainty on (or when a view pins it with `showCi` because the width is itself the
+ * point). Otherwise the value is a click/tap toggle that reveals the interval on demand —
+ * hover (title) works too, but is never the only way in, so touch readers get the same
+ * information. The displayed number is the same in every case.
  */
 export default function StatValue({
   stat,
@@ -67,9 +70,10 @@ export default function StatValue({
   className = '',
 }: Props) {
   const [open, setOpen] = useState(false);
+  const uncertaintyOn = useUncertainty();
   const median = formatMedian(stat, kind, decimals);
   const title = ciString(stat, kind, decimals);
-  if (showCi) {
+  if (showCi || uncertaintyOn) {
     return (
       <span className={`tnum ${className}`} title={title}>
         <span className="font-semibold">{median}</span>

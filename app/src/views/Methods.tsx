@@ -1,5 +1,5 @@
 import { useMemo, useRef } from 'react';
-import { AllData, ProvenanceLeaf, TornadoRow, fmtPct } from '../data';
+import { AllData, ProvenanceLeaf, TornadoRow, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
 import { Card, SectionHeading, ExportSvgButton } from '../components/ui';
 import { exportContainerSvg } from '../svgExport';
@@ -286,6 +286,9 @@ export default function Methods({ data, state, update }: Props) {
         </p>
       </Card>
 
+      {/* How the uncertainty intervals are built, and where they matter */}
+      <UncertaintyMethods data={data} />
+
       {/* What kind of number is each input? */}
       <Card>
         <h3 className="text-base font-semibold text-slate-900">
@@ -492,6 +495,171 @@ export default function Methods({ data, state, update }: Props) {
         </dl>
       </Card>
     </div>
+  );
+}
+
+function signedPct(v: number | null): string {
+  if (v === null) return '—';
+  const pct = v * 100;
+  const digits = Math.abs(pct) >= 10 ? 0 : 1;
+  const magnitude = Math.abs(pct).toFixed(digits);
+  // A difference that rounds away should read as agreement, not as a signed zero.
+  if (Number(magnitude) === 0) return '0%';
+  return `${pct >= 0 ? '+' : '−'}${magnitude}%`;
+}
+
+function fmtRow(value: number, kind?: string): string {
+  return kind === 'pct' ? fmtPct(value, 2) : fmtInt(value);
+}
+
+/**
+ * Explains what the sampling layer buys, using the pipeline's own point-mode comparison. Every
+ * figure here is read from uncertainty.json — the point-mode pass is a generated diagnostic,
+ * never a second set of results.
+ */
+function UncertaintyMethods({ data }: { data: AllData }) {
+  const u = data.uncertainty;
+  const worst = u.largest_divergence;
+  const widest = u.widest_condition;
+  const narrowest = u.narrowest_condition;
+
+  return (
+    <Card>
+      <h3 className="text-base font-semibold text-slate-900">
+        Where the uncertainty intervals come from
+      </h3>
+      <p className="mt-1 text-sm leading-relaxed text-slate-700">
+        Every figure on this site is a median with a 95% uncertainty interval. The
+        <strong> Add uncertainty</strong> checkbox controls whether those intervals are
+        displayed — it does not change a single calculation. The estimate is the same number
+        with the box ticked or not.
+      </p>
+
+      <h4 className="mt-4 text-sm font-semibold text-slate-800">How they are built</h4>
+      <ul className="mt-1.5 space-y-1.5 text-sm leading-6 text-slate-700">
+        {[
+          'Each curated input carries a central value and a low/high range, treated as approximate 95% plausibility bounds. An input with no range is a fixed point.',
+          'Proportions are drawn from a Beta distribution matched to that range; rates, counts and costs from a lognormal with the central value as its median.',
+          'The whole pipeline is evaluated once on a single set of draws, so every quantity moves together rather than being combined from separately summarised parts.',
+          'Shares and ratios are formed draw by draw. A percentage therefore inherits the correlation between its numerator and denominator instead of being reconstructed from two medians.',
+        ].map((s) => (
+          <li key={s} className="flex gap-2">
+            <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400" />
+            <span>{s}</span>
+          </li>
+        ))}
+      </ul>
+
+      <h4 className="mt-4 text-sm font-semibold text-slate-800">
+        Why not just multiply the central values through?
+      </h4>
+      <p className="mt-1 text-sm leading-relaxed text-slate-700">
+        A fair question, since every input already has a central value. The table below runs the
+        identical pipeline both ways: sampled, and with every input collapsed to its central
+        value. For most of the analysis the two agree closely — but where an input is strongly
+        skewed, the straight calculation lands well away from the median of the actual
+        distribution, because the median of a product is not the product of the medians.
+      </p>
+      <div className="mt-3 overflow-x-auto">
+        <table className="w-full min-w-[34rem] text-sm">
+          <thead>
+            <tr className="border-b border-slate-200 text-left text-xs uppercase tracking-wide text-slate-500">
+              <th className="py-1.5 pr-3 font-medium">Quantity</th>
+              <th className="py-1.5 pr-3 text-right font-medium">Reported (sampled median)</th>
+              <th className="py-1.5 pr-3 text-right font-medium">Central values multiplied through</th>
+              <th className="py-1.5 text-right font-medium">Difference</th>
+            </tr>
+          </thead>
+          <tbody>
+            {u.headline.map((r) => {
+              const big = r.divergence !== null && Math.abs(r.divergence) > 0.25;
+              return (
+                <tr key={r.path} className="border-b border-slate-100 align-top">
+                  <td className="py-1.5 pr-3 text-slate-700">{r.label}</td>
+                  <td className="tnum py-1.5 pr-3 text-right text-slate-900">
+                    {fmtRow(r.sampled_median, r.kind)}
+                  </td>
+                  <td className="tnum py-1.5 pr-3 text-right text-slate-500">
+                    {fmtRow(r.point_value, r.kind)}
+                  </td>
+                  <td
+                    className={`tnum py-1.5 text-right ${big ? 'font-semibold text-amber-700' : 'text-slate-500'}`}
+                  >
+                    {signedPct(r.divergence)}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      {worst && (
+        <p className="mt-2 text-xs leading-5 text-slate-500">
+          The largest gap is <strong>{worst.label}</strong>, where multiplying central values
+          through gives {fmtRow(worst.point_value, worst.kind)} against a sampled median of{' '}
+          {fmtRow(worst.sampled_median, worst.kind)} ({signedPct(worst.divergence)}). Its
+          interval spans {fmtRow(worst.ci95[0], worst.kind)}–{fmtRow(worst.ci95[1], worst.kind)},
+          so the distribution is far too skewed for a single central value to summarise. The
+          reported figure is the sampled median throughout; the point-mode column exists only
+          for this comparison.
+        </p>
+      )}
+
+      <h4 className="mt-4 text-sm font-semibold text-slate-800">
+        It matters most for the rarest conditions
+      </h4>
+      <p className="mt-1 text-sm leading-relaxed text-slate-700">
+        Uncertainty is not spread evenly across the analysis. For the conditions where no
+        unaffected embryo can be selected, the width of the interval tracks how common the
+        condition is: the commonest are estimated within a narrow band, while the rarest carry
+        intervals spanning orders of magnitude. Rare conditions rest on allele frequencies that
+        are themselves poorly measured, and those frequencies enter the calculation
+        multiplicatively.
+      </p>
+      <div className="mt-3 overflow-x-auto">
+        <table className="w-full min-w-[30rem] text-sm">
+          <thead>
+            <tr className="border-b border-slate-200 text-left text-xs uppercase tracking-wide text-slate-500">
+              <th className="py-1.5 pr-3 font-medium">Condition</th>
+              <th className="py-1.5 pr-3 text-right font-medium">Births/yr (median)</th>
+              <th className="py-1.5 pr-3 text-right font-medium">95% interval</th>
+              <th className="py-1.5 text-right font-medium">Interval width (high ÷ low)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {u.conditions.map((c) => (
+              <tr key={c.condition} className="border-b border-slate-100 align-top">
+                <td className="py-1.5 pr-3 text-slate-700">{c.condition}</td>
+                <td className="tnum py-1.5 pr-3 text-right text-slate-900">
+                  {fmtInt(c.sampled_median)}
+                </td>
+                <td className="tnum py-1.5 pr-3 text-right text-slate-500">
+                  {fmtInt(c.ci95[0])}–{fmtInt(c.ci95[1])}
+                </td>
+                <td className="tnum py-1.5 text-right text-slate-500">
+                  {c.spread === null ? '—' : `${fmtInt(c.spread)}×`}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {widest && narrowest && (
+        <p className="mt-2 text-xs leading-5 text-slate-500">
+          {widest.condition} ({fmtInt(widest.sampled_median)}/yr) carries the widest interval at{' '}
+          {fmtInt(widest.spread ?? 0)}× from end to end; {narrowest.condition} (
+          {fmtInt(narrowest.sampled_median)}/yr) the narrowest at {fmtInt(narrowest.spread ?? 0)}×.
+          The relationship is close to monotonic but not perfectly so — a rare condition whose
+          genetics rest on one well-characterised parameter can be tighter than a commoner one
+          with several uncertain inputs.
+        </p>
+      )}
+      <p className="mt-2 text-xs leading-5 text-slate-500">
+        This is why the headline conclusions are robust while individual rare-disease rows are
+        not: the aggregate is dominated by the commonest conditions, whose intervals are narrow.
+        A rare-condition figure should be read as an order of magnitude, not an estimate.
+      </p>
+    </Card>
   );
 }
 

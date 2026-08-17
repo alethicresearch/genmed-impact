@@ -43,6 +43,8 @@ def export_all(R: dict[str, Any]) -> None:
     _write_json(app / "editing_tech.json", R["editing_tech"])
     _write_json(app / "perspectives.json", R["perspectives"])
     _write_json(app / "retroactive.json", R["retroactive"])
+    if "uncertainty" in R:
+        _write_json(app / "uncertainty.json", R["uncertainty"])
 
     # compact summary the landing view can load first
     summary = {

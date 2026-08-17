@@ -600,6 +600,28 @@ export interface EditingTech {
   share_with_correction_route: number;
 }
 
+export interface UncertaintyRow {
+  path?: string;
+  condition?: string;
+  label?: string;
+  kind?: 'int' | 'pct';
+  sampled_median: number;
+  point_value: number;
+  divergence: number | null;
+  ci95: number[];
+  spread: number | null;
+}
+
+export interface Uncertainty {
+  headline: UncertaintyRow[];
+  conditions: UncertaintyRow[];
+  widest_condition: UncertaintyRow | null;
+  narrowest_condition: UncertaintyRow | null;
+  largest_divergence: UncertaintyRow | null;
+  smallest_divergence: UncertaintyRow | null;
+  n_conditions: number;
+}
+
 export interface AllData {
   meta: Meta;
   summary: Summary;
@@ -617,6 +639,7 @@ export interface AllData {
   editingTech: EditingTech;
   perspectives: Perspectives;
   retroactive: Retroactive;
+  uncertainty: Uncertainty;
 }
 
 // BASE_URL is set by Vite; with base:'./' it resolves relative to the page.
@@ -652,6 +675,7 @@ export async function loadAll(): Promise<AllData> {
     editingTech,
     perspectives,
     retroactive,
+    uncertainty,
   ] = await Promise.all([
     getJson<Meta>('meta'),
     getJson<Summary>('summary'),
@@ -669,6 +693,7 @@ export async function loadAll(): Promise<AllData> {
     getJson<EditingTech>('editing_tech'),
     getJson<Perspectives>('perspectives'),
     getJson<Retroactive>('retroactive'),
+    getJson<Uncertainty>('uncertainty'),
   ]);
   return {
     meta,
@@ -687,6 +712,7 @@ export async function loadAll(): Promise<AllData> {
     editingTech,
     perspectives,
     retroactive,
+    uncertainty,
   };
 }
 

@@ -7,11 +7,33 @@ as median. A constant with ``low == high == value`` collapses to a point mass.
 """
 from __future__ import annotations
 
-from typing import Mapping
+import contextlib
+from typing import Iterator, Mapping
 
 import numpy as np
 
 Z95 = 1.959963984540054  # standard-normal 97.5th percentile
+
+# When point mode is on, both samplers collapse to the curated central value. This exists so the
+# pipeline can be re-run as a plain deterministic calculation and compared against the sampled
+# result — it is a diagnostic, never the reported analysis. See uncertainty.py.
+_POINT_MODE = False
+
+
+@contextlib.contextmanager
+def point_mode() -> Iterator[None]:
+    """Run the enclosed block with every sampler collapsed to its central value."""
+    global _POINT_MODE
+    prior = _POINT_MODE
+    _POINT_MODE = True
+    try:
+        yield
+    finally:
+        _POINT_MODE = prior
+
+
+def in_point_mode() -> bool:
+    return _POINT_MODE
 
 
 def _bounds(param: Mapping) -> tuple[float, float, float]:
@@ -30,6 +52,8 @@ def sample_proportion(param: Mapping, n: int, rng: np.random.Generator) -> np.nd
     """
     v, lo, hi = _bounds(param)
     v = min(max(v, 0.0), 1.0)
+    if _POINT_MODE:
+        return np.full(n, v)
     if hi <= lo or v <= 0.0 or v >= 1.0:
         return np.full(n, v)
     sd = (hi - lo) / (2 * Z95)
@@ -49,6 +73,8 @@ def sample_proportion(param: Mapping, n: int, rng: np.random.Generator) -> np.nd
 def sample_positive(param: Mapping, n: int, rng: np.random.Generator) -> np.ndarray:
     """Draw a positive quantity from a Lognormal with median ``value``."""
     v, lo, hi = _bounds(param)
+    if _POINT_MODE:
+        return np.full(n, max(v, 0.0))
     if v <= 0:
         return np.full(n, max(v, 0.0))
     if hi <= lo:

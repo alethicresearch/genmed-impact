@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AllData, loadAll } from './data';
 import { useUrlState } from './urlState';
+import { UncertaintyProvider } from './uncertaintyMode';
 import Tabs, { TabDef } from './components/Tabs';
 import Overview from './views/Overview';
 import Library from './views/Library';
@@ -127,6 +128,7 @@ export default function App() {
     window.scrollTo(0, 0);
   }, [activeView]);
 
+  const uncertaintyOn = state.unc === '1';
   const sectionTabs: TabDef[] = SECTIONS.map((s) => ({ id: s.id, label: s.label }));
   const onPickSection = (secId: string) => {
     const sec = SECTIONS.find((s) => s.id === secId);
@@ -216,13 +218,23 @@ export default function App() {
       {data && (
         <>
           <Tabs tabs={sectionTabs} active={activeSection.id} onChange={onPickSection} />
-          {activeSection.views.length > 1 && (
-            <SubNav
-              views={activeSection.views}
-              active={activeView}
-              onPick={(id) => update({ tab: id })}
+          <div className="mt-2 flex flex-wrap items-start justify-between gap-3">
+            {activeSection.views.length > 1 ? (
+              <SubNav
+                views={activeSection.views}
+                active={activeView}
+                onPick={(id) => update({ tab: id })}
+              />
+            ) : (
+              <span />
+            )}
+            <UncertaintyToggle
+              on={uncertaintyOn}
+              onChange={(v) => update({ unc: v ? '1' : '' })}
+              onExplain={() => update({ tab: 'methods' })}
             />
-          )}
+          </div>
+          <UncertaintyProvider on={uncertaintyOn}>
           <main className="mt-5 flex-1">
             <div
               role="tabpanel"
@@ -274,6 +286,7 @@ export default function App() {
               )}
             </div>
           </main>
+          </UncertaintyProvider>
 
           <PrevNext prev={prevView} next={nextView} onGo={(id) => update({ tab: id })} />
           <CiteSection />
@@ -349,6 +362,55 @@ function SubNav({
 }
 
 // Journey navigation — move through the argument in order, like turning pages.
+/**
+ * Site-wide control for showing uncertainty intervals. It changes what is displayed, never
+ * what is calculated — the estimate is the same Monte-Carlo median with the checkbox in
+ * either position.
+ */
+function UncertaintyToggle({
+  on,
+  onChange,
+  onExplain,
+}: {
+  on: boolean;
+  onChange: (v: boolean) => void;
+  onExplain: () => void;
+}) {
+  return (
+    <div className="no-print pt-1 text-right">
+      <div className="flex items-center justify-end gap-2">
+        <label className="flex cursor-pointer items-center gap-1.5 text-xs text-slate-600">
+          <input
+            type="checkbox"
+            checked={on}
+            onChange={(e) => onChange(e.target.checked)}
+            className="h-3.5 w-3.5 rounded border-slate-300 text-accent focus:ring-accent"
+          />
+          Add uncertainty
+        </label>
+        {on && (
+          <button
+            type="button"
+            onClick={onExplain}
+            className="text-xs text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            How these are calculated
+          </button>
+        )}
+      </div>
+      {on && (
+        // Not every figure is a modelled estimate — catalogue counts and classification
+        // tallies have no interval, so this says why some pages look unchanged.
+        <p className="mt-1 max-w-sm text-[11px] leading-4 text-slate-500">
+          Intervals are shown wherever a figure is a modelled estimate. Counts taken straight
+          from the catalogue — how many conditions fall in a category — have no interval, so
+          they are unchanged.
+        </p>
+      )}
+    </div>
+  );
+}
+
 function PrevNext({
   prev,
   next,

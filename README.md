@@ -157,6 +157,19 @@ The current committed analysis uses:
 
 All downstream quantities are computed on the *same* draw set, and ratios are formed per draw, so credible intervals on shares are correct rather than reconstructed from marginal medians.
 
+The pipeline also re-runs itself in **point mode** — every sampler collapsed to its curated central value — and exports the comparison to `app/public/data/uncertainty.json`. This is a diagnostic, never a reported result. It shows where a straight calculation would agree with the analysis and where it would not:
+
+| Quantity | Sampled median | Central values multiplied through | Difference |
+| --- | ---: | ---: | ---: |
+| Annual global live births | 135,030,856 | 135,000,000 | 0% |
+| No unaffected embryo selectable (S1) | 11,426 | 11,403 | −0.2% |
+| **Complex-disease advantage — strict (S2)** | **1,305** | **3,308** | **+153%** |
+| Editing-relevant share of serious disease | 0.18% | 0.18% | +2.8% |
+
+The top line is insensitive to the choice; S2 strict is not, because its distribution spans 1–17,854 and the median of a product is not the product of the medians. Uncertainty width also concentrates in the rarest conditions — the S1 interval spans ~6× for congenital deafness (12,320/yr) against ~11,000× for spinal muscular atrophy (2.6/yr). Aggregate conclusions are therefore robust while individual rare-disease rows should be read as orders of magnitude.
+
+On the research page, an **Add uncertainty** checkbox controls whether intervals are displayed. It is presentational only — the same median is shown either way, so there is never a second set of numbers on the page.
+
 Run the analysis locally with:
 
 ```bash

@@ -142,11 +142,11 @@ export default function Denominator({ data, state, update }: Props) {
       {/* Exact values for the current assumption set */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <MetricCard label="Annual global births">
-          <StatValue stat={data.summary.births_per_year} kind="compact" showCi />
+          <StatValue stat={data.summary.births_per_year} kind="compact" />
           <SourceNote source={birthsSrc.source || 'UN World Population Prospects 2024'} doi={birthsSrc.doi} />
         </MetricCard>
         <MetricCard label="Serious genetic disease, per year">
-          <StatValue stat={cell.total_serious} kind="compact" showCi />
+          <StatValue stat={cell.total_serious} kind="compact" />
           <SourceNote
             source="Derived: sum of the modeled monogenic (Modell & Darlison 2008) and multifactorial (GBD 2023; March of Dimes 2006) components at the selected severity and attribution assumptions"
             doi={null}
