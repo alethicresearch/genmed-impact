@@ -1,8 +1,10 @@
 # Reframing Genetic Medicine in Terms of Impact
 
-[Research page](https://alethicresearch.github.io/genmed-impact/) · [Paper — in preparation](#paper) · [Results & data](results/) · [Citation](#citation)
+[Research page](https://alethicresearch.github.io/genmed-impact/) · [Paper — in preparation](#paper) · [Results & data](results/) · [Open questions](REVIEW_TRACKER.md) · [Citation](#citation)
 
 > **Work in progress.** The analysis and accompanying manuscript are under development. Numerical results, disease classifications, and figures may change before the analysis is frozen for submission.
+>
+> Every item still awaiting an author decision, a source, or an expert check is tracked in **[`REVIEW_TRACKER.md`](REVIEW_TRACKER.md)**.
 
 ## Why this project
 
@@ -32,9 +34,18 @@ Disease prevention, disease resistance, and enhancement are treated as **separat
 
 1. **Disease burden and disease map** — population-level burden estimates alongside a structured catalogue of serious genetic conditions (331 in total: a 97-condition curated analytic core plus an Orphanet-derived rare-disease tier) linked to causal genes or loci, inheritance, incidence or prevalence, severity and onset, reproductive pathways, newborn screening, postnatal treatment and intent, and source provenance.
 2. **Existing genetic medicine** — carrier screening + reproductive planning, IVF + PGT-M embryo selection, prenatal diagnosis + reproductive decision, newborn screening + early treatment, and postnatal therapies, with **affected-birth avoidance** and **burden mitigation** reported separately throughout. Prenatal diagnosis reduces affected births in the model only when followed by a reproductive decision not to continue an affected pregnancy; newborn screening prevents no births — it enables earlier treatment.
+
+   Every condition is classified on **two independent axes** rather than a single preventable/treatable label:
+
+   - **Prevention** — `preventable` / `detectable_only` / `not_preventable`, always recorded together with *by which tool* (carrier screening, PGT-M, prenatal diagnosis, newborn screening).
+   - **Treatment intent** — `curative` / `disease_modifying` / `palliative` / `none`, because the difference between cure, disease management, and palliation is a difference in kind.
+
+   A condition therefore never carries a status like "no genetic-medicine option". It is either **addressable by existing tools** or part of the **editing-relevant residual** — a distinction between the established genetic-medicine stack and germline editing that the single-axis framing collapses.
 3. **Population model** — a bottom-up disease catalogue and a top-down population model built around an annual global birth cohort. For adult-onset and multifactorial disease this is an attribution framework: it does **not** mean every modeled case is clinically present at birth.
 4. **Germline-editing frontier** — an explicit analysis of reproductive configurations in which no unaffected embryo can be selected (**editing-only prevention**), a selection-versus-correction analysis showing how reproductive burden changes as unaffected embryos become rare, exploratory complex-disease population scaling, and a disease-specific model of how the polygenic frontier changes with technical capacity.
-5. **Ethical and policy analysis** — proportionality across severity, alternatives, incremental benefit, uncertainty, safety, intergenerational effects, and access, with prevention, resistance, and enhancement evaluated separately.
+5. **Which editing technology** — the editing platforms are not interchangeable, so the analysis separates them. Gene *addition* (AAV/lentiviral delivery of a working copy, as in Zolgensma or Lenmeldy) does not edit the genome at all; nucleases, base editors and prime editors do, and each can make only certain molecular changes. Conditions are assigned a dominant **variant class** (transition SNV, transversion SNV, small indel, large deletion, repeat expansion, chromosomal structural), and a capability matrix maps classes to platforms. A **four-gate ladder** then separates what is quantified from what is not: (1) selection fails → (2) a correction route exists → (3) it works in an embryo → (4) it is safe enough. Only gates 1 and 2 are quantified; gates 3 and 4 are left open by construction, because the published evidence does not support an efficiency or off-target number here.
+6. **Ethical and policy analysis** — proportionality across severity, alternatives, incremental benefit, uncertainty, safety, intergenerational effects, and access, with prevention, resistance, and enhancement evaluated separately.
+7. **Impact funding** — a costed opportunity market that turns the analysis into fundable options across the three horizons, using an explicit accounting identity (expected impact = affected population × gap × coverage change × effectiveness × attribution). Opportunities are scored under **five declared normative positions** across six value dimensions, so disagreement between positions is reported as a result rather than averaged away. A **predicted-versus-realized** view holds modelled effectiveness against cited long-running programme outcomes and defines a forward outcome ledger.
 
 ## Data sources
 
@@ -54,9 +65,9 @@ Default analysis: main severity definition (`def_b`), broad multifactorial attri
 | Quantity | Estimate |
 | --- | ---: |
 | Annual global live births | 135.0M (95% UI 130.2–140.1M) |
-| Serious monogenic disease | 1.405M (1.098–1.793M) |
-| Serious multifactorial / partly genetic disease — broad attribution | 6.621M (5.393–8.126M) |
-| Total under broad/default attribution | 8.042M (6.747–9.591M) |
+| Serious monogenic disease | 1.403M (1.091–1.797M) |
+| Serious multifactorial / partly genetic disease — broad attribution | 6.612M (5.404–8.153M) |
+| Total under broad/default attribution | 8.028M (6.757–9.599M) |
 | Monogenic affected births avoided — current modeled coverage | 35.8% |
 | Monogenic affected births avoided — idealized full coverage | 99.7% |
 
@@ -66,9 +77,23 @@ The 35.8% → 99.7% comparison applies to **monogenic affected-birth avoidance u
 
 | Quantity | Estimate |
 | --- | ---: |
-| Reproductive configurations in which no unaffected embryo can be selected | 11.3k/yr (4.9–26.1k) |
+| Reproductive configurations in which no unaffected embryo can be selected | 11.4k/yr (4.8–26.0k) |
 
-These cases define **editing-only prevention** in the model. They are a small population-level share but can carry a strong individual clinical justification because embryo selection cannot achieve the relevant preventive outcome. (Including congenital deafness — an ethically contested classification excluded by default — raises the estimate to ~24.9k/yr.)
+These cases define **editing-only prevention** in the model. They are a small population-level share but can carry a strong individual clinical justification because embryo selection cannot achieve the relevant preventive outcome. (Including congenital deafness — an ethically contested classification excluded by default — raises the estimate to ~23.7k/yr.)
+
+#### Failing selection is not the same as having a correction route
+
+Applying the variant-class capability matrix to the curated conditions that make up this residual (~10.2k/yr of it) gives:
+
+| Gate 2 — is there any molecular route to correct the variant? | Births/yr | Share |
+| --- | ---: | ---: |
+| A mature platform could make the change (base editing) | ~1.2k | 11% |
+| Only prime editing could make the change | ~6.3k | 62% |
+| No current platform can restore the sequence | ~2.7k | 27% |
+
+Two consequences are worth stating plainly. **Sickle cell disease** — the single largest contributor and the canonical "point mutation" — is a *transversion*, which standard base editors cannot perform; it needs prime editing. **Balanced translocations** have no sequence to correct at all. The whole base-editable bucket currently rests on beta-thalassaemia, on a medium-confidence, allelically heterogeneous assignment ([`REVIEW_TRACKER.md`](REVIEW_TRACKER.md) B3).
+
+Gates 3 (does it work in an embryo?) and 4 (is it safe enough?) are **not quantified**. The analysis states which molecular change would be required, not how often making it would succeed.
 
 #### Selection can become burdensome before it becomes impossible
 
@@ -83,13 +108,22 @@ In the disease-specific liability model, current-capacity assumptions produce li
 | Exploratory population scaling | Estimate |
 | --- | ---: |
 | Current-evidence complex-disease scaling | ~1.3k/yr |
-| Future-capacity exploratory scaling | ~127.2k/yr |
+| Future-capacity exploratory scaling | ~126.3k/yr |
 
 These population-scaled values are scenario assumptions applied to the multifactorial burden; they are **not direct sums of the disease-specific liability-threshold model**.
 
 ### Scenario synthesis
 
-Combining editing-only prevention with the complex-disease scaling term gives an **editing-relevant residual** of ~14.2k/yr (0.18% of the modeled burden) under current-evidence scaling and ~139.6k/yr (1.74%) under future-capacity exploratory scaling. These combine different forms of medical value — an only-option reproductive configuration and a potential incremental advantage — and are reported for scale, not as the project's central conclusion. The complementary "not uniquely dependent on germline editing" shares describe these particular modeled scenarios; they are not a claim that the same proportion is preventable by present medicine, nor that editing's role is permanently confined to that share.
+Combining editing-only prevention with the complex-disease scaling term gives an **editing-relevant residual** of ~14.3k/yr (0.18% of the modeled burden) under current-evidence scaling and ~138.9k/yr (1.73%) under future-capacity exploratory scaling. These combine different forms of medical value — an only-option reproductive configuration and a potential incremental advantage — and are reported for scale, not as the project's central conclusion. The complementary "not uniquely dependent on germline editing" shares describe these particular modeled scenarios; they are not a claim that the same proportion is preventable by present medicine, nor that editing's role is permanently confined to that share.
+
+### Impact funding
+
+Opportunities are costed in three markets — **impact now** (deploying existing tools), **translational** (research that would change what is possible), and **future** (long-horizon capability). Two accounting rules matter for reading them:
+
+- **Population-wide screening is shared infrastructure.** A national carrier-screening programme is aggregated once per (region, tool) rather than billed in full to each condition it happens to cover; otherwise unrelated diseases return identical, meaningless asks.
+- **Impacts are never summed.** The same affected birth can be avoided by more than one programme, so market totals deliberately omit a summed impact and carry an explicit non-additivity flag.
+
+Rankings are reported per normative position rather than pooled, together with the opportunities on which the positions **most disagree** and those they **most agree** on. The forward outcome ledger is empty by design — no simulated project results are included.
 
 ## Intellectual context
 
@@ -104,11 +138,14 @@ The contribution here is to connect that forward-looking pathway to a quantitati
 The [interactive research page](https://alethicresearch.github.io/genmed-impact/) provides the main reader-facing presentation of the project:
 
 - **Overview** — impact framework, three time horizons, and main findings
-- **Disease burden** — how much disease is modeled and which diseases are represented
-- **Existing medicine** — present intervention capability, outcomes, and access
-- **Role of editing** — no-selectable-embryo cases, selection versus correction when unaffected embryos are rare, and the future polygenic frontier.
-- **Ethics & policy** — proportionality, regulatory sequencing, resistance, enhancement, and exploratory costs
+- **Disease burden** — *Burden estimate* (how much disease is modeled) and *Disease catalogue* (which conditions, on both classification axes, across the core and rare tiers)
+- **Existing medicine** — *Impact now*: present intervention capability, outcomes, and access
+- **Role of editing** — *When selection is not enough*, *Selection vs correction*, *Which technology?* (variant classes, platforms, and the four-gate ladder), and *Polygenic frontier*
+- **Ethics & policy** — *Policy implications*, *Resistance & enhancement* (explored separately from disease prevention), and *Exploratory costs*
+- **Impact funding** — *Opportunities* (the costed impact market), *Whose values?* (scoring under five declared normative positions, with adjustable weights and an optional elicitation response), and *Predicted vs realized* (modelled effectiveness against cited programme outcomes)
 - **Methods & data** — model structure, uncertainty, sensitivity, evidence status, provenance, and reproducibility
+
+Navigation is two-layer — section, then view — and the reading state is serialized into the URL, so any view can be linked directly from the manuscript.
 
 ## Reproducibility
 
@@ -148,6 +185,12 @@ make app-build
 
 Exact Python dependencies used by the analysis are in [`core/requirements.txt`](core/requirements.txt). Each exported run records its model version, random seed, draw count, and pipeline commit in [`app/public/data/meta.json`](app/public/data/meta.json).
 
+### Deployment
+
+The research page is a fully static build with no backend. [`netlify.toml`](netlify.toml) is the current deployment configuration (base `app`, `npm ci && npm run build`, publish `dist`); a GitHub Pages workflow is also still live. Which of the two becomes canonical is an open decision ([`REVIEW_TRACKER.md`](REVIEW_TRACKER.md) A9).
+
+The optional elicitation response on *Whose values?* is collected through Netlify Forms — a build-time-detected HTML form and a URL-encoded POST, so it adds no runtime dependency and no third-party script. Responses are opt-in and preceded by a consent notice; institutional review has not been obtained (A8).
+
 ## Repository structure
 
 ```text
@@ -165,8 +208,12 @@ genmed-impact/
 │   │   ├── attribution.py          # severity × genetic-attribution burden grid
 │   │   ├── model.py                # existing-intervention model
 │   │   ├── residual.py             # editing-only and complex-disease residuals
+│   │   ├── editing_tech.py         # variant classes, platform capability, four-gate ladder
 │   │   ├── multifactorial.py       # liability-threshold polygenic-frontier analysis
 │   │   ├── embryos.py              # idealized embryo-selection comparison
+│   │   ├── opportunities.py        # costed impact market across the three horizons
+│   │   ├── perspectives.py         # value dimensions × declared normative positions
+│   │   ├── retroactive.py          # predicted-vs-realized validation and outcome ledger
 │   │   ├── montecarlo.py           # uncertainty propagation
 │   │   ├── sensitivity.py          # sensitivity analysis
 │   │   ├── provenance.py           # epistemic-status annotation
@@ -181,10 +228,13 @@ genmed-impact/
 │   ├── paper_numbers.json           # canonical paper-facing estimates
 │   ├── tables.md                    # generated result tables
 │   └── methods.md                   # generated methods and provenance
-├── ANALYSIS_LOG.md
+├── ANALYSIS_LOG.md                  # analysis decisions and revision history
+├── REVIEW_TRACKER.md                # open decisions, curation checks, data to source
+├── DATA_NEEDED.md                   # parameter-level sourcing requests
 ├── CITATION.cff
 ├── LICENSE
 ├── LICENSE-DATA.md
+├── netlify.toml                     # research-page deployment
 └── Makefile
 ```
 
@@ -195,6 +245,8 @@ genmed-impact/
 - [`results/methods.md`](results/methods.md) — generated methods, assumptions, formulas, and provenance
 - [`app/public/data/`](app/public/data/) — JSON used by the research page
 - [`ANALYSIS_LOG.md`](ANALYSIS_LOG.md) — analysis decisions and revision history
+- [`REVIEW_TRACKER.md`](REVIEW_TRACKER.md) — every open author decision, curation check, and unsourced parameter
+- [`DATA_NEEDED.md`](DATA_NEEDED.md) — the specific sources and queries that would close those gaps
 
 ## Evidentiary status and provenance
 
@@ -208,6 +260,8 @@ Quantitative inputs are classified by evidentiary status:
 
 Source records can include the central value, uncertainty range, source, DOI, table/page, retrieval date, and evidentiary status. The Methods & data view exposes these records directly.
 
+The current parameter set is **20 cited · 41 modeling assumption · 6 derived · 3 normative choice · 1 provisional**. That mix is a finding about the state of the evidence, not a defect to be hidden: the quantities that are hardest to source — editing efficiency in embryos, mosaicism, off-target burden — are precisely the ones that would close gates 3 and 4. They are **absent by design** rather than filled with plausible numbers, and the test suite enforces this (`test_no_efficiency_or_safety_numbers_are_asserted`).
+
 ## Important limitations
 
 This analysis should not be read as claiming that:
@@ -220,9 +274,12 @@ This analysis should not be read as claiming that:
 - newborn screening prevents affected births;
 - current germline-editing technology is safe enough for clinical use;
 - the future-capacity polygenic scenario is a forecast, or its figure a permanent upper limit;
-- the quantitative model by itself determines an ethical or regulatory conclusion.
+- the quantitative model by itself determines an ethical or regulatory conclusion;
+- a molecular correction route implies that editing would work, or would be safe;
+- the funding-market impact estimates can be added together;
+- the five normative positions are survey results — they are stipulated, cited positions, not measured opinion.
 
-The exploratory cost-allocation analysis contains provisional inputs and is not currently treated as a paper-level result.
+The exploratory cost-allocation analysis contains provisional inputs and is not currently treated as a paper-level result. The full list of limitations the write-up must state is section D of [`REVIEW_TRACKER.md`](REVIEW_TRACKER.md).
 
 ## Paper
 
