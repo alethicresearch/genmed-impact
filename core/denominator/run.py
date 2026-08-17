@@ -11,7 +11,8 @@ from typing import Any
 
 import numpy as np
 
-from . import (attribution, config, embryos, harmonize, library, model, montecarlo as mc,
+from . import (attribution, config, editing_tech, embryos, harmonize, library, model,
+               montecarlo as mc,
                multifactorial, opportunities, perspectives, provenance, residual,
                retroactive, sensitivity)
 
@@ -232,6 +233,7 @@ def run(n: int = config.N_DRAWS, seed: int = config.SEED) -> dict[str, Any]:
     R["opportunities"] = opportunities.build_opportunities(
         constants, _library_built, R["residual"], _multifactorial_built)
     # Phase 2: whose values rank these opportunities, and how predictions score against reality.
+    R["editing_tech"] = editing_tech.build_editing_tech(R["residual"])
     R["perspectives"] = perspectives.build_perspectives(R["opportunities"]["opportunities"])
     R["retroactive"] = retroactive.build_retroactive(constants)
     return R

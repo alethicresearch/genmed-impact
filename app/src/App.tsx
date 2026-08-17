@@ -8,6 +8,7 @@ import Denominator from './views/Denominator';
 import Prevention from './views/Prevention';
 import Multifactorial from './views/Multifactorial';
 import Embryos from './views/Embryos';
+import EditingTech from './views/EditingTech';
 import Residual from './views/Residual';
 import Beyond from './views/Beyond';
 import EthicsPolicy from './views/EthicsPolicy';
@@ -52,6 +53,7 @@ const SECTIONS: SectionDef[] = [
     views: [
       { id: 'residual', label: 'When selection is not enough' },
       { id: 'embryos', label: 'Selection vs correction' },
+      { id: 'editing-tech', label: 'Which technology?' },
       { id: 'multifactorial', label: 'Polygenic frontier' },
     ],
   },
@@ -244,6 +246,9 @@ export default function App() {
               )}
               {activeView === 'residual' && (
                 <Residual data={data} state={state} update={update} />
+              )}
+              {activeView === 'editing-tech' && (
+                <EditingTech data={data} state={state} update={update} />
               )}
               {activeView === 'embryos' && (
                 <Embryos data={data} state={state} update={update} />

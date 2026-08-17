@@ -1,0 +1,278 @@
+{
+  "meta": {
+    "epistemic_status": "derived from curated variant classes; no efficiency or safety parameters are used",
+    "headline_excludes_contested": [
+      "Congenital sensorineural deafness (GJB2)"
+    ],
+    "caveats": [
+      "Every gene here is allelically heterogeneous to some degree, so assigning one dominant variant class per condition is an approximation. Conditions where that matters most are flagged as heterogeneous.",
+      "Gate 2 asks only whether a platform could make the molecular change in principle. It is not a claim that the change can be made in an embryo, efficiently, or safely — those are gates 3 and 4, and neither is established.",
+      "No editing efficiency, mosaicism or off-target figures are used anywhere in this module; sourcing them is listed in DATA_NEEDED.md.",
+      "The S1 population itself carries the credible interval reported on the residual view; the split below uses median values only."
+    ]
+  },
+  "platforms": {
+    "gene_addition": {
+      "label": "Gene addition",
+      "edits_genome": false,
+      "mechanism": "Deliver a functional copy of the gene (AAV, lentiviral) without changing the endogenous sequence.",
+      "examples": "Zolgensma (AAV9, SMA); Lenmeldy (lentiviral, MLD); Luxturna (AAV, RPE65)",
+      "maturity": "approved",
+      "germline_status": "not applicable — an added copy is not a heritable correction of the causal variant"
+    },
+    "nuclease": {
+      "label": "Nuclease editing (CRISPR-Cas9)",
+      "edits_genome": true,
+      "mechanism": "Cut the DNA and let the cell repair it. Reliable for disrupting a sequence; precise correction requires a repair template and is inefficient.",
+      "examples": "Casgevy — note this DISRUPTS a BCL11A enhancer to raise fetal haemoglobin; it does not correct the sickle variant",
+      "maturity": "approved (ex vivo, somatic)",
+      "germline_status": "double-strand breaks in embryos are associated with mosaicism, large on-target deletions and chromosome loss"
+    },
+    "base_editor": {
+      "label": "Base editing",
+      "edits_genome": true,
+      "mechanism": "Chemically convert one base pair to another without cutting both strands. Performs transitions only: C·G→T·A and A·T→G·C.",
+      "examples": "Cytosine and adenine base editors (Komor 2016; Gaudelli 2017)",
+      "maturity": "clinical trials (somatic)",
+      "germline_status": "no established embryo application"
+    },
+    "prime_editor": {
+      "label": "Prime editing",
+      "edits_genome": true,
+      "mechanism": "Write a new sequence from an attached template. In principle handles all twelve substitutions plus small insertions and deletions.",
+      "examples": "Prime editing (Anzalone 2019)",
+      "maturity": "early clinical / preclinical",
+      "germline_status": "no established embryo application"
+    },
+    "epigenetic": {
+      "label": "Epigenetic editing",
+      "edits_genome": false,
+      "mechanism": "Change gene expression without altering sequence. Not a correction, and heritability across generations is not established.",
+      "examples": "dCas9-based repressors/activators",
+      "maturity": "preclinical",
+      "germline_status": "not a sequence correction"
+    }
+  },
+  "variant_classes": {
+    "transition_snv": {
+      "label": "Point mutation (transition)",
+      "detail": "A single base swapped within the purines or within the pyrimidines (C↔T, A↔G). The class base editors were built for."
+    },
+    "transversion_snv": {
+      "label": "Point mutation (transversion)",
+      "detail": "A single base swapped between a purine and a pyrimidine (e.g. A→T). Standard base editors cannot make this change."
+    },
+    "small_indel": {
+      "label": "Small insertion or deletion",
+      "detail": "A few bases added or lost. Requires writing sequence back, not swapping a base."
+    },
+    "large_deletion": {
+      "label": "Large deletion or duplication",
+      "detail": "Whole exons or genes lost or duplicated. There is no established route to restore the missing sequence."
+    },
+    "repeat_expansion": {
+      "label": "Repeat expansion",
+      "detail": "A short sequence repeated far too many times. Contracting a repeat is not an established capability."
+    },
+    "chromosomal_structural": {
+      "label": "Chromosomal rearrangement",
+      "detail": "Whole segments of chromosomes joined or reordered. Not a sequence variant at all — there is nothing to rewrite, the chromosomes themselves are rearranged."
+    },
+    "other": {
+      "label": "Other / mixed",
+      "detail": "Heterogeneous or not characterised here."
+    }
+  },
+  "capability": {
+    "transition_snv": [
+      "base_editor",
+      "prime_editor"
+    ],
+    "transversion_snv": [
+      "prime_editor"
+    ],
+    "small_indel": [
+      "prime_editor"
+    ],
+    "large_deletion": [],
+    "repeat_expansion": [],
+    "chromosomal_structural": [],
+    "other": []
+  },
+  "gates": [
+    {
+      "key": "selection_fails",
+      "label": "Selection cannot help",
+      "question": "Is there any embryo this couple could select that would be unaffected?",
+      "status": "quantified",
+      "detail": "The S1 population: couples for whom no unaffected embryo exists. This is the only gate where editing has a distinctive claim in the first place."
+    },
+    {
+      "key": "correction_route",
+      "label": "The variant has a correction route",
+      "question": "Does any platform exist that could make this molecular change at all?",
+      "status": "quantified",
+      "detail": "Determined by the class of variant. Restoring a large deletion or contracting a repeat expansion is not something any current platform can do."
+    },
+    {
+      "key": "works_in_embryo",
+      "label": "The platform works in an embryo",
+      "question": "Has that platform been shown to work safely in a human embryo?",
+      "status": "not_established",
+      "detail": "Editing a single-cell embryo is not the same problem as editing cells in a dish. Nuclease approaches carry documented mosaicism and chromosome-loss risks; base and prime editing have no established embryo application."
+    },
+    {
+      "key": "safe_enough",
+      "label": "It is safe enough to use",
+      "question": "Are off-target and mosaicism risks low enough to justify use?",
+      "status": "unquantified",
+      "detail": "Requires efficiency and safety data this project has not sourced. Left explicitly unquantified rather than assigned a placeholder."
+    }
+  ],
+  "conditions": [
+    {
+      "condition": "Congenital sensorineural deafness (GJB2)",
+      "contested": true,
+      "s1_births_per_year": 12319.82019375121,
+      "dominant_variant_class": "small_indel",
+      "variant_class_label": "Small insertion or deletion",
+      "tractability": "prime_only",
+      "tractability_label": "Only prime editing could make the change",
+      "platforms_in_principle": [
+        "prime_editor"
+      ],
+      "confidence": "medium",
+      "heterogeneous": true,
+      "explanation": "35delG, a single-base deletion, predominates in European-ancestry populations; 235delC predominates in East Asia. Both are deletions rather than substitutions. This condition is also contested as a target and is excluded from the headline.",
+      "citation": "Snoeckx et al. 2005 (GJB2 genotype-phenotype)"
+    },
+    {
+      "condition": "Sickle cell disease",
+      "contested": false,
+      "s1_births_per_year": 5926.227986491362,
+      "dominant_variant_class": "transversion_snv",
+      "variant_class_label": "Point mutation (transversion)",
+      "tractability": "prime_only",
+      "tractability_label": "Only prime editing could make the change",
+      "platforms_in_principle": [
+        "prime_editor"
+      ],
+      "confidence": "high",
+      "heterogeneous": false,
+      "explanation": "HbS is a single substitution, GAG→GTG (Glu6Val) — an A·T→T·A transversion. It is the textbook point mutation, yet standard base editors perform transitions, so they cannot revert it. Casgevy does not correct it either: it disrupts a BCL11A enhancer to raise fetal haemoglobin, which is mitigation rather than correction.",
+      "citation": "Ingram 1957 (HbS substitution); Frangoul et al. 2021 (exagamglogene, BCL11A)"
+    },
+    {
+      "condition": "Balanced translocations (no viable euploid)",
+      "contested": false,
+      "s1_births_per_year": 2709.8181377212886,
+      "dominant_variant_class": "chromosomal_structural",
+      "variant_class_label": "Chromosomal rearrangement",
+      "tractability": "no_current_route",
+      "tractability_label": "No current platform can restore the sequence",
+      "platforms_in_principle": [],
+      "confidence": "high",
+      "heterogeneous": true,
+      "explanation": "Carriers whose chromosome rearrangement leaves no viable euploid embryo. This is the clearest case of a condition outside editing's reach: there is no variant to correct, because whole chromosome segments are in the wrong place. It is nonetheless one of the largest contributors to the population where selection fails, which is why the distinction matters.",
+      "citation": "Scriven et al., translocation PGT outcomes; Zhang et al., carrier segregation"
+    },
+    {
+      "condition": "Beta-thalassaemia",
+      "contested": false,
+      "s1_births_per_year": 1172.2316425846004,
+      "dominant_variant_class": "transition_snv",
+      "variant_class_label": "Point mutation (transition)",
+      "tractability": "base_editable",
+      "tractability_label": "A mature platform could make the change",
+      "platforms_in_principle": [
+        "base_editor",
+        "prime_editor"
+      ],
+      "confidence": "medium",
+      "heterogeneous": true,
+      "explanation": "Several hundred HBB alleles are known. Many common ones are point mutations, a substantial share of them transitions (e.g. IVS-I-110 G>A), but others are small indels. The share that is base-editable is population-specific and is approximated here rather than measured.",
+      "citation": "HbVar database; Modell & Darlison 2008"
+    },
+    {
+      "condition": "Cystic fibrosis",
+      "contested": false,
+      "s1_births_per_year": 398.1230661377516,
+      "dominant_variant_class": "small_indel",
+      "variant_class_label": "Small insertion or deletion",
+      "tractability": "prime_only",
+      "tractability_label": "Only prime editing could make the change",
+      "platforms_in_principle": [
+        "prime_editor"
+      ],
+      "confidence": "high",
+      "heterogeneous": true,
+      "explanation": "F508del, a three-base deletion, is the most common CFTR allele worldwide. Losing bases means sequence has to be written back, which is prime-editing territory. Other alleles are point mutations, so a minority would be base-editable.",
+      "citation": "CFTR2 database; Bobadilla et al. 2002"
+    },
+    {
+      "condition": "Spinal muscular atrophy (type I)",
+      "contested": false,
+      "s1_births_per_year": 2.594321701474014,
+      "dominant_variant_class": "large_deletion",
+      "variant_class_label": "Large deletion or duplication",
+      "tractability": "no_current_route",
+      "tractability_label": "No current platform can restore the sequence",
+      "platforms_in_principle": [],
+      "confidence": "high",
+      "heterogeneous": false,
+      "explanation": "Around 95% of cases are homozygous loss of SMN1 exon 7. There is no established way to restore a deleted gene, which is exactly why the approved therapies are gene ADDITION (Zolgensma) and splice modulation of the SMN2 backup copy (nusinersen) rather than correction. A clear case where addition works and editing does not.",
+      "citation": "Lefebvre et al. 1995 (SMN1); Mendell et al. 2017 (onasemnogene)"
+    },
+    {
+      "condition": "Huntington's disease",
+      "contested": false,
+      "s1_births_per_year": 0.569640069985037,
+      "dominant_variant_class": "repeat_expansion",
+      "variant_class_label": "Repeat expansion",
+      "tractability": "no_current_route",
+      "tractability_label": "No current platform can restore the sequence",
+      "platforms_in_principle": [],
+      "confidence": "high",
+      "heterogeneous": false,
+      "explanation": "An expanded CAG repeat in HTT. Contracting a repeat is not an established capability for any platform, which is why therapeutic work targets lowering huntingtin expression rather than correcting the allele.",
+      "citation": "MacDonald et al. 1993 (HTT CAG expansion)"
+    },
+    {
+      "condition": "Tay-Sachs disease",
+      "contested": false,
+      "s1_births_per_year": 0.0,
+      "dominant_variant_class": "small_indel",
+      "variant_class_label": "Small insertion or deletion",
+      "tractability": "prime_only",
+      "tractability_label": "Only prime editing could make the change",
+      "platforms_in_principle": [
+        "prime_editor"
+      ],
+      "confidence": "medium",
+      "heterogeneous": true,
+      "explanation": "The most common Ashkenazi founder allele, 1278insTATC, is a four-base insertion; a splice-site variant and a point mutation make up most of the remainder. Founder-population structure means the dominant class is ancestry-dependent.",
+      "citation": "Myerowitz & Costigan 1988; Kaback & Desnick, GeneReviews"
+    }
+  ],
+  "by_tractability": {
+    "base_editable": {
+      "label": "A mature platform could make the change",
+      "births_per_year": 1172.2316425846004,
+      "n_conditions": 1
+    },
+    "prime_only": {
+      "label": "Only prime editing could make the change",
+      "births_per_year": 6324.351052629113,
+      "n_conditions": 3
+    },
+    "no_current_route": {
+      "label": "No current platform can restore the sequence",
+      "births_per_year": 2712.9820994927477,
+      "n_conditions": 3
+    }
+  },
+  "s1_total_headline": 10209.564794706463,
+  "s1_with_correction_route": 7496.582695213713,
+  "s1_without_correction_route": 2712.9820994927495,
+  "share_with_correction_route": 0.7342705439413638
+}

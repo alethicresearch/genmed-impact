@@ -40,6 +40,7 @@ def export_all(R: dict[str, Any]) -> None:
     _write_json(app / "multifactorial.json", R["multifactorial"])
     _write_json(app / "embryos.json", R["embryos"])
     _write_json(app / "opportunities.json", R["opportunities"])
+    _write_json(app / "editing_tech.json", R["editing_tech"])
     _write_json(app / "perspectives.json", R["perspectives"])
     _write_json(app / "retroactive.json", R["retroactive"])
 

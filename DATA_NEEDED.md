@@ -92,3 +92,32 @@ Run `make ingest` first: it attempts every Tier-A source and prints which ones d
 `make ingest` targets these Tier-A sources directly (no manual step):
 UN WPP 2024 births · WHO GHO (PMTCT, congenital mortality) · gnomAD v4.1 allele frequencies ·
 World Bank income groups · UNAIDS vertical HIV. Any that fail print an exact request above.
+
+---
+
+## Editing-technology parameters (added with the gate-ladder analysis)
+
+The gate ladder in `core/denominator/editing_tech.py` quantifies gates 1–2 and deliberately
+leaves gates 3–4 open. Closing them needs the following, none of which is currently sourced.
+**No placeholder value is used for any of these** — they are absent rather than guessed.
+
+- [ ] **Editing efficiency by platform** — on-target conversion rates for base and prime editing
+      at therapeutically relevant loci. Anchors: Komor et al. 2016 (CBE); Gaudelli et al. 2017
+      (ABE); Anzalone et al. 2019 (prime editing).
+- [ ] **Embryo-specific outcomes** — mosaicism frequency, large on-target deletions, and
+      segmental/whole-chromosome loss after editing in human embryos. Anchors: Zuccaro et al.
+      2020; Alanis-Lobato et al. 2021; Liang et al. 2017. These determine gate 3 and currently
+      have no established value for any platform.
+- [ ] **Off-target burden** — genome-wide off-target rates per platform under clinically
+      plausible delivery. Determines gate 4.
+- [ ] **Allele-share by variant class, per condition** — each S1 gene is allelically
+      heterogeneous, and the module assigns a single *dominant* class. Population-specific allele
+      spectra (HbVar for HBB; CFTR2 for CFTR; GJB2 and HEXA founder frequencies) would turn the
+      current per-condition classification into a weighted split, and would matter most for
+      beta-thalassaemia, CFTR and the founder-population conditions.
+- [ ] **Editing-programme cost basis** (pre-existing gap, still open) — the
+      `editing_program_per_birth_prevented` anchor remains provisional.
+
+Until these exist, the analysis reports which *kind* of molecular change each population would
+require and whether any platform can make it in principle. It does not estimate how often such a
+change would succeed, which is why gates 3 and 4 are shown as open rather than given a number.

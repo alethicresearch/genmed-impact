@@ -550,6 +550,56 @@ export interface Retroactive {
   ledger: unknown[];
 }
 
+// ---- Editing technology: platforms, variant classes, and the gate ladder ----
+
+export type Tractability = 'base_editable' | 'prime_only' | 'no_current_route';
+
+export interface EditingPlatform {
+  label: string;
+  edits_genome: boolean;
+  mechanism: string;
+  examples: string;
+  maturity: string;
+  germline_status: string;
+}
+
+export interface EditingGate {
+  key: string;
+  label: string;
+  question: string;
+  status: 'quantified' | 'not_established' | 'unquantified';
+  detail: string;
+}
+
+export interface EditingCondition {
+  condition: string;
+  contested: boolean;
+  s1_births_per_year: number;
+  dominant_variant_class: string;
+  variant_class_label: string;
+  tractability: Tractability;
+  tractability_label: string;
+  platforms_in_principle: string[];
+  confidence: string;
+  heterogeneous: boolean;
+  explanation: string;
+  citation: string | null;
+}
+
+export interface EditingTech {
+  meta: { epistemic_status: string; headline_excludes_contested: string[]; caveats: string[] };
+  platforms: Record<string, EditingPlatform>;
+  variant_classes: Record<string, { label: string; detail: string }>;
+  capability: Record<string, string[]>;
+  gates: EditingGate[];
+  conditions: EditingCondition[];
+  by_tractability: Record<Tractability, { label: string; births_per_year: number; n_conditions: number }>;
+  s1_total_headline: number;
+  s1_with_correction_route: number;
+  s1_without_correction_route: number;
+  share_with_correction_route: number;
+}
+
 export interface AllData {
   meta: Meta;
   summary: Summary;
@@ -564,6 +614,7 @@ export interface AllData {
   multifactorial: Multifactorial;
   embryos: Embryos;
   opportunities: Opportunities;
+  editingTech: EditingTech;
   perspectives: Perspectives;
   retroactive: Retroactive;
 }
@@ -598,6 +649,7 @@ export async function loadAll(): Promise<AllData> {
     multifactorial,
     embryos,
     opportunities,
+    editingTech,
     perspectives,
     retroactive,
   ] = await Promise.all([
@@ -614,6 +666,7 @@ export async function loadAll(): Promise<AllData> {
     getJson<Multifactorial>('multifactorial'),
     getJson<Embryos>('embryos'),
     getJson<Opportunities>('opportunities'),
+    getJson<EditingTech>('editing_tech'),
     getJson<Perspectives>('perspectives'),
     getJson<Retroactive>('retroactive'),
   ]);
@@ -631,6 +684,7 @@ export async function loadAll(): Promise<AllData> {
     multifactorial,
     embryos,
     opportunities,
+    editingTech,
     perspectives,
     retroactive,
   };
