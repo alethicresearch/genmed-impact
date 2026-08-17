@@ -88,6 +88,22 @@ export default function Residual({ data, state, update }: Props) {
         outcome.
       </p>
 
+      <div className="max-w-3xl rounded-md border border-slate-200 bg-slate-50/70 p-3">
+        <p className="text-sm leading-relaxed text-slate-700">
+          Selection failing does not mean editing would work. It is the first of four conditions
+          that must all hold, and the next one is molecular: a platform has to exist that can
+          make the specific change the variant requires. For roughly a quarter of this
+          population, none does.
+        </p>
+        <button
+          type="button"
+          onClick={() => update({ tab: 'editing-tech' })}
+          className="mt-1.5 text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          See which technology each variant would need →
+        </button>
+      </div>
+
       {/* Contested toggle + its effect on the headline */}
       <Card className="border-amber-300 bg-amber-50/40">
         <div className="flex flex-wrap items-center justify-between gap-3">

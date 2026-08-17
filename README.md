@@ -152,8 +152,10 @@ Navigation is two-layer — section, then view — and the reading state is seri
 The current committed analysis uses:
 
 - **Model specification:** 3.0
-- **Monte Carlo draws:** 20,000
+- **Monte Carlo draws:** 10,000 (the pipeline default; `make verify` re-runs the same seed at 20,000 as a stability check)
 - **Random seed:** 20260810
+
+All downstream quantities are computed on the *same* draw set, and ratios are formed per draw, so credible intervals on shares are correct rather than reconstructed from marginal medians.
 
 Run the analysis locally with:
 
