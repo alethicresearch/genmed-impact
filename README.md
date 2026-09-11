@@ -5,6 +5,8 @@
 > **Work in progress.** The analysis and accompanying manuscript are under development. Numerical results, disease classifications, and figures may change before the analysis is frozen for submission.
 >
 > Every item still awaiting an author decision, a source, or an expert check is tracked in **[`REVIEW_TRACKER.md`](REVIEW_TRACKER.md)**.
+>
+> Working on this repo alongside another agent? Read **[`HANDOFF.md`](HANDOFF.md)** first — it sets out file ownership, where citable numbers come from, and which files are generated.
 
 ## Why this project
 
@@ -249,6 +251,7 @@ genmed-impact/
 │   └── methods.md                   # generated methods and provenance
 ├── ANALYSIS_LOG.md                  # analysis decisions and revision history
 ├── REVIEW_TRACKER.md                # open decisions, curation checks, data to source
+├── HANDOFF.md                       # contract between the manuscript and analysis agents
 ├── DATA_NEEDED.md                   # parameter-level sourcing requests
 ├── CITATION.cff
 ├── LICENSE
