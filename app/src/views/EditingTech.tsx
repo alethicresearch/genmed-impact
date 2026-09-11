@@ -209,6 +209,32 @@ export default function EditingTech({ data, update }: Props) {
         </p>
       </Card>
 
+      {/* Reading better variant interpretation correctly */}
+      <Card>
+        <h3 className="text-base font-semibold text-slate-900">
+          Reading the genome better is not the same as rewriting it
+        </h3>
+        <p className="mt-1 text-sm leading-6 text-slate-700">
+          Variant interpretation is improving quickly. Genome-scale models now predict the
+          regulatory consequence of essentially every possible single-base change in the human
+          genome, and that has already resolved rare-disease cases which sequencing alone left
+          unexplained.
+        </p>
+        <p className="mt-2 text-sm leading-6 text-slate-700">
+          It is worth being precise about where that lands on this page. Better interpretation
+          tells more couples which variant they carry, which is what screening, prenatal
+          diagnosis and PGT-M all depend on — a variant nobody can classify cannot be selected
+          against either. It changes how well gate 1&apos;s population is characterised. It does
+          not change gate 2, because these resources score non-coding regulatory effects while
+          the residual is dominated by coding and structural lesions; and it says nothing at all
+          about gates 3 and 4.
+        </p>
+        <p className="mt-2 text-sm leading-6 text-slate-700">
+          The natural misreading is that any advance in genomics is an advance in editing. Here
+          the advance accrues to the existing stack.
+        </p>
+      </Card>
+
       {/* Reference matrix — progressive disclosure */}
       <Card>
         <button

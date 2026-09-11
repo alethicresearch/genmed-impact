@@ -65,9 +65,10 @@ queries are in [`DATA_NEEDED.md`](DATA_NEEDED.md); this is the summary.
 | C5 | **Editing efficiency by platform** (base, prime) — needed to close gate 3 | not present; absent by design | ☐ |
 | C6 | **Embryo-specific outcomes** — mosaicism, on-target deletions, chromosome loss | not present; absent by design | ☐ |
 | C7 | **Off-target burden by platform** — needed to close gate 4 | not present; absent by design | ☐ |
-| C8 | **Per-condition allele spectra** — would turn each dominant variant class into a weighted split | not present | ☐ |
+| C8 | **Per-condition allele spectra** — would turn each dominant variant class into a weighted split. *Checked AlphaGenome Atlas (2026) and ruled it out as a source: it is SNV-comprehensive but scores predicted non-coding regulatory effect, whereas the classes at issue are coding and structural (transversion, repeat expansion, translocation). Still needs a pathogenic-allele source such as ClinVar/HGMD or disease-specific registries.* | not present | ◐ |
 | C9 | **S2 fraction** — the complex-disease editing advantage rests on one scalar | `s2/fraction_of_multifactorial` | ☐ |
-| C10 | **Incidence for 64 of 97 core diseases** still on textbook estimate (52) or order-of-magnitude (12); 43% of catalogue burden rests on cited incidence | `library/diseases.yaml` | ☐ |
+| C10 | **`oligo_editable_h2`** — the share of liability variance concentrated in a few causal, editable loci is `order_of_magnitude` for 3 of 4 modelled diseases. This is the quantity better causal inference would inform; sequence-to-function resources predict molecular effects, not liability variance, so they do not yet supply it | `library/multifactorial.yaml` | ☐ |
+| C11 | **Incidence for 64 of 97 core diseases** still on textbook estimate (52) or order-of-magnitude (12); 43% of catalogue burden rests on cited incidence | `library/diseases.yaml` | ☐ |
 
 ---
 
@@ -86,6 +87,8 @@ Not defects — properties of the analysis that the write-up should acknowledge 
 | D7 | Published programme reductions used for validation reflect decades of sustained delivery in high-prevalence populations, so they are an **optimistic comparator** for a new programme | ☐ |
 | D8 | Uncertainty is **not evenly distributed**: S1 intervals span ~6× for the commonest condition and ~11,000× for the rarest, so per-condition rare-disease figures are orders of magnitude, not estimates | ☐ |
 | D9 | **S2 strict is too skewed for a central value to summarise** (interval 1–17,854; a point calculation gives +153% of the reported median). Any prose describing it should quote the interval, not the median alone | ☐ |
+| D10 | The **future-capacity polygenic scenario assumes causal variants can be identified**, but current sequence-to-function models capture cis-regulatory grammar and **do not model trans-acting mechanisms**, which mediate a substantial proportion of complex-trait heritability (stated by the AlphaGenome Atlas authors, 2026). The write-up should name this as a constraint on the scenario, not only as model uncertainty | ☐ |
+| D11 | **Advances in variant interpretation are not advances in correction.** Genome-scale variant-effect prediction improves diagnosis and therefore the reach of screening, PGT-M and prenatal diagnosis, while leaving all four editing gates where they were. The paper should make this asymmetry explicit, since the natural misreading is to treat any genomics advance as an editing advance | ☐ |
 
 ---
 
