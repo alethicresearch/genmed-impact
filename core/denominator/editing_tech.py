@@ -186,6 +186,32 @@ def tractability_of(variant_class: str) -> str:
 # with the cited patient-level literature, and ClinVar is used for what it actually measures.
 # ---------------------------------------------------------------------------------------------
 
+# Commonest beta-thalassaemia alleles, with the class each implies. Beta-thalassaemia is the
+# ENTIRE base-editable bucket in gate 2, so whether that assignment holds decides a headline
+# figure — and these alleles show it only partly holds. The class of each is read off its HGVS
+# description (a G>A is a transition by definition; c.126_129del removes four bases), so nothing
+# here is estimated; what is missing is how to weight them, which is population-specific.
+#
+# Roughly 20 alleles account for >80% of beta-thalassaemia worldwide, out of >350 described.
+BETA_THAL_COMMON_ALLELES = [
+    {"name": "IVS-I-110", "hgvs": "HBB:c.93-21G>A", "variant_class": "transition_snv",
+     "where": "commonest in the Mediterranean"},
+    {"name": "CD39", "hgvs": "HBB:c.118C>T", "variant_class": "transition_snv",
+     "where": "Mediterranean"},
+    {"name": "IVS-I-6", "hgvs": "HBB:c.92+6T>C", "variant_class": "transition_snv",
+     "where": "Mediterranean"},
+    {"name": "HbE", "hgvs": "HBB:c.79G>A", "variant_class": "transition_snv",
+     "where": "Southeast Asia"},
+    {"name": "IVS-II-654", "hgvs": "HBB:c.316-197C>T", "variant_class": "transition_snv",
+     "where": "Southeast Asia / China"},
+    {"name": "IVS-II-745", "hgvs": "HBB:c.316-106C>G", "variant_class": "transversion_snv",
+     "where": "Mediterranean"},
+    {"name": "CD17", "hgvs": "HBB:c.52A>T", "variant_class": "transversion_snv",
+     "where": "Southeast Asia"},
+    {"name": "CD41/42", "hgvs": "HBB:c.126_129del", "variant_class": "small_indel",
+     "where": "Southeast Asia / China — a four-base deletion"},
+]
+
 CONDITION_GENE = {
     "Sickle cell disease": "HBB",
     "Beta-thalassaemia": "HBB",
@@ -428,4 +454,24 @@ def build_editing_tech(residual: dict) -> dict[str, Any]:
         "s1_with_correction_route": with_route,
         "s1_without_correction_route": total - with_route,
         "share_with_correction_route": (with_route / total) if total else 0.0,
+        # The base-editable bucket is beta-thalassaemia alone, and beta-thalassaemia's commonest
+        # alleles do not all fall in that class: five of the eight below are transitions, but two
+        # are transversions and one is a four-base deletion, and all three of those need prime
+        # editing. The figure is therefore an upper bound until the alleles can be weighted.
+        "base_editable_is_upper_bound": True,
+        "base_editable_caveat": {
+            "why": "The whole base-editable bucket is beta-thalassaemia, which is allelically "
+                   "heterogeneous. Its commonest alleles span three variant classes, so some of "
+                   "this population needs prime editing rather than base editing.",
+            "common_alleles": BETA_THAL_COMMON_ALLELES,
+            "class_counts": {
+                vc: sum(1 for a in BETA_THAL_COMMON_ALLELES if a["variant_class"] == vc)
+                for vc in sorted({a["variant_class"] for a in BETA_THAL_COMMON_ALLELES})
+            },
+            "what_is_missing": "How often each allele occurs among affected births. The spectrum "
+                               "is strongly population-specific, so weighting it needs a "
+                               "population-weighted allele-frequency source.",
+            "citation": "Kountouris et al., IthaGenes; regional beta-thalassaemia spectrum "
+                        "literature (see REVIEW_TRACKER B3)",
+        },
     }

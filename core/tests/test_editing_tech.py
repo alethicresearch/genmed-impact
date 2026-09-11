@@ -103,3 +103,24 @@ def test_no_efficiency_or_safety_numbers_are_asserted():
     banned = re.compile(
         r"(efficiency|mosaicism|off[- ]target|editing_rate)\s*[:=]\s*[0-9]", re.I)
     assert banned.search(src) is None, "an efficiency/safety figure was hard-coded"
+
+
+def test_base_editable_share_is_flagged_as_an_upper_bound(built):
+    """Beta-thalassaemia is the whole base-editable bucket and is allelically mixed.
+
+    Its commonest alleles span three classes, so the bucket cannot be claimed as settled. If the
+    weighting is ever sourced (REVIEW_TRACKER B3/C8) this flag should come off deliberately, not
+    by accident.
+    """
+    assert built["base_editable_is_upper_bound"] is True
+    caveat = built["base_editable_caveat"]
+    assert caveat["common_alleles"], "the allele-level evidence must travel with the claim"
+    counts = caveat["class_counts"]
+    # The point of the caveat: not every common allele is a transition.
+    assert counts.get("transition_snv", 0) > 0
+    assert sum(v for k, v in counts.items() if k != "transition_snv") > 0, (
+        "if every common allele were base-editable the caveat would be unnecessary")
+    from denominator import editing_tech
+    for allele in caveat["common_alleles"]:
+        assert allele["variant_class"] in editing_tech.VARIANT_CLASSES
+        assert allele["hgvs"].startswith("HBB:c."), "alleles are named in HGVS so a reader can check"

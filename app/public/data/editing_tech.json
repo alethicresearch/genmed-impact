@@ -306,5 +306,66 @@
   "s1_total_headline": 10209.564794706463,
   "s1_with_correction_route": 7496.582695213713,
   "s1_without_correction_route": 2712.9820994927495,
-  "share_with_correction_route": 0.7342705439413638
+  "share_with_correction_route": 0.7342705439413638,
+  "base_editable_is_upper_bound": true,
+  "base_editable_caveat": {
+    "why": "The whole base-editable bucket is beta-thalassaemia, which is allelically heterogeneous. Its commonest alleles span three variant classes, so some of this population needs prime editing rather than base editing.",
+    "common_alleles": [
+      {
+        "name": "IVS-I-110",
+        "hgvs": "HBB:c.93-21G>A",
+        "variant_class": "transition_snv",
+        "where": "commonest in the Mediterranean"
+      },
+      {
+        "name": "CD39",
+        "hgvs": "HBB:c.118C>T",
+        "variant_class": "transition_snv",
+        "where": "Mediterranean"
+      },
+      {
+        "name": "IVS-I-6",
+        "hgvs": "HBB:c.92+6T>C",
+        "variant_class": "transition_snv",
+        "where": "Mediterranean"
+      },
+      {
+        "name": "HbE",
+        "hgvs": "HBB:c.79G>A",
+        "variant_class": "transition_snv",
+        "where": "Southeast Asia"
+      },
+      {
+        "name": "IVS-II-654",
+        "hgvs": "HBB:c.316-197C>T",
+        "variant_class": "transition_snv",
+        "where": "Southeast Asia / China"
+      },
+      {
+        "name": "IVS-II-745",
+        "hgvs": "HBB:c.316-106C>G",
+        "variant_class": "transversion_snv",
+        "where": "Mediterranean"
+      },
+      {
+        "name": "CD17",
+        "hgvs": "HBB:c.52A>T",
+        "variant_class": "transversion_snv",
+        "where": "Southeast Asia"
+      },
+      {
+        "name": "CD41/42",
+        "hgvs": "HBB:c.126_129del",
+        "variant_class": "small_indel",
+        "where": "Southeast Asia / China — a four-base deletion"
+      }
+    ],
+    "class_counts": {
+      "small_indel": 1,
+      "transition_snv": 5,
+      "transversion_snv": 2
+    },
+    "what_is_missing": "How often each allele occurs among affected births. The spectrum is strongly population-specific, so weighting it needs a population-weighted allele-frequency source.",
+    "citation": "Kountouris et al., IthaGenes; regional beta-thalassaemia spectrum literature (see REVIEW_TRACKER B3)"
+  }
 }

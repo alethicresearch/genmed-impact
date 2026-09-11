@@ -593,6 +593,21 @@ export interface EditingCondition {
   citation: string | null;
 }
 
+export interface BetaThalAllele {
+  name: string;
+  hgvs: string;
+  variant_class: string;
+  where: string;
+}
+
+export interface BaseEditableCaveat {
+  why: string;
+  common_alleles: BetaThalAllele[];
+  class_counts: Record<string, number>;
+  what_is_missing: string;
+  citation: string;
+}
+
 export interface EditingTech {
   meta: { epistemic_status: string; headline_excludes_contested: string[]; caveats: string[] };
   platforms: Record<string, EditingPlatform>;
@@ -602,6 +617,8 @@ export interface EditingTech {
   conditions: EditingCondition[];
   by_tractability: Record<Tractability, { label: string; births_per_year: number; n_conditions: number }>;
   s1_total_headline: number;
+  base_editable_is_upper_bound: boolean;
+  base_editable_caveat: BaseEditableCaveat;
   s1_with_correction_route: number;
   s1_without_correction_route: number;
   share_with_correction_route: number;

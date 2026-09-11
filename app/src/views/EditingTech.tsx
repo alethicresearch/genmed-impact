@@ -156,10 +156,42 @@ export default function EditingTech({ data, update }: Props) {
         <p className="mt-3 rounded border border-amber-300 bg-amber-50/60 p-3 text-sm leading-6 text-slate-700">
           The most mature editing platform — base editing — is relevant to{' '}
           <strong>{fmtPct(e.by_tractability.base_editable.births_per_year / e.s1_total_headline, 0)}</strong>{' '}
-          of this population. The largest single group is sickle cell disease, whose variant is a
-          transversion that standard base editors cannot make, and the second largest is
-          chromosomal rearrangement, where there is no sequence to correct at all.
+          of this population, and that is an <strong>upper bound</strong>. The largest single group
+          is sickle cell disease, whose variant is a transversion that standard base editors cannot
+          make, and the second largest is chromosomal rearrangement, where there is no sequence to
+          correct at all.
         </p>
+        <details className="mt-2 rounded border border-slate-200 bg-white p-3">
+          <summary className="cursor-pointer text-sm font-medium text-accent">
+            Why the base-editable share is an upper bound
+          </summary>
+          <p className="mt-2 text-sm leading-6 text-slate-700">{e.base_editable_caveat.why}</p>
+          <p className="mt-2 text-sm leading-6 text-slate-700">
+            Its commonest alleles fall into three different classes:
+          </p>
+          <ul className="mt-1.5 space-y-1 text-[13px] leading-6 text-slate-700">
+            {e.base_editable_caveat.common_alleles.map((a) => (
+              <li key={a.hgvs} className="flex flex-wrap gap-x-2">
+                <span className="font-medium">{a.name}</span>
+                <span className="font-mono text-xs text-slate-500">{a.hgvs}</span>
+                <span
+                  className={
+                    a.variant_class === 'transition_snv'
+                      ? 'text-emerald-700'
+                      : 'text-amber-700'
+                  }
+                >
+                  {e.variant_classes[a.variant_class]?.label ?? a.variant_class}
+                </span>
+                <span className="text-slate-500">— {a.where}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-2 text-[13px] leading-6 text-slate-600">
+            Only the transitions are base-editable; the transversions and the four-base deletion
+            need prime editing. {e.base_editable_caveat.what_is_missing}
+          </p>
+        </details>
       </Card>
 
       {/* Per condition */}
