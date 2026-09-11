@@ -412,8 +412,17 @@ function ConditionRow({
             <span>
               Confidence in this classification: <strong>{c.confidence}</strong>
             </span>
+            {c.reported_alleles != null && (
+              <span>
+                <strong>{c.reported_alleles.toLocaleString()}</strong> distinct pathogenic{' '}
+                {c.gene} alleles reported in ClinVar
+              </span>
+            )}
             {c.heterogeneous && (
               <span>Gene is allelically heterogeneous — one class is an approximation</span>
+            )}
+            {c.dominant_class_attested && (
+              <span>Class confirmed present in ClinVar for this gene</span>
             )}
             {c.citation && <span>Source: {c.citation}</span>}
           </p>

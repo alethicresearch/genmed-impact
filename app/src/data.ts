@@ -582,6 +582,13 @@ export interface EditingCondition {
   platforms_in_principle: string[];
   confidence: string;
   heterogeneous: boolean;
+  gene: string | null;
+  /** Distinct pathogenic alleles reported in ClinVar for the gene — a measure of
+   *  heterogeneity, never a weighting. Null where the gene-level count does not
+   *  describe this condition. */
+  reported_alleles: number | null;
+  reported_alleles_note: string | null;
+  dominant_class_attested: boolean | null;
   explanation: string;
   citation: string | null;
 }

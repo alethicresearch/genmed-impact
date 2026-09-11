@@ -144,7 +144,11 @@
       "confidence": "medium",
       "heterogeneous": true,
       "explanation": "35delG, a single-base deletion, predominates in European-ancestry populations; 235delC predominates in East Asia. Both are deletions rather than substitutions. This condition is also contested as a target and is excluded from the headline.",
-      "citation": "Snoeckx et al. 2005 (GJB2 genotype-phenotype)"
+      "citation": "Snoeckx et al. 2005 (GJB2 genotype-phenotype)",
+      "gene": "GJB2",
+      "reported_alleles": 251,
+      "reported_alleles_note": null,
+      "dominant_class_attested": true
     },
     {
       "condition": "Sickle cell disease",
@@ -160,7 +164,11 @@
       "confidence": "high",
       "heterogeneous": false,
       "explanation": "HbS is a single substitution, GAG→GTG (Glu6Val) — an A·T→T·A transversion. It is the textbook point mutation, yet standard base editors perform transitions, so they cannot revert it. Casgevy does not correct it either: it disrupts a BCL11A enhancer to raise fetal haemoglobin, which is mitigation rather than correction.",
-      "citation": "Ingram 1957 (HbS substitution); Frangoul et al. 2021 (exagamglogene, BCL11A)"
+      "citation": "Ingram 1957 (HbS substitution); Frangoul et al. 2021 (exagamglogene, BCL11A)",
+      "gene": "HBB",
+      "reported_alleles": null,
+      "reported_alleles_note": "415 pathogenic HBB alleles are reported, but they cover every disorder in the gene rather than this one, so the count does not describe it.",
+      "dominant_class_attested": true
     },
     {
       "condition": "Balanced translocations (no viable euploid)",
@@ -174,7 +182,11 @@
       "confidence": "high",
       "heterogeneous": true,
       "explanation": "Carriers whose chromosome rearrangement leaves no viable euploid embryo. This is the clearest case of a condition outside editing's reach: there is no variant to correct, because whole chromosome segments are in the wrong place. It is nonetheless one of the largest contributors to the population where selection fails, which is why the distinction matters.",
-      "citation": "Scriven et al., translocation PGT outcomes; Zhang et al., carrier segregation"
+      "citation": "Scriven et al., translocation PGT outcomes; Zhang et al., carrier segregation",
+      "gene": null,
+      "reported_alleles": null,
+      "reported_alleles_note": null,
+      "dominant_class_attested": null
     },
     {
       "condition": "Beta-thalassaemia",
@@ -191,7 +203,11 @@
       "confidence": "medium",
       "heterogeneous": true,
       "explanation": "Several hundred HBB alleles are known. Many common ones are point mutations, a substantial share of them transitions (e.g. IVS-I-110 G>A), but others are small indels. The share that is base-editable is population-specific and is approximated here rather than measured.",
-      "citation": "HbVar database; Modell & Darlison 2008"
+      "citation": "HbVar database; Modell & Darlison 2008",
+      "gene": "HBB",
+      "reported_alleles": 415,
+      "reported_alleles_note": null,
+      "dominant_class_attested": true
     },
     {
       "condition": "Cystic fibrosis",
@@ -207,7 +223,11 @@
       "confidence": "high",
       "heterogeneous": true,
       "explanation": "F508del, a three-base deletion, is the most common CFTR allele worldwide. Losing bases means sequence has to be written back, which is prime-editing territory. Other alleles are point mutations, so a minority would be base-editable.",
-      "citation": "CFTR2 database; Bobadilla et al. 2002"
+      "citation": "CFTR2 database; Bobadilla et al. 2002",
+      "gene": "CFTR",
+      "reported_alleles": 1316,
+      "reported_alleles_note": null,
+      "dominant_class_attested": true
     },
     {
       "condition": "Spinal muscular atrophy (type I)",
@@ -221,7 +241,11 @@
       "confidence": "high",
       "heterogeneous": false,
       "explanation": "Around 95% of cases are homozygous loss of SMN1 exon 7. There is no established way to restore a deleted gene, which is exactly why the approved therapies are gene ADDITION (Zolgensma) and splice modulation of the SMN2 backup copy (nusinersen) rather than correction. A clear case where addition works and editing does not.",
-      "citation": "Lefebvre et al. 1995 (SMN1); Mendell et al. 2017 (onasemnogene)"
+      "citation": "Lefebvre et al. 1995 (SMN1); Mendell et al. 2017 (onasemnogene)",
+      "gene": "SMN1",
+      "reported_alleles": 70,
+      "reported_alleles_note": null,
+      "dominant_class_attested": true
     },
     {
       "condition": "Huntington's disease",
@@ -235,7 +259,11 @@
       "confidence": "high",
       "heterogeneous": false,
       "explanation": "An expanded CAG repeat in HTT. Contracting a repeat is not an established capability for any platform, which is why therapeutic work targets lowering huntingtin expression rather than correcting the allele.",
-      "citation": "MacDonald et al. 1993 (HTT CAG expansion)"
+      "citation": "MacDonald et al. 1993 (HTT CAG expansion)",
+      "gene": "HTT",
+      "reported_alleles": 13,
+      "reported_alleles_note": null,
+      "dominant_class_attested": true
     },
     {
       "condition": "Tay-Sachs disease",
@@ -251,7 +279,11 @@
       "confidence": "medium",
       "heterogeneous": true,
       "explanation": "The most common Ashkenazi founder allele, 1278insTATC, is a four-base insertion; a splice-site variant and a point mutation make up most of the remainder. Founder-population structure means the dominant class is ancestry-dependent.",
-      "citation": "Myerowitz & Costigan 1988; Kaback & Desnick, GeneReviews"
+      "citation": "Myerowitz & Costigan 1988; Kaback & Desnick, GeneReviews",
+      "gene": "HEXA",
+      "reported_alleles": 296,
+      "reported_alleles_note": null,
+      "dominant_class_attested": true
     }
   ],
   "by_tractability": {

@@ -163,6 +163,60 @@ def tractability_of(variant_class: str) -> str:
 # a reviewer can see which are settled genetics and which need checking.
 # ---------------------------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------------------------
+# ClinVar cross-check.
+#
+# The curated dominant class above is a claim about what patients carry. ClinVar can confirm the
+# class exists and can measure how many distinct pathogenic alleles a gene has accumulated, but it
+# CANNOT supply the weighting, and the reason is worth recording because the naive approach is
+# tempting and wrong.
+#
+# ClinVar lists each variant once, whether it is a founder allele carried by most patients or a
+# private variant seen in one family. Counting records therefore measures reported allelic
+# diversity, not allele frequency among the affected. The two diverge violently in exactly the
+# conditions this analysis leans on:
+#
+#   SMN1  ~95% of spinal muscular atrophy is the homozygous exon-7 deletion — ONE ClinVar record,
+#         set against ~48 rare point mutations, so record counting puts deletions at ~13%.
+#   HTT   Huntington's disease is essentially always the CAG expansion — 2 microsatellite records
+#         against 11 rare loss-of-function variants that cause a different, recessive disorder.
+#
+# Both errors point the same way: they inflate the substitution share and deflate the no-route
+# share, which would make editing look more applicable than it is. The weighting therefore stays
+# with the cited patient-level literature, and ClinVar is used for what it actually measures.
+# ---------------------------------------------------------------------------------------------
+
+CONDITION_GENE = {
+    "Sickle cell disease": "HBB",
+    "Beta-thalassaemia": "HBB",
+    "Cystic fibrosis": "CFTR",
+    "Congenital sensorineural deafness (GJB2)": "GJB2",
+    "Spinal muscular atrophy (type I)": "SMN1",
+    "Tay-Sachs disease": "HEXA",
+    "Huntington's disease": "HTT",
+}
+
+# Conditions for which the gene-level allele count does NOT describe the condition. Sickle cell
+# disease is a single allele (HbS) in a gene that also carries every beta-thalassaemia allele, so
+# attributing HBB's diversity to it would be meaningless.
+GENE_COUNT_NOT_INFORMATIVE = {"Sickle cell disease"}
+
+
+def load_clinvar_spectra() -> dict:
+    """Committed ClinVar cross-check, or an empty result if the ingest has not been run."""
+    import json
+
+    from . import config
+
+    path = config.DATA_CURATED / "clinvar_allele_spectra.json"
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        return {}
+
+
 CONDITION_VARIANTS = {
     "Sickle cell disease": {
         "dominant_variant_class": "transversion_snv",
@@ -287,12 +341,19 @@ def build_editing_tech(residual: dict) -> dict[str, Any]:
     by_cond = residual.get("s1_by_condition", {}) or {}
     contested = set(residual.get("contested_conditions", []) or [])
 
+    spectra = load_clinvar_spectra()
+    clinvar_counts = spectra.get("counts", {})
+
     conditions: list[dict] = []
     for name, stat in by_cond.items():
         info = CONDITION_VARIANTS.get(name)
         median = float(stat.get("median", 0.0)) if isinstance(stat, dict) else 0.0
         vc = info["dominant_variant_class"] if info else "other"
         tract = tractability_of(vc)
+        gene = CONDITION_GENE.get(name)
+        gene_counts = clinvar_counts.get(gene or "", {})
+        n_alleles = sum(gene_counts.values()) if gene_counts else None
+        informative = bool(gene_counts) and name not in GENE_COUNT_NOT_INFORMATIVE
         conditions.append({
             "condition": name,
             "contested": name in contested,
@@ -306,6 +367,19 @@ def build_editing_tech(residual: dict) -> dict[str, Any]:
             "heterogeneous": info["heterogeneous"] if info else True,
             "explanation": info["explanation"] if info else "Variant class not yet curated for this condition.",
             "citation": info["citation"] if info else None,
+            # ClinVar cross-check. `reported_alleles` is how many distinct pathogenic alleles have
+            # been deposited for the gene — a measure of how heterogeneous the condition is, and
+            # NOT a weighting. `dominant_class_attested` is the check that matters: the curated
+            # class must at least be one ClinVar has seen in this gene.
+            "gene": gene,
+            "reported_alleles": n_alleles if informative else None,
+            "reported_alleles_note": (
+                None if informative or not gene_counts else
+                f"{n_alleles} pathogenic {gene} alleles are reported, but they cover every "
+                f"disorder in the gene rather than this one, so the count does not describe it."),
+            "dominant_class_attested": (
+                bool(gene_counts.get(vc)) if gene_counts and vc != "chromosomal_structural"
+                else None),
         })
     conditions.sort(key=lambda c: -c["s1_births_per_year"])
 

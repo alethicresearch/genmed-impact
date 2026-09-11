@@ -1,0 +1,63 @@
+{
+  "counts": {
+    "CFTR": {
+      "large_deletion": 45,
+      "other": 9,
+      "repeat_expansion": 29,
+      "small_indel": 514,
+      "transition_snv": 333,
+      "transversion_snv": 386
+    },
+    "GJB2": {
+      "large_deletion": 2,
+      "repeat_expansion": 5,
+      "small_indel": 66,
+      "transition_snv": 90,
+      "transversion_snv": 88
+    },
+    "HBB": {
+      "large_deletion": 27,
+      "other": 8,
+      "repeat_expansion": 3,
+      "small_indel": 168,
+      "transition_snv": 87,
+      "transversion_snv": 122
+    },
+    "HEXA": {
+      "large_deletion": 3,
+      "repeat_expansion": 13,
+      "small_indel": 98,
+      "transition_snv": 112,
+      "transversion_snv": 70
+    },
+    "HTT": {
+      "repeat_expansion": 2,
+      "small_indel": 6,
+      "transition_snv": 2,
+      "transversion_snv": 3
+    },
+    "SMN1": {
+      "large_deletion": 9,
+      "repeat_expansion": 1,
+      "small_indel": 22,
+      "transition_snv": 22,
+      "transversion_snv": 16
+    }
+  },
+  "n_criteria_provided": {
+    "CFTR": 907,
+    "GJB2": 220,
+    "HBB": 247,
+    "HEXA": 281,
+    "HTT": 10,
+    "SMN1": 56
+  },
+  "source": {
+    "caveat": "Counts distinct reported alleles, NOT their frequency among patients. See module docstring \u2014 this cannot be used to weight a population.",
+    "database": "ClinVar variant_summary",
+    "filters": "GRCh38; ClinicalSignificance starting Pathogenic/Likely pathogenic; germline origin",
+    "release": "Sun, 06 Sep 2026 14:42:05 GMT",
+    "retrieved": "2026-09-11",
+    "url": "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/variant_summary.txt.gz"
+  }
+}
