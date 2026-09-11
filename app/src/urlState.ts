@@ -39,6 +39,14 @@ export function useUrlState(defaults: UrlState): [
     writeUrl(state);
   }, [state]);
 
+  // Keep state synchronized when browser history (or a versioned interface control)
+  // changes the query string outside the normal update() helper.
+  useEffect(() => {
+    const onPopState = () => setState({ ...defaults, ...readUrl() });
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [defaults]);
+
   const update = useCallback((patch: UrlState) => {
     setState((prev) => ({ ...prev, ...patch }));
   }, []);
