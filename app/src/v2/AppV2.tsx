@@ -1,9 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   AllData,
   Attribution,
-  DiseaseClass,
-  MfScenarioKey,
   PndKey,
   SeverityDef,
   Stat,
@@ -84,7 +82,6 @@ export default function AppV2() {
   return (
     <div className="min-h-screen bg-white text-slate-950">
       <Hero
-        data={data}
         burden={burden.total_serious}
         currentPrevention={currentPrevention?.total_averted_birth_fraction ?? null}
         idealPrevention={idealPrevention?.total_averted_birth_fraction ?? null}
@@ -140,9 +137,7 @@ export default function AppV2() {
         />
 
         <FutureSection data={data} mode={mode} legacyBase={legacyBase} />
-
         <PolicySection legacyBase={legacyBase} mode={mode} />
-
         <MethodsSection data={data} assumptions={assumptions} legacyBase={legacyBase} />
       </main>
 
@@ -178,7 +173,6 @@ export default function AppV2() {
 }
 
 function Hero({
-  data,
   burden,
   currentPrevention,
   idealPrevention,
@@ -189,7 +183,6 @@ function Hero({
   changed,
   legacyBase,
 }: {
-  data: AllData;
   burden: Stat;
   currentPrevention: Stat | null;
   idealPrevention: Stat | null;
