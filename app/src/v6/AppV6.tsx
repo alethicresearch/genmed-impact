@@ -279,21 +279,21 @@ function Hero({
 
         <div className="mt-9 grid max-w-[52rem] gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-200 sm:grid-cols-3">
           <Horizon
-            kicker="Impact now"
-            title="Most of what works is unused"
-            body="Screening, embryo selection, prenatal diagnosis and newborn treatment already exist. The limit on them is access, not technology."
+            kicker="What we can do today"
+            title="The tools already exist. Most families cannot get them."
+            body="Carrier testing, choosing between IVF embryos, prenatal tests and treatment at birth are all established medicine. What limits them is who can reach them."
             anchor="impact-now"
           />
           <Horizon
-            kicker="Translational frontier"
-            title="A narrow case editing could reach"
-            body="For a few thousand couples a year, every embryo would inherit the condition. Selection cannot help them. This is where editing has a claim."
+            kicker="Where editing would be new"
+            title="Some couples have no healthy embryo to choose from"
+            body="For a few thousand couples a year, every embryo they could conceive would inherit the condition. Choosing between embryos cannot help them, and editing is the only route that could."
             anchor="editing-frontier"
           />
           <Horizon
-            kicker="Future impact"
-            title="Common disease is a different problem"
-            body="Risk is spread across thousands of variants, so no single edit moves it much. Whether that changes depends on three technologies improving together."
+            kicker="The longer term"
+            title="Common illnesses work in a different way"
+            body="Risk for conditions like heart disease is spread across thousands of small genetic differences at once, so changing any one of them barely moves it."
             anchor="future-impact"
           />
         </div>
@@ -306,7 +306,7 @@ function Hero({
           />
           <HeroStat
             value={current && ideal ? `${fmtPct(current.median, 1)} → ${fmtPct(ideal.median, 1)}` : '—'}
-            label="of single-gene cases avoidable today, against what full access would reach"
+            label="of single-gene cases could be avoided with today’s access — nearly all of them if everyone could reach it"
           />
           <HeroStat
             value={fmtCompact(s1.median)}
@@ -327,13 +327,13 @@ function Hero({
 
 /** The seven steps of the argument, in order. Shared by the nav and the end-of-section links. */
 const STEPS: { id: string; label: string }[] = [
-  { id: 'burden', label: 'How much disease' },
-  { id: 'impact-now', label: 'What works now' },
-  { id: 'editing-frontier', label: 'Where editing helps' },
-  { id: 'selection-correction', label: "Selection's limits" },
-  { id: 'future-impact', label: 'If tech improves' },
-  { id: 'policy', label: 'What follows' },
-  { id: 'methods', label: 'Methods' },
+  { id: 'burden', label: 'How much disease there is' },
+  { id: 'impact-now', label: 'What medicine can do now' },
+  { id: 'editing-frontier', label: 'Where editing could help' },
+  { id: 'selection-correction', label: 'The cost of choosing embryos' },
+  { id: 'future-impact', label: 'If technology improves' },
+  { id: 'policy', label: 'What should follow' },
+  { id: 'methods', label: 'How this was calculated' },
 ];
 
 /** Tracks which section is currently in view, so the reader can see where they are. */
@@ -364,6 +364,33 @@ function useActiveStep(): string {
   }, []);
   return active;
 }
+
+/**
+ * Story-level wording for the four conditions. Keyed to the pipeline's gate keys so it cannot
+ * drift silently: if a gate is added or renamed upstream, the fallback shows the analysis text.
+ */
+const GATE_PLAIN: Record<string, { label: string; detail: string; badge: string }> = {
+  selection_fails: {
+    label: 'There is no healthy embryo to choose',
+    detail: 'Every embryo this couple could conceive would inherit the condition. This is the only situation where editing offers something choosing does not.',
+    badge: 'we can count this',
+  },
+  correction_route: {
+    label: 'The fault is one that could be corrected',
+    detail: 'Some faults are a single wrong letter, which a method exists to rewrite. Others are a missing gene, or a stretch of DNA repeated far too many times — nothing available today can put those back.',
+    badge: 'we can count this',
+  },
+  works_in_embryo: {
+    label: 'The method works in an embryo',
+    detail: 'Editing a one-cell embryo is a different problem from editing cells in a dish, and no method has been shown to do it reliably.',
+    badge: 'no evidence yet',
+  },
+  safe_enough: {
+    label: 'It is safe enough to use',
+    detail: 'This needs evidence about how often editing goes wrong, and in what way. That evidence does not exist yet, so this project leaves it blank rather than guessing.',
+    badge: 'no number possible',
+  },
+};
 
 function StepRail({
   onAssumptions,
@@ -500,7 +527,7 @@ function BurdenSection({
   const multiShare = burden.multifactorial.median / burden.total_serious.median;
 
   return (
-    <StorySection id="burden" number="01" eyebrow="Disease burden" title="How much serious genetic disease is there?">
+    <StorySection id="burden" number="01" eyebrow="How much disease" title="How much serious genetic disease is there?">
       <p className="v6-prose">
         About 8 million of the world's 135 million annual births involve serious disease with a genetic
         cause. Most of that is <strong>multifactorial</strong> — conditions like heart disease or diabetes,
@@ -544,10 +571,10 @@ function BurdenSection({
 
       <ReaderTools>
         <ToolNote title="Why this matters">Population scale sets the denominator against which the reach of existing medicine and editing-relevant scenarios are compared.</ToolNote>
-        <ToolNote title="Current reader choices">Severity: {severityLabel(severity)}. Multifactorial attribution: {attributionLabel(attribution)}.</ToolNote>
+        <ToolNote title="The choices you currently have set">Severity: {severityLabel(severity)}. Multifactorial attribution: {attributionLabel(attribution)}.</ToolNote>
         </ReaderTools>
       <InlineAnalysis
-        views={[['denominator', 'Open burden model'], ['library', 'Browse disease catalogue']]}
+        views={[['denominator', 'How the total is built up'], ['library', 'The list of conditions']]}
         active={active}
         onOpen={onOpen}
         data={data}
@@ -588,7 +615,7 @@ function ImpactNowSection({
     { label: 'If everyone had access', stat: ideal, note: 'the ceiling for these tools, with no access barrier at all' },
   ];
   return (
-    <StorySection id="impact-now" number="02" eyebrow="Impact now" title="What can medicine already do about it?" tint>
+    <StorySection id="impact-now" number="02" eyebrow="Medicine today" title="What can medicine do about it today?" tint>
       <p className="v6-prose">
         Today&apos;s tools reach far further than they are actually used. On current access they avoid
         about a third of single-gene affected births; if everyone who could benefit had access, the same
@@ -611,10 +638,10 @@ function ImpactNowSection({
       </div>
       <ReaderTools>
         <ToolNote title="Important distinction">Prenatal diagnosis is {pndOn ? 'included' : 'excluded'} in affected-birth avoidance. Newborn screening prevents no births; it supports earlier treatment.</ToolNote>
-        <ToolNote title="What access changes">Current, expanded-access and idealized scenarios separate technical applicability from realized reach.</ToolNote>
+        <ToolNote title="What changes when access changes">Current, expanded-access and idealized scenarios separate technical applicability from realized reach.</ToolNote>
         </ReaderTools>
       <InlineAnalysis
-        views={[['prevention', 'Open existing-medicine model'], ['realized', 'Compare predicted vs realized impact']]}
+        views={[['prevention', 'How each tool contributes'], ['realized', 'How predictions compare with real programmes']]}
         active={active}
         onOpen={onOpen}
         data={data}
@@ -646,48 +673,63 @@ function EditingFrontierSection({
   const strictShare = residual.uniquely_editable_share_of_serious.strict;
   const futureShare = residual.uniquely_editable_share_of_serious.permissive;
   return (
-    <StorySection id="editing-frontier" number="03" eyebrow="Translational frontier" title="Where could editing do something selection cannot?">
+    <StorySection id="editing-frontier" number="03" eyebrow="Where editing is different" title="Which couples cannot be helped by choosing embryos?">
       <p className="v6-prose">
-        For most couples at risk, embryo selection can find an unaffected embryo to transfer. For a small
-        number it cannot — every embryo they could produce would inherit the condition. That is the one
-        situation where editing offers something selection does not, and it is the figure below. Even
-        there, three further things must be true before editing helps anyone, and only the first two can
-        currently be given a number.
+        Couples who know they carry a serious condition can use IVF and test each embryo before
+        transfer, then choose one free of it. For most couples this works: some of their embryos
+        will be healthy. For a small
+        number it does not — because of the particular combination the two parents carry, every
+        embryo they could conceive would inherit the condition, so there is nothing healthy to choose.
+        That is the one situation where editing could do something choosing cannot, and it is the
+        figure below. Even there, three further things have to be true before editing would help
+        anyone, and only the first two can currently be given a number.
       </p>
-      <div className="mt-10 grid gap-8 lg:grid-cols-[1.05fr_.95fr]">
+      <div className="mt-10 space-y-9">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Where selection cannot help</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Couples with no healthy embryo to choose</p>
           <p className="mt-2 text-5xl font-semibold tracking-tight text-slate-950">{fmtCompact(residual.s1_total.median)}</p>
           <p className="mt-2 max-w-md text-sm leading-6 text-slate-600">births a year to couples for whom every embryo would inherit the condition</p>
           <p className="mt-2 text-xs text-slate-400">95% UI {formatInterval(residual.s1_total, fmtCompact)}</p>
           <p className="mt-5 text-xs text-slate-500">Congenital deafness is {includeContested ? 'counted here' : 'left out of this figure'}: whether it should be treated as something to prevent is genuinely contested, and it is large enough to move the number.</p>
         </div>
         <div className="border-t border-slate-200 pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
-          <p className="text-sm font-semibold text-slate-900">Four gates separate need from clinical use</p>
+          <p className="text-sm font-semibold text-slate-900">Four things all have to be true</p>
+          <p className="mt-1 text-xs leading-5 text-slate-500">
+            Only the first two can be given a number today. Saying so is more useful than filling in
+            the other two.
+          </p>
           <ol className="mt-4 space-y-3">
             {data.editingTech.gates.map((gate, i) => (
               <li key={gate.key} className="grid grid-cols-[1.5rem_1fr_auto] items-start gap-3 text-sm">
                 <span className="font-mono text-xs text-slate-400">{i + 1}</span>
                 <div>
-                  <p className="font-medium text-slate-900">{gate.label}</p>
-                  {<p className="mt-1 text-xs leading-5 text-slate-500">{gate.detail}</p>}
+                  <p className="font-medium text-slate-900">{GATE_PLAIN[gate.key]?.label ?? gate.label}</p>
+                  <p className="mt-1 text-xs leading-5 text-slate-500">
+                    {GATE_PLAIN[gate.key]?.detail ?? gate.detail}
+                  </p>
                 </div>
-                <GateStatus status={gate.status} />
+                <span
+                  className={`shrink-0 rounded-full px-2 py-1 text-[10px] font-semibold ${
+                    gate.status === 'quantified' ? 'bg-blue-50 text-blue-700' : 'bg-slate-100 text-slate-500'
+                  }`}
+                >
+                  {GATE_PLAIN[gate.key]?.badge ?? gate.status}
+                </span>
               </li>
             ))}
           </ol>
         </div>
       </div>
       <div className="mt-12 grid gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-200 sm:grid-cols-2">
-        <ResidualCard title="Current-evidence scenario" total={residual.uniquely_editable_total.strict} share={strictShare} note="Present comparative scale; complex-disease contribution is highly uncertain." />
-        <ResidualCard title="Future-capacity exploratory scenario" total={residual.uniquely_editable_total.permissive} share={futureShare} note="Boundary analysis in which a larger complex-disease role is assumed." />
+        <ResidualCard title="On the evidence we have now" total={residual.uniquely_editable_total.strict} share={strictShare} note="This is the figure to compare against today. The common-disease part of it is very uncertain." />
+        <ResidualCard title="If future capabilities arrive" total={residual.uniquely_editable_total.permissive} share={futureShare} note="An upper bound, assuming common-disease editing turns out to work far better than anything shown so far." />
       </div>
       <ReaderTools>
-        <ToolNote title="How to read the complement">“Not uniquely dependent on germline editing” does not mean “preventable by existing medicine.” Existing pathways prevent, detect, treat or mitigate different outcomes.</ToolNote>
-        <ToolNote title="Independent gates">Selection failure establishes need for a different reproductive route; it does not establish molecular tractability, embryo performance or safety.</ToolNote>
+        <ToolNote title="What the remaining share does and does not mean">“Not uniquely dependent on germline editing” does not mean “preventable by existing medicine.” Existing pathways prevent, detect, treat or mitigate different outcomes.</ToolNote>
+        <ToolNote title="Each step has to hold separately">Selection failure establishes need for a different reproductive route; it does not establish molecular tractability, embryo performance or safety.</ToolNote>
         </ReaderTools>
       <InlineAnalysis
-        views={[['residual', 'Open editing residual'], ['editing-tech', 'Inspect editing technology gates']]}
+        views={[['residual', 'How this figure is worked out'], ['editing-tech', 'Which technology each couple would need']]}
         active={active}
         onOpen={onOpen}
         data={data}
@@ -719,40 +761,40 @@ function SelectionSection({
   update: (patch: UrlState) => void;
 }) {
   return (
-    <StorySection id="selection-correction" number="04" eyebrow="Reproductive burden" title="Selection gets hard before it gets impossible." tint>
+    <StorySection id="selection-correction" number="04" eyebrow="The cost of choosing" title="Choosing gets costly long before it becomes impossible" tint>
       <p className="v6-prose">
-        Embryo selection picks from what a couple already has; it does not change anything. So when
-        unaffected embryos are rare, a couple may need many embryos, or repeated IVF cycles, to find one.
-        Move the slider below: as unaffected embryos get rarer, the number of affected embryos passed over
-        for each unaffected one climbs steeply — long before it becomes impossible. That is a real cost,
-        and a different argument from &ldquo;selection cannot work at all&rdquo;.
+        Choosing between embryos only picks from what a couple already has; it changes nothing. So when
+        healthy embryos are rare, a couple may need many embryos, or several rounds of IVF, to find one.
+        Move the slider below: as healthy embryos get rarer, the number of affected embryos passed over
+        for each healthy one climbs steeply — long before it becomes impossible. That is a real cost to
+        the couple, and it is a different argument from &ldquo;choosing cannot work at all&rdquo;.
       </p>
       <div className="mt-9 rounded-2xl border border-slate-200 bg-white p-5 sm:p-7">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Interactive selection burden</p>
-            <p className="mt-2 text-sm text-slate-600">Move through the precomputed values of the unaffected-embryo fraction, <em>u</em>.</p>
+            <p className="mt-2 text-sm text-slate-600">Drag to change how many of a couple&apos;s embryos would be free of the condition.</p>
           </div>
           <div className="text-right">
             <p className="text-3xl font-semibold tracking-tight text-slate-950">u = {point.u.toFixed(2)}</p>
             <p className="text-xs text-slate-500">{Math.round(point.u * 100)}% unaffected embryos</p>
           </div>
         </div>
-        <input aria-label="Unaffected embryo fraction" className="mt-8 w-full accent-blue-700" type="range" min={0} max={Math.max(0, data.embryos.curve.length - 1)} step={1} value={curveIndex} onChange={(e) => setCurveIndex(Number(e.target.value))} />
+        <input aria-label="Share of embryos that are healthy" className="mt-8 w-full accent-blue-700" type="range" min={0} max={Math.max(0, data.embryos.curve.length - 1)} step={1} value={curveIndex} onChange={(e) => setCurveIndex(Number(e.target.value))} />
         <div className="mt-1 flex justify-between text-[11px] text-slate-400"><span>Unaffected embryos common</span><span>Unaffected embryos rare</span></div>
         <div className="mt-8 grid gap-6 border-t border-slate-200 pt-7 sm:grid-cols-3">
-          <InteractiveMetric value={formatDecimal(point.selection_affected_discarded)} label="affected-genotype embryos not selected per unaffected embryo" />
-          <InteractiveMetric value={formatDecimal(point.selection_blastocysts)} label="illustrative blastocysts per live birth under selection" />
-          <InteractiveMetric value="0" label="genotype-based exclusions under idealized successful correction" />
+          <InteractiveMetric value={formatDecimal(point.selection_affected_discarded)} label="embryos carrying the condition, for each healthy one found" />
+          <InteractiveMetric value={formatDecimal(point.selection_blastocysts)} label="embryos needed, on average, for one healthy birth" />
+          <InteractiveMetric value="0" label="embryos ruled out if editing worked perfectly" />
         </div>
         <p className="mt-6 border-t border-slate-200 pt-5 text-xs leading-5 text-slate-500">At <em>u</em> → 0, selection becomes impossible. The primary relationship is (1−u)/u. The blastocyst comparison additionally assumes a 45% live-birth rate per transfer and is illustrative.</p>
       </div>
       <ReaderTools>
-        <ToolNote title="What is being counted">“Not selected for transfer” is not synonymous with “destroyed.” Actual embryo disposition is not modeled.</ToolNote>
-        <ToolNote title="What correction does not solve">The idealized correction comparison does not model editing failure, mosaicism, unintended changes, developmental attrition or safety-related loss.</ToolNote>
+        <ToolNote title="What the slider is counting">“Not selected for transfer” is not synonymous with “destroyed.” Actual embryo disposition is not modeled.</ToolNote>
+        <ToolNote title="What editing would not fix">The idealized correction comparison does not model editing failure, mosaicism, unintended changes, developmental attrition or safety-related loss.</ToolNote>
         </ReaderTools>
       <InlineAnalysis
-        views={[['embryos', 'Open full selection-versus-correction analysis']]}
+        views={[['embryos', 'The full choosing-versus-editing comparison']]}
         active={active}
         onOpen={onOpen}
         data={data}
@@ -769,7 +811,7 @@ function FutureSection({ data, active, onOpen, state, update }: { data: AllData;
   const future = data.multifactorial.frontier.near_future;
   const n = data.multifactorial.n_diseases;
   return (
-    <StorySection id="future-impact" number="05" eyebrow="Future impact" title="What if the technology gets much better?">
+    <StorySection id="future-impact" number="05" eyebrow="Looking ahead" title="What if the technology improves a lot?">
       <p className="v6-prose">
         Common diseases are a different problem entirely. Their risk is spread across thousands of
         variants, so changing any one of them barely moves anything. Whether editing ever becomes relevant
@@ -786,8 +828,8 @@ function FutureSection({ data, active, onOpen, state, update }: { data: AllData;
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">Modeled frontier</p>
           <div className="mt-4 space-y-6">
-            <FrontierCount label="Current-capacity scenario" editing={`${present.editing_viable} / ${n}`} selection={`${present.selection_viable_or_marginal} / ${n}`} />
-            <FrontierCount label="Future high-capacity scenario" editing={`${future.editing_viable} / ${n}`} selection={`${future.selection_viable_or_marginal} / ${n}`} />
+            <FrontierCount label="With today’s capabilities" editing={`${present.editing_viable} / ${n}`} selection={`${present.selection_viable_or_marginal} / ${n}`} />
+            <FrontierCount label="With much stronger capabilities" editing={`${future.editing_viable} / ${n}`} selection={`${future.selection_viable_or_marginal} / ${n}`} />
           </div>
           <p className="mt-5 text-xs leading-5 text-slate-500">These are model-threshold results, not clinical-readiness claims.</p>
         </div>
@@ -799,10 +841,10 @@ function FutureSection({ data, active, onOpen, state, update }: { data: AllData;
       </div>
       <ReaderTools>
         <ToolNote title="How to read the high-capacity scenario">It is a boundary analysis of improved technical capability, not a forecast that 200 embryos or ten reliable germline edits will become clinically available.</ToolNote>
-        <ToolNote title="Interpretation is not intervention">Better causal inference can improve target identification while correction, embryo performance and safety remain separate constraints.</ToolNote>
+        <ToolNote title="Reading a genome is not the same as changing one">Better causal inference can improve target identification while correction, embryo performance and safety remain separate constraints.</ToolNote>
         </ReaderTools>
       <InlineAnalysis
-        views={[['multifactorial', 'Open polygenic frontier'], ['editing-tech', 'Inspect editing technologies']]}
+        views={[['multifactorial', 'The common-disease model'], ['editing-tech', 'What each editing method can do']]}
         active={active}
         onOpen={onOpen}
         data={data}
@@ -816,7 +858,7 @@ function FutureSection({ data, active, onOpen, state, update }: { data: AllData;
 
 function PolicySection({ data, active, onOpen, state, update }: { data: AllData; active: string; onOpen: (id: string) => void; state: UrlState; update: (patch: UrlState) => void }) {
   return (
-    <StorySection id="policy" number="06" eyebrow="Ethics & policy" title="So what should follow?" tint>
+    <StorySection id="policy" number="06" eyebrow="What should follow" title="So what should follow?" tint>
       <p className="v6-prose">
         The numbers settle nothing on their own, but they do sort the questions into different kinds.
         Scaling what already works is a question about money and delivery. Editing for the couples
@@ -835,10 +877,10 @@ function PolicySection({ data, active, onOpen, state, update }: { data: AllData;
       </div>
       <ReaderTools>
         <ToolNote title="Pathways are not morally interchangeable">Carrier screening, PGT-M, prenatal diagnosis, newborn screening, somatic treatment and germline correction can reach outcomes through different reproductive and clinical pathways.</ToolNote>
-        <ToolNote title="Two forms of arbitrage">Regulatory arbitrage moves work toward looser oversight. Ethical arbitrage borrows the urgency of a strongly justified use to support a weaker application.</ToolNote>
+        <ToolNote title="Two ways this can be gamed">Regulatory arbitrage moves work toward looser oversight. Ethical arbitrage borrows the urgency of a strongly justified use to support a weaker application.</ToolNote>
         </ReaderTools>
       <InlineAnalysis
-        views={[['ethics', 'Open ethics & policy'], ['beyond', 'Open resistance & enhancement'], ['allocation', 'Open exploratory costs']]}
+        views={[['ethics', 'The ethical argument'], ['beyond', 'Disease resistance and enhancement'], ['allocation', 'What the options would cost']]}
         active={active}
         onOpen={onOpen}
         data={data}
@@ -867,7 +909,7 @@ function MethodsSection({
     (view) => [view.id, view.label] as [string, string],
   );
   return (
-    <StorySection id="methods" number="07" eyebrow="Methods & evidence" title="Where these numbers come from.">
+    <StorySection id="methods" number="07" eyebrow="How this was calculated" title="Where these numbers come from">
       <p className="v6-prose">
         Every figure above is a middle estimate with a range around it, because most of the inputs are
         themselves uncertain. Tick <strong>Show uncertainty</strong> at the top of the page to see the
@@ -955,10 +997,10 @@ function AssumptionsDrawer({
           <ControlGroup label="How much multifactorial disease is attributed to genetics?">
             <Segmented value={attribution} options={[[ 'inclusive', 'Inclusive' ], [ 'heritability_weighted', 'Heritability-weighted' ], [ 'exclusive', 'Narrow' ]]} onChange={(value) => update({ attribution: value })} />
           </ControlGroup>
-          <ControlGroup label="Affected-birth avoidance track">
+          <ControlGroup label="Count prenatal diagnosis as avoiding a birth?">
             <ToggleLine checked={pndOn} onChange={(checked) => update({ pnd: checked ? '' : 'off' })} title="Count prenatal diagnosis" detail="Counts affected-birth reduction only when followed by a reproductive decision not to continue an affected pregnancy." />
           </ControlGroup>
-          <ControlGroup label="Editing-only prevention headline">
+          <ControlGroup label="Which conditions to include">
             <ToggleLine checked={includeContested} onChange={(checked) => update({ deaf: checked ? '1' : '' })} title="Include congenital deafness" detail="Shown separately because classifying congenital deafness as a disease-prevention target is ethically contested." />
           </ControlGroup>
         </div>
@@ -1108,14 +1150,8 @@ function CoverageBar({ label, stat, note }: { label: string; stat: Stat | null; 
   );
 }
 
-function GateStatus({ status }: { status: 'quantified' | 'not_established' | 'unquantified' }) {
-  const text = status === 'quantified' ? 'quantified' : status === 'not_established' ? 'not established' : 'unquantified';
-  const cls = status === 'quantified' ? 'bg-blue-50 text-blue-700' : 'bg-slate-100 text-slate-500';
-  return <span className={`rounded-full px-2 py-1 text-[10px] font-semibold ${cls}`}>{text}</span>;
-}
-
 function ResidualCard({ title, total, share, note }: { title: string; total: Stat; share: Stat; note: string }) {
-  return <div className="bg-white p-6"><p className="text-xs font-semibold text-slate-600">{title}</p><div className="mt-4 flex items-end justify-between gap-4"><div><p className="tnum text-4xl font-semibold tracking-tight text-slate-950">{fmtPct(share.median, 2)}</p><p className="mt-1 text-xs text-slate-500">of serious genetic-disease burden</p></div><p className="tnum text-sm font-medium text-slate-700">{fmtCompact(total.median)}/yr</p></div><div className="mt-5 h-2 rounded-full bg-slate-100"><div className="h-2 min-w-[3px] rounded-full bg-blue-700" style={{ width: `${Math.max(0.3, share.median * 100)}%` }} /></div><p className="mt-3 text-[11px] leading-5 text-slate-500">{fmtPct(1 - share.median, 2)} not uniquely dependent on germline editing in this scenario. {note}</p></div>;
+  return <div className="bg-white p-6"><p className="text-xs font-semibold text-slate-600">{title}</p><div className="mt-4 flex items-end justify-between gap-4"><div><p className="tnum text-4xl font-semibold tracking-tight text-slate-950">{fmtPct(share.median, 2)}</p><p className="mt-1 text-xs text-slate-500">of all serious genetic disease</p></div><p className="tnum text-sm font-medium text-slate-700">{fmtCompact(total.median)}/yr</p></div><div className="mt-5 h-2 rounded-full bg-slate-100"><div className="h-2 min-w-[3px] rounded-full bg-blue-700" style={{ width: `${Math.max(0.3, share.median * 100)}%` }} /></div><p className="mt-3 text-[11px] leading-5 text-slate-500">The other {fmtPct(1 - share.median, 2)} is disease where editing is not the only possible route. {note}</p></div>;
 }
 
 function InteractiveMetric({ value, label }: { value: string; label: string }) {
