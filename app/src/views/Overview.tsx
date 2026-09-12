@@ -45,27 +45,6 @@ export default function Overview({ data, update }: Props) {
             Impact here has several dimensions at once: how many people are affected, how much it matters to each of them, how mature the technology is, who can actually get it, and what it costs a family to go through. Two routes can reach the same medical outcome while asking very different things of the people involved.</Lead>
         </section>
 
-        {/* B. The three time horizons of the impact framework */}
-        <section className="space-y-2.5">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-            Three horizons, one framework
-          </h2>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-            <HorizonCard
-              title="Impact now"
-              body="What can established genetic medicine already achieve, and how much of that potential is lost through incomplete access?"
-            />
-            <HorizonCard
-              title="Translational frontier"
-              body="Where can editing provide an outcome existing reproductive medicine cannot achieve, or a substantially less burdensome route? The strongest present case is when no unaffected embryo can be selected."
-            />
-            <HorizonCard
-              title="Future impact"
-              body="How could improved causal genomics, larger embryo sets, and multiplex editing change the medical role of heritable intervention?"
-            />
-          </div>
-        </section>
-
         {/* C. Disease heterogeneity — part of the framework, not a finding */}
         <section className="space-y-3">
           <PH>Different diseases create different intervention problems</PH>
@@ -331,15 +310,6 @@ function KeyDefinitions() {
         </div>
       ))}
     </dl>
-  );
-}
-
-function HorizonCard({ title, body }: { title: string; body: string }) {
-  return (
-    <div className="rounded-lg border border-slate-300 bg-slate-50 p-4">
-      <p className="text-sm font-semibold text-slate-900">{title}</p>
-      <p className="mt-1 text-[14px] leading-6 text-slate-700">{body}</p>
-    </div>
   );
 }
 

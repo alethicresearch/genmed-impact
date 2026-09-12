@@ -14,8 +14,10 @@ import pytest
 
 APP = Path(__file__).resolve().parents[2] / "app" / "src"
 VIEWS = sorted((APP / "views").glob("*.tsx"))
-# Shells that embed the analysis views and therefore must supply a navigator.
-SHELLS = ["v3/AppV3.tsx", "v4/AppV4.tsx", "v5/AppV5.tsx", "v6/AppV6.tsx"]
+# Shells that embed the analysis views and supply their own navigator. The research page is not
+# one: it uses viewNav's documented tab-routing fallback. The list is empty while there is a
+# single page, and exists so that adding another shell without a navigator fails the suite.
+SHELLS: list[str] = []
 
 
 def test_views_exist():
@@ -34,7 +36,7 @@ def test_no_view_writes_a_routing_key_itself():
 
 
 def test_every_shell_supplies_a_navigator():
-    """Except the original page, which documents its reliance on the tab-routing fallback."""
+    """Except the research page, which documents its reliance on the tab-routing fallback."""
     for shell in SHELLS:
         src = (APP / shell).read_text()
         assert "ViewNavProvider" in src, f"{shell} embeds views but supplies no navigator"
@@ -57,12 +59,13 @@ def test_links_are_actually_used():
     assert len(_link_targets()) >= 5, "expected the views to cross-link to each other"
 
 
-@pytest.mark.parametrize("shell", SHELLS)
+@pytest.mark.parametrize("shell", SHELLS + ["App.tsx"])
 def test_every_link_target_is_renderable_in_every_shell(shell):
     """A link to a view the shell cannot render is a dead link, however it is routed."""
     src = (APP / shell).read_text()
     # Each shell dispatches on the view id somewhere in its AnalysisView equivalent.
-    renderable = set(re.findall(r"id === '([a-z-]+)'", src))
+    renderable = set(re.findall(r"id === '([a-z-]+)'", src)) | set(
+        re.findall(r"activeView === '([a-z-]+)'", src))
     if not renderable:
         pytest.skip(f"{shell} does not dispatch by view id")
     missing = sorted(t for t in _link_targets() if t not in renderable)

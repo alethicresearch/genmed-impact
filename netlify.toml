@@ -13,29 +13,6 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Vite uses a relative asset base so the same build can also live under GitHub Pages. When the
-# Netlify SPA is requested at /v2, those relative asset/data URLs resolve under /v2; rewrite them
-# back to the single built asset/data directories before the catch-all SPA rule.
-[[redirects]]
-  from = "/v2/assets/*"
-  to = "/assets/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/v2/data/*"
-  to = "/data/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/v2"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/v2/*"
-  to = "/index.html"
-  status = 200
-
 # Single-page app: every other path resolves to index.html so shared deep links continue to work.
 [[redirects]]
   from = "/*"

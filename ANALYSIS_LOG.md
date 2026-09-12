@@ -303,3 +303,21 @@ rather than leaving both to be inferred. Applied to the research page, README, `
 **No model logic, parameters or numbers changed.** Descriptive copy that refers to "genetic
 medicine" as the field is unchanged and still accurate: the analysis continues to cover the whole
 existing stack, and the retitle sharpens the framing rather than narrowing the scope.
+
+## 2026-09-12 — Consolidate the research page
+
+Six page variants had accumulated — the research page plus v2 through v6 — totalling ~6,000
+lines of largely duplicated shell for one analysis, six live URLs each phrasing the same findings
+slightly differently, and a deploy carrying six copies of the data. Each round of design feedback
+had produced a new version rather than a change to the existing one.
+
+Consolidated to a single page: the original two-layer structure (sections, with every analysis
+view first-class and directly linkable), the landing from v2/v4 as the entry above the Overview
+only, and the plain-language copy and reading measure developed in v6 carried across. v2-v6 are
+deleted; their history remains in git.
+
+The story-with-inline-analysis structure tried in v5 and v6 is deliberately not carried forward.
+Merging the argument and the analysis into one scroll made the page long and buried the analysis
+inside expanders, which served neither reading nor inspection.
+
+**No model logic, parameters or numbers changed.**
