@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import AppV2 from './v2/AppV2';
 import AppV3 from './v3/AppV3';
-import AppV4 from './v4/AppV4';
+import AppV4 from './v4/AppV4Clean';
 import './index.css';
 
 const path = window.location.pathname;
