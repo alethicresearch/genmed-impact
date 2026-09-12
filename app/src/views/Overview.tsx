@@ -40,12 +40,7 @@ export default function Overview({ data, update }: Props) {
             advances in polygenic editing could change that landscape over the coming decades.
           </Lead>
           <Lead>
-            Impact, in this framework, is multidimensional. It includes population impact,
-            individual clinical impact, technological maturity, distributional access,
-            reproductive burden, and ethical considerations. Reproductive burden refers to the
-            physical, procedural, embryo-level, and pregnancy-related burdens of achieving a
-            reproductive outcome.
-          </Lead>
+            Impact here has several dimensions at once: how many people are affected, how much it matters to each of them, how mature the technology is, who can actually get it, and what it costs a family to go through. Two routes can reach the same medical outcome while asking very different things of the people involved.</Lead>
         </section>
 
         {/* B. The three time horizons of the impact framework */}
@@ -76,19 +71,12 @@ export default function Overview({ data, update }: Props) {
             <div className="rounded-lg border border-slate-200 bg-white p-4">
               <p className="text-sm font-semibold text-slate-900">Monogenic disease</p>
               <p className="mt-1 text-[14px] leading-6 text-slate-700">
-                A pathogenic variant in one gene may account for most of the relevant disease
-                risk. This makes questions such as carrier status, affected embryos, and
-                whether an unaffected embryo can be selected comparatively tractable.
-              </p>
+                A fault in a single gene accounts for most of the risk. That makes the practical questions answerable: who carries it, how likely an embryo is to be affected, and what reproductive options a couple has.</p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-white p-4">
               <p className="text-sm font-semibold text-slate-900">Multifactorial disease</p>
               <p className="mt-1 text-[14px] leading-6 text-slate-700">
-                Risk is distributed across many genetic and non-genetic influences. There is
-                usually no binary “affected genotype” to remove. The relevant question becomes
-                how much risk can be shifted, with how many variants, and relative to what
-                alternatives.
-              </p>
+                Risk is spread across many genetic and non-genetic influences, so there is usually no single fault to remove. The question becomes shifting someone's odds rather than removing a disease.</p>
             </div>
           </div>
           <Lead>
@@ -116,10 +104,7 @@ export default function Overview({ data, update }: Props) {
           </summary>
           <div className="mt-2 max-w-3xl space-y-2 text-[14px] leading-6 text-slate-700">
             <p>
-              The model also combines the no-selectable-embryo population with an exploratory
-              population-scaled complex-disease term to show the relative scale of
-              editing-relevant scenarios.
-            </p>
+              The model also adds the couples with no healthy embryo to a speculative figure for common disease, so the two can be seen at the same scale.</p>
             <p>
               Under the current-evidence scaling scenario, the combined estimate is
               approximately {fmtCompact(editableTotal.strict.median)} cases/year (
@@ -262,13 +247,7 @@ function Findings({
       kinds: ['model'],
       body: (
         <>
-          Editing is rarely the only option for multifactorial disease, but it could eventually
-          produce substantial risk reduction if causal variants become reliably identifiable
-          and multiplex editing matures. Under current-capacity assumptions the model finds
-          little practical editing advantage; under hypothetical high-capacity assumptions,
-          some genetically concentrated diseases cross the modeled threshold. This is neither a
-          forecast nor evidence that polygenic editing will remain medically marginal.
-        </>
+          Editing is rarely the only option for common disease, but it could eventually shift risk substantially — if we get much better at telling which variants actually cause disease, and at changing many of them at once.</>
       ),
       goLabel: 'Explore the polygenic frontier',
       go: () => update({ tab: 'multifactorial' }),
@@ -278,12 +257,7 @@ function Findings({
       kinds: ['interpretation'],
       body: (
         <>
-          Disease prevention, disease resistance, and enhancement may use similar molecular
-          technologies but pursue different ends. Their justification should therefore depend
-          on medical need, alternatives, expected benefit, technological maturity, safety,
-          access, and social consequences — not simply on whether the same editing mechanism is
-          involved.
-        </>
+          Preventing disease, building resistance to it, and enhancing a healthy trait can use the same laboratory technique while aiming at completely different things. An argument that justifies one does not carry over to the others.</>
       ),
       goLabel: 'See the ethical framework',
       go: () => update({ tab: 'ethics' }),

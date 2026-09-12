@@ -196,7 +196,9 @@ def test_argument_concepts_have_a_deliberate_home():
     invariants = {
         "proportionality principle": "proportionality",
         "three time horizons": "Translational frontier",
-        "population vs individual impact": "Population impact and individual clinical",
+        # Reworded for a general reader; the concept (rare in a population, strong for the
+        # family) must survive any rewrite, so the phrase is pinned to its new wording.
+        "population vs individual impact": "rare across a population",
         "reproductive burden": "reproductive burden",
         "pathway moral non-equivalence": "morally equivalent",
         "Selection-First heuristic": "Selection-First",

@@ -97,25 +97,22 @@ export default function Prevention({ data, state, update }: Props) {
   return (
     <div className="space-y-6">
       <SectionHeading
-        title="Impact now: what existing genetic medicine can achieve"
-        subtitle="Established screening, reproductive, diagnostic, and treatment pathways already change outcomes. The model compares their potential impact with what is achieved under current coverage."
+        title="What today’s genetic medicine can already achieve"
+        subtitle="Carrier testing, IVF embryo testing, prenatal tests and treatment at birth all change outcomes today. This compares what they could achieve with what they actually achieve."
       />
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
-        Carrier screening + reproductive planning can identify couples at risk before
-        pregnancy. IVF with PGT-M can allow selection of an embryo without the targeted disease
-        genotype. Prenatal diagnosis can identify an affected pregnancy, but it changes the
-        number of affected births only if followed by a reproductive decision not to continue
-        that pregnancy. Newborn screening acts after birth by enabling earlier treatment.
+        Carrier testing can tell a couple they are at risk before a pregnancy starts. IVF with
+        embryo testing can let them choose an embryo without the condition. A prenatal test can
+        identify an affected pregnancy. Newborn screening finds babies who need treatment
+        immediately.
       </p>
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
-        Because these outcomes are not equivalent, the model reports them on two separate
-        tracks: <strong>affected births avoided</strong> and{' '}
+        These are different goods, and adding them together would flatter the result, so they are reported separately: <strong>affected births avoided</strong> and{' '}
         <strong>disease burden mitigated after birth</strong>.
       </p>
 
       <p className="text-xs leading-5 text-slate-500">
-        This part of the analysis is strongest for monogenic disease, where inheritance and
-        reproductive options can be modeled relatively directly. Multifactorial disease is also
+        These estimates are most reliable for single-gene disease, where inheritance is predictable enough to model a couple’s options directly. Multifactorial disease is also
         shown, but its attribution and intervention pathways are more assumption-sensitive and
         should not be interpreted as equivalent evidence.
       </p>
@@ -159,11 +156,7 @@ export default function Prevention({ data, state, update }: Props) {
             onChange={(v) => update({ pnd: v ? 'on' : 'off' })}
           />
           <p className="mt-1 max-w-3xl pl-6 text-xs leading-5 text-slate-600">
-            Prenatal diagnosis is a diagnostic test, not itself a preventive intervention. In
-            the affected-birth analysis it is counted only when an affected diagnosis is
-            followed by pregnancy termination. Because that assumption is ethically
-            consequential, results can be viewed with it included or excluded.
-          </p>
+            A prenatal test finds a condition; it does not prevent one. It reduces affected births in this model only where a positive result is followed by a decision to end the pregnancy — which is why you can switch it off and see the difference.</p>
         </div>
       </div>
 
@@ -222,8 +215,7 @@ export default function Prevention({ data, state, update }: Props) {
               className="w-64"
             />
             <span className="text-xs text-slate-500">
-              Linearly scales the displayed averted fractions as an illustration only. Leave at
-              100% to show the precomputed scenario.
+              Scales the bars up or down to sketch a what-if. Leave at 100% for the actual modelled figures.
             </span>
           </label>
         </details>

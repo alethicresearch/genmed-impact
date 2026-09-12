@@ -95,25 +95,19 @@ export default function Denominator({ data, state, update }: Props) {
     <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
-        title="How large is the modeled burden of serious genetic disease?"
-        subtitle="The analysis begins with the annual global birth cohort. The estimate depends on what counts as serious disease and on how much multifactorial disease is attributed to genetics."
+        title="How much serious genetic disease is there, and how is that total built?"
+        subtitle="Start from every baby born in a year, then ask how many of them have serious disease with a genetic cause. The answer turns on two judgement calls: what counts as serious, and how much multifactorial disease is attributed to genetics."
       />
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
-        The model starts with the annual global birth cohort and estimates two broad categories
-        of serious genetic disease. Monogenic disease is primarily caused by pathogenic variation
-        in a single gene. Multifactorial disease reflects genetic susceptibility together with
-        environmental, developmental, behavioral, and other influences.
+        The model begins with every baby born worldwide in a year, then splits serious genetic disease into two kinds. <strong>Single-gene</strong> disease is caused by a fault in one gene — cystic fibrosis, sickle cell disease. <strong>Multifactorial</strong> disease — most heart disease, most diabetes — comes from many genes acting together with environment, development and behaviour, so genetics is one contributor among several.
       </p>
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
-        The monogenic estimate is conceptually more direct. The multifactorial estimate is not:
-        there is no single uncontested way to determine how much multifactorial disease should
-        be attributed to genetics. We therefore show several attribution assumptions rather
-        than treating one number as definitive.
+        Counting the single-gene cases is comparatively clean. The multifactorial count is not: there is no agreed way to say how much of a disease with many causes should be put down to genetics. Rather than pick one answer and present it as fact, the model offers three and shows what each does to the total.
       </p>
 
       <div className="flex flex-wrap gap-6">
         <Segmented
-          label="Which conditions count as serious?"
+          label="How severe does a condition have to be to count?"
           ariaLabel="Definition of serious disease"
           value={severity}
           options={SEVERITY_OPTS}
@@ -121,7 +115,7 @@ export default function Denominator({ data, state, update }: Props) {
         />
         <div>
           <Segmented
-            label="How much multifactorial disease should be attributed to genetics?"
+            label="How much multi-cause disease should count as genetic?"
             ariaLabel="Genetic attribution of multifactorial disease"
             value={attribution}
             options={ATTR_OPTS}
@@ -167,7 +161,7 @@ export default function Denominator({ data, state, update }: Props) {
       <Card>
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold text-slate-900">
-            From annual global births to serious genetic-disease burden
+            From all births to serious genetic disease
           </h3>
           <ExportSvgButton
             onClick={() => exportContainerSvg(svgRef.current, 'denominator-cascade.svg')}
@@ -297,7 +291,7 @@ function Cascade(p: CascadeProps) {
   return (
     <svg
       role="img"
-      aria-label="Proportional cascade from global births to serious genetic-disease burden and comparative editing-relevant scenarios"
+      aria-label="From all births down to serious genetic disease, and then to the cases where editing would be the only route"
       viewBox={`0 0 ${W} ${H}`}
       className="mt-3 w-full"
       style={{ maxWidth: '100%' }}

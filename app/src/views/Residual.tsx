@@ -48,53 +48,38 @@ export default function Residual({ data, state, update }: Props) {
     <SourcesProvider>
     <div className="space-y-6">
       <SectionHeading
-        title="The translational frontier: when embryo selection is not enough"
-        subtitle="For most monogenic conditions, PGT-M can identify an unaffected embryo for transfer. In some reproductive configurations, however, every embryo is expected to inherit the targeted disease-causing genotype."
+        title="When choosing between embryos is not enough"
+        subtitle="For most single-gene conditions, testing embryos during IVF can find one free of the condition. For some couples it cannot: because of the particular combination the parents carry, every embryo would inherit it."
       />
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
-        <Term k="PGT">PGT-M</Term> can choose among embryos, but it cannot change an
-        embryo&apos;s genotype. If a couple is expected to produce some affected and some
-        unaffected embryos, selection can usually identify an unaffected embryo for transfer.
-        When the parental genetic combination means every embryo is expected to inherit the
-        disease-causing genotype, PGT-M can identify the genotype but cannot provide an
-        unaffected embryo.
+        <Term k="PGT">Embryo testing during IVF</Term> lets a couple choose an embryo without the
+        condition — but it only picks from the embryos that exist, it does not change any of them.
+        That works whenever some of a couple&apos;s embryos would be unaffected. It stops working
+        when the particular combination the two parents carry means every embryo would inherit the
+        condition: the test still finds it, but there is nothing healthy left to choose.
       </p>
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
-        We call this <strong>editing-only prevention</strong>: a successful germline edit
-        could, in principle, create a preventive option that selection cannot. The estimate
-        below quantifies how often reproductive configurations in which no unaffected embryo
-        can be selected are expected to occur worldwide.
+        This is the one situation where a successful edit could create an option that choosing
+        cannot. The figure below estimates how often it happens worldwide.
       </p>
       <div className="max-w-3xl rounded-lg border border-slate-200 bg-slate-50/60 p-4 text-sm leading-6 text-slate-700">
         <p>
-          Selection can become burdensome before it becomes impossible. When no unaffected
-          embryo exists, selection is biologically impossible — the population estimated below.
-          When unaffected embryos are merely rare, PGT-M remains technically possible but may
-          require many embryos or repeated IVF cycles; that changes the proportionality
-          comparison without by itself justifying editing.
-        </p>
+          Choosing gets costly before it gets impossible. When no unaffected embryo exists it is simply out — that is the population counted below. When unaffected embryos are merely rare, testing still works, but a couple may need many embryos or several IVF rounds to find one. That is a real burden, and it shifts the comparison without on its own justifying an edit.</p>
         <button
           type="button"
           onClick={() => update({ tab: 'embryos' })}
           className="mt-1.5 text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         >
-          See the selection-versus-correction analysis →
+          See the full choosing-versus-editing comparison →
         </button>
       </div>
       <p className="max-w-3xl text-sm leading-relaxed text-slate-700">
-        Population impact and individual clinical justification are different questions: a rare
-        reproductive configuration can still provide a strong rationale for research when the
-        condition is severe and no existing pathway achieves the same medically important
-        outcome.
+        A small number of families is not the same as a weak case. These situations are rare across a population, yet for the family in front of you the condition is severe and nothing else available would achieve the same thing.
       </p>
 
       <div className="max-w-3xl rounded-md border border-slate-200 bg-slate-50/70 p-3">
         <p className="text-sm leading-relaxed text-slate-700">
-          Selection failing does not mean editing would work. It is the first of four conditions
-          that must all hold, and the next one is molecular: a platform has to exist that can
-          make the specific change the variant requires. For roughly a quarter of this
-          population, none does.
-        </p>
+          Having no embryo to choose does not mean editing would work. It is the first of four conditions that all have to hold, and the next one is molecular: some method has to exist that can make the specific change this fault requires. For roughly a quarter of these couples, none does.</p>
         <button
           type="button"
           onClick={() => update({ tab: 'editing-tech' })}
@@ -109,36 +94,33 @@ export default function Residual({ data, state, update }: Props) {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <Toggle
-              label="Include congenital deafness in the editing-only prevention estimate"
+              label="Include congenital deafness in this figure"
               checked={includeContested}
               onChange={(v) => update({ deaf: v ? '1' : '0' })}
             />
             <p className="mt-1">
               <span className="rounded bg-amber-200 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-900">
-                Ethically contested classification
+                Contested: is this a condition to prevent?
               </span>
             </p>
             <p className="mt-1 text-xs text-slate-600">
-              One classification has a large effect on this estimate. Whether congenital
-              deafness should be treated as a condition that ought to be prevented is ethically
-              contested. The primary analysis therefore excludes it (
-              <span className="tnum">{fmtInt(s1Excl.median)}</span> births/yr); the toggle shows
+              One judgement call moves this number a lot. Whether congenital deafness should be treated as something to prevent is genuinely contested, so the main figure leaves it out (<span className="tnum">{fmtInt(s1Excl.median)}</span> births/yr); the toggle shows
               how the estimate changes if it is included (
               <span className="tnum">{fmtInt(s1Incl.median)}</span>).
             </p>
           </div>
           <div className="text-right">
             <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-              Estimated births per year from reproductive configurations in which no
-              unaffected embryo can be selected ({includeContested ? 'incl.' : 'excl.'} deafness)
+              Births a year to couples for whom every embryo would inherit the condition
+              ({includeContested ? 'including' : 'excluding'} deafness)
             </p>
             <p className="text-2xl font-semibold text-slate-900">
               <StatValue stat={s1Total} kind="int" showCi />
               <span className="tnum text-base font-normal text-slate-500"> / yr</span>
             </p>
-            <p className="text-[11px] text-slate-400">Canonical term: editing-only prevention</p>
+            
             <SourceNote
-              source="Derived: Σ over S1 conditions of couples with no selectable unaffected embryo, from allele frequencies, penetrance, survival, assortative mating and consanguinity (see the by-condition table)"
+              source="Calculated: for each condition, how many couples would have no unaffected embryo, from how common the variant is, how often it causes disease, survival to reproductive age, whether partners are likely to share it, and marriage between relatives (see the table below)"
               doi={null}
             />
           </div>
@@ -206,10 +188,7 @@ export default function Residual({ data, state, update }: Props) {
           Exploratory geographic distribution
         </summary>
         <p className="mt-1 max-w-3xl text-xs text-slate-600">
-          Regional estimates use regional birth totals and consanguinity assumptions, but
-          currently apply global allele-frequency estimates. The geographic distribution should
-          therefore be interpreted as approximate.
-        </p>
+          Regional figures use local birth numbers and local rates of marriage between relatives, but still apply worldwide averages for how common each variant is, so treat the regional split as indicative rather than as population-specific genetics.</p>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full border-collapse text-sm">
             <caption className="sr-only">S1 residual births per year by income group</caption>
@@ -275,8 +254,7 @@ export default function Residual({ data, state, update }: Props) {
             </p>
           )}
           <p className="mt-1 text-xs text-slate-500">
-            Under current-evidence assumptions, the modeled complex-disease contribution to the
-            editing-relevant residual is small and highly uncertain.
+            On today’s evidence, common disease adds very little to this total — and what it does add is highly uncertain.
           </p>
         </Card>
 
