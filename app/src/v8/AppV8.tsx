@@ -98,7 +98,15 @@ export default function AppV8() {
   const [curveIndex, setCurveIndex] = useState(2);
   const [state, update] = useUrlState({});
   const panel = state.panel && VIEW_TITLES[state.panel] ? state.panel : '';
-  const onPanel = (view: string) => update({ panel: view });
+  // A cross-link inside an open analysis pushes onto this trail rather than opening a different
+  // section's panel, which would close what the reader is reading and scroll them elsewhere.
+  const [trail, setTrail] = useState<string[]>([]);
+  const onPanel = (view: string) => {
+    setTrail([]);
+    update({ panel: view });
+  };
+  const pushTrail = (view: string) => setTrail((t) => [...t, view]);
+  const popTrail = () => setTrail((t) => t.slice(0, -1));
 
   useEffect(() => {
     document.title = 'Reframing Genetic Editing in Terms of Medical Impact — v8';
@@ -141,7 +149,13 @@ export default function AppV8() {
 
   return (
     <UncertaintyProvider on={state.unc === '1'}>
-    <ViewNavProvider go={(id, extra) => update({ panel: id, ...(extra ?? {}) })}>
+    <ViewNavProvider
+      go={(id, extra) => {
+        if (extra) update(extra);
+        if (panel) pushTrail(id);
+        else update({ panel: id, ...(extra ?? {}) });
+      }}
+    >
     <div className="min-h-screen bg-white text-slate-950">
       <Hero
         burden={burden.total_serious}
@@ -165,6 +179,8 @@ export default function AppV8() {
           onAssumptions={() => setDrawerOpen(true)}
           panel={panel}
         onPanel={onPanel}
+        trail={trail}
+        onBack={popTrail}
         state={state}
         update={update}
         />
@@ -179,6 +195,8 @@ export default function AppV8() {
           mode={mode}
           panel={panel}
         onPanel={onPanel}
+        trail={trail}
+        onBack={popTrail}
         state={state}
         update={update}
         />
@@ -194,6 +212,8 @@ export default function AppV8() {
           mode={mode}
           panel={panel}
         onPanel={onPanel}
+        trail={trail}
+        onBack={popTrail}
         state={state}
         update={update}
         />
@@ -206,20 +226,24 @@ export default function AppV8() {
           mode={mode}
           panel={panel}
         onPanel={onPanel}
+        trail={trail}
+        onBack={popTrail}
         state={state}
         update={update}
         />
 
-        <FutureSection data={data} mode={mode} panel={panel} onPanel={onPanel} state={state} update={update} />
+        <FutureSection data={data} mode={mode} panel={panel} onPanel={onPanel} trail={trail} onBack={popTrail} state={state} update={update} />
         <PolicySection
           analysisData={data}
           mode={mode}
           panel={panel}
           onPanel={onPanel}
+          trail={trail}
+          onBack={popTrail}
           state={state}
           update={update}
         />
-        <MethodsSection data={data} assumptions={assumptions} panel={panel} onPanel={onPanel} state={state} update={update} />
+        <MethodsSection data={data} assumptions={assumptions} panel={panel} onPanel={onPanel} trail={trail} onBack={popTrail} state={state} update={update} />
       </main>
 
       <footer className="border-t border-slate-200 bg-slate-50">
@@ -268,6 +292,8 @@ function AnalysisPanel({
   state,
   update,
   invitation,
+  trail,
+  onBack,
 }: {
   view: string;
   open: boolean;
@@ -277,17 +303,25 @@ function AnalysisPanel({
   update: (p: UrlState) => void;
   /** What the reader gets by opening it, in their terms. */
   invitation: string;
+  /** Analyses opened from links inside this one, most recent last. */
+  trail: string[];
+  onBack: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const title = VIEW_TITLES[view] ?? view;
+  // While a trail is open the reader is looking at the last thing they followed, not the analysis
+  // this panel was opened for.
+  const current = open && trail.length ? trail[trail.length - 1] : view;
+  const rootTitle = VIEW_TITLES[view] ?? view;
+  const currentTitle = VIEW_TITLES[current] ?? current;
 
   useEffect(() => {
-    if (open && ref.current) {
-      // Bring the panel's top edge to the reader rather than leaving them mid-narrative.
+    if (open && !trail.length && ref.current) {
+      // Bring the panel's top edge to the reader on open. Following a link *within* the panel must
+      // not scroll: the reader stays exactly where they were and the content changes under them.
       const y = ref.current.getBoundingClientRect().top + window.scrollY - 72;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
-  }, [open]);
+  }, [open, trail.length]);
 
   return (
     <div ref={ref} className="mt-10 scroll-mt-20">
@@ -310,7 +344,7 @@ function AnalysisPanel({
             {open ? 'Showing the full analysis' : 'The full analysis'}
           </span>
           <span className={`mt-1 block text-base font-semibold ${open ? 'text-white' : 'text-slate-900'}`}>
-            {title}
+            {rootTitle}
           </span>
           {!open && <span className="mt-1 block text-xs leading-5 text-slate-500">{invitation}</span>}
         </span>
@@ -324,17 +358,49 @@ function AnalysisPanel({
       </button>
 
       {open && (
-        <div className="rounded-b-xl border border-t-0 border-slate-900/15 bg-slate-50/70 px-4 pb-5 pt-6 sm:px-7 sm:pb-7">
+        <div className="rounded-b-xl border border-t-0 border-slate-900/15 bg-slate-50/70 px-4 pb-5 pt-4 sm:px-7 sm:pb-7">
+          {trail.length > 0 && (
+            // Followed a link from inside the analysis: say where they are and how to get back,
+            // instead of having silently swapped the content.
+            // Sticky: following a link deliberately does not scroll, so the way back must stay on
+            // screen rather than sitting above wherever the reader happens to be.
+            <div className="sticky top-12 z-20 -mx-4 mb-5 flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-slate-200 bg-slate-50/95 px-4 py-2.5 backdrop-blur sm:-mx-7 sm:px-7 text-xs">
+              <button
+                type="button"
+                onClick={onBack}
+                className="rounded border border-slate-300 bg-white px-2 py-1 font-semibold text-slate-700 hover:border-blue-400 hover:text-blue-700"
+              >
+                ← Back
+              </button>
+              <span className="text-slate-400">{rootTitle}</span>
+              {trail.slice(0, -1).map((t) => (
+                <span key={t} className="text-slate-400">
+                  › {VIEW_TITLES[t] ?? t}
+                </span>
+              ))}
+              <span className="text-slate-400">›</span>
+              <span className="font-semibold text-slate-900">{currentTitle}</span>
+            </div>
+          )}
           <div className="mx-auto max-w-5xl">
-            <AnalysisView id={view} data={data} state={state} update={update} />
+            <AnalysisView id={current} data={data} state={state} update={update} />
           </div>
-          <div className="mx-auto mt-8 max-w-5xl border-t border-slate-200 pt-4">
+          <div className="mx-auto mt-8 flex max-w-5xl flex-wrap gap-4 border-t border-slate-200 pt-4">
+            {trail.length > 0 && (
+              <button
+                type="button"
+                onClick={onBack}
+                className="text-xs font-semibold text-blue-700 hover:text-blue-900"
+              >
+                ← Back to {(VIEW_TITLES[trail.length > 1 ? trail[trail.length - 2] : view] ?? view).toLowerCase()}
+              </button>
+            )}
             <button
               type="button"
               onClick={onToggle}
-              className="text-xs font-semibold text-blue-700 hover:text-blue-900"
+              className="text-xs font-semibold text-slate-600 hover:text-slate-900"
             >
-              ← Close {title.toLowerCase()} and continue reading
+              Close and continue reading
             </button>
           </div>
         </div>
@@ -342,7 +408,6 @@ function AnalysisPanel({
     </div>
   );
 }
-
 
 function Hero({
   burden,
@@ -486,6 +551,8 @@ function BurdenSection({
   onAssumptions,
   panel,
   onPanel,
+  trail,
+  onBack,
   state,
   update,
 }: {
@@ -496,6 +563,8 @@ function BurdenSection({
   onAssumptions: () => void;
   panel: string;
   onPanel: (view: string) => void;
+  trail: string[];
+  onBack: () => void;
   state: UrlState;
   update: (p: UrlState) => void;
 }) {
@@ -573,6 +642,8 @@ function BurdenSection({
         state={state}
         update={update}
         invitation="Change what counts as serious disease, or how much multi-cause disease counts as genetic, and watch the total move."
+        trail={trail}
+        onBack={onBack}
       />
     </StorySection>
   );
@@ -587,6 +658,8 @@ function ExistingMedicineSection({
   mode,
   panel,
   onPanel,
+  trail,
+  onBack,
   analysisData,
   state,
   update,
@@ -599,6 +672,8 @@ function ExistingMedicineSection({
   mode: Mode;
   panel: string;
   onPanel: (view: string) => void;
+  trail: string[];
+  onBack: () => void;
   analysisData: AllData;
   state: UrlState;
   update: (p: UrlState) => void;
@@ -649,6 +724,8 @@ function ExistingMedicineSection({
         state={state}
         update={update}
         invitation="See each tool separately — carrier testing, embryo testing, prenatal diagnosis, newborn treatment — and what access costs each of them."
+        trail={trail}
+        onBack={onBack}
       />
     </StorySection>
   );
@@ -665,6 +742,8 @@ function EditingFrontierSection({
   mode,
   panel,
   onPanel,
+  trail,
+  onBack,
   state,
   update,
 }: {
@@ -678,6 +757,8 @@ function EditingFrontierSection({
   mode: Mode;
   panel: string;
   onPanel: (view: string) => void;
+  trail: string[];
+  onBack: () => void;
   state: UrlState;
   update: (p: UrlState) => void;
 }) {
@@ -768,6 +849,8 @@ function EditingFrontierSection({
         state={state}
         update={update}
         invitation="The condition-by-condition working behind this figure, and the assumptions you can change."
+        trail={trail}
+        onBack={onBack}
       />
     </StorySection>
   );
@@ -781,6 +864,8 @@ function SelectionSection({
   mode,
   panel,
   onPanel,
+  trail,
+  onBack,
   state,
   update,
 }: {
@@ -791,6 +876,8 @@ function SelectionSection({
   mode: Mode;
   panel: string;
   onPanel: (view: string) => void;
+  trail: string[];
+  onBack: () => void;
   state: UrlState;
   update: (p: UrlState) => void;
 }) {
@@ -872,12 +959,14 @@ function SelectionSection({
         state={state}
         update={update}
         invitation="Move through the full curve, and see what each extra IVF round buys a couple."
+        trail={trail}
+        onBack={onBack}
       />
     </StorySection>
   );
 }
 
-function FutureSection({ data, mode, panel, onPanel, state, update }: { data: AllData; mode: Mode; panel: string; onPanel: (v: string) => void; state: UrlState; update: (p: UrlState) => void }) {
+function FutureSection({ data, mode, panel, onPanel, trail, onBack, state, update }: { data: AllData; mode: Mode; panel: string; onPanel: (v: string) => void; trail: string[]; onBack: () => void; state: UrlState; update: (p: UrlState) => void }) {
   const present = data.multifactorial.frontier.present;
   const future = data.multifactorial.frontier.near_future;
   const n = data.multifactorial.n_diseases;
@@ -954,12 +1043,14 @@ function FutureSection({ data, mode, panel, onPanel, state, update }: { data: Al
         state={state}
         update={update}
         invitation="Disease by disease, under present and future capability."
+        trail={trail}
+        onBack={onBack}
       />
     </StorySection>
   );
 }
 
-function PolicySection({ mode, panel, onPanel, analysisData, state, update }: { mode: Mode; panel: string; onPanel: (v: string) => void; analysisData: AllData; state: UrlState; update: (p: UrlState) => void }) {
+function PolicySection({ mode, panel, onPanel, trail, onBack, analysisData, state, update }: { mode: Mode; panel: string; onPanel: (v: string) => void; trail: string[]; onBack: () => void; analysisData: AllData; state: UrlState; update: (p: UrlState) => void }) {
   return (
     <StorySection id="policy" number="06" eyebrow="Ethics & policy" title="What follows from an impact-based framework?" tint>
       <p className="story-prose">
@@ -1014,6 +1105,8 @@ function PolicySection({ mode, panel, onPanel, analysisData, state, update }: { 
         state={state}
         update={update}
         invitation="The proportionality argument in full, with its sequencing and its heuristics."
+        trail={trail}
+        onBack={onBack}
       />
     </StorySection>
   );
@@ -1024,6 +1117,8 @@ function MethodsSection({
   assumptions,
   panel,
   onPanel,
+  trail,
+  onBack,
   state,
   update,
 }: {
@@ -1031,6 +1126,8 @@ function MethodsSection({
   assumptions: Assumptions;
   panel: string;
   onPanel: (view: string) => void;
+  trail: string[];
+  onBack: () => void;
   state: UrlState;
   update: (p: UrlState) => void;
 }) {
@@ -1079,6 +1176,8 @@ function MethodsSection({
           state={state}
           update={update}
           invitation=""
+          trail={trail}
+          onBack={onBack}
         />
       )}
 
