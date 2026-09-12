@@ -48,7 +48,7 @@ def generate(R: dict[str, Any], constants: dict, conditions: dict) -> None:
     L: list[str] = []
     A = L.append
 
-    A("# Methods — Reframing Genetic Medicine in Terms of Impact")
+    A("# Methods — Reframing Genetic Editing in Terms of Medical Impact")
     A("")
     A(f"_Auto-generated from the analysis pipeline · Monte-Carlo n={R['meta']['n_draws']:,} · "
       f"pipeline commit `{R['meta']['commit']}` · model version {R['meta']['spec_version']}._")

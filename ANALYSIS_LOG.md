@@ -291,3 +291,15 @@ compressed arguments. Implemented as an additive delta — no model logic or num
 - **Content-invariant test added**: nineteen core argument concepts must each have a
   deliberate home in the research artifact (app source + README) so UI simplification can
   relocate but never silently drop them.
+
+## 2026-09-12 — Retitle
+
+The project was retitled **"Reframing Genetic Editing in Terms of Medical Impact"**, from
+"Reframing Genetic Medicine in Terms of Impact". The new title names the subject the paper is
+actually about — heritable editing — and the standard it is judged against — medical impact —
+rather than leaving both to be inferred. Applied to the research page, README, `CITATION.cff`,
+`.zenodo.json`, the generated methods document and the app's BibTeX.
+
+**No model logic, parameters or numbers changed.** Descriptive copy that refers to "genetic
+medicine" as the field is unchanged and still accurate: the analysis continues to cover the whole
+existing stack, and the retitle sharpens the framing rather than narrowing the scope.

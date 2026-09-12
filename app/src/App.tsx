@@ -100,7 +100,7 @@ const REPO_URL = 'https://github.com/alethicresearch/genmed-impact';
 const DATA_ARCHIVE_URL = `${REPO_URL}/tree/main/results`;
 
 const BIBTEX = `@software{genmed_impact,
-  title  = {Reframing Genetic Medicine in Terms of Impact},
+  title  = {Reframing Genetic Editing in Terms of Medical Impact},
   author = {{Authors to be listed at manuscript submission}},
   year   = {2026},
   url    = {https://github.com/alethicresearch/genmed-impact},
@@ -150,7 +150,7 @@ export default function App() {
           className="rounded text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         >
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 hover:text-accent">
-            Reframing Genetic Medicine in Terms of Impact
+            Reframing Genetic Editing in Terms of Medical Impact
           </h1>
         </button>
         <p className="mt-1.5 text-sm leading-6 text-slate-600">

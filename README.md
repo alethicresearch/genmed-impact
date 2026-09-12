@@ -1,4 +1,4 @@
-# Reframing Genetic Medicine in Terms of Impact
+# Reframing Genetic Editing in Terms of Medical Impact
 
 [Research page](https://alethicresearch.github.io/genmed-impact/) · [Paper — in preparation](#paper) · [Results & data](results/) · [Open questions](REVIEW_TRACKER.md) · [Citation](#citation)
 
@@ -307,7 +307,7 @@ The exploratory cost-allocation analysis contains provisional inputs and is not 
 
 The accompanying manuscript is in preparation:
 
-**Reframing Genetic Medicine in Terms of Impact**
+**Reframing Genetic Editing in Terms of Medical Impact**
 
 The paper and research page are being developed from the same analysis and terminology. A versioned archival release will be frozen for submission.
 
@@ -323,7 +323,7 @@ Machine-readable citation metadata is provided in [`CITATION.cff`](CITATION.cff)
 
 ```bibtex
 @software{genmed_impact,
-  title  = {Reframing Genetic Medicine in Terms of Impact},
+  title  = {Reframing Genetic Editing in Terms of Medical Impact},
   author = {{Authors to be listed at manuscript submission}},
   year   = {2026},
   url    = {https://github.com/alethicresearch/genmed-impact},

@@ -105,7 +105,7 @@ export default function AppV4() {
   const [state, update] = useUrlState({});
 
   useEffect(() => {
-    document.title = 'Reframing Genetic Medicine in Terms of Impact — v4';
+    document.title = 'Reframing Genetic Editing in Terms of Medical Impact — v6';
     loadAll()
       .then(setData)
       .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)));
@@ -282,7 +282,7 @@ function Hero({
       <div className="px-6 pb-10 pt-8 sm:px-10 sm:pt-12">
         <div className="max-w-[38rem]">
           <h1 className="text-[2.1rem] font-semibold leading-[1.12] tracking-[-0.03em] text-slate-950 sm:text-[2.6rem]">
-            Reframing Genetic Medicine in Terms of Impact
+            Reframing Genetic Editing in Terms of Medical Impact
           </h1>
           <p className="mt-4 max-w-[34rem] text-[1.0625rem] leading-[1.6] text-slate-600">
             Most debate about genetic medicine is about editing embryos. This asks a plainer
@@ -445,7 +445,7 @@ function StepRail({
       <aside className="no-print hidden lg:sticky lg:top-0 lg:block lg:h-screen lg:w-[15.5rem] lg:shrink-0 lg:overflow-y-auto lg:border-r lg:border-slate-200 lg:bg-slate-50/60">
         <div className="flex h-full flex-col px-5 py-6">
           <a href="#top" className="text-[13px] font-semibold leading-snug text-slate-900 hover:text-blue-700">
-            Reframing Genetic Medicine in Terms of Impact
+            Reframing Genetic Editing in Terms of Medical Impact
           </a>
           <nav className="mt-6 space-y-0.5" aria-label="Sections">
             {STEPS.map((step, i) => {

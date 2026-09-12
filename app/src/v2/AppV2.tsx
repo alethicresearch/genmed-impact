@@ -40,7 +40,7 @@ export default function AppV2() {
   const [curveIndex, setCurveIndex] = useState(2);
 
   useEffect(() => {
-    document.title = 'Reframing Genetic Medicine in Terms of Impact — v2';
+    document.title = 'Reframing Genetic Editing in Terms of Medical Impact — v2';
     loadAll()
       .then(setData)
       .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)));
@@ -216,7 +216,7 @@ function Hero({
 
         <div className="mt-12 max-w-4xl">
           <h1 className="text-4xl font-semibold tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-[3.55rem] lg:leading-[1.03]">
-            Reframing Genetic Medicine in Terms of Impact
+            Reframing Genetic Editing in Terms of Medical Impact
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl sm:leading-9">
             What can genetic medicine achieve now? Where does germline editing add something distinct?

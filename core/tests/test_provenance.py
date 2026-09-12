@@ -143,7 +143,7 @@ def test_explainer_component_not_used():
 # Impact-framing synchronization (2026-08 paper retitle).
 # ---------------------------------------------------------------------------
 
-TITLE = "Reframing Genetic Medicine in Terms of Impact"
+TITLE = "Reframing Genetic Editing in Terms of Medical Impact"
 OLD_TITLE = "Genetic Disease and What Medicine Can Do"
 
 
