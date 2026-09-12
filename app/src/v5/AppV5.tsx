@@ -12,6 +12,7 @@ import {
 } from '../data';
 import { useUrlState, UrlState } from '../urlState';
 import { UncertaintyProvider } from '../uncertaintyMode';
+import { ViewNavProvider } from '../viewNav';
 import Overview from '../views/Overview';
 import Library from '../views/Library';
 import Denominator from '../views/Denominator';
@@ -149,9 +150,11 @@ export default function AppV4() {
     Number(includeContested);
 
   const openInline = (id: string) => update({ open: id });
+  const goToView = (id: string, extra?: UrlState) => update({ open: id, ...(extra ?? {}) });
 
   return (
     <UncertaintyProvider on={state.unc === '1'}>
+      <ViewNavProvider go={goToView}>
       <div className="min-h-screen bg-white text-slate-950">
         <Hero
           burden={burden.total_serious}
@@ -249,6 +252,7 @@ export default function AppV4() {
         />
 
       </div>
+      </ViewNavProvider>
     </UncertaintyProvider>
   );
 }
@@ -893,7 +897,9 @@ function AnalysisView({ id, data, state, update }: { id: string; data: AllData; 
   if (id === 'allocation') return <Allocation data={data} />;
   if (id === 'funding') return <ImpactFunding data={data} state={state} update={update} />;
   if (id === 'perspectives') return <Perspectives data={data} state={state} update={update} />;
-  return <Methods data={data} state={state} update={update} />;
+  if (id === 'methods') return <Methods data={data} state={state} update={update} />;
+  // Unknown ids are a bug, not a view: rendering a fallback would hide a broken link.
+  return null;
 }
 
 function AssumptionsDrawer({

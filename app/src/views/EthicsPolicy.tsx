@@ -1,5 +1,6 @@
 import { AllData, fmtCompact, fmtPct } from '../data';
 import { UrlState } from '../urlState';
+import { useViewNav } from '../viewNav';
 import { SectionHeading } from '../components/ui';
 import { Reading, PH, Lead, Claim, ClaimChain, InlineLink } from '../components/prose';
 
@@ -13,6 +14,7 @@ interface Props {
 // and the proposed sequencing for research and regulation. Everything on this page is labeled
 // as interpretation or policy — the numbers it rests on are established in earlier sections.
 export default function EthicsPolicy({ data, update }: Props) {
+  const go = useViewNav(update);
   const editableShare = data.summary.uniquely_editable_share_of_serious;
   const editableTotal = data.summary.uniquely_editable_total;
   const s1 = data.summary.s1_total;
@@ -58,7 +60,7 @@ export default function EthicsPolicy({ data, update }: Props) {
             <p className="mt-1 text-sm leading-6 text-slate-600">
               When embryo selection can achieve the same medically important reproductive
               outcome with substantially lower risk and acceptable{' '}
-              <InlineLink onClick={() => update({ tab: 'embryos' })}>
+              <InlineLink onClick={() => go('embryos')}>
                 reproductive burden
               </InlineLink>
               , editing should have to demonstrate why it is preferable.
@@ -103,7 +105,7 @@ export default function EthicsPolicy({ data, update }: Props) {
             <>
               {' '}
               The coverage scenarios reported in this project —{' '}
-              <InlineLink onClick={() => update({ tab: 'prevention' })}>
+              <InlineLink onClick={() => go('prevention')}>
                 roughly {fmtPct(cur.total_averted_birth_fraction.median, 0)} of monogenic
                 affected births avoided at current coverage,{' '}
                 {fmtPct(ach.total_averted_birth_fraction.median, 0)} under expanded access,
@@ -124,7 +126,7 @@ export default function EthicsPolicy({ data, update }: Props) {
           <Claim kind="model">
             Under current-evidence assumptions, the combined editing-relevant scenario
             represents approximately{' '}
-            <InlineLink onClick={() => update({ tab: 'residual' })}>
+            <InlineLink onClick={() => go('residual')}>
               {fmtPct(editableShare.strict.median, 2)} of the broad default modeled
               serious-disease burden
             </InlineLink>
@@ -148,7 +150,7 @@ export default function EthicsPolicy({ data, update }: Props) {
             reproductive, diagnostic, and therapeutic pathways.{' '}
             <strong>2. Develop the justified frontier:</strong> create a transparent, tightly
             governed research pathway for{' '}
-            <InlineLink onClick={() => update({ tab: 'residual' })}>
+            <InlineLink onClick={() => go('residual')}>
               severe germline-editing indications with strong incremental medical value
             </InlineLink>
             , subject to independent safety and evidence requirements.{' '}
@@ -177,31 +179,31 @@ export default function EthicsPolicy({ data, update }: Props) {
             {
               title: 'Severe monogenic disease with no unaffected embryo available',
               body: 'The strongest medical case. The condition is serious and embryo selection cannot achieve the desired preventive outcome. Consideration still depends on independent evidence of technical safety and clinical readiness.',
-              go: () => update({ tab: 'residual' }),
+              go: () => go('residual'),
               goLabel: 'When embryo selection is not enough',
             },
             {
               title: 'Severe monogenic disease with poor embryo-selection prospects',
               body: 'An unaffected embryo may be possible but difficult to obtain. Editing would need to demonstrate meaningful advantage over additional IVF/PGT cycles and other reproductive options.',
-              go: () => update({ tab: 'embryos' }),
+              go: () => go('embryos'),
               goLabel: 'Selection vs correction',
             },
             {
               title: 'Complex and polygenic disease',
               body: 'A potentially important future domain rather than a current clinical indication. Its justification strengthens as causal confidence, multiplex-editing capacity, effect predictability, and safety improve, and where editing can demonstrate substantial benefit beyond embryo selection, prevention, treatment, and somatic approaches. Research into this frontier is justified before clinical readiness; clinical use is not.',
-              go: () => update({ tab: 'multifactorial' }),
+              go: () => go('multifactorial'),
               goLabel: 'Polygenic frontier',
             },
             {
               title: 'Resistance to common risks',
               body: 'Editing an otherwise healthy embryo to reduce future infection or disease risk requires its own comparison with existing preventive and therapeutic options.',
-              go: () => update({ tab: 'beyond' }),
+              go: () => go('beyond'),
               goLabel: 'Resistance & enhancement',
             },
             {
               title: 'Enhancement',
               body: 'Altering traits beyond the disease-prevention framework raises a different set of questions about benefit, autonomy, fairness, distribution, and social effects.',
-              go: () => update({ tab: 'beyond' }),
+              go: () => go('beyond'),
               goLabel: 'Resistance & enhancement',
             },
           ]}
@@ -240,7 +242,7 @@ export default function EthicsPolicy({ data, update }: Props) {
               The moral urgency of a strongly justified use can be borrowed to support another
               application with a weaker benefit-to-risk case. A compelling argument for
               correcting a lethal monogenic disorder does not automatically justify{' '}
-              <InlineLink onClick={() => update({ tab: 'beyond' })}>
+              <InlineLink onClick={() => go('beyond')}>
                 CCR5 resistance editing
               </InlineLink>
               , modest polygenic risk reduction, or enhancement.

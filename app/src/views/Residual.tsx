@@ -1,5 +1,6 @@
 import { AllData, ContestedKey, Stat, fmtInt } from '../data';
 import { UrlState } from '../urlState';
+import { useViewNav } from '../viewNav';
 import StatValue from '../components/StatValue';
 import Term from '../components/Term';
 import { InlineLink } from '../components/prose';
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export default function Residual({ data, state, update }: Props) {
+  const go = useViewNav(update);
   const r = data.residual;
 
   // Contested toggle (URL param `deaf`). Congenital deafness is the single largest S1
@@ -67,7 +69,7 @@ export default function Residual({ data, state, update }: Props) {
           Choosing gets costly before it gets impossible. When no unaffected embryo exists it is simply out — that is the population counted below. When unaffected embryos are merely rare, testing still works, but a couple may need many embryos or several IVF rounds to find one. That is a real burden, and it shifts the comparison without on its own justifying an edit.</p>
         <button
           type="button"
-          onClick={() => update({ tab: 'embryos' })}
+          onClick={() => go('embryos')}
           className="mt-1.5 text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         >
           See the full choosing-versus-editing comparison →
@@ -82,7 +84,7 @@ export default function Residual({ data, state, update }: Props) {
           Having no embryo to choose does not mean editing would work. It is the first of four conditions that all have to hold, and the next one is molecular: some method has to exist that can make the specific change this fault requires. For roughly a quarter of these couples, none does.</p>
         <button
           type="button"
-          onClick={() => update({ tab: 'editing-tech' })}
+          onClick={() => go('editing-tech')}
           className="mt-1.5 text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         >
           See which technology each variant would need →
@@ -150,7 +152,7 @@ export default function Residual({ data, state, update }: Props) {
                   <td className="px-3 py-1.5">
                     {libName ? (
                       <InlineLink
-                        onClick={() => update({ tab: 'library', tier: 'all', libq: libName })}
+                        onClick={() => go('library', { tier: 'all', libq: libName })}
                       >
                         {name}
                       </InlineLink>
@@ -273,7 +275,7 @@ export default function Residual({ data, state, update }: Props) {
         </Card>
       </div>
       <p className="text-sm">
-        <InlineLink onClick={() => update({ tab: 'multifactorial' })}>
+        <InlineLink onClick={() => go('multifactorial')}>
           Explore the full polygenic analysis →
         </InlineLink>
       </p>
@@ -289,7 +291,7 @@ export default function Residual({ data, state, update }: Props) {
         <p className="mb-3 text-sm text-slate-600">
           To compare the scale of germline editing&apos;s modeled role with the wider
           genetic-disease burden, we combine the no-selectable-embryo population with the{' '}
-          <InlineLink onClick={() => update({ tab: 'multifactorial' })}>
+          <InlineLink onClick={() => go('multifactorial')}>
             exploratory complex-disease advantage
           </InlineLink>{' '}
           into an <strong>editing-relevant residual</strong>. The components describe different

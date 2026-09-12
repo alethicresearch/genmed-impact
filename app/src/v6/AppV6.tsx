@@ -12,6 +12,7 @@ import {
 } from '../data';
 import { useUrlState, UrlState } from '../urlState';
 import { UncertaintyProvider } from '../uncertaintyMode';
+import { ViewNavProvider } from '../viewNav';
 import Overview from '../views/Overview';
 import Library from '../views/Library';
 import Denominator from '../views/Denominator';
@@ -149,9 +150,20 @@ export default function AppV4() {
     Number(includeContested);
 
   const openInline = (id: string) => update({ open: id });
+  // Cross-links from inside an analysis view: open it inline, then bring the section into view.
+  const goToView = (id: string, extra?: UrlState) => {
+    update({ open: id, ...(extra ?? {}) });
+    const section = VIEW_SECTION[id];
+    if (section) {
+      window.requestAnimationFrame(() => {
+        document.getElementById(section)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  };
 
   return (
     <UncertaintyProvider on={state.unc === '1'}>
+      <ViewNavProvider go={goToView}>
       <div className="min-h-screen bg-white text-slate-950 lg:flex" id="top">
         <StepRail
           onAssumptions={() => setAssumptionsOpen(true)}
@@ -249,6 +261,7 @@ export default function AppV4() {
         />
 
       </div>
+      </ViewNavProvider>
     </UncertaintyProvider>
   );
 }
@@ -369,6 +382,28 @@ function useActiveStep(): string {
  * Story-level wording for the four conditions. Keyed to the pipeline's gate keys so it cannot
  * drift silently: if a gate is added or renamed upstream, the fallback shows the analysis text.
  */
+/**
+ * Which story section owns each analysis view, so a cross-link from inside one view scrolls to
+ * the right part of the argument instead of opening a panel somewhere off-screen.
+ */
+const VIEW_SECTION: Record<string, string> = {
+  overview: 'burden',
+  denominator: 'burden',
+  library: 'burden',
+  prevention: 'impact-now',
+  realized: 'impact-now',
+  residual: 'editing-frontier',
+  'editing-tech': 'editing-frontier',
+  embryos: 'selection-correction',
+  multifactorial: 'future-impact',
+  ethics: 'policy',
+  beyond: 'policy',
+  allocation: 'policy',
+  funding: 'methods',
+  perspectives: 'methods',
+  methods: 'methods',
+};
+
 const GATE_PLAIN: Record<string, { label: string; detail: string; badge: string }> = {
   selection_fails: {
     label: 'There is no healthy embryo to choose',
@@ -955,7 +990,9 @@ function AnalysisView({ id, data, state, update }: { id: string; data: AllData; 
   if (id === 'allocation') return <Allocation data={data} />;
   if (id === 'funding') return <ImpactFunding data={data} state={state} update={update} />;
   if (id === 'perspectives') return <Perspectives data={data} state={state} update={update} />;
-  return <Methods data={data} state={state} update={update} />;
+  if (id === 'methods') return <Methods data={data} state={state} update={update} />;
+  // Unknown ids are a bug, not a view: rendering a fallback would hide a broken link.
+  return null;
 }
 
 function AssumptionsDrawer({

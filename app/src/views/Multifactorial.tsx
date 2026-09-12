@@ -1,5 +1,6 @@
 import { AllData, MfDisease, MfScenario, MfScenarioKey, Verdict, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
+import { useViewNav } from '../viewNav';
 import { Card, SectionHeading, Segmented } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 import Term from '../components/Term';
@@ -53,6 +54,7 @@ const SCEN_OPTS = [
 ];
 
 export default function Multifactorial({ data, state, update }: Props) {
+  const go = useViewNav(update);
   const mf = data.multifactorial;
   const rawScen = state.scen || 'present';
   const scen = ['present', 'near_future', 'both'].includes(rawScen) ? rawScen : 'present';
@@ -146,7 +148,7 @@ export default function Multifactorial({ data, state, update }: Props) {
             reassessed as both technologies advance — which is why the analysis below models
             them side by side. Larger embryo sets may also increase embryo creation, testing,
             and non-selection, so greater selection power carries its own{' '}
-            <InlineLink onClick={() => update({ tab: 'embryos' })}>
+            <InlineLink onClick={() => go('embryos')}>
               reproductive burden
             </InlineLink>
             .

@@ -1,5 +1,6 @@
 import { AllData, fmtCompact, fmtInt } from '../data';
 import { UrlState } from '../urlState';
+import { useViewNav } from '../viewNav';
 import { Card, SectionHeading } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
 import Term from '../components/Term';
@@ -22,6 +23,7 @@ const INHERITANCE_NOTE: Record<string, string> = {
 };
 
 export default function Embryos({ data, update }: Props) {
+  const go = useViewNav(update);
   const e = data.embryos;
   const agg = e.aggregate;
   const bl = e.params.blastocysts_per_ivf_cycle;
@@ -117,12 +119,12 @@ export default function Embryos({ data, update }: Props) {
         <p className="mt-2 text-xs leading-relaxed text-slate-600">
           At the limit u = 0, selection is impossible — those configurations are quantified in
           the{' '}
-          <InlineLink onClick={() => update({ tab: 'residual' })}>
+          <InlineLink onClick={() => go('residual')}>
             no-selectable-embryo analysis
           </InlineLink>
           . For multifactorial disease there is no single-locus target to select against; see
           the{' '}
-          <InlineLink onClick={() => update({ tab: 'multifactorial' })}>
+          <InlineLink onClick={() => go('multifactorial')}>
             complex-disease analysis
           </InlineLink>
           .
@@ -176,7 +178,7 @@ export default function Embryos({ data, update }: Props) {
           </p>
           <p className="text-xs text-slate-500">
             summed over the{' '}
-            <InlineLink onClick={() => update({ tab: 'library', tier: 'core', tool: 'PGT' })}>
+            <InlineLink onClick={() => go('library', { tier: 'core', tool: 'PGT' })}>
               monogenic core-catalogue diseases where PGT applies
             </InlineLink>{' '}
             — the population represented in this comparison

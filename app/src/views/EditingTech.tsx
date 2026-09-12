@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AllData, EditingCondition, Tractability, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
+import { useViewNav } from '../viewNav';
 import { Card, SectionHeading } from '../components/ui';
 import { InlineLink } from '../components/prose';
 
@@ -23,6 +24,7 @@ const GATE_STATUS_STYLE: Record<string, { cls: string; label: string }> = {
 };
 
 export default function EditingTech({ data, update }: Props) {
+  const go = useViewNav(update);
   const e = data.editingTech;
   const [openMatrix, setOpenMatrix] = useState(false);
   const [openCond, setOpenCond] = useState<string | null>(null);
@@ -104,7 +106,7 @@ export default function EditingTech({ data, update }: Props) {
                 <p className="mt-1.5 text-xs leading-5 text-slate-500">{g.detail}</p>
                 {quantified && g.key === 'selection_fails' && (
                   <p className="mt-1 text-xs">
-                    <InlineLink onClick={() => update({ tab: 'residual' })}>
+                    <InlineLink onClick={() => go('residual')}>
                       How this population is calculated
                     </InlineLink>
                   </p>
@@ -366,11 +368,11 @@ export default function EditingTech({ data, update }: Props) {
           ))}
         </ul>
         <p className="mt-3 text-[13px] leading-6 text-slate-600">
-          <InlineLink onClick={() => update({ tab: 'residual' })}>
+          <InlineLink onClick={() => go('residual')}>
             Where the underlying population comes from
           </InlineLink>
           {' · '}
-          <InlineLink onClick={() => update({ tab: 'methods' })}>
+          <InlineLink onClick={() => go('methods')}>
             Sources and assumptions
           </InlineLink>
         </p>

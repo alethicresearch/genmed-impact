@@ -9,6 +9,7 @@ import {
   fmtPct,
 } from '../data';
 import { UrlState } from '../urlState';
+import { useViewNav } from '../viewNav';
 import { Card, SectionHeading } from '../components/ui';
 import { InlineLink } from '../components/prose';
 import { useElicitation } from '../elicitation';
@@ -35,6 +36,7 @@ function usd(n: number): string {
 }
 
 export default function ImpactFunding({ data, update }: Props) {
+  const go = useViewNav(update);
   const { markets, opportunities, meta } = data.opportunities;
   const pool = meta.default_pool_usd;
 
@@ -257,7 +259,7 @@ export default function ImpactFunding({ data, update }: Props) {
           allocation objects for studying how people value different kinds of genetic-medicine
           impact — not solicitations, and not endorsements of any named programme. Impact in the
           two research markets is probability-weighted using explicit modelling assumptions.{' '}
-          <InlineLink onClick={() => update({ tab: 'methods' })}>
+          <InlineLink onClick={() => go('methods')}>
             See the sources and assumptions behind every parameter
           </InlineLink>
           .
@@ -280,6 +282,7 @@ function OpportunityCard({
   remaining: number;
   update: (patch: UrlState) => void;
 }) {
+  const go = useViewNav(update);
   const [open, setOpen] = useState(false);
   const share = amount > 0 ? Math.min(1, amount / o.funding_requested) : 0;
   const impactAtAmount = o.expected_impact_per_year * share;
@@ -429,7 +432,7 @@ function OpportunityCard({
               {usd(o.unit_cost)} each.
             </p>
           )}
-          <InlineLink onClick={() => update({ tab: 'methods' })}>
+          <InlineLink onClick={() => go('methods')}>
             Open methods &amp; sources
           </InlineLink>
         </div>

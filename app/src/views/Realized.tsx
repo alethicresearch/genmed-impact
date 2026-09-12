@@ -1,5 +1,6 @@
 import { AllData, fmtPct } from '../data';
 import { UrlState } from '../urlState';
+import { useViewNav } from '../viewNav';
 import { Card, SectionHeading } from '../components/ui';
 import { InlineLink } from '../components/prose';
 
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function Realized({ data, update }: Props) {
+  const go = useViewNav(update);
   const r = data.retroactive;
 
   return (
@@ -167,11 +169,11 @@ export default function Realized({ data, update }: Props) {
           ))}
         </ul>
         <p className="mt-3 text-[13px] leading-6 text-slate-600">
-          <InlineLink onClick={() => update({ tab: 'funding' })}>
+          <InlineLink onClick={() => go('funding')}>
             Back to the opportunities
           </InlineLink>
           {' · '}
-          <InlineLink onClick={() => update({ tab: 'methods' })}>
+          <InlineLink onClick={() => go('methods')}>
             See every parameter and its source
           </InlineLink>
           .

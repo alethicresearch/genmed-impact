@@ -1,6 +1,7 @@
 import { useMemo, useRef } from 'react';
 import { AllData, ProvenanceLeaf, TornadoRow, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
+import { useViewNav } from '../viewNav';
 import { Card, SectionHeading, ExportSvgButton } from '../components/ui';
 import { exportContainerSvg } from '../svgExport';
 import { GLOSSARY } from '../glossary';
@@ -134,6 +135,7 @@ export const WORKFLOW_STEPS = [
 ];
 
 export default function Methods({ data, state, update }: Props) {
+  const go = useViewNav(update);
   const m = data.meta;
   const query = (state.q || '').toLowerCase();
   const kindFilter = (state.kind || '') as Badge | '';
@@ -222,7 +224,7 @@ export default function Methods({ data, state, update }: Props) {
               <span className="mt-1 text-xs leading-5 text-slate-600">{s.desc}</span>
               <button
                 type="button"
-                onClick={() => update({ tab: s.tab })}
+                onClick={() => go(s.tab)}
                 className="mt-auto pt-1.5 text-left text-xs font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 {s.tabLabel} →

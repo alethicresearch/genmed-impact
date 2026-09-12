@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { AllData, DiseaseClass, fmtCompact, fmtInt, fmtPct } from '../data';
 import { UrlState } from '../urlState';
+import { useViewNav } from '../viewNav';
 import { SourcesProvider, SourcesList } from '../components/SourceNote';
 import { Figure, EpistemicTag, EpistemicKind, InlineLink, PH, Lead } from '../components/prose';
 
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export default function Overview({ data, update }: Props) {
+  const go = useViewNav(update);
   const rollup = data.library.rollup;
   const burden = data.summary.burden_default;
   const editableTotal = data.summary.uniquely_editable_total;
@@ -85,7 +87,7 @@ export default function Overview({ data, update }: Props) {
             {fmtCompact(burden.multifactorial.median)} multifactorial/partly genetic cases per
             annual birth cohort. The multifactorial component is strongly sensitive to the
             attribution definition.{' '}
-            <InlineLink onClick={() => update({ tab: 'denominator' })}>
+            <InlineLink onClick={() => go('denominator')}>
               See the burden model →
             </InlineLink>
           </Lead>
@@ -125,7 +127,7 @@ export default function Overview({ data, update }: Props) {
               particular modeled scenarios. They do not mean that the same percentage of
               disease is preventable by present medicine, nor that germline editing will remain
               confined to the same share as technology develops.{' '}
-              <InlineLink onClick={() => update({ tab: 'residual' })}>
+              <InlineLink onClick={() => go('residual')}>
                 See the residual analysis →
               </InlineLink>
             </p>
@@ -147,7 +149,7 @@ export default function Overview({ data, update }: Props) {
           <div className="mt-2 max-w-3xl space-y-2 text-[13px] leading-6 text-slate-600">
             <p>
               Two estimates run in parallel. A growing curated catalogue of{' '}
-              <InlineLink onClick={() => update({ tab: 'library', tier: 'all' })}>
+              <InlineLink onClick={() => go('library', { tier: 'all' })}>
                 {fmtInt(rollup.n_diseases_all)} diseases
               </InlineLink>{' '}
               ({fmtInt(rollup.n_diseases)} high-burden core +{' '}
@@ -167,7 +169,7 @@ export default function Overview({ data, update }: Props) {
             </div>
             <button
               type="button"
-              onClick={() => update({ tab: 'methods' })}
+              onClick={() => go('methods')}
               className="font-medium text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               Full methods &amp; sources →
@@ -191,6 +193,7 @@ function Findings({
   data: AllData;
   update: (patch: UrlState) => void;
 }) {
+  const go = useViewNav(update);
   const s1Total = data.summary.s1_total;
   const cur = data.prevention['Global']?.['current']?.['monogenic']?.['pnd_on'];
   const ideal = data.prevention['Global']?.['ideal']?.['monogenic']?.['pnd_on'];
@@ -224,7 +227,7 @@ function Findings({
         </>
       ),
       goLabel: 'See the present impact of existing medicine',
-      go: () => update({ tab: 'prevention' }),
+      go: () => go('prevention'),
     },
     {
       title:
@@ -240,7 +243,7 @@ function Findings({
         </>
       ),
       goLabel: 'See the translational frontier',
-      go: () => update({ tab: 'residual' }),
+      go: () => go('residual'),
     },
     {
       title: 'Polygenic editing could substantially expand the future role of germline editing',
@@ -250,7 +253,7 @@ function Findings({
           Editing is rarely the only option for common disease, but it could eventually shift risk substantially — if we get much better at telling which variants actually cause disease, and at changing many of them at once.</>
       ),
       goLabel: 'Explore the polygenic frontier',
-      go: () => update({ tab: 'multifactorial' }),
+      go: () => go('multifactorial'),
     },
     {
       title: 'Different applications require different standards of justification',
@@ -260,7 +263,7 @@ function Findings({
           Preventing disease, building resistance to it, and enhancing a healthy trait can use the same laboratory technique while aiming at completely different things. An argument that justifies one does not carry over to the others.</>
       ),
       goLabel: 'See the ethical framework',
-      go: () => update({ tab: 'ethics' }),
+      go: () => go('ethics'),
     },
   ];
 
@@ -356,6 +359,7 @@ function AccessGap({
   data: AllData;
   update: (patch: UrlState) => void;
 }) {
+  const go = useViewNav(update);
   const cls: DiseaseClass = 'monogenic';
   const cur = data.prevention['Global']?.['current']?.[cls]?.['pnd_on'];
   const ideal = data.prevention['Global']?.['ideal']?.[cls]?.['pnd_on'];
@@ -368,7 +372,7 @@ function AccessGap({
       label="How much more could existing medicine achieve with broader access?"
       caption="Single-gene disease, global. At full modeled coverage the existing pathways could avoid the upper share of affected births; today's coverage achieves the lower share. The difference is cases missed because access is incomplete, not because the biology is out of reach."
       moreLabel="See what existing medicine can do"
-      onMore={() => update({ tab: 'prevention' })}
+      onMore={() => go('prevention')}
     >
       <div className="space-y-2">
         <GapBar

@@ -1,5 +1,6 @@
 import { AllData } from '../data';
 import { UrlState } from '../urlState';
+import { useViewNav } from '../viewNav';
 import StatValue from '../components/StatValue';
 import { Card, SectionHeading } from '../components/ui';
 import { SourceNote, SourcesProvider, SourcesList } from '../components/SourceNote';
@@ -16,6 +17,7 @@ interface Props {
 // serious inherited disease. They are examined here to show why the paper keeps the three
 // domains apart, not because they form a natural progression.
 export default function Beyond({ data, update }: Props) {
+  const go = useViewNav(update);
   const r = data.resistance;
   return (
     <SourcesProvider>
@@ -31,7 +33,7 @@ export default function Beyond({ data, update }: Props) {
           enhancement — altering traits beyond the prevention of disease — more technically
           plausible. But technical continuity is not ethical continuity: in both cases the
           relevant alternatives, expected benefits, and ethical questions differ from the{' '}
-          <InlineLink onClick={() => update({ tab: 'residual' })}>
+          <InlineLink onClick={() => go('residual')}>
             no-alternative monogenic cases identified in the main analysis
           </InlineLink>
           , so neither inherits the medical argument for correcting a severe inherited
@@ -164,7 +166,7 @@ export default function Beyond({ data, update }: Props) {
           <div className="flex flex-wrap gap-2 text-xs">
             <button
               type="button"
-              onClick={() => update({ tab: 'multifactorial' })}
+              onClick={() => go('multifactorial')}
               className="rounded border border-slate-300 bg-white px-2.5 py-1 font-medium text-slate-700 hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               Explore the polygenic frontier →

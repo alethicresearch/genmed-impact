@@ -12,6 +12,7 @@ import {
 } from '../data';
 import { useUrlState } from '../urlState';
 import { UncertaintyProvider } from '../uncertaintyMode';
+import { ViewNavProvider } from '../viewNav';
 import Overview from '../views/Overview';
 import Library from '../views/Library';
 import Denominator from '../views/Denominator';
@@ -154,6 +155,7 @@ export default function AppV3() {
 
   return (
     <UncertaintyProvider on={uncertaintyOn}>
+      <ViewNavProvider go={(id, extra) => update({ deep: id, ...(extra ?? {}) })}>
       <div className="min-h-screen bg-white text-slate-950">
         <Hero
           data={data}
@@ -240,6 +242,7 @@ export default function AppV3() {
           </div>
         </footer>
       </div>
+      </ViewNavProvider>
     </UncertaintyProvider>
   );
 }

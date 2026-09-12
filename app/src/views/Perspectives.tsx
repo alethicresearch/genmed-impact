@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { AllData, fmtPct } from '../data';
 import { UrlState } from '../urlState';
+import { useViewNav } from '../viewNav';
 import { Card, SectionHeading } from '../components/ui';
 import { InlineLink } from '../components/prose';
 import {
@@ -33,6 +34,7 @@ const PERSPECTIVE_COLORS: Record<string, string> = {
 };
 
 export default function Perspectives({ data, update }: Props) {
+  const go = useViewNav(update);
   const p = data.perspectives;
   const keys = Object.keys(p.perspectives);
   const [focus, setFocus] = useState<string>(keys[0]);
@@ -393,7 +395,7 @@ export default function Perspectives({ data, update }: Props) {
           ))}
         </ul>
         <p className="mt-3 text-[13px] leading-6 text-slate-600">
-          <InlineLink onClick={() => update({ tab: 'funding' })}>
+          <InlineLink onClick={() => go('funding')}>
             Back to the opportunities and their underlying quantities
           </InlineLink>
           .

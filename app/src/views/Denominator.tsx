@@ -8,6 +8,7 @@ import {
   fmtPct,
 } from '../data';
 import { UrlState } from '../urlState';
+import { useViewNav } from '../viewNav';
 import StatValue from '../components/StatValue';
 import { Card, SectionHeading, Segmented, ExportSvgButton } from '../components/ui';
 import { ShowDataToggle } from '../components/DataTable';
@@ -63,6 +64,7 @@ const ATTR_HELP: Record<string, string> = {
 };
 
 export default function Denominator({ data, state, update }: Props) {
+  const go = useViewNav(update);
   const severity = (state.severity as SeverityDef) || (data.meta.default_assumptions.severity as SeverityDef);
   const attribution =
     (state.attribution as Attribution) ||
@@ -127,7 +129,7 @@ export default function Denominator({ data, state, update }: Props) {
       <p className="max-w-3xl text-xs text-slate-500">
         There is no uniquely correct way to attribute multifactorial disease to genetics; this
         choice is deliberately exposed because it strongly affects the denominator.{' '}
-        <InlineLink onClick={() => update({ tab: 'methods', kind: 'normative' })}>
+        <InlineLink onClick={() => go('methods', { kind: 'normative' })}>
           See all normative choices in the sources table
         </InlineLink>
         .
