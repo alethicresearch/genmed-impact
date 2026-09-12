@@ -289,28 +289,28 @@ function Hero({
             Reframing Genetic Medicine in Terms of Impact
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl sm:leading-9">
-            What can genetic medicine achieve now? Where does germline editing add something distinct?
-            And how could that change as the technological frontier moves?
+            Most debate about genetic medicine is about editing embryos. This asks a plainer
+            question: where would it actually help, and what already works without it?
           </p>
         </div>
 
         <div className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 sm:grid-cols-3">
           <Horizon
             kicker="Impact now"
-            title="Scale what already works"
-            body="Established screening, reproductive, diagnostic and therapeutic tools already have large potential impact, but access remains incomplete."
+            title="Most of what works is unused"
+            body="Screening, embryo selection, prenatal diagnosis and newborn treatment already exist. The limit on them is access, not technology."
             anchor="impact-now"
           />
           <Horizon
             kicker="Translational frontier"
-            title="Find where editing is distinct"
-            body="The strongest present case arises when no unaffected embryo can be selected; the comparison becomes more conditional as selection becomes burdensome rather than impossible."
+            title="A narrow case editing could reach"
+            body="For a few thousand couples a year, every embryo would inherit the condition. Selection cannot help them. This is where editing has a claim."
             anchor="editing-frontier"
           />
           <Horizon
             kicker="Future impact"
-            title="Track a moving frontier"
-            body="Causal genomics, embryo technologies and multiplex editing can change both the reach of selection and the possible role of correction."
+            title="Common disease is a different problem"
+            body="Risk is spread across thousands of variants, so no single edit moves it much. Whether that changes depends on three technologies improving together."
             anchor="future-impact"
           />
         </div>
@@ -318,16 +318,16 @@ function Hero({
         <div className="mt-10 grid gap-6 border-y border-slate-200 py-7 sm:grid-cols-3">
           <HeroStat
             value={fmtCompact(burden.median)}
-            label="serious genetic-disease burden in the modeled annual birth cohort"
+            label="births a year with serious genetic disease"
             interval={formatInterval(burden, fmtCompact)}
           />
           <HeroStat
             value={current && ideal ? `${fmtPct(current.median, 1)} → ${fmtPct(ideal.median, 1)}` : '—'}
-            label="monogenic affected-birth avoidance: current modeled coverage → idealized full coverage"
+            label="of single-gene cases avoidable today, against what full access would reach"
           />
           <HeroStat
             value={fmtCompact(s1.median)}
-            label="births per year in configurations where no unaffected embryo can be selected"
+            label="births a year where no unaffected embryo could be selected"
             interval={formatInterval(s1, fmtCompact)}
           />
         </div>
@@ -342,6 +342,46 @@ function Hero({
   );
 }
 
+/** The seven steps of the argument, in order. Shared by the nav and the end-of-section links. */
+const STEPS: { id: string; label: string }[] = [
+  { id: 'burden', label: 'How much disease' },
+  { id: 'impact-now', label: 'What works now' },
+  { id: 'editing-frontier', label: 'Where editing helps' },
+  { id: 'selection-correction', label: "Selection's limits" },
+  { id: 'future-impact', label: 'If tech improves' },
+  { id: 'policy', label: 'What follows' },
+  { id: 'methods', label: 'Methods' },
+];
+
+/** Tracks which section is currently in view, so the reader can see where they are. */
+function useActiveStep(): string {
+  const [active, setActive] = useState(STEPS[0].id);
+  useEffect(() => {
+    const seen = new Map<string, number>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => seen.set(entry.target.id, entry.intersectionRatio));
+        let best = '';
+        let bestRatio = 0;
+        seen.forEach((ratio, id) => {
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            best = id;
+          }
+        });
+        if (best && bestRatio > 0) setActive(best);
+      },
+      { rootMargin: '-72px 0px -45% 0px', threshold: [0, 0.15, 0.4, 0.75, 1] },
+    );
+    STEPS.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+  return active;
+}
+
 function JourneyNav({
   onAssumptions,
   changed,
@@ -353,23 +393,27 @@ function JourneyNav({
   uncertainty: boolean;
   onUncertainty: (on: boolean) => void;
 }) {
-  const items = [
-    ['#burden', 'Burden'],
-    ['#impact-now', 'Impact now'],
-    ['#editing-frontier', 'Editing frontier'],
-    ['#selection-correction', 'Selection vs correction'],
-    ['#future-impact', 'Future impact'],
-    ['#policy', 'Policy'],
-  ];
+  const active = useActiveStep();
+  const activeIndex = Math.max(0, STEPS.findIndex((step) => step.id === active));
   return (
     <div className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur no-print">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 overflow-x-auto px-5 py-2.5">
-        <nav className="flex min-w-max items-center gap-5 text-xs font-medium text-slate-500" aria-label="Analysis journey">
-          {items.map(([href, label]) => (
-            <a key={href} href={href} className="py-1 hover:text-blue-700">
-              {label}
-            </a>
-          ))}
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-2.5">
+        <nav className="flex min-w-0 items-center gap-0.5 overflow-x-auto text-xs" aria-label="Sections">
+          {STEPS.map((step) => {
+            const isActive = step.id === active;
+            return (
+              <a
+                key={step.id}
+                href={`#${step.id}`}
+                aria-current={isActive ? 'true' : undefined}
+                className={`flex shrink-0 items-center gap-1.5 rounded-full px-2 py-1 font-medium transition-colors ${
+                  isActive ? 'bg-slate-950 text-white' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+                }`}
+              >
+                {step.label}
+              </a>
+            );
+          })}
         </nav>
         <div className="flex min-w-max items-center gap-3">
           <label className="flex cursor-pointer items-center gap-1.5 text-xs text-slate-600">
@@ -379,14 +423,36 @@ function JourneyNav({
               onChange={(e) => onUncertainty(e.target.checked)}
               className="h-3.5 w-3.5 rounded border-slate-300 text-blue-700 focus:ring-blue-700"
             />
-            Show uncertainty
+            Uncertainty
           </label>
           <button type="button" onClick={onAssumptions} className="rounded-full bg-slate-950 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700">
             Assumptions{changed ? ` (${changed})` : ''}
           </button>
         </div>
       </div>
+      <div className="h-0.5 bg-slate-100">
+        <div
+          className="h-full bg-blue-700 transition-all duration-300"
+          style={{ width: `${((activeIndex + 1) / STEPS.length) * 100}%` }}
+        />
+      </div>
     </div>
+  );
+}
+
+/** Points at the next step, so the argument has an obvious path through it. */
+function NextStep({ from }: { from: string }) {
+  const i = STEPS.findIndex((step) => step.id === from);
+  const next = i >= 0 ? STEPS[i + 1] : undefined;
+  if (!next) return null;
+  return (
+    <a
+      href={`#${next.id}`}
+      className="mt-10 flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm hover:border-blue-300 hover:bg-blue-50/40"
+    >
+      <span className="text-slate-500">Next</span>
+      <span className="font-semibold text-slate-900">{next.label} →</span>
+    </a>
   );
 }
 
@@ -416,11 +482,14 @@ function BurdenSection({
   const multiShare = burden.multifactorial.median / burden.total_serious.median;
 
   return (
-    <StorySection id="burden" number="01" eyebrow="Disease burden" title="How large is the modeled burden of serious genetic disease?">
+    <StorySection id="burden" number="01" eyebrow="Disease burden" title="How much serious genetic disease is there?">
       <p className="story-prose">
-        The analysis begins with the annual global birth cohort and separates serious genetic disease into
-        monogenic and multifactorial components. The total depends especially on what counts as serious disease
-        and how much multifactorial disease is attributed to genetics.
+        About 8 million of the world's 135 million annual births involve serious disease with a genetic
+        cause. Most of that is <strong>multifactorial</strong> — conditions like heart disease or diabetes,
+        where genes are one cause among several. Around 1.4 million are <strong>single-gene</strong>{' '}
+        disorders, where one faulty gene is the cause. Both numbers move depending on where you draw the
+        line for &ldquo;serious&rdquo; and how much multifactorial disease you count as genetic. You can
+        change either and watch the total move.
       </p>
 
       <div className="mt-9 space-y-5">
@@ -436,22 +505,22 @@ function BurdenSection({
 
       <div className="mt-8">
         <div className="mb-2 flex items-end justify-between gap-4">
-          <p className="text-sm font-semibold text-slate-900">Composition of serious genetic-disease burden</p>
+          <p className="text-sm font-semibold text-slate-900">What makes up that total</p>
           <button type="button" onClick={onAssumptions} className="text-xs font-medium text-blue-700 hover:text-blue-900">
             Change assumptions
           </button>
         </div>
         <div className="flex h-12 overflow-hidden rounded-lg border border-slate-200 bg-slate-100">
           <div className="flex items-center bg-blue-700 px-3 text-xs font-semibold text-white" style={{ width: `${monoShare * 100}%` }}>
-            {monoShare > 0.12 ? 'Monogenic' : ''}
+            {monoShare > 0.12 ? 'Single-gene' : ''}
           </div>
           <div className="flex items-center justify-end bg-blue-100 px-3 text-xs font-semibold text-blue-950" style={{ width: `${multiShare * 100}%` }}>
             Multifactorial
           </div>
         </div>
         <div className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
-          <MiniResult label="Serious monogenic" value={fmtCompact(burden.monogenic.median)} detail={formatInterval(burden.monogenic, fmtCompact)} />
-          <MiniResult label="Serious multifactorial / partly genetic" value={fmtCompact(burden.multifactorial.median)} detail={formatInterval(burden.multifactorial, fmtCompact)} />
+          <MiniResult label="Single-gene (monogenic)" value={fmtCompact(burden.monogenic.median)} detail={formatInterval(burden.monogenic, fmtCompact)} />
+          <MiniResult label="Multifactorial (partly genetic)" value={fmtCompact(burden.multifactorial.median)} detail={formatInterval(burden.multifactorial, fmtCompact)} />
         </div>
       </div>
 
@@ -467,6 +536,7 @@ function BurdenSection({
         state={state}
         update={update}
       />
+      <NextStep from="burden" />
     </StorySection>
   );
 }
@@ -495,14 +565,19 @@ function ImpactNowSection({
   update: (patch: UrlState) => void;
 }) {
   const rows = [
-    { label: 'Current modeled coverage', stat: current, note: 'what current access and uptake achieve in the model' },
-    { label: 'Expanded-access scenario', stat: expanded, note: 'a modeled 2035 expansion of coverage' },
-    { label: 'Idealized full coverage', stat: ideal, note: 'technical potential under full modeled coverage' },
+    { label: 'Access as it is today', stat: current, note: 'what screening, selection and diagnosis actually reach now' },
+    { label: 'If access expanded by 2035', stat: expanded, note: 'a plausible scale-up of existing programmes' },
+    { label: 'If everyone had access', stat: ideal, note: 'the ceiling for these tools, with no access barrier at all' },
   ];
   return (
-    <StorySection id="impact-now" number="02" eyebrow="Impact now" title="How much can established genetic medicine already achieve?" tint>
+    <StorySection id="impact-now" number="02" eyebrow="Impact now" title="What can medicine already do about it?" tint>
       <p className="story-prose">
-        Carrier screening, PGT-M and prenatal diagnosis can reduce affected births; newborn screening and treatment can reduce disease burden after birth. These outcomes are kept separate because they are clinically and ethically different.
+        Today&apos;s tools reach far further than they are actually used. On current access they avoid
+        about a third of single-gene affected births; if everyone who could benefit had access, the same
+        tools would reach almost all of them. The gap is delivery, not invention. Two different goods are
+        counted separately throughout, because conflating them flatters the numbers:{' '}
+        <strong>avoiding an affected birth</strong>, and <strong>reducing the burden</strong> of a disease
+        someone already has.
       </p>
       <div className="mt-9 space-y-5">
         {rows.map((row) => <CoverageBar key={row.label} label={row.label} stat={row.stat} note={row.note} />)}
@@ -526,6 +601,7 @@ function ImpactNowSection({
         state={state}
         update={update}
       />
+      <NextStep from="impact-now" />
     </StorySection>
   );
 }
@@ -550,9 +626,13 @@ function EditingFrontierSection({
   const strictShare = residual.uniquely_editable_share_of_serious.strict;
   const futureShare = residual.uniquely_editable_share_of_serious.permissive;
   return (
-    <StorySection id="editing-frontier" number="03" eyebrow="Translational frontier" title="Where does germline editing add something distinct?">
+    <StorySection id="editing-frontier" number="03" eyebrow="Translational frontier" title="Where could editing do something selection cannot?">
       <p className="story-prose">
-        The clearest present case occurs when embryo selection cannot achieve the desired outcome because no unaffected embryo exists. Complex disease adds a different question: whether editing could eventually provide meaningful incremental benefit beyond alternatives.
+        For most couples at risk, embryo selection can find an unaffected embryo to transfer. For a small
+        number it cannot — every embryo they could produce would inherit the condition. That is the one
+        situation where editing offers something selection does not, and it is the figure below. Even
+        there, three further things must be true before editing helps anyone, and only the first two can
+        currently be given a number.
       </p>
       <div className="mt-10 grid gap-8 lg:grid-cols-[1.05fr_.95fr]">
         <div>
@@ -594,6 +674,7 @@ function EditingFrontierSection({
         state={state}
         update={update}
       />
+      <NextStep from="editing-frontier" />
     </StorySection>
   );
 }
@@ -618,9 +699,13 @@ function SelectionSection({
   update: (patch: UrlState) => void;
 }) {
   return (
-    <StorySection id="selection-correction" number="04" eyebrow="Reproductive burden" title="Selection becomes more burdensome before it becomes impossible." tint>
+    <StorySection id="selection-correction" number="04" eyebrow="Reproductive burden" title="Selection gets hard before it gets impossible." tint>
       <p className="story-prose">
-        PGT-M selects among embryos; successful correction would alter an embryo that otherwise might not be selected. As unaffected embryos become rarer, the number of affected-genotype embryos not selected per unaffected embryo rises sharply.
+        Embryo selection picks from what a couple already has; it does not change anything. So when
+        unaffected embryos are rare, a couple may need many embryos, or repeated IVF cycles, to find one.
+        Move the slider below: as unaffected embryos get rarer, the number of affected embryos passed over
+        for each unaffected one climbs steeply — long before it becomes impossible. That is a real cost,
+        and a different argument from &ldquo;selection cannot work at all&rdquo;.
       </p>
       <div className="mt-9 rounded-2xl border border-slate-200 bg-white p-5 sm:p-7">
         <div className="flex flex-wrap items-end justify-between gap-4">
@@ -654,6 +739,7 @@ function SelectionSection({
         state={state}
         update={update}
       />
+      <NextStep from="selection-correction" />
     </StorySection>
   );
 }
@@ -663,9 +749,13 @@ function FutureSection({ data, active, onOpen, state, update }: { data: AllData;
   const future = data.multifactorial.frontier.near_future;
   const n = data.multifactorial.n_diseases;
   return (
-    <StorySection id="future-impact" number="05" eyebrow="Future impact" title="What happens if the technological frontier moves?">
+    <StorySection id="future-impact" number="05" eyebrow="Future impact" title="What if the technology gets much better?">
       <p className="story-prose">
-        Polygenic disease changes the problem. The relevant frontier depends on how well causal variants can be identified, how many embryo genomes are available for selection, and how many loci can be altered directly.
+        Common diseases are a different problem entirely. Their risk is spread across thousands of
+        variants, so changing any one of them barely moves anything. Whether editing ever becomes relevant
+        here depends on three things improving at once: knowing which variants actually cause disease,
+        having enough embryos to choose between, and being able to change many sites at a time. The
+        scenarios below are what-ifs, not forecasts.
       </p>
       <div className="mt-10 grid gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-200 sm:grid-cols-3">
         <FrontierAxis number="1" title="Causal knowledge" body="Which variants are causal, directionally beneficial and sufficiently free of adverse pleiotropic effects?" />
@@ -699,14 +789,21 @@ function FutureSection({ data, active, onOpen, state, update }: { data: AllData;
         state={state}
         update={update}
       />
+      <NextStep from="future-impact" />
     </StorySection>
   );
 }
 
 function PolicySection({ data, active, onOpen, state, update }: { data: AllData; active: string; onOpen: (id: string) => void; state: UrlState; update: (patch: UrlState) => void }) {
   return (
-    <StorySection id="policy" number="06" eyebrow="Ethics & policy" title="What follows from an impact-based framework?" tint>
-      <p className="story-prose">The empirical picture supports different priorities at different time horizons. Population priority and individual clinical justification are related, but they are not the same question.</p>
+    <StorySection id="policy" number="06" eyebrow="Ethics & policy" title="So what should follow?" tint>
+      <p className="story-prose">
+        The numbers settle nothing on their own, but they do sort the questions into different kinds.
+        Scaling what already works is a question about money and delivery. Editing for the couples
+        selection cannot help is a question about safety and evidence. Common-disease editing is a question
+        about a technology that does not yet exist. Treating all three as one debate is what makes the
+        argument go wrong.
+      </p>
       <div className="mt-10 grid gap-8 sm:grid-cols-3">
         <PolicyStep n="1" title="Scale present impact" body="Expand access to established screening, reproductive, diagnostic and therapeutic pathways that can improve outcomes now." />
         <PolicyStep n="2" title="Develop the justified frontier" body="Create a transparent, tightly governed research pathway for severe indications in which germline editing has strong incremental medical value." />
@@ -728,6 +825,7 @@ function PolicySection({ data, active, onOpen, state, update }: { data: AllData;
         state={state}
         update={update}
       />
+      <NextStep from="policy" />
     </StorySection>
   );
 }
@@ -749,11 +847,12 @@ function MethodsSection({
     (view) => [view.id, view.label] as [string, string],
   );
   return (
-    <StorySection id="methods" number="07" eyebrow="Methods & evidence" title="How the numbers were produced, and how far they reach.">
+    <StorySection id="methods" number="07" eyebrow="Methods & evidence" title="Where these numbers come from.">
       <p className="story-prose">
-        Every figure above is a median with a 95% uncertainty interval, drawn from one Monte-Carlo
-        sample so that shares carry the correlation between their parts. The browser reads committed,
-        versioned outputs; nothing is recomputed here.
+        Every figure above is a middle estimate with a range around it, because most of the inputs are
+        themselves uncertain. Tick <strong>Show uncertainty</strong> at the top of the page to see the
+        ranges everywhere. Nothing is calculated in your browser: the page reads fixed, versioned results
+        produced by a pipeline you can run yourself.
       </p>
       <div className="mt-9 grid gap-5 sm:grid-cols-3">
         <EvidenceStat label="Monte Carlo draws" value={fmtInt(data.meta.n_draws)} />
@@ -774,6 +873,7 @@ function MethodsSection({
         state={state}
         update={update}
       />
+      <NextStep from="methods" />
     </StorySection>
   );
 }
