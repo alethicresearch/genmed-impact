@@ -822,7 +822,7 @@ function MethodsSection({
 
       <div className="mt-10 border-t border-slate-200 pt-6 text-xs leading-5 text-slate-500">
         <p>
-          Uncertainty intervals are propagated model uncertainty, not automatically confidence or credible intervals in the statistical-estimation sense. The curated disease catalogue is a lower-bound validation set rather than the denominator itself. The current-evidence and future-capacity editing scenarios are separate scenarios, not endpoints of a single confidence interval.
+          Uncertainty intervals are propagated model uncertainty, not confidence intervals in the statistical-estimation sense. The curated disease catalogue is a lower-bound validation set rather than the denominator itself. The current-evidence and future-capacity editing scenarios are separate scenarios, not endpoints of a single confidence interval.
         </p>
       </div>
     </StorySection>

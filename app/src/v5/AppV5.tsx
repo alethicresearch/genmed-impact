@@ -32,7 +32,6 @@ const REPO_URL = 'https://github.com/alethicresearch/genmed-impact';
 const ALPHAGENOME_URL =
   'https://deepmind.google/blog/alphagenome-atlas-a-predictive-map-of-every-possible-dna-letter-change-in-the-human-genome/';
 
-type Mode = 'story' | 'explore';
 
 type DeepView = {
   id: string;
@@ -100,7 +99,6 @@ const VIEW_IDS = new Set(ALL_VIEWS.map((view) => view.id));
 export default function AppV4() {
   const [data, setData] = useState<AllData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [mode, setMode] = useState<Mode>('story');
   const [assumptionsOpen, setAssumptionsOpen] = useState(false);
   const [curveIndex, setCurveIndex] = useState(2);
   const [state, update] = useUrlState({});
@@ -112,16 +110,7 @@ export default function AppV4() {
       .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)));
   }, []);
 
-  const deepView = state.deep && VIEW_IDS.has(state.deep) ? state.deep : '';
-
-  useEffect(() => {
-    if (!deepView) return;
-    const old = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = old;
-    };
-  }, [deepView]);
+  const openView = state.open && VIEW_IDS.has(state.open) ? state.open : '';
 
   if (error) {
     return (
@@ -159,7 +148,7 @@ export default function AppV4() {
     Number(!pndOn) +
     Number(includeContested);
 
-  const openDeep = (id: string) => update({ deep: id });
+  const openInline = (id: string) => update({ open: id });
 
   return (
     <UncertaintyProvider on={state.unc === '1'}>
@@ -169,14 +158,16 @@ export default function AppV4() {
           current={current?.total_averted_birth_fraction ?? null}
           ideal={ideal?.total_averted_birth_fraction ?? null}
           s1={residual.s1_total}
-          mode={mode}
-          onMode={setMode}
           onAssumptions={() => setAssumptionsOpen(true)}
-          onExplore={() => openDeep('overview')}
           changed={changed}
         />
 
-        <JourneyNav onAssumptions={() => setAssumptionsOpen(true)} onExplore={() => openDeep('overview')} changed={changed} />
+        <JourneyNav
+          onAssumptions={() => setAssumptionsOpen(true)}
+          changed={changed}
+          uncertainty={state.unc === '1'}
+          onUncertainty={(on) => update({ unc: on ? '1' : '' })}
+        />
 
         <main>
           <BurdenSection
@@ -184,9 +175,11 @@ export default function AppV4() {
             burden={burden}
             severity={severity}
             attribution={attribution}
-            mode={mode}
             onAssumptions={() => setAssumptionsOpen(true)}
-            onOpen={openDeep}
+            active={openView}
+            onOpen={openInline}
+            state={state}
+            update={update}
           />
           <ImpactNowSection
             current={current?.total_averted_birth_fraction ?? null}
@@ -194,27 +187,34 @@ export default function AppV4() {
             ideal={ideal?.total_averted_birth_fraction ?? null}
             currentBurden={current?.total_averted_burden_fraction ?? null}
             pndOn={pndOn}
-            mode={mode}
-            onOpen={openDeep}
+            data={data}
+            active={openView}
+            onOpen={openInline}
+            state={state}
+            update={update}
           />
           <EditingFrontierSection
             data={data}
             residual={residual}
             includeContested={includeContested}
-            mode={mode}
-            onOpen={openDeep}
+            active={openView}
+            onOpen={openInline}
+            state={state}
+            update={update}
           />
           <SelectionSection
             data={data}
             point={point}
             curveIndex={curveIndex}
             setCurveIndex={setCurveIndex}
-            mode={mode}
-            onOpen={openDeep}
+            active={openView}
+            onOpen={openInline}
+            state={state}
+            update={update}
           />
-          <FutureSection data={data} mode={mode} onOpen={openDeep} />
-          <PolicySection mode={mode} onOpen={openDeep} />
-          <MethodsSection data={data} state={state} onOpen={openDeep} />
+          <FutureSection data={data} active={openView} onOpen={openInline} state={state} update={update} />
+          <PolicySection data={data} active={openView} onOpen={openInline} state={state} update={update} />
+          <MethodsSection data={data} active={openView} onOpen={openInline} state={state} update={update} />
         </main>
 
         <footer className="border-t border-slate-200 bg-slate-50">
@@ -224,9 +224,9 @@ export default function AppV4() {
               {data.meta.spec_version} · {fmtInt(data.meta.n_draws)} Monte Carlo draws
             </p>
             <div className="flex flex-wrap gap-4">
-              <button type="button" onClick={() => openDeep('methods')} className="hover:text-blue-700">
-                Methods & data
-              </button>
+              <a href="#methods" className="hover:text-blue-700">
+                Methods &amp; data
+              </a>
               <a className="hover:text-blue-700" href={`${REPO_URL}/tree/main/results`} target="_blank" rel="noreferrer">
                 Results ↗
               </a>
@@ -248,15 +248,6 @@ export default function AppV4() {
           onClose={() => setAssumptionsOpen(false)}
         />
 
-        {deepView && (
-          <ResearchExplorer
-            active={deepView}
-            data={data}
-            state={state}
-            update={update}
-            onClose={() => update({ deep: '' })}
-          />
-        )}
       </div>
     </UncertaintyProvider>
   );
@@ -267,46 +258,28 @@ function Hero({
   current,
   ideal,
   s1,
-  mode,
-  onMode,
   onAssumptions,
-  onExplore,
   changed,
 }: {
   burden: Stat;
   current: Stat | null;
   ideal: Stat | null;
   s1: Stat;
-  mode: Mode;
-  onMode: (mode: Mode) => void;
   onAssumptions: () => void;
-  onExplore: () => void;
   changed: number;
 }) {
   return (
     <header className="border-b border-slate-200 bg-[linear-gradient(180deg,#f8fbff_0%,#ffffff_72%)]">
       <div className="mx-auto max-w-6xl px-5 pb-12 pt-8 sm:pt-12">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-            <span>Research companion</span>
-            <span className="h-1 w-1 rounded-full bg-slate-300" />
-            <span>v4</span>
-          </div>
+          <div />
           <div className="flex flex-wrap items-center gap-2 text-xs">
-            <ModeToggle mode={mode} onMode={onMode} />
             <button
               type="button"
               onClick={onAssumptions}
               className="rounded-full border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700 hover:border-blue-400 hover:text-blue-700"
             >
               Assumptions{changed ? ` · ${changed} changed` : ''}
-            </button>
-            <button
-              type="button"
-              onClick={onExplore}
-              className="rounded-full bg-slate-950 px-3 py-1.5 font-semibold text-white hover:bg-blue-700"
-            >
-              Explore full analysis
             </button>
           </div>
         </div>
@@ -363,10 +336,6 @@ function Hero({
           <a href="#burden" className="font-semibold text-blue-700 hover:text-blue-900">
             Start the story ↓
           </a>
-          <button type="button" onClick={onExplore} className="text-slate-500 hover:text-slate-900">
-            Or open the full analysis →
-          </button>
-          <span className="text-slate-400">Analysis and manuscript remain under development.</span>
         </div>
       </div>
     </header>
@@ -375,12 +344,14 @@ function Hero({
 
 function JourneyNav({
   onAssumptions,
-  onExplore,
   changed,
+  uncertainty,
+  onUncertainty,
 }: {
   onAssumptions: () => void;
-  onExplore: () => void;
   changed: number;
+  uncertainty: boolean;
+  onUncertainty: (on: boolean) => void;
 }) {
   const items = [
     ['#burden', 'Burden'],
@@ -400,10 +371,16 @@ function JourneyNav({
             </a>
           ))}
         </nav>
-        <div className="flex min-w-max items-center gap-2">
-          <button type="button" onClick={onExplore} className="rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:border-blue-400 hover:text-blue-700">
-            Full analysis
-          </button>
+        <div className="flex min-w-max items-center gap-3">
+          <label className="flex cursor-pointer items-center gap-1.5 text-xs text-slate-600">
+            <input
+              type="checkbox"
+              checked={uncertainty}
+              onChange={(e) => onUncertainty(e.target.checked)}
+              className="h-3.5 w-3.5 rounded border-slate-300 text-blue-700 focus:ring-blue-700"
+            />
+            Show uncertainty
+          </label>
           <button type="button" onClick={onAssumptions} className="rounded-full bg-slate-950 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700">
             Assumptions{changed ? ` (${changed})` : ''}
           </button>
@@ -418,17 +395,21 @@ function BurdenSection({
   burden,
   severity,
   attribution,
-  mode,
   onAssumptions,
+  active,
   onOpen,
+  state,
+  update,
 }: {
   data: AllData;
   burden: AllData['burden']['grid'][SeverityDef][Attribution];
   severity: SeverityDef;
   attribution: Attribution;
-  mode: Mode;
   onAssumptions: () => void;
+  active: string;
   onOpen: (id: string) => void;
+  state: UrlState;
+  update: (patch: UrlState) => void;
 }) {
   const totalBirths = data.summary.births_per_year;
   const monoShare = burden.monogenic.median / burden.total_serious.median;
@@ -474,17 +455,18 @@ function BurdenSection({
         </div>
       </div>
 
-      <ReaderTools mode={mode}>
+      <ReaderTools>
         <ToolNote title="Why this matters">Population scale sets the denominator against which the reach of existing medicine and editing-relevant scenarios are compared.</ToolNote>
         <ToolNote title="Current reader choices">Severity: {severityLabel(severity)}. Multifactorial attribution: {attributionLabel(attribution)}.</ToolNote>
-        <DeepActions
-          actions={[
-            ['denominator', 'Open burden model'],
-            ['library', 'Browse disease catalogue'],
-          ]}
-          onOpen={onOpen}
-        />
-      </ReaderTools>
+        </ReaderTools>
+      <InlineAnalysis
+        views={[['denominator', 'Open burden model'], ['library', 'Browse disease catalogue']]}
+        active={active}
+        onOpen={onOpen}
+        data={data}
+        state={state}
+        update={update}
+      />
     </StorySection>
   );
 }
@@ -495,16 +477,22 @@ function ImpactNowSection({
   ideal,
   currentBurden,
   pndOn,
-  mode,
+  data,
+  active,
   onOpen,
+  state,
+  update,
 }: {
   current: Stat | null;
   expanded: Stat | null;
   ideal: Stat | null;
   currentBurden: Stat | null;
   pndOn: boolean;
-  mode: Mode;
+  data: AllData;
+  active: string;
   onOpen: (id: string) => void;
+  state: UrlState;
+  update: (patch: UrlState) => void;
 }) {
   const rows = [
     { label: 'Current modeled coverage', stat: current, note: 'what current access and uptake achieve in the model' },
@@ -526,11 +514,18 @@ function ImpactNowSection({
         </p>
         {currentBurden && <p className="mt-2 text-xs text-slate-500">Including modeled postnatal burden mitigation, current coverage reaches {fmtPct(currentBurden.median, 1)} of monogenic burden on this track.</p>}
       </div>
-      <ReaderTools mode={mode}>
+      <ReaderTools>
         <ToolNote title="Important distinction">Prenatal diagnosis is {pndOn ? 'included' : 'excluded'} in affected-birth avoidance. Newborn screening prevents no births; it supports earlier treatment.</ToolNote>
         <ToolNote title="What access changes">Current, expanded-access and idealized scenarios separate technical applicability from realized reach.</ToolNote>
-        <DeepActions actions={[[ 'prevention', 'Open existing-medicine model' ], [ 'realized', 'Compare predicted vs realized impact' ]]} onOpen={onOpen} />
-      </ReaderTools>
+        </ReaderTools>
+      <InlineAnalysis
+        views={[['prevention', 'Open existing-medicine model'], ['realized', 'Compare predicted vs realized impact']]}
+        active={active}
+        onOpen={onOpen}
+        data={data}
+        state={state}
+        update={update}
+      />
     </StorySection>
   );
 }
@@ -539,14 +534,18 @@ function EditingFrontierSection({
   data,
   residual,
   includeContested,
-  mode,
+  active,
   onOpen,
+  state,
+  update,
 }: {
   data: AllData;
   residual: AllData['residual']['by_contested']['with_contested'];
   includeContested: boolean;
-  mode: Mode;
+  active: string;
   onOpen: (id: string) => void;
+  state: UrlState;
+  update: (patch: UrlState) => void;
 }) {
   const strictShare = residual.uniquely_editable_share_of_serious.strict;
   const futureShare = residual.uniquely_editable_share_of_serious.permissive;
@@ -571,7 +570,7 @@ function EditingFrontierSection({
                 <span className="font-mono text-xs text-slate-400">{i + 1}</span>
                 <div>
                   <p className="font-medium text-slate-900">{gate.label}</p>
-                  {mode === 'explore' && <p className="mt-1 text-xs leading-5 text-slate-500">{gate.detail}</p>}
+                  {<p className="mt-1 text-xs leading-5 text-slate-500">{gate.detail}</p>}
                 </div>
                 <GateStatus status={gate.status} />
               </li>
@@ -583,11 +582,18 @@ function EditingFrontierSection({
         <ResidualCard title="Current-evidence scenario" total={residual.uniquely_editable_total.strict} share={strictShare} note="Present comparative scale; complex-disease contribution is highly uncertain." />
         <ResidualCard title="Future-capacity exploratory scenario" total={residual.uniquely_editable_total.permissive} share={futureShare} note="Boundary analysis in which a larger complex-disease role is assumed." />
       </div>
-      <ReaderTools mode={mode}>
+      <ReaderTools>
         <ToolNote title="How to read the complement">“Not uniquely dependent on germline editing” does not mean “preventable by existing medicine.” Existing pathways prevent, detect, treat or mitigate different outcomes.</ToolNote>
         <ToolNote title="Independent gates">Selection failure establishes need for a different reproductive route; it does not establish molecular tractability, embryo performance or safety.</ToolNote>
-        <DeepActions actions={[[ 'residual', 'Open editing residual' ], [ 'editing-tech', 'Inspect editing technology gates' ]]} onOpen={onOpen} />
-      </ReaderTools>
+        </ReaderTools>
+      <InlineAnalysis
+        views={[['residual', 'Open editing residual'], ['editing-tech', 'Inspect editing technology gates']]}
+        active={active}
+        onOpen={onOpen}
+        data={data}
+        state={state}
+        update={update}
+      />
     </StorySection>
   );
 }
@@ -597,15 +603,19 @@ function SelectionSection({
   point,
   curveIndex,
   setCurveIndex,
-  mode,
+  active,
   onOpen,
+  state,
+  update,
 }: {
   data: AllData;
   point: AllData['embryos']['curve'][number];
   curveIndex: number;
   setCurveIndex: (i: number) => void;
-  mode: Mode;
+  active: string;
   onOpen: (id: string) => void;
+  state: UrlState;
+  update: (patch: UrlState) => void;
 }) {
   return (
     <StorySection id="selection-correction" number="04" eyebrow="Reproductive burden" title="Selection becomes more burdensome before it becomes impossible." tint>
@@ -632,16 +642,23 @@ function SelectionSection({
         </div>
         <p className="mt-6 border-t border-slate-200 pt-5 text-xs leading-5 text-slate-500">At <em>u</em> → 0, selection becomes impossible. The primary relationship is (1−u)/u. The blastocyst comparison additionally assumes a 45% live-birth rate per transfer and is illustrative.</p>
       </div>
-      <ReaderTools mode={mode}>
+      <ReaderTools>
         <ToolNote title="What is being counted">“Not selected for transfer” is not synonymous with “destroyed.” Actual embryo disposition is not modeled.</ToolNote>
         <ToolNote title="What correction does not solve">The idealized correction comparison does not model editing failure, mosaicism, unintended changes, developmental attrition or safety-related loss.</ToolNote>
-        <DeepActions actions={[[ 'embryos', 'Open full selection-versus-correction analysis' ]]} onOpen={onOpen} />
-      </ReaderTools>
+        </ReaderTools>
+      <InlineAnalysis
+        views={[['embryos', 'Open full selection-versus-correction analysis']]}
+        active={active}
+        onOpen={onOpen}
+        data={data}
+        state={state}
+        update={update}
+      />
     </StorySection>
   );
 }
 
-function FutureSection({ data, mode, onOpen }: { data: AllData; mode: Mode; onOpen: (id: string) => void }) {
+function FutureSection({ data, active, onOpen, state, update }: { data: AllData; active: string; onOpen: (id: string) => void; state: UrlState; update: (patch: UrlState) => void }) {
   const present = data.multifactorial.frontier.present;
   const future = data.multifactorial.frontier.near_future;
   const n = data.multifactorial.n_diseases;
@@ -670,16 +687,23 @@ function FutureSection({ data, mode, onOpen }: { data: AllData; mode: Mode; onOp
           <a href={ALPHAGENOME_URL} target="_blank" rel="noreferrer" className="mt-4 inline-block text-xs font-semibold text-blue-700 hover:text-blue-900">AlphaGenome Atlas context ↗</a>
         </div>
       </div>
-      <ReaderTools mode={mode}>
+      <ReaderTools>
         <ToolNote title="How to read the high-capacity scenario">It is a boundary analysis of improved technical capability, not a forecast that 200 embryos or ten reliable germline edits will become clinically available.</ToolNote>
         <ToolNote title="Interpretation is not intervention">Better causal inference can improve target identification while correction, embryo performance and safety remain separate constraints.</ToolNote>
-        <DeepActions actions={[[ 'multifactorial', 'Open polygenic frontier' ], [ 'editing-tech', 'Inspect editing technologies' ]]} onOpen={onOpen} />
-      </ReaderTools>
+        </ReaderTools>
+      <InlineAnalysis
+        views={[['multifactorial', 'Open polygenic frontier'], ['editing-tech', 'Inspect editing technologies']]}
+        active={active}
+        onOpen={onOpen}
+        data={data}
+        state={state}
+        update={update}
+      />
     </StorySection>
   );
 }
 
-function PolicySection({ mode, onOpen }: { mode: Mode; onOpen: (id: string) => void }) {
+function PolicySection({ data, active, onOpen, state, update }: { data: AllData; active: string; onOpen: (id: string) => void; state: UrlState; update: (patch: UrlState) => void }) {
   return (
     <StorySection id="policy" number="06" eyebrow="Ethics & policy" title="What follows from an impact-based framework?" tint>
       <p className="story-prose">The empirical picture supports different priorities at different time horizons. Population priority and individual clinical justification are related, but they are not the same question.</p>
@@ -692,123 +716,65 @@ function PolicySection({ mode, onOpen }: { mode: Mode; onOpen: (id: string) => v
         <Principle title="Selection-First" body="When embryo selection can achieve the same medically important outcome with substantially lower risk and acceptable reproductive burden, editing should have to demonstrate why it is preferable." />
         <Principle title="Somatic-First" body="When treatment of the future person can provide comparable benefit without making a heritable change, germline intervention should require additional justification." />
       </div>
-      <ReaderTools mode={mode}>
+      <ReaderTools>
         <ToolNote title="Pathways are not morally interchangeable">Carrier screening, PGT-M, prenatal diagnosis, newborn screening, somatic treatment and germline correction can reach outcomes through different reproductive and clinical pathways.</ToolNote>
         <ToolNote title="Two forms of arbitrage">Regulatory arbitrage moves work toward looser oversight. Ethical arbitrage borrows the urgency of a strongly justified use to support a weaker application.</ToolNote>
-        <DeepActions actions={[[ 'ethics', 'Open ethics & policy' ], [ 'beyond', 'Open resistance & enhancement' ], [ 'allocation', 'Open exploratory costs' ]]} onOpen={onOpen} />
-      </ReaderTools>
+        </ReaderTools>
+      <InlineAnalysis
+        views={[['ethics', 'Open ethics & policy'], ['beyond', 'Open resistance & enhancement'], ['allocation', 'Open exploratory costs']]}
+        active={active}
+        onOpen={onOpen}
+        data={data}
+        state={state}
+        update={update}
+      />
     </StorySection>
   );
 }
 
-function MethodsSection({ data, state, onOpen }: { data: AllData; state: UrlState; onOpen: (id: string) => void }) {
+function MethodsSection({
+  data,
+  active,
+  onOpen,
+  state,
+  update,
+}: {
+  data: AllData;
+  active: string;
+  onOpen: (id: string) => void;
+  state: UrlState;
+  update: (patch: UrlState) => void;
+}) {
+  const views = ALL_VIEWS.filter((view) => view.id !== 'overview').map(
+    (view) => [view.id, view.label] as [string, string],
+  );
   return (
-    <StorySection id="methods" number="07" eyebrow="Methods & evidence" title="The whole analysis is available from the story, not somewhere else.">
-      <p className="story-prose">The landing page foregrounds the argument; every underlying analytical view remains directly inspectable here. The browser loads committed, versioned outputs rather than recomputing epidemiology client-side.</p>
+    <StorySection id="methods" number="07" eyebrow="Methods & evidence" title="How the numbers were produced, and how far they reach.">
+      <p className="story-prose">
+        Every figure above is a median with a 95% uncertainty interval, drawn from one Monte-Carlo
+        sample so that shares carry the correlation between their parts. The browser reads committed,
+        versioned outputs; nothing is recomputed here.
+      </p>
       <div className="mt-9 grid gap-5 sm:grid-cols-3">
         <EvidenceStat label="Monte Carlo draws" value={fmtInt(data.meta.n_draws)} />
         <EvidenceStat label="Curated core diseases" value={fmtInt(data.library.rollup.tiers.core.n_diseases)} />
         <EvidenceStat label="Analysis commit" value={data.meta.commit.slice(0, 8)} mono />
       </div>
-      <div className="mt-10">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <h3 className="text-lg font-semibold text-slate-950">Dive into any part of the analysis</h3>
-            <p className="mt-1 text-sm text-slate-500">Each opens as a full research workspace over the same data and assumptions.</p>
-          </div>
-          <label className="flex cursor-pointer items-center gap-2 text-xs text-slate-600">
-            <input type="checkbox" checked={state.unc === '1'} onChange={(e) => updateUncertainty(onOpen, state, e.target.checked)} className="h-4 w-4 rounded border-slate-300 text-blue-700" />
-            Show uncertainty when exploring
-          </label>
-        </div>
-        <div className="mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-          {ALL_VIEWS.filter((view) => view.id !== 'overview').map((view) => (
-            <button key={view.id} type="button" onClick={() => onOpen(view.id)} className="group border border-slate-200 bg-white p-4 text-left hover:border-blue-300 hover:bg-blue-50/30">
-              <p className="text-sm font-semibold text-slate-900 group-hover:text-blue-800">{view.label}</p>
-              <p className="mt-1 text-xs leading-5 text-slate-500">{view.short}</p>
-            </button>
-          ))}
-        </div>
-      </div>
       <div className="mt-10 border-t border-slate-200 pt-6 text-xs leading-5 text-slate-500">
-        Uncertainty intervals are propagated model uncertainty, not confidence intervals in the statistical-estimation sense. The curated disease catalogue is a lower-bound validation set rather than the denominator itself. Current-evidence and future-capacity editing scenarios are separate scenarios, not endpoints of a single confidence interval.
+        Uncertainty intervals are propagated model uncertainty, not confidence intervals in the
+        statistical-estimation sense. The curated disease catalogue is a lower bound rather than the
+        denominator itself. Current-evidence and future-capacity editing scenarios are separate
+        scenarios, not ends of one interval.
       </div>
+      <InlineAnalysis
+        views={views}
+        active={active}
+        onOpen={onOpen}
+        data={data}
+        state={state}
+        update={update}
+      />
     </StorySection>
-  );
-}
-
-function updateUncertainty(onOpen: (id: string) => void, state: UrlState, checked: boolean) {
-  const params = new URLSearchParams(window.location.search);
-  if (checked) params.set('unc', '1'); else params.delete('unc');
-  const deep = state.deep || '';
-  if (deep) params.set('deep', deep);
-  window.history.replaceState(null, '', `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}${window.location.hash}`);
-  window.dispatchEvent(new PopStateEvent('popstate'));
-  onOpen('methods');
-}
-
-function ResearchExplorer({
-  active,
-  data,
-  state,
-  update,
-  onClose,
-}: {
-  active: string;
-  data: AllData;
-  state: UrlState;
-  update: (patch: UrlState) => void;
-  onClose: () => void;
-}) {
-  return (
-    <div className="fixed inset-0 z-50 bg-white" role="dialog" aria-modal="true" aria-label="Full analysis explorer">
-      <div className="flex h-full flex-col">
-        <header className="border-b border-slate-200 bg-white">
-          <div className="mx-auto flex w-full max-w-[1500px] items-center justify-between gap-4 px-4 py-3 sm:px-6">
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-blue-700">Deep analysis</p>
-              <p className="mt-0.5 text-sm font-semibold text-slate-950">Reframing Genetic Medicine in Terms of Impact</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <label className="hidden cursor-pointer items-center gap-2 text-xs text-slate-600 sm:flex">
-                <input type="checkbox" checked={state.unc === '1'} onChange={(e) => update({ unc: e.target.checked ? '1' : '' })} className="h-4 w-4 rounded border-slate-300 text-blue-700" />
-                95% uncertainty intervals
-              </label>
-              <button type="button" onClick={onClose} className="rounded-full border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:border-blue-400 hover:text-blue-700">Back to story ×</button>
-            </div>
-          </div>
-        </header>
-        <div className="mx-auto grid min-h-0 w-full max-w-[1500px] flex-1 lg:grid-cols-[280px_minmax(0,1fr)]">
-          <aside className="overflow-y-auto border-b border-slate-200 bg-slate-50 p-4 lg:border-b-0 lg:border-r lg:p-5">
-            <div className="flex gap-2 overflow-x-auto lg:block lg:space-y-6">
-              {GROUPS.map((group) => (
-                <div key={group.label} className="min-w-[210px] lg:min-w-0">
-                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">{group.label}</p>
-                  <div className="space-y-1">
-                    {group.views.map((view) => (
-                      <button
-                        key={view.id}
-                        type="button"
-                        onClick={() => update({ deep: view.id })}
-                        className={`w-full rounded-lg px-3 py-2 text-left ${active === view.id ? 'bg-slate-950 text-white' : 'text-slate-700 hover:bg-white hover:text-blue-700'}`}
-                      >
-                        <span className="block text-xs font-semibold">{view.label}</span>
-                        <span className={`mt-0.5 block text-[10px] leading-4 ${active === view.id ? 'text-slate-300' : 'text-slate-400'}`}>{view.short}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </aside>
-          <main className="min-w-0 overflow-y-auto bg-white p-4 sm:p-6 lg:p-10">
-            <div className="mx-auto max-w-5xl">
-              <AnalysisView id={active} data={data} state={state} update={update} />
-            </div>
-          </main>
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -899,36 +865,82 @@ function StorySection({ id, number, eyebrow, title, tint = false, children }: { 
   );
 }
 
-function ReaderTools({ mode, children }: { mode: Mode; children: React.ReactNode }) {
+function ReaderTools({ children }: { children: React.ReactNode }) {
   return (
-    <details open={mode === 'explore'} className="group mt-10 border-t border-slate-200 pt-5">
-      <summary className="cursor-pointer list-none text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 hover:text-blue-700"><span className="group-open:hidden">Why this matters · How estimated · Dive deeper +</span><span className="hidden group-open:inline">Supporting detail −</span></summary>
-      <div className="mt-5 grid gap-4 md:grid-cols-3">{children}</div>
+    <details className="group mt-10 border-t border-slate-200 pt-5">
+      <summary className="cursor-pointer list-none text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 hover:text-blue-700">
+        <span className="group-open:hidden">Why this matters · how it is estimated +</span>
+        <span className="hidden group-open:inline">Hide supporting detail −</span>
+      </summary>
+      <div className="mt-5 grid gap-4 md:grid-cols-2">{children}</div>
     </details>
   );
 }
 
-function DeepActions({ actions, onOpen }: { actions: [string, string][]; onOpen: (id: string) => void }) {
+/**
+ * Opens a full analysis view **in place**, directly under the section that raised the question.
+ * The reader never leaves the argument, so there is no separate place the analysis lives.
+ */
+function InlineAnalysis({
+  views,
+  active,
+  onOpen,
+  data,
+  state,
+  update,
+}: {
+  views: [string, string][];
+  active: string;
+  onOpen: (id: string) => void;
+  data: AllData;
+  state: UrlState;
+  update: (patch: UrlState) => void;
+}) {
+  const open = views.find(([id]) => id === active);
   return (
-    <div className="border-l border-slate-300 pl-4 text-xs leading-5">
-      <p className="font-semibold text-slate-900">Dive deeper</p>
-      <div className="mt-2 flex flex-col gap-1.5">
-        {actions.map(([id, label]) => <button key={id} type="button" onClick={() => onOpen(id)} className="text-left font-medium text-blue-700 hover:text-blue-900">{label} →</button>)}
+    <div className="mt-8 border-t border-slate-200 pt-5">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+          Go deeper
+        </span>
+        {views.map(([id, label]) => {
+          const isOpen = id === active;
+          return (
+            <button
+              key={id}
+              type="button"
+              onClick={() => onOpen(isOpen ? '' : id)}
+              aria-expanded={isOpen}
+              className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                isOpen
+                  ? 'border-slate-950 bg-slate-950 text-white'
+                  : 'border-slate-300 bg-white text-slate-700 hover:border-blue-400 hover:text-blue-700'
+              }`}
+            >
+              {label}
+              {isOpen ? ' −' : ' +'}
+            </button>
+          );
+        })}
       </div>
+      {open && (
+        <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50/60 p-4 sm:p-6">
+          <AnalysisView id={open[0]} data={data} state={state} update={update} />
+          <button
+            type="button"
+            onClick={() => onOpen('')}
+            className="mt-6 text-xs font-semibold text-blue-700 hover:text-blue-900"
+          >
+            Close {open[1].toLowerCase()} −
+          </button>
+        </div>
+      )}
     </div>
   );
 }
 
 function ToolNote({ title, children }: { title: string; children: React.ReactNode }) {
   return <div className="border-l border-slate-300 pl-4 text-xs leading-5 text-slate-600"><p className="font-semibold text-slate-900">{title}</p><p className="mt-1">{children}</p></div>;
-}
-
-function ModeToggle({ mode, onMode }: { mode: Mode; onMode: (mode: Mode) => void }) {
-  return (
-    <div className="inline-flex rounded-full border border-slate-300 bg-white p-0.5">
-      {(['story', 'explore'] as Mode[]).map((item) => <button key={item} type="button" onClick={() => onMode(item)} className={`rounded-full px-3 py-1 font-medium capitalize ${mode === item ? 'bg-slate-950 text-white' : 'text-slate-500 hover:text-slate-900'}`}>{item}</button>)}
-    </div>
-  );
 }
 
 function Horizon({ kicker, title, body, anchor }: { kicker: string; title: string; body: string; anchor: string }) {
