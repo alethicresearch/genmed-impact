@@ -373,8 +373,8 @@ function Cascade(p: CascadeProps) {
         );
       })()}
       {[
-        { label: 'Editing-relevant scenario — current evidence', frac: strictFracOfSerious, color: '#b45309', count: p.ueStrict },
-        { label: 'Editing-relevant scenario — future-capacity exploratory', frac: permFracOfSerious, color: '#f59e0b', count: p.uePermissive },
+        { label: 'On current evidence', frac: strictFracOfSerious, color: '#b45309', count: p.ueStrict },
+        { label: 'If future capability arrives', frac: permFracOfSerious, color: '#f59e0b', count: p.uePermissive },
       ].map((r, idx) => {
         const y = (3 + idx) * (rowH + gap) + dividerH;
         const w = Math.max(seriousW * r.frac, 2);

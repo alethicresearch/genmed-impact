@@ -15,7 +15,7 @@ import pytest
 APP = Path(__file__).resolve().parents[2] / "app" / "src"
 VIEWS = sorted((APP / "views").glob("*.tsx"))
 # Shells that embed the analysis views and therefore must supply a navigator.
-SHELLS = ["v3/AppV3.tsx", "v4/AppV4.tsx", "v5/AppV5.tsx", "v6/AppV6.tsx"]
+SHELLS = ["v3/AppV3.tsx", "v4/AppV4.tsx", "v5/AppV5.tsx", "v6/AppV6.tsx", "v8/AppV8.tsx"]
 # v7 mirrors the research page: tab routing via viewNav's documented fallback.
 
 
