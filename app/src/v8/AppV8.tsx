@@ -11,7 +11,6 @@ import {
   loadAll,
 } from '../data';
 
-type Mode = 'story' | 'explore';
 
 type Assumptions = {
   severity: SeverityDef;
@@ -92,7 +91,6 @@ function AnalysisView({ id, data, state, update }: { id: string; data: AllData; 
 export default function AppV8() {
   const [data, setData] = useState<AllData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [mode, setMode] = useState<Mode>('story');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [assumptions, setAssumptions] = useState<Assumptions>(DEFAULTS);
   const [curveIndex, setCurveIndex] = useState(2);
@@ -162,20 +160,17 @@ export default function AppV8() {
         currentPrevention={currentPrevention?.total_averted_birth_fraction ?? null}
         idealPrevention={idealPrevention?.total_averted_birth_fraction ?? null}
         s1={residual.s1_total}
-        mode={mode}
-        onMode={setMode}
         onAssumptions={() => setDrawerOpen(true)}
         changed={changed}
       />
 
-      <JourneyNav onAssumptions={() => setDrawerOpen(true)} changed={changed} />
+      <JourneyNav />
 
       <main>
         <BurdenSection
           data={data}
           burden={burden}
           assumptions={assumptions}
-          mode={mode}
           onAssumptions={() => setDrawerOpen(true)}
           panel={panel}
         onPanel={onPanel}
@@ -192,7 +187,6 @@ export default function AppV8() {
           ideal={idealPrevention?.total_averted_birth_fraction ?? null}
           currentBurden={currentPrevention?.total_averted_burden_fraction ?? null}
           assumptions={assumptions}
-          mode={mode}
           panel={panel}
         onPanel={onPanel}
         trail={trail}
@@ -209,7 +203,6 @@ export default function AppV8() {
           strictTotal={strictTotal}
           futureTotal={futureTotal}
           assumptions={assumptions}
-          mode={mode}
           panel={panel}
         onPanel={onPanel}
         trail={trail}
@@ -223,7 +216,6 @@ export default function AppV8() {
           point={point}
           curveIndex={curveIndex}
           setCurveIndex={setCurveIndex}
-          mode={mode}
           panel={panel}
         onPanel={onPanel}
         trail={trail}
@@ -232,10 +224,9 @@ export default function AppV8() {
         update={update}
         />
 
-        <FutureSection data={data} mode={mode} panel={panel} onPanel={onPanel} trail={trail} onBack={popTrail} state={state} update={update} />
+        <FutureSection data={data} panel={panel} onPanel={onPanel} trail={trail} onBack={popTrail} state={state} update={update} />
         <PolicySection
           analysisData={data}
-          mode={mode}
           panel={panel}
           onPanel={onPanel}
           trail={trail}
@@ -414,8 +405,6 @@ function Hero({
   currentPrevention,
   idealPrevention,
   s1,
-  mode,
-  onMode,
   onAssumptions,
   changed,
 }: {
@@ -423,8 +412,6 @@ function Hero({
   currentPrevention: Stat | null;
   idealPrevention: Stat | null;
   s1: Stat;
-  mode: Mode;
-  onMode: (mode: Mode) => void;
   onAssumptions: () => void;
   changed: number;
 }) {
@@ -435,10 +422,9 @@ function Hero({
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
             <span>Research companion</span>
             <span className="h-1 w-1 rounded-full bg-slate-300" />
-            <span>v2 preview</span>
+            <span>v8</span>
           </div>
           <div className="flex items-center gap-2 text-xs">
-            <ModeToggle mode={mode} onMode={onMode} />
             <button
               type="button"
               onClick={onAssumptions}
@@ -512,7 +498,7 @@ function Hero({
   );
 }
 
-function JourneyNav({ onAssumptions, changed }: { onAssumptions: () => void; changed: number }) {
+function JourneyNav() {
   const items = [
     ['#burden', 'Burden'],
     ['#impact-now', 'Impact now'],
@@ -531,13 +517,6 @@ function JourneyNav({ onAssumptions, changed }: { onAssumptions: () => void; cha
             </a>
           ))}
         </nav>
-        <button
-          type="button"
-          onClick={onAssumptions}
-          className="min-w-max rounded-full bg-slate-950 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700"
-        >
-          Assumptions{changed ? ` (${changed})` : ''}
-        </button>
       </div>
     </div>
   );
@@ -547,7 +526,6 @@ function BurdenSection({
   data,
   burden,
   assumptions,
-  mode,
   onAssumptions,
   panel,
   onPanel,
@@ -559,7 +537,6 @@ function BurdenSection({
   data: AllData;
   burden: AllData['burden']['grid'][SeverityDef][Attribution];
   assumptions: Assumptions;
-  mode: Mode;
   onAssumptions: () => void;
   panel: string;
   onPanel: (view: string) => void;
@@ -626,7 +603,7 @@ function BurdenSection({
         </div>
       </div>
 
-      <ReaderTools mode={mode}>
+      <ReaderTools>
         <ToolNote title="Why this matters">
           Population scale is only one dimension of impact, but it sets the denominator against which the reach of existing medicine and editing-relevant scenarios are compared.
         </ToolNote>
@@ -655,7 +632,6 @@ function ExistingMedicineSection({
   ideal,
   currentBurden,
   assumptions,
-  mode,
   panel,
   onPanel,
   trail,
@@ -669,7 +645,6 @@ function ExistingMedicineSection({
   ideal: Stat | null;
   currentBurden: Stat | null;
   assumptions: Assumptions;
-  mode: Mode;
   panel: string;
   onPanel: (view: string) => void;
   trail: string[];
@@ -708,7 +683,7 @@ function ExistingMedicineSection({
         )}
       </div>
 
-      <ReaderTools mode={mode}>
+      <ReaderTools>
         <ToolNote title="Important distinction">
           Prenatal diagnosis reduces affected births in the model only when followed by a reproductive decision not to continue an affected pregnancy. Newborn screening prevents no births; it supports earlier treatment.
         </ToolNote>
@@ -739,7 +714,6 @@ function EditingFrontierSection({
   strictTotal,
   futureTotal,
   assumptions,
-  mode,
   panel,
   onPanel,
   trail,
@@ -754,7 +728,6 @@ function EditingFrontierSection({
   strictTotal: Stat;
   futureTotal: Stat;
   assumptions: Assumptions;
-  mode: Mode;
   panel: string;
   onPanel: (view: string) => void;
   trail: string[];
@@ -794,7 +767,7 @@ function EditingFrontierSection({
                 <span className="font-mono text-xs text-slate-400">{i + 1}</span>
                 <div>
                   <p className="font-medium text-slate-900">{gate.label}</p>
-                  {mode === 'explore' && <p className="mt-1 text-xs leading-5 text-slate-500">{gate.detail}</p>}
+                  <p className="mt-1 text-xs leading-5 text-slate-500">{gate.detail}</p>
                 </div>
                 <GateStatus status={gate.status} />
               </li>
@@ -833,7 +806,7 @@ function EditingFrontierSection({
         </div>
       </div>
 
-      <ReaderTools mode={mode}>
+      <ReaderTools>
         <ToolNote title="How to read the complement">
           “Not uniquely dependent on germline editing” does not mean “preventable by existing medicine.” Existing pathways prevent, detect, treat or mitigate different outcomes.
         </ToolNote>
@@ -861,7 +834,6 @@ function SelectionSection({
   point,
   curveIndex,
   setCurveIndex,
-  mode,
   panel,
   onPanel,
   trail,
@@ -873,7 +845,6 @@ function SelectionSection({
   point: AllData['embryos']['curve'][number];
   curveIndex: number;
   setCurveIndex: (i: number) => void;
-  mode: Mode;
   panel: string;
   onPanel: (view: string) => void;
   trail: string[];
@@ -943,7 +914,7 @@ function SelectionSection({
         </div>
       </div>
 
-      <ReaderTools mode={mode}>
+      <ReaderTools>
         <ToolNote title="What is being counted">
           “Not selected for transfer” is not synonymous with “destroyed.” Actual embryo disposition — cryopreservation, donation, research donation or discard — is not modeled.
         </ToolNote>
@@ -966,7 +937,7 @@ function SelectionSection({
   );
 }
 
-function FutureSection({ data, mode, panel, onPanel, trail, onBack, state, update }: { data: AllData; mode: Mode; panel: string; onPanel: (v: string) => void; trail: string[]; onBack: () => void; state: UrlState; update: (p: UrlState) => void }) {
+function FutureSection({ data, panel, onPanel, trail, onBack, state, update }: { data: AllData; panel: string; onPanel: (v: string) => void; trail: string[]; onBack: () => void; state: UrlState; update: (p: UrlState) => void }) {
   const present = data.multifactorial.frontier.present;
   const future = data.multifactorial.frontier.near_future;
   const n = data.multifactorial.n_diseases;
@@ -1029,7 +1000,7 @@ function FutureSection({ data, mode, panel, onPanel, trail, onBack, state, updat
         </div>
       </div>
 
-      <ReaderTools mode={mode}>
+      <ReaderTools>
         <PolygenicExplore data={data} />
         <ToolNote title="How to interpret the high-capacity scenario">
           It is a boundary analysis of improved technical capability, not a forecast that 200 embryos or ten reliable germline edits will become clinically available.
@@ -1050,7 +1021,7 @@ function FutureSection({ data, mode, panel, onPanel, trail, onBack, state, updat
   );
 }
 
-function PolicySection({ mode, panel, onPanel, trail, onBack, analysisData, state, update }: { mode: Mode; panel: string; onPanel: (v: string) => void; trail: string[]; onBack: () => void; analysisData: AllData; state: UrlState; update: (p: UrlState) => void }) {
+function PolicySection({ panel, onPanel, trail, onBack, analysisData, state, update }: { panel: string; onPanel: (v: string) => void; trail: string[]; onBack: () => void; analysisData: AllData; state: UrlState; update: (p: UrlState) => void }) {
   return (
     <StorySection id="policy" number="06" eyebrow="Ethics & policy" title="What follows from an impact-based framework?" tint>
       <p className="story-prose">
@@ -1089,7 +1060,7 @@ function PolicySection({ mode, panel, onPanel, trail, onBack, analysisData, stat
         These are rebuttable presumptions, not prohibitions. Selection may be impossible or unusually burdensome; somatic treatment may be less effective, lifelong, inaccessible or too late to prevent irreversible disease.
       </p>
 
-      <ReaderTools mode={mode}>
+      <ReaderTools>
         <ToolNote title="Pathways are not morally interchangeable">
           Carrier screening, PGT-M, prenatal diagnosis, newborn screening, somatic treatment and germline correction can sometimes be compared using a common disease outcome, but they reach that outcome through different reproductive and clinical pathways.
         </ToolNote>
@@ -1223,9 +1194,9 @@ function StorySection({
   );
 }
 
-function ReaderTools({ mode, children }: { mode: Mode; children: React.ReactNode }) {
+function ReaderTools({ children }: { children: React.ReactNode }) {
   return (
-    <details open={mode === 'explore'} className="group mt-10 border-t border-slate-200 pt-5">
+    <details className="group mt-10 border-t border-slate-200 pt-5">
       <summary className="cursor-pointer list-none text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 hover:text-blue-700">
         <span className="group-open:hidden">Why this matters · How estimated · Explore data +</span>
         <span className="hidden group-open:inline">Supporting detail −</span>
@@ -1240,23 +1211,6 @@ function ToolNote({ title, children }: { title: string; children: React.ReactNod
     <div className="border-l border-slate-300 pl-4 text-xs leading-5 text-slate-600">
       <p className="font-semibold text-slate-900">{title}</p>
       <p className="mt-1">{children}</p>
-    </div>
-  );
-}
-
-function ModeToggle({ mode, onMode }: { mode: Mode; onMode: (mode: Mode) => void }) {
-  return (
-    <div className="inline-flex rounded-full border border-slate-300 bg-white p-0.5">
-      {(['story', 'explore'] as Mode[]).map((m) => (
-        <button
-          key={m}
-          type="button"
-          onClick={() => onMode(m)}
-          className={`rounded-full px-3 py-1 font-medium capitalize ${mode === m ? 'bg-slate-950 text-white' : 'text-slate-500 hover:text-slate-900'}`}
-        >
-          {m}
-        </button>
-      ))}
     </div>
   );
 }
