@@ -304,20 +304,16 @@ rather than leaving both to be inferred. Applied to the research page, README, `
 medicine" as the field is unchanged and still accurate: the analysis continues to cover the whole
 existing stack, and the retitle sharpens the framing rather than narrowing the scope.
 
-## 2026-09-12 — Consolidate the research page
+## 2026-09-12 — Page variants retained; consolidation offered as /v7
 
-Six page variants had accumulated — the research page plus v2 through v6 — totalling ~6,000
-lines of largely duplicated shell for one analysis, six live URLs each phrasing the same findings
-slightly differently, and a deploy carrying six copies of the data. Each round of design feedback
-had produced a new version rather than a change to the existing one.
+An attempt to consolidate the six page variants into one was reverted at the author's direction.
+All variants are restored — the research page at `/`, plus v2 through v6 — and the consolidated
+design is published alongside them as **/v7** rather than replacing anything.
 
-Consolidated to a single page: the original two-layer structure (sections, with every analysis
-view first-class and directly linkable), the landing from v2/v4 as the entry above the Overview
-only, and the plain-language copy and reading measure developed in v6 carried across. v2-v6 are
-deleted; their history remains in git.
+/v7 combines the research page's two-layer structure with the v2/v4 landing shown above the
+Overview only, and the plain-language copy and reading measure developed in v6. It is a candidate,
+not a decision; which variant becomes canonical remains open (see REVIEW_TRACKER A9, which also
+covers the unresolved GitHub Pages / Netlify question).
 
-The story-with-inline-analysis structure tried in v5 and v6 is deliberately not carried forward.
-Merging the argument and the analysis into one scroll made the page long and buried the analysis
-inside expanders, which served neither reading nor inspection.
-
+The analysis views remain shared by all seven pages, so copy changes inside them apply everywhere.
 **No model logic, parameters or numbers changed.**

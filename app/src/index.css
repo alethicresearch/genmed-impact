@@ -28,6 +28,19 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* V2 reading width: prose stays readable while figures can use the full section width. */
+.story-prose {
+  max-width: 48rem;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #475569;
+}
+
+.story-prose code {
+  font-size: 0.85em;
+  color: #334155;
+}
+
 /* Print-friendly: hide interactive chrome, expand tables. */
 @media print {
   .no-print {
@@ -39,9 +52,54 @@ body {
 }
 
 /* ---------------------------------------------------------------------------
-   Reading measure.
-   Prose is held near 65 characters, which is where continuous reading stops
-   being work; figures and tables may run wider than the text they explain.
+   v6 reading layout.
+   The measure is the whole point: prose is held near 65 characters, which is
+   where continuous reading stops being work. Figures are allowed to run wider
+   than the text, but both share a left edge so the column never looks ragged.
+   --------------------------------------------------------------------------- */
+.v6-prose {
+  max-width: 38rem;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: #334155;
+}
+
+.v6-prose + .v6-prose {
+  margin-top: 1.1rem;
+}
+
+.v6-prose strong {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* Figures read as objects rather than as more page: a card, a title, a caption. */
+.v6-figure {
+  max-width: 52rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  background: #fff;
+  padding: 1.25rem;
+}
+
+.v6-figure-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #0f172a;
+}
+
+.v6-caption {
+  max-width: 52rem;
+  margin-top: 0.625rem;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: #64748b;
+}
+
+/* ---------------------------------------------------------------------------
+   v7 reading measure. Prose is held near 65 characters, which is where
+   continuous reading stops being work; figures may run wider than the text.
    --------------------------------------------------------------------------- */
 .prose-measure {
   max-width: 38rem;

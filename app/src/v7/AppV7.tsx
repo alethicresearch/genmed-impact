@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
-import { AllData, loadAll } from './data';
-import { useUrlState } from './urlState';
-import { UncertaintyProvider } from './uncertaintyMode';
-import Tabs, { TabDef } from './components/Tabs';
-import Overview from './views/Overview';
-import Library from './views/Library';
-import Denominator from './views/Denominator';
-import Prevention from './views/Prevention';
-import Multifactorial from './views/Multifactorial';
-import Embryos from './views/Embryos';
-import EditingTech from './views/EditingTech';
-import Residual from './views/Residual';
-import Beyond from './views/Beyond';
-import EthicsPolicy from './views/EthicsPolicy';
-import Allocation from './views/Allocation';
-import ImpactFunding from './views/ImpactFunding';
-import Perspectives from './views/Perspectives';
-import Realized from './views/Realized';
-import Methods from './views/Methods';
+import { AllData, loadAll, fmtCompact, fmtPct } from '../data';
+import { useUrlState } from '../urlState';
+import { UncertaintyProvider } from '../uncertaintyMode';
+import Tabs, { TabDef } from '../components/Tabs';
+import Overview from '../views/Overview';
+import Library from '../views/Library';
+import Denominator from '../views/Denominator';
+import Prevention from '../views/Prevention';
+import Multifactorial from '../views/Multifactorial';
+import Embryos from '../views/Embryos';
+import EditingTech from '../views/EditingTech';
+import Residual from '../views/Residual';
+import Beyond from '../views/Beyond';
+import EthicsPolicy from '../views/EthicsPolicy';
+import Allocation from '../views/Allocation';
+import ImpactFunding from '../views/ImpactFunding';
+import Perspectives from '../views/Perspectives';
+import Realized from '../views/Realized';
+import Methods from '../views/Methods';
 
 // Two-layer navigation. The top level is the argument in six steps; specialized analyses
 // live inside sections as sub-views instead of competing as equal tabs. Each sub-view keeps
@@ -107,12 +107,91 @@ const BIBTEX = `@software{genmed_impact,
   note   = {Version 0.1.0. Code Apache-2.0; curated data CC-BY-4.0.}
 }`;
 
-export default function App() {
+
+/**
+ * The entry landing: what the project is, in three claims and three numbers. Shown above the
+ * Overview only — every other tab is an analysis view and gets the compact masthead alone.
+ */
+function Landing({ data, onGo }: { data: AllData; onGo: (tab: string) => void }) {
+  const burden = data.summary.burden_default.total_serious;
+  const s1 = data.summary.s1_total;
+  const cur = data.prevention.Global?.current?.monogenic?.pnd_on?.total_averted_birth_fraction;
+  const ideal = data.prevention.Global?.ideal?.monogenic?.pnd_on?.total_averted_birth_fraction;
+  return (
+    <section className="mb-6 border-b border-slate-200 pb-6">
+      <p className="max-w-[34rem] text-[1.0625rem] leading-[1.6] text-slate-600">
+        Most debate about genetic medicine is about editing embryos. This asks a plainer question:
+        where would it actually help, and what already works without it?
+      </p>
+
+      <div className="mt-6 grid gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-200 sm:grid-cols-3">
+        <Horizon
+          kicker="What we can do today"
+          title="The tools already exist. Most families cannot get them."
+          body="Carrier testing, choosing between IVF embryos, prenatal tests and treatment at birth are all established medicine. What limits them is who can reach them."
+          onClick={() => onGo('prevention')}
+        />
+        <Horizon
+          kicker="Where editing would be new"
+          title="Some couples have no healthy embryo to choose from"
+          body="For a few thousand couples a year, every embryo they could conceive would inherit the condition. Choosing between embryos cannot help them, and editing is the only route that could."
+          onClick={() => onGo('residual')}
+        />
+        <Horizon
+          kicker="The longer term"
+          title="Common illnesses work in a different way"
+          body="Risk for conditions like heart disease is spread across thousands of small genetic differences at once, so changing any one of them barely moves it."
+          onClick={() => onGo('multifactorial')}
+        />
+      </div>
+
+      <div className="mt-6 grid gap-6 border-t border-slate-200 pt-5 sm:grid-cols-3">
+        <HeroStat
+          value={fmtCompact(burden.median)}
+          label="births a year with serious genetic disease"
+          interval={`${fmtCompact(burden.ci95[0])}–${fmtCompact(burden.ci95[1])}`}
+        />
+        <HeroStat
+          value={cur && ideal ? `${fmtPct(cur.median, 1)} → ${fmtPct(ideal.median, 1)}` : '—'}
+          label="of single-gene cases could be avoided with today’s access — nearly all of them if everyone could reach it"
+        />
+        <HeroStat
+          value={fmtCompact(s1.median)}
+          label="births a year where no unaffected embryo could be selected"
+          interval={`${fmtCompact(s1.ci95[0])}–${fmtCompact(s1.ci95[1])}`}
+        />
+      </div>
+    </section>
+  );
+}
+
+function Horizon({ kicker, title, body, onClick }: { kicker: string; title: string; body: string; onClick: () => void }) {
+  return (
+    <button type="button" onClick={onClick} className="group bg-white p-5 text-left transition-colors hover:bg-accent-soft/40">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-accent">{kicker}</p>
+      <p className="mt-2 text-base font-semibold text-slate-900 group-hover:text-accent">{title}</p>
+      <p className="mt-2 text-xs leading-5 text-slate-500">{body}</p>
+    </button>
+  );
+}
+
+function HeroStat({ value, label, interval }: { value: string; label: string; interval?: string }) {
+  return (
+    <div>
+      <p className="tnum text-2xl font-semibold tracking-tight text-slate-900">{value}</p>
+      <p className="mt-1 max-w-xs text-xs leading-5 text-slate-600">{label}</p>
+      {interval && <p className="mt-1 text-[11px] text-slate-400">95% uncertainty interval {interval}</p>}
+    </div>
+  );
+}
+
+export default function AppV7() {
   const [data, setData] = useState<AllData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [state, update] = useUrlState({ tab: 'overview' });
 
   useEffect(() => {
+    document.title = 'Reframing Genetic Editing in Terms of Medical Impact — v7';
     loadAll()
       .then(setData)
       .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)));
@@ -153,11 +232,6 @@ export default function App() {
             Reframing Genetic Editing in Terms of Medical Impact
           </h1>
         </button>
-        <p className="mt-1.5 text-sm leading-6 text-slate-600">
-          A quantitative framework for comparing what genetic medicine can achieve now, where
-          germline editing has a distinct translational role, and how the role of editing could
-          change as polygenic technologies mature.
-        </p>
         <p className="mt-2">
           <span
             className="inline-flex items-center gap-1 rounded border border-amber-300 bg-amber-50 px-2 py-1 text-xs text-amber-800"
@@ -242,7 +316,10 @@ export default function App() {
               aria-labelledby={`tab-${activeSection.id}`}
             >
               {activeView === 'overview' && (
-                <Overview data={data} state={state} update={update} />
+                <>
+                  <Landing data={data} onGo={(tab) => update({ tab })} />
+                  <Overview data={data} state={state} update={update} showHorizons={false} />
+                </>
               )}
               {activeView === 'library' && (
                 <Library data={data} state={state} update={update} />
