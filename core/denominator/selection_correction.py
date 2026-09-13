@@ -68,15 +68,18 @@ def selection_metrics(
     blastulation, euploidy/testability, transfer strategy, attrition and repeated retrievals.
     """
     u = _probability("unaffected_or_acceptable_fraction", unaffected_or_acceptable_fraction)
+    r_s = (
+        None
+        if selection_live_birth_rate is None
+        else _positive_probability("selection_live_birth_rate", selection_live_birth_rate)
+    )
 
     if u == 0.0:
         return {
             "acceptable_fraction": 0.0,
             "selection_possible": False,
             "target_based_nonselection_per_acceptable_embryo": None,
-            "selection_live_birth_rate": (
-                None if selection_live_birth_rate is None else float(selection_live_birth_rate)
-            ),
+            "selection_live_birth_rate": r_s,
             "tested_blastocysts_per_target_live_birth": None,
             "target_based_nonselection_per_target_live_birth": None,
             "status": "selection_impossible_for_specified_target",
@@ -87,17 +90,15 @@ def selection_metrics(
         "acceptable_fraction": u,
         "selection_possible": True,
         "target_based_nonselection_per_acceptable_embryo": nonselection_per_acceptable,
-        "selection_live_birth_rate": None,
+        "selection_live_birth_rate": r_s,
         "tested_blastocysts_per_target_live_birth": None,
         "target_based_nonselection_per_target_live_birth": None,
         "status": "deterministic_selection_relation",
     }
 
-    if selection_live_birth_rate is not None:
-        r_s = _positive_probability("selection_live_birth_rate", selection_live_birth_rate)
+    if r_s is not None:
         result.update(
             {
-                "selection_live_birth_rate": r_s,
                 "tested_blastocysts_per_target_live_birth": 1.0 / (u * r_s),
                 "target_based_nonselection_per_target_live_birth": (1.0 - u) / (u * r_s),
                 "status": "simplified_reproductive_yield_scenario",
@@ -216,8 +217,6 @@ def compare_selection_and_correction(
     selection_yield = u * r_s
     correction_yield = correction["post_correction_target_acceptable_fraction"] * r_e
 
-    # At u == 0, the specified selection target cannot be achieved by selection, while a
-    # correction scenario may or may not produce non-zero target yield depending on c.
     if u == 0.0:
         crossover = correction_yield > 0.0
         comparison = (
