@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "status": "supplementary v6 calculated-impact analysis",
+    "version": "1.0",
+    "date": "2026-09-14",
+    "generator": "core/denominator/v6_comparison.py",
+    "promotion_rule": "Only outputs labeled promotable may be used as manuscript results. Scenario grids are comparative boundaries, not clinical predictions."
+  },
+  "realistic_ivf": {
+    "status": "promotable",
+    "single_centre_pgt_m_a": {
+      "source": "Poulton et al. 2025, J Assist Reprod Genet",
+      "doi": "10.1007/s10815-025-03416-6",
+      "stimulated_cycles": 572,
+      "biopsied_embryos": 2344,
+      "directly_suitable_embryos": 849,
+      "not_suitable_embryos": 1219,
+      "conditionally_suitable_embryos": 276,
+      "cycles_with_at_least_one_suitable_embryo": 392,
+      "cycles_with_at_least_one_transfer": 355,
+      "transferred_embryos": 513,
+      "embryo_transfer_cycles": 490,
+      "live_births": 230,
+      "derived": {
+        "biopsied_embryos_per_stimulated_cycle": 4.097902,
+        "directly_suitable_fraction_of_biopsied": 0.362201,
+        "not_suitable_fraction_of_biopsied": 0.520051,
+        "conditionally_suitable_fraction_of_biopsied": 0.117747,
+        "cycles_with_at_least_one_suitable_embryo_fraction": 0.685315,
+        "cycles_with_at_least_one_transfer_fraction": 0.620629,
+        "live_birth_per_transferred_embryo": 0.448343,
+        "live_birth_per_stimulated_cycle": 0.402098,
+        "stimulated_cycles_per_live_birth": 2.486957,
+        "biopsied_embryos_per_live_birth": 10.191304,
+        "transferred_embryos_per_live_birth": 2.230435
+      }
+    },
+    "systematic_review_pgt_m": {
+      "source": "Poulton et al. 2025, Am J Obstet Gynecol",
+      "doi": "10.1016/j.ajog.2024.09.114",
+      "studies": 51,
+      "cycles": 5305,
+      "embryo_transfers": 5229,
+      "births": 1577,
+      "birth_rate_per_cycle": 0.297,
+      "birth_rate_per_cycle_ci95": [0.285, 0.310],
+      "birth_rate_per_transfer": 0.217,
+      "birth_rate_per_transfer_ci95": [0.208, 0.231],
+      "with_pgt_a_birth_rate_per_cycle": 0.376,
+      "with_pgt_a_birth_rate_per_cycle_ci95": [0.346, 0.408],
+      "without_pgt_a_birth_rate_per_cycle": 0.281,
+      "without_pgt_a_birth_rate_per_cycle_ci95": [0.266, 0.297],
+      "derived": {
+        "cycles_per_birth_overall": 3.367003,
+        "cycles_per_birth_with_pgt_a": 2.659574,
+        "cycles_per_birth_without_pgt_a": 3.558719
+      }
+    },
+    "interpretation": "Use empirical scenarios and sensitivity bounds rather than one universal IVF success constant."
+  },
+  "selection_burden": {
+    "status": "promotable",
+    "single_criterion": {
+      "formula": "(1-u)/u",
+      "u": [0.75, 0.50, 0.20, 0.10, 0.05, 0.02],
+      "target_based_nonselections_per_acceptable_embryo": [0.333333, 1.0, 4.0, 9.0, 19.0, 49.0]
+    },
+    "multi_criterion_equal_independent_examples": {
+      "formula": "p^-n - 1",
+      "p_each": 0.5,
+      "n_criteria": [1, 2, 5, 10],
+      "joint_acceptable_fraction": [0.5, 0.25, 0.03125, 0.0009765625],
+      "nonselections_per_acceptable_embryo": [1.0, 3.0, 31.0, 1023.0]
+    },
+    "interpretation": "Non-selection counts failure of the target criterion only; it is not final embryo disposition."
+  },
+  "selection_correction_crossover": {
+    "status": "promotable_as_sensitivity_analysis",
+    "formula": "q=u+(1-u)c; crossover when q*r_e > u*r_s; equivalently r_e/r_s > u/q",
+    "u_grid": [0.75, 0.50, 0.20, 0.10, 0.05, 0.02],
+    "c_grid": [0.25, 0.50, 0.75, 0.90, 1.00],
+    "minimum_re_over_rs_matrix": [
+      [0.923077, 0.857143, 0.800000, 0.769231, 0.750000],
+      [0.800000, 0.666667, 0.571429, 0.526316, 0.500000],
+      [0.500000, 0.333333, 0.250000, 0.217391, 0.200000],
+      [0.307692, 0.181818, 0.129032, 0.109890, 0.100000],
+      [0.173913, 0.095238, 0.065574, 0.055249, 0.050000],
+      [0.075472, 0.039216, 0.026490, 0.022173, 0.020000]
+    ],
+    "interpretation": "Threshold concerns reproductive yield only. It does not include editing safety, developmental loss, off-target effects, mosaicism or intergenerational risk."
+  },
+  "embryo_disposition": {
+    "status": "promotable",
+    "eshre_2019_2021": {
+      "source": "Spinella et al. 2026, Human Reproduction",
+      "doi": "10.1093/humrep/deag081",
+      "group": "combined PGT-M/PGT-SR with PGT-A; embryos non-genetically-transferable for the PGT-M/PGT-SR target",
+      "non_genetically_transferable_embryos": 2576,
+      "cryopreserved": 1198,
+      "cryopreserved_fraction": 0.465062,
+      "subgroups": [
+        {"pgt_a_result": "euploid", "n": 791, "cryopreserved": 460, "reported_fraction": 0.58},
+        {"pgt_a_result": "mosaic", "n": 77, "cryopreserved": 54, "reported_fraction": 0.70},
+        {"pgt_a_result": "aneuploid", "n": 800, "cryopreserved": 409, "reported_fraction": 0.51},
+        {"pgt_a_result": "no PGT-A result", "n": 908, "cryopreserved": 275, "reported_fraction": 0.30}
+      ],
+      "interpretation": "Genotype-based non-selection is not equivalent to embryo destruction or discard; final disposition is a separate observed outcome."
+    }
+  },
+  "gate2_tractability": {
+    "status": "not_promotable_as_population_share",
+    "existing_condition_median_share_with_route": 0.734271,
+    "reason": "The current Gate-2 summary aggregates condition medians, while the canonical S1 headline is the median of the joint Monte Carlo distribution. ClinVar record counts also measure reported allelic diversity rather than patient-frequency weights. Per-draw tractability aggregation and population-weighted allele spectra are required for a headline population-share claim."
+  },
+  "dollar_costs": {
+    "status": "not_promotable",
+    "reason": "The germline-editing programme cost anchor is explicitly placeholder=true and several implementation unit costs remain reasoned rather than primary-source anchored.",
+    "resource_analysis_status": "Procedure, embryo and transfer quantities are promotable; dollar costs remain exploratory only."
+  }
+}
