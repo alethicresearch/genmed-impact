@@ -44,7 +44,7 @@ def test_correction_relation_does_not_assume_perfect_repair():
     result = sc.correction_metrics(0.1, 0.8)
     assert result["post_correction_target_acceptable_fraction"] == pytest.approx(0.82)
     assert result["fraction_remaining_target_unacceptable"] == pytest.approx(0.18)
-    assert result["clinical_or_ethical_verdict"] if "clinical_or_ethical_verdict" in result else None is None
+    assert result["status"] == "target_correction_relation_only"
 
 
 def test_hypothetical_low_u_case_crosses_reproductive_yield_only():
