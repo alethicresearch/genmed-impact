@@ -8,9 +8,11 @@ import AppV5 from './v5/AppV5';
 import AppV6 from './v6/AppV6';
 import AppV7 from './v7/AppV7';
 import AppV8 from './v8/AppV8';
+import AppV10 from './v10/AppV10';
 import './index.css';
 
 const path = window.location.pathname;
+const isV10 = /\/v10\/?$/.test(path);
 const isV8 = /\/v8\/?$/.test(path);
 const isV7 = /\/v7\/?$/.test(path);
 const isV6 = /\/v6\/?$/.test(path);
@@ -21,6 +23,6 @@ const isV2 = /\/v2\/?$/.test(path);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    {isV8 ? <AppV8 /> : isV7 ? <AppV7 /> : isV6 ? <AppV6 /> : isV5 ? <AppV5 /> : isV4 ? <AppV4 /> : isV3 ? <AppV3 /> : isV2 ? <AppV2 /> : <App />}
+    {isV10 ? <AppV10 /> : isV8 ? <AppV8 /> : isV7 ? <AppV7 /> : isV6 ? <AppV6 /> : isV5 ? <AppV5 /> : isV4 ? <AppV4 /> : isV3 ? <AppV3 /> : isV2 ? <AppV2 /> : <App />}
   </React.StrictMode>
 );
